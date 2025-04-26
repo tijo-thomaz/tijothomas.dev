@@ -12,14 +12,14 @@ const Clients = lazy(() => import("./components/Clients"));
 const Connect = lazy(() => import("./components/Connect"));
 
 // Debounce function
-const debounce = (func: Function, wait: number) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const debounce = <T extends (...args: any[]) => any>(func: T, wait: number) => {
   let timeout: ReturnType<typeof setTimeout>;
-  return (...args: any[]) => {
+  return (...args: Parameters<T>) => {
     clearTimeout(timeout);
     timeout = setTimeout(() => func(...args), wait);
   };
 };
-
 // Scroll animation utility
 const useScrollAnimation = () => {
   useEffect(() => {
@@ -27,19 +27,25 @@ const useScrollAnimation = () => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('animate-fade-in');
+            entry.target.classList.add("animate-fade-in");
           }
         });
       },
       {
         threshold: 0.1,
-        rootMargin: '0px 0px -100px 0px',
+        rootMargin: "0px 0px -100px 0px",
       }
     );
 
-    const sections = document.querySelectorAll('section');
+    const sections = document.querySelectorAll("section");
     sections.forEach((section) => {
-      section.classList.add('opacity-0', 'translate-y-8', 'transition-all', 'duration-700', 'ease-out');
+      section.classList.add(
+        "opacity-0",
+        "translate-y-8",
+        "transition-all",
+        "duration-700",
+        "ease-out"
+      );
       observer.observe(section);
     });
 
@@ -57,13 +63,13 @@ function App() {
 
   useEffect(() => {
     setMounted(true);
-    
+
     const handleScroll = debounce(() => {
       setScrolled(window.scrollY > 10);
     }, 100);
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   if (!mounted) return null;
@@ -74,7 +80,13 @@ function App() {
 
       {/* Main Content */}
       <main>
-        <Suspense fallback={<div className="h-screen flex items-center justify-center">Loading...</div>}>
+        <Suspense
+          fallback={
+            <div className="flex items-center justify-center h-screen">
+              Loading...
+            </div>
+          }
+        >
           <Hero />
           <About />
           <Timeline />

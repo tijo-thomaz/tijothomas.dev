@@ -38,48 +38,48 @@ export default function Home() {
         color: "var(--theme-text)",
       }}
     >
-      <div className="flex flex-col h-full max-w-7xl mx-auto w-full">
-        {/* Header - Responsive height */}
-        <div className="flex-shrink-0 p-2 md:p-3 text-center relative">
-          <h1 className="text-base md:text-lg lg:text-xl font-bold font-mono mb-1">
+      <div className="flex flex-col h-full max-w-7xl mx-auto w-full min-h-0">
+        {/* Header - Minimal on mobile */}
+        <div className="flex-shrink-0 p-1 sm:p-2 md:p-3 text-center relative">
+          <h1 className="text-sm sm:text-base md:text-lg lg:text-xl font-bold font-mono mb-1">
             tijothomas.dev
           </h1>
           <p
-            className="font-mono text-xs mb-2 md:mb-3 hidden sm:block"
+            className="font-mono text-xs mb-2 md:mb-3 hidden md:block"
             style={{ color: "var(--theme-secondary)" }}
           >
             Interactive Portfolio Terminal + AI Assistant
           </p>
 
           {/* Controls */}
-          <div className="flex justify-center items-center gap-2 md:gap-3 flex-wrap">
+          <div className="flex justify-center items-center gap-1 sm:gap-2 md:gap-3 flex-wrap">
             <SoundControls />
             <ZoomControls onZoomChange={handleZoomChange} />
             <ThemeControls />
-            <div className="hidden sm:block">
+            <div className="hidden lg:block">
               <AnalyticsDisplay />
             </div>
           </div>
         </div>
 
         {/* Main Content - Responsive layout */}
-        <div className="flex-1 flex flex-col gap-3 p-3 pt-0 min-h-0">
+        <div className="flex-1 flex flex-col gap-2 md:gap-3 p-2 md:p-3 pt-0 min-h-0">
           {/* Terminal - Responsive height based on screen size */}
-          <div className="h-3/5 md:h-1/2 min-h-0" style={{ fontSize: `${zoom}%` }}>
+          <div className="h-1/2 sm:h-3/5 md:h-1/2 min-h-0" style={{ fontSize: `${zoom}%` }}>
             <Terminal />
           </div>
 
           {/* Chat Agent - Responsive height based on screen size */}
-          <div className="h-2/5 md:h-1/2 min-h-0" style={{ fontSize: `${zoom}%` }}>
+          <div className="h-1/2 sm:h-2/5 md:h-1/2 min-h-0" style={{ fontSize: `${zoom}%` }}>
             <EnhancedChatAgent />
           </div>
         </div>
 
-        {/* Footer - Responsive height */}
-        <div className="flex-shrink-0 p-1 md:p-2 text-center space-y-1">
-          <div className="flex flex-wrap justify-center items-center gap-1 md:gap-2 text-xs font-mono">
-            <span className="hidden sm:inline" style={{ color: "var(--theme-muted)" }}>Powered by:</span>
-            <div className="flex flex-wrap justify-center gap-1 md:gap-2">
+        {/* Footer - Minimal on mobile */}
+        <div className="flex-shrink-0 p-0.5 sm:p-1 md:p-2 text-center space-y-0.5 sm:space-y-1">
+          <div className="flex flex-wrap justify-center items-center gap-0.5 sm:gap-1 md:gap-2 text-xs font-mono">
+            <span className="hidden md:inline" style={{ color: "var(--theme-muted)" }}>Powered by:</span>
+            <div className="flex flex-wrap justify-center gap-0.5 sm:gap-1 md:gap-2">
               <a 
                 href="https://nextjs.org" 
                 target="_blank" 

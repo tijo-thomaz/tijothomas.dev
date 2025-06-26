@@ -1,10 +1,13 @@
-// Simplified chat route for testing
+// Enhanced chat route with portfolio context
 import { NextRequest, NextResponse } from 'next/server';
+
+// Configure function timeout for Vercel
+export const maxDuration = 30;
 
 export async function POST(request: NextRequest) {
   try {
     console.log('🔥 Chat API called');
-    
+
     const { message, sessionId, portfolioContext } = await request.json();
     console.log('📝 Received message:', message);
 
@@ -18,17 +21,17 @@ export async function POST(request: NextRequest) {
     // Check if we have environment variables
     const hasGroqKey = !!process.env.GROQ_API_KEY;
     const hasSupabase = !!process.env.NEXT_PUBLIC_SUPABASE_URL;
-    
+
     console.log('🔑 Environment check:', { hasGroqKey, hasSupabase });
 
     // Simple fallback response for testing
     let response = "I'm a test response! Your message was: " + message;
-    
+
     // Try Groq if we have the key
     if (hasGroqKey) {
       try {
         console.log('🤖 Trying Groq API...');
-        
+
         // Build detailed system prompt with portfolio context
         const systemPrompt = portfolioContext ? `You are an AI assistant representing ${portfolioContext.name}, a ${portfolioContext.role} from ${portfolioContext.location}.
 
@@ -67,9 +70,9 @@ INSTRUCTIONS:
 - Be enthusiastic about his technical expertise
 - Include contact information when relevant
 - Keep responses conversational but professional
-- Focus on his actual experience and skills from the context above` 
-        : 'You are an AI assistant representing Tijo Thomas, a Senior Frontend Engineer from Manchester, UK. Be helpful and professional.';
-        
+- Focus on his actual experience and skills from the context above`
+          : 'You are an AI assistant representing Tijo Thomas, a Senior Frontend Engineer from Manchester, UK. Be helpful and professional.';
+
         const groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
           method: 'POST',
           headers: {
@@ -113,7 +116,7 @@ INSTRUCTIONS:
   } catch (error) {
     console.error('💥 Chat API Error:', error);
     return NextResponse.json(
-      { 
+      {
         error: 'API Error: ' + (error as Error).message,
         fallback: true
       },
@@ -123,7 +126,7 @@ INSTRUCTIONS:
 }
 
 export async function GET() {
-  return NextResponse.json({ 
+  return NextResponse.json({
     status: 'Chat API is working!',
     timestamp: new Date().toISOString(),
     env: {

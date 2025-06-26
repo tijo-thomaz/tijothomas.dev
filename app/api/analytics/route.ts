@@ -69,7 +69,7 @@ export async function POST(request: NextRequest) {
 export async function GET() {
   try {
     const analytics = await DatabaseService.getAnalyticsSummary();
-    
+
     if (!analytics) {
       return NextResponse.json(
         { error: 'Failed to fetch analytics' },

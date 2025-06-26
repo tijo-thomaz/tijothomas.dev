@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { DatabaseService, VisitorSession } from '@/lib/database';
 
+// Configure function timeout for Vercel
+export const maxDuration = 15;
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();

@@ -74,13 +74,95 @@ export default function Home() {
         </div>
 
         {/* Footer - Fixed height */}
-        <div className="flex-shrink-0 p-2 text-center">
+        <div className="flex-shrink-0 p-2 text-center space-y-1">
+          <div className="flex flex-wrap justify-center items-center gap-2 text-xs font-mono">
+            <span style={{ color: "var(--theme-muted)" }}>Powered by:</span>
+            <div className="flex flex-wrap justify-center gap-2">
+              <a 
+                href="https://nextjs.org" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="px-2 py-1 rounded border transition-all duration-200 hover:scale-105 hover:opacity-80" 
+                style={{ 
+                  backgroundColor: "var(--theme-surface)", 
+                  borderColor: "var(--theme-border)",
+                  color: "var(--theme-accent)"
+                }}
+              >
+                Next.js 14
+              </a>
+              <a 
+                href="https://www.typescriptlang.org" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="px-2 py-1 rounded border transition-all duration-200 hover:scale-105 hover:opacity-80" 
+                style={{ 
+                  backgroundColor: "var(--theme-surface)", 
+                  borderColor: "var(--theme-border)",
+                  color: "var(--theme-accent)"
+                }}
+              >
+                TypeScript
+              </a>
+              <a 
+                href="https://tailwindcss.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="px-2 py-1 rounded border transition-all duration-200 hover:scale-105 hover:opacity-80" 
+                style={{ 
+                  backgroundColor: "var(--theme-surface)", 
+                  borderColor: "var(--theme-border)",
+                  color: "var(--theme-accent)"
+                }}
+              >
+                Tailwind CSS
+              </a>
+              <a 
+                href="https://groq.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="px-2 py-1 rounded border transition-all duration-200 hover:scale-105 hover:opacity-80" 
+                style={{ 
+                  backgroundColor: "var(--theme-surface)", 
+                  borderColor: "var(--theme-border)",
+                  color: "var(--theme-accent)"
+                }}
+              >
+                Groq AI
+              </a>
+              <a 
+                href="https://supabase.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="px-2 py-1 rounded border transition-all duration-200 hover:scale-105 hover:opacity-80" 
+                style={{ 
+                  backgroundColor: "var(--theme-surface)", 
+                  borderColor: "var(--theme-border)",
+                  color: "var(--theme-accent)"
+                }}
+              >
+                Supabase
+              </a>
+              <a 
+                href="https://vercel.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="px-2 py-1 rounded border transition-all duration-200 hover:scale-105 hover:opacity-80" 
+                style={{ 
+                  backgroundColor: "var(--theme-surface)", 
+                  borderColor: "var(--theme-border)",
+                  color: "var(--theme-accent)"
+                }}
+              >
+                Vercel
+              </a>
+            </div>
+          </div>
           <p
             className="font-mono text-xs"
             style={{ color: "var(--theme-muted)" }}
           >
-            Built with Next.js, TypeScript, and Tailwind CSS |
-            <span className="ml-1">© 2024 Tijo Thomas</span>
+            © 2024 Tijo Thomas | Interactive Portfolio Terminal
           </p>
         </div>
       </div>

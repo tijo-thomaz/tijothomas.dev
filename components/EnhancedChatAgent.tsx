@@ -276,44 +276,45 @@ const EnhancedChatAgent = () => {
       }}
     >
       <CardHeader 
-        className="py-1.5 px-3 flex-shrink-0 border-b transition-colors duration-300"
+        className="py-1 md:py-1.5 px-2 md:px-3 flex-shrink-0 border-b transition-colors duration-300"
         style={{ borderColor: 'var(--theme-border)' }}
       >
         <div className="flex items-center justify-between">
           <CardTitle 
-            className="font-mono flex items-center gap-2 zoom-text-sm"
+            className="font-mono flex items-center gap-1 md:gap-2 zoom-text-xs md:zoom-text-sm"
             style={{ color: 'var(--theme-accent)' }}
           >
-            <Bot className="w-4 h-4" />
-            Tijo's Enhanced AI
-            <Sparkles className="w-3 h-3" style={{ color: 'var(--theme-secondary)' }} />
+            <Bot className="w-3 h-3 md:w-4 md:h-4" />
+            <span className="hidden sm:inline">Tijo's Enhanced AI</span>
+            <span className="sm:hidden">AI Chat</span>
+            <Sparkles className="w-2 h-2 md:w-3 md:h-3" style={{ color: 'var(--theme-secondary)' }} />
             {isOnline ? (
-              <Wifi className="w-3 h-3 text-green-400" />
+              <Wifi className="w-2 h-2 md:w-3 md:h-3 text-green-400" />
             ) : (
-              <WifiOff className="w-3 h-3 text-red-400" />
+              <WifiOff className="w-2 h-2 md:w-3 md:h-3 text-red-400" />
             )}
           </CardTitle>
-          <ContactActions className="scale-75" />
+          <ContactActions className="scale-50 sm:scale-75" />
         </div>
       </CardHeader>
       
       <CardContent className="flex-1 flex flex-col p-0 min-h-0 overflow-hidden">
-        <div className="flex-1 overflow-y-auto p-3 space-y-3 min-h-0">
+        <div className="flex-1 overflow-y-auto p-2 md:p-3 space-y-2 md:space-y-3 min-h-0">
           {messages.map((message) => (
             <div
               key={message.id}
               className={`flex gap-2 ${message.isUser ? "justify-end" : "justify-start"}`}
             >
-              <div className={`flex gap-2 max-w-[85%] ${message.isUser ? "flex-row-reverse" : "flex-row"}`}>
+              <div className={`flex gap-2 max-w-[90%] md:max-w-[85%] ${message.isUser ? "flex-row-reverse" : "flex-row"}`}>
                 <div className="flex-shrink-0 mt-1">
                   {message.isUser ? (
-                    <User className="w-4 h-4" style={{ color: 'var(--theme-accent)' }} />
+                    <User className="w-3 h-3 md:w-4 md:h-4" style={{ color: 'var(--theme-accent)' }} />
                   ) : (
-                    <Bot className="w-4 h-4" style={{ color: 'var(--theme-accent)' }} />
+                    <Bot className="w-3 h-3 md:w-4 md:h-4" style={{ color: 'var(--theme-accent)' }} />
                   )}
                 </div>
                 <div
-                  className="rounded-lg p-2 font-mono zoom-text-xs leading-relaxed break-words border transition-colors duration-300"
+                  className="rounded-lg p-2 md:p-3 font-mono zoom-text-sm md:zoom-text-base leading-relaxed break-words border transition-colors duration-300"
                   style={message.isUser ? {
                     backgroundColor: 'var(--theme-accent)',
                     color: 'var(--theme-bg)',
@@ -329,7 +330,7 @@ const EnhancedChatAgent = () => {
                   ) : (
                     <>
                       {message.text.split('\n').map((line, index) => (
-                        <div key={index} className="mb-1 last:mb-0">
+                        <div key={index} className="mb-1.5 md:mb-2 last:mb-0">
                           {line.includes('**') ? (
                             <span
                               dangerouslySetInnerHTML={{
@@ -381,9 +382,9 @@ const EnhancedChatAgent = () => {
           {isTyping && (
             <div className="flex gap-2 justify-start">
               <div className="flex gap-2">
-                <Bot className="w-4 h-4 mt-1" style={{ color: 'var(--theme-accent)' }} />
+                <Bot className="w-3 h-3 md:w-4 md:h-4 mt-1" style={{ color: 'var(--theme-accent)' }} />
                 <div 
-                  className="border rounded-lg p-2 font-mono zoom-text-xs transition-colors duration-300"
+                  className="border rounded-lg p-2 md:p-3 font-mono zoom-text-sm md:zoom-text-base transition-colors duration-300"
                   style={{
                     backgroundColor: 'var(--theme-muted)',
                     color: 'var(--theme-text)',
@@ -407,7 +408,7 @@ const EnhancedChatAgent = () => {
         
         {/* Input area - Fixed at bottom */}
         <div 
-          className="border-t p-3 flex-shrink-0 transition-colors duration-300"
+          className="border-t p-2 md:p-3 flex-shrink-0 transition-colors duration-300"
           style={{ borderColor: 'var(--theme-border)' }}
         >
           <div className="flex gap-2">
@@ -415,8 +416,8 @@ const EnhancedChatAgent = () => {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={handleKeyPress}
-              placeholder={isOnline ? "Ask about skills, experience, projects..." : "Currently offline - check connection"}
-              className="font-mono zoom-text-xs border transition-colors duration-300"
+              placeholder={isOnline ? "Ask about skills, experience..." : "Currently offline"}
+              className="font-mono zoom-text-sm md:zoom-text-base border transition-colors duration-300"
               style={{
                 backgroundColor: 'var(--theme-muted)',
                 borderColor: 'var(--theme-border)',

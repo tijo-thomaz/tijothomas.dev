@@ -377,11 +377,58 @@ const Terminal = () => {
     inputRef.current?.focus();
   }, []);
 
-  useEffect(() => {
-    // Initial welcome message
-    const welcomeCommand: Command = {
-      input: "",
-      output: [
+  // Responsive ASCII art based on screen size
+  const getWelcomeMessage = useCallback(() => {
+    const isSmallScreen = typeof window !== 'undefined' && window.innerWidth < 768;
+    const isMediumScreen = typeof window !== 'undefined' && window.innerWidth < 1024;
+    
+    if (isSmallScreen) {
+      return [
+        "Welcome to tijothomas.dev",
+        "Portfolio Terminal v2.0",
+        "",
+        "┌─────────────────────────────────┐",
+        "│         TIJO THOMAS            │",
+        "│    Senior Frontend Engineer   │",
+        "│        Manchester, UK          │",
+        "└─────────────────────────────────┘",
+        "",
+        "💡 Interactive terminal features!",
+        "",
+        "🚀 Quick Start:",
+        "  • 'help' - show commands",
+        "  • ↑/↓ - command history",
+        "  • 'resume' - download CV",
+        "  • 'contact' - get in touch",
+      ];
+    } else if (isMediumScreen) {
+      return [
+        "Welcome to tijothomas.dev - Portfolio Terminal v2.0",
+        "",
+        "████████╗██╗     ██╗ ██████╗ ",
+        "╚══██╔══╝██║     ██║██╔═══██╗",
+        "   ██║   ██║     ██║██║   ██║",
+        "   ██║   ██║██   ██║██║   ██║",
+        "   ██║   ██║╚█████╔╝╚██████╔╝",
+        "   ╚═╝   ╚═╝ ╚════╝  ╚═════╝ ",
+        "",
+        "████████╗██╗  ██╗ ██████╗ ███╗   ███╗ █████╗ ███████╗",
+        "╚══██╔══╝██║  ██║██╔═══██╗████╗ ████║██╔══██╗██╔════╝",
+        "   ██║   ███████║██║   ██║██╔████╔██║███████║███████╗",
+        "   ██║   ██╔══██║██║   ██║██║╚██╔╝██║██╔══██║╚════██║",
+        "   ██║   ██║  ██║╚██████╔╝██║ ╚═╝ ██║██║  ██║███████║",
+        "   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝",
+        "",
+        "Senior Frontend Engineer | 8+ Years Experience | Manchester, UK",
+        "💡 Enhanced with command history, auto-complete, and interactive features!",
+        "",
+        "🚀 Quick Start:",
+        "  • Type 'help' to see all available commands",
+        "  • Use ↑/↓ arrows to navigate command history",
+        "  • Try 'resume' to download my CV",
+      ];
+    } else {
+      return [
         "Welcome to tijothomas.dev - Portfolio Terminal v2.0",
         "",
         "████████╗██╗     ██╗ ██████╗     ████████╗██╗  ██╗ ██████╗ ███╗   ███╗ █████╗ ███████╗",
@@ -398,15 +445,42 @@ const Terminal = () => {
         "  • Type 'help' to see all available commands",
         "  • Use ↑/↓ arrows to navigate command history",
         "  • Try 'resume' to download my CV",
+      ];
+    }
+  }, []);
+
+  useEffect(() => {
+    // Initial welcome message with responsive ASCII art
+    const welcomeCommand: Command = {
+      input: "",
+      output: getWelcomeMessage().concat([
         "  • Use the AI chat assistant for interactive help →",
         "",
         "Connect with me for exciting opportunities and collaborations!",
         ""
-      ],
+      ]),
       timestamp: new Date()
     };
     setHistory([welcomeCommand]);
-  }, []);
+
+    // Add resize listener to update ASCII art
+    const handleResize = () => {
+      const newWelcomeCommand: Command = {
+        input: "",
+        output: getWelcomeMessage().concat([
+          "  • Use the AI chat assistant for interactive help →",
+          "",
+          "Connect with me for exciting opportunities and collaborations!",
+          ""
+        ]),
+        timestamp: new Date()
+      };
+      setHistory([newWelcomeCommand]);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [getWelcomeMessage]);
 
   return (
     <Card 

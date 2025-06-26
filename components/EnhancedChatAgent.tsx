@@ -7,6 +7,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Send, Bot, User, Sparkles, Wifi, WifiOff } from "lucide-react";
 import { soundManager } from "@/lib/sounds";
 import { analytics } from "@/lib/analytics";
+import ContactActions from "./ContactActions";
+import ContactMessage from "./ContactMessage";
 
 interface Message {
   id: string;
@@ -33,7 +35,8 @@ const portfolioContext = {
   experience: "8+ years of frontend development experience",
   email: "tijo1293@gmail.com",
   phone: "+44 7818 989060",
-  linkedin: "linkedin.com/in/tijo-j-thomaz93",
+  whatsapp: "https://wa.me/447818989060",
+  linkedin: "https://linkedin.com/in/tijo-j-thomaz93",
   
   skills: {
     frontend: ["Angular", "React", "TypeScript", "JavaScript", "HTML5", "CSS3", "Sass"],
@@ -124,7 +127,7 @@ const EnhancedChatAgent = () => {
     }
     
     if (lowerMessage.includes("contact") || lowerMessage.includes("hire") || lowerMessage.includes("reach")) {
-      return `Tijo is based in **${portfolioContext.location}** and **${portfolioContext.availability}**! Reach him at **${portfolioContext.email}** or call **${portfolioContext.phone}**. Connect with him on LinkedIn: **${portfolioContext.linkedin}**. He's particularly interested in senior frontend roles and technical leadership positions.`;
+      return "SHOW_CONTACT_ACTIONS";
     }
     
     if (lowerMessage.includes("angular") || lowerMessage.includes("react")) {
@@ -276,19 +279,22 @@ const EnhancedChatAgent = () => {
         className="py-1.5 px-3 flex-shrink-0 border-b transition-colors duration-300"
         style={{ borderColor: 'var(--theme-border)' }}
       >
-        <CardTitle 
-          className="font-mono flex items-center gap-2 zoom-text-sm"
-          style={{ color: 'var(--theme-accent)' }}
-        >
-          <Bot className="w-4 h-4" />
-          Tijo's Enhanced AI
-          <Sparkles className="w-3 h-3" style={{ color: 'var(--theme-secondary)' }} />
-          {isOnline ? (
-            <Wifi className="w-3 h-3 text-green-400" />
-          ) : (
-            <WifiOff className="w-3 h-3 text-red-400" />
-          )}
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle 
+            className="font-mono flex items-center gap-2 zoom-text-sm"
+            style={{ color: 'var(--theme-accent)' }}
+          >
+            <Bot className="w-4 h-4" />
+            Tijo's Enhanced AI
+            <Sparkles className="w-3 h-3" style={{ color: 'var(--theme-secondary)' }} />
+            {isOnline ? (
+              <Wifi className="w-3 h-3 text-green-400" />
+            ) : (
+              <WifiOff className="w-3 h-3 text-red-400" />
+            )}
+          </CardTitle>
+          <ContactActions className="scale-75" />
+        </div>
       </CardHeader>
       
       <CardContent className="flex-1 flex flex-col p-0 min-h-0 overflow-hidden">
@@ -318,21 +324,27 @@ const EnhancedChatAgent = () => {
                     borderColor: 'var(--theme-border)'
                   }}
                 >
-                  {message.text.split('\n').map((line, index) => (
-                    <div key={index} className="mb-1 last:mb-0">
-                      {line.includes('**') ? (
-                        <span
-                          dangerouslySetInnerHTML={{
-                            __html: line
-                              .replace(/\*\*(.*?)\*\*/g, `<strong style="color: var(--theme-text); font-weight: bold;">$1</strong>`)
-                              .replace(/•/g, `<span style="color: var(--theme-accent);">•</span>`)
-                          }}
-                        />
-                      ) : (
-                        line
-                      )}
-                    </div>
-                  ))}
+                  {message.text === "SHOW_CONTACT_ACTIONS" ? (
+                    <ContactMessage />
+                  ) : (
+                    <>
+                      {message.text.split('\n').map((line, index) => (
+                        <div key={index} className="mb-1 last:mb-0">
+                          {line.includes('**') ? (
+                            <span
+                              dangerouslySetInnerHTML={{
+                                __html: line
+                                  .replace(/\*\*(.*?)\*\*/g, `<strong style="color: var(--theme-text); font-weight: bold;">$1</strong>`)
+                                  .replace(/•/g, `<span style="color: var(--theme-accent);">•</span>`)
+                              }}
+                            />
+                          ) : (
+                            line
+                          )}
+                        </div>
+                      ))}
+                    </>
+                  )}
                   {message.responseTime && (
                     <div className="text-xs opacity-50 mt-1">
                       {message.responseTime}ms

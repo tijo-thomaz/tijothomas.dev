@@ -1,4 +1,6 @@
 // Visitor Analytics System
+import { SessionManager } from './session';
+import { storeAnalyticsEvent, storeSessionData, type AnalyticsEvent, type SessionData } from './supabase';
 
 interface VisitorSession {
   sessionId: string;
@@ -52,12 +54,13 @@ class Analytics {
   }
 
   private initSession() {
+    const persistentSessionId = SessionManager.getSessionId();
     const existingSession = sessionStorage.getItem(this.SESSION_KEY);
     
     if (!existingSession) {
       // New session
       this.currentSession = {
-        sessionId: this.generateSessionId(),
+        sessionId: persistentSessionId,
         startTime: Date.now(),
         commands: [],
         chatQuestions: [],
@@ -71,8 +74,12 @@ class Analytics {
       sessionStorage.setItem(this.SESSION_KEY, JSON.stringify(this.currentSession));
       this.incrementVisitorCount();
     } else {
-      // Existing session
+      // Existing session - update with persistent session ID
       this.currentSession = JSON.parse(existingSession);
+      if (this.currentSession) {
+        this.currentSession.sessionId = persistentSessionId;
+        sessionStorage.setItem(this.SESSION_KEY, JSON.stringify(this.currentSession));
+      }
     }
   }
 
@@ -160,6 +167,17 @@ class Analytics {
     analytics.popularCommands[command] = (analytics.popularCommands[command] || 0) + 1;
     analytics.totalCommands++;
     this.saveAnalyticsData(analytics);
+
+    // Store to Supabase
+    const metadata = SessionManager.getSessionMetadata();
+    storeAnalyticsEvent({
+      session_id: this.currentSession.sessionId,
+      event_type: 'command',
+      event_data: { command },
+      user_agent: metadata.userAgent,
+      device_type: this.getDeviceInfo(),
+      screen_resolution: metadata.screenResolution
+    });
   }
 
   trackChatQuestion(question: string) {
@@ -179,6 +197,17 @@ class Analytics {
     
     analytics.totalQuestions++;
     this.saveAnalyticsData(analytics);
+
+    // Store to Supabase
+    const metadata = SessionManager.getSessionMetadata();
+    storeAnalyticsEvent({
+      session_id: this.currentSession.sessionId,
+      event_type: 'chat',
+      event_data: { question, metadata: { keyPhrases } },
+      user_agent: metadata.userAgent,
+      device_type: this.getDeviceInfo(),
+      screen_resolution: metadata.screenResolution
+    });
   }
 
   private extractKeyPhrases(question: string): string[] {

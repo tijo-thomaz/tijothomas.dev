@@ -8,10 +8,12 @@ import ThemeControls from "@/components/ThemeControls";
 import AnalyticsDisplay from "@/components/AnalyticsDisplay";
 import EnhancedChatAgent from "@/components/EnhancedChatAgent";
 import SupabaseDebug from "@/components/SupabaseDebug";
+import WorldViewer from "@/components/WorldViewer";
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);
   const [zoom, setZoom] = useState(100);
+  const [current3DWorld, setCurrent3DWorld] = useState<string | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -21,12 +23,32 @@ export default function Home() {
     setZoom(newZoom);
   }, []);
 
+  const handle3DWorldEnter = useCallback((world: string) => {
+    setCurrent3DWorld(world);
+  }, []);
+
+  const handle3DWorldExit = useCallback(() => {
+    setCurrent3DWorld(null);
+  }, []);
+
   if (!mounted) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-green-400 font-mono">
           Loading tijothomas.dev...
         </div>
+      </div>
+    );
+  }
+
+  // If in 3D world mode, show full-screen world viewer
+  if (current3DWorld) {
+    return (
+      <div className="h-screen w-screen">
+        <WorldViewer
+          world={current3DWorld}
+          onExit={handle3DWorldExit}
+        />
       </div>
     );
   }
@@ -67,17 +89,12 @@ export default function Home() {
         <div className="flex-1 flex flex-col gap-2 md:gap-3 p-2 md:p-3 pt-0 min-h-0">
           {/* Terminal - Responsive height based on screen size */}
           <div className="h-1/2 sm:h-3/5 md:h-1/2 min-h-0" style={{ fontSize: `${zoom}%` }}>
-            <Terminal />
+            <Terminal onEnter3DWorld={handle3DWorldEnter} />
           </div>
 
           {/* Chat Agent - Responsive height based on screen size */}
           <div className="h-1/2 sm:h-2/5 md:h-1/2 min-h-0" style={{ fontSize: `${zoom}%` }}>
             <EnhancedChatAgent />
-          </div>
-          
-          {/* Debug Panel - Temporary */}
-          <div className="p-4">
-            <SupabaseDebug />
           </div>
         </div>
 

@@ -12,7 +12,11 @@ interface Command {
   timestamp: Date;
 }
 
-const Terminal = () => {
+interface TerminalProps {
+  onEnter3DWorld?: (world: string) => void;
+}
+
+const Terminal = ({ onEnter3DWorld }: TerminalProps) => {
   const [input, setInput] = useState("");
   const [history, setHistory] = useState<Command[]>([]);
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
@@ -126,7 +130,7 @@ const Terminal = () => {
   const availableCommands = [
     'help', 'about', 'skills', 'projects', 'experience', 'contact',
     'ls', 'pwd', 'whoami', 'date', 'clear', 'resume', 'git-log',
-    'vim-skills', 'projects-demo'
+    'vim-skills', 'projects-demo', 'world', '3d', 'explore'
   ];
 
   const executeCommand = useCallback(async (cmd: string) => {
@@ -146,6 +150,12 @@ const Terminal = () => {
         output = [
           "Available commands:",
           "",
+          "🌟 3D IMMERSIVE EXPERIENCES:",
+          "world         - List available 3D worlds", 
+          "3d            - Show 3D portfolio info",
+          "explore <name> - Enter 3D world (experience/projects/skills/clients)",
+          "",
+          "📋 PORTFOLIO COMMANDS:",
           "about         - Learn about me",
           "skills        - View my technical skills",
           "projects      - See my recent projects",
@@ -155,6 +165,8 @@ const Terminal = () => {
           "resume        - Download my resume (PDF)",
           "git-log       - View my recent commits",
           "vim-skills    - Interactive skills explorer",
+          "",
+          "🔧 SYSTEM COMMANDS:",
           "clear         - Clear the terminal",
           "ls            - List directory contents",
           "pwd           - Show current directory",
@@ -162,7 +174,8 @@ const Terminal = () => {
           "date          - Show current date and time",
           "",
           "💡 Use ↑/↓ arrows to navigate command history",
-          "💡 Try the AI chat assistant on the right for more interactive help!"
+          "💡 Try 'explore experience' for immersive 3D career journey!",
+          "💡 AI chat assistant available on the right for interactive help!"
         ];
         break;
       case "ls":
@@ -267,6 +280,83 @@ const Terminal = () => {
           ":wq to exit vim mode 😉"
         ];
         break;
+      
+      case 'world':
+      case '3d':
+        output = [
+          "🌍 3D PORTFOLIO WORLDS AVAILABLE:",
+          "",
+          "Available 3D Experiences:",
+          "  • explore experience  - Career timeline in 3D space",
+          "  • explore projects    - Project galaxy universe", 
+          "  • explore skills      - Tech skill constellation",
+          "  • explore clients     - Client showcase gallery",
+          "",
+          "Usage: explore <world-name>",
+          "Example: explore experience",
+          "",
+          "🎮 Interactive 3D exploration with AI guide",
+          "🤖 AI companion available throughout journey",
+          "⌨️  Press ESC anytime to return to terminal"
+        ];
+        break;
+        
+      case 'explore':
+        if (trimmedCmd === 'explore') {
+          output = [
+            "Please specify which world to explore:",
+            "",
+            "Available worlds:",
+            "  • experience - My career journey in 3D",
+            "  • projects   - Interactive project showcase", 
+            "  • skills     - Technology skill visualization",
+            "  • clients    - Client testimonial gallery",
+            "",
+            "Usage: explore <world-name>",
+            "Example: explore experience"
+          ];
+        } else {
+          const worldName = (trimmedCmd as string).substring(7).trim(); // Remove 'explore '
+          const validWorlds = ['experience', 'projects', 'skills', 'clients'];
+          
+          if (validWorlds.includes(worldName)) {
+            output = [
+              `🚀 Launching ${worldName.toUpperCase()} World...`,
+              "",
+              "Initializing 3D environment...",
+              "Loading AI companion...",
+              "Preparing immersive experience...",
+              "",
+              "🎮 Use mouse to look around",
+              "🖱️  Click objects to interact", 
+              "⌨️  Press ESC to return to terminal",
+              "",
+              `Welcome to the ${worldName} universe! 🌟`
+            ];
+            
+            // Trigger 3D world after a short delay
+            setTimeout(() => {
+              if (onEnter3DWorld) {
+                onEnter3DWorld(worldName);
+              }
+            }, 1500);
+          } else {
+            output = [
+              `Unknown world: ${worldName}`,
+              "",
+              "Available worlds:",
+              "  • experience",
+              "  • projects", 
+              "  • skills",
+              "  • clients",
+              "",
+              "Usage: explore <world-name>"
+            ];
+            isError = true;
+          }
+        }
+        break;
+        
       default:
         if (trimmedCmd.startsWith('cd ')) {
           const dir = trimmedCmd.substring(3).trim();

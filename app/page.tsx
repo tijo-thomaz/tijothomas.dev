@@ -13,6 +13,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import CommandSuggestions from "@/components/CommandSuggestions";
 import CookieConsent from "@/components/CookieConsent";
 import PrivacyPolicy from "@/components/PrivacyPolicy";
+import DataDeletionControl from "@/components/DataDeletionControl";
 import { analytics } from "@/lib/analytics";
 
 export default function Home() {
@@ -328,8 +329,9 @@ export default function Home() {
             >
               © 2024 Tijo Thomas | Interactive Portfolio Terminal
             </p>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 flex-wrap">
               <PrivacyPolicy />
+              <DataDeletionControl />
               <span className="text-xs" style={{ color: "var(--theme-muted)" }}>
                 {consentGiven === true ? '🟢 Analytics On' : 
                  consentGiven === false ? '🔴 Analytics Off' : 

@@ -74,6 +74,23 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
+            <h2 className="text-lg text-green-400 font-bold mb-3">🗑️ Delete Your Data</h2>
+            <p className="mb-3">
+              You can delete your session data instantly using the "Delete My Data" button 
+              in the footer. This will permanently remove:
+            </p>
+            <ul className="space-y-1 ml-4 mb-3">
+              <li>• Your session information</li>
+              <li>• Commands executed during your visit</li>
+              <li>• Theme preferences</li>
+              <li>• Any stored interaction data</li>
+            </ul>
+            <p className="text-yellow-400 text-sm">
+              ⚠️ Only anonymous visitor count remains for site statistics.
+            </p>
+          </section>
+
+          <section>
             <h2 className="text-lg text-green-400 font-bold mb-3">📧 Contact</h2>
             <p>
               For any privacy concerns or data requests:

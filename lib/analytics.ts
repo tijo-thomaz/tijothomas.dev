@@ -93,7 +93,7 @@ class Analytics {
     return userConsent;
   }
 
-  private clearAllData(): void {
+  public clearAllData(): void {
     localStorage.removeItem(this.STORAGE_KEY);
     sessionStorage.removeItem(this.SESSION_KEY);
     this.currentSession = null;

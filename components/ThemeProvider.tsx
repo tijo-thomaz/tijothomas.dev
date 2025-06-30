@@ -7,7 +7,7 @@ import {
   useState,
   ReactNode,
 } from "react";
-import { analytics } from "@/lib/analytics";
+// import { analytics } from "@/lib/analytics"; // Disabled - using simple analytics
 
 type Theme = "terminal" | "light" | "dark" | "cyber";
 
@@ -71,7 +71,7 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
 
   const handleSetTheme = (newTheme: Theme) => {
     setTheme(newTheme);
-    analytics.trackThemeChange(newTheme);
+    // analytics.trackThemeChange(newTheme); // Disabled for privacy
   };
 
   return (

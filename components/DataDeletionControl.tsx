@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { deleteUserSessionData } from '@/lib/supabase';
-import { analytics } from '@/lib/analytics';
+// import { analytics } from '@/lib/analytics'; // Not needed for anonymous analytics
 
 export default function DataDeletionControl() {
   const [isDeleting, setIsDeleting] = useState(false);
@@ -13,15 +13,15 @@ export default function DataDeletionControl() {
     setIsDeleting(true);
     
     try {
-      // Get current session ID
-      const sessionId = (analytics as any).currentSession?.sessionId;
+      // Get current session ID (not applicable for anonymous analytics)
+      const sessionId = null; // No session tracking in anonymous mode
       
       if (sessionId) {
         // Delete from Supabase
         await deleteUserSessionData(sessionId);
         
-        // Clear local data
-        analytics.clearAllData();
+        // Clear local data (not needed for anonymous analytics)
+        // analytics.clearAllData();
         
         setIsDeleted(true);
         setShowConfirm(false);

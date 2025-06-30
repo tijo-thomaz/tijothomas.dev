@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart3, Users, Clock, Command, MessageSquare, X } from 'lucide-react';
-import { analytics } from '@/lib/analytics';
+import { simpleAnalytics } from '@/lib/simple-analytics';
 
 const AnalyticsDisplay = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,29 +12,23 @@ const AnalyticsDisplay = () => {
 
   useEffect(() => {
     if (isOpen && !analyticsData) {
-      const data = analytics.getAnalytics();
-      const topCommands = analytics.getTopCommands(5);
-      const topQuestions = analytics.getTopQuestions(5);
+      const data = simpleAnalytics.getStats();
+      const topCommands = simpleAnalytics.getTopCommands(5);
       
       setAnalyticsData({
         ...data,
-        topCommands,
-        topQuestions,
-        formattedDuration: analytics.formatSessionDuration(data.averageSessionDuration)
+        topCommands
       });
     }
   }, [isOpen, analyticsData]);
 
   const refreshData = () => {
-    const data = analytics.getAnalytics();
-    const topCommands = analytics.getTopCommands(5);
-    const topQuestions = analytics.getTopQuestions(5);
+    const data = simpleAnalytics.getStats();
+    const topCommands = simpleAnalytics.getTopCommands(5);
     
     setAnalyticsData({
       ...data,
-      topCommands,
-      topQuestions,
-      formattedDuration: analytics.formatSessionDuration(data.averageSessionDuration)
+      topCommands
     });
   };
 

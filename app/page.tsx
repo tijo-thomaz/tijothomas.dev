@@ -5,16 +5,12 @@ import Terminal from "@/components/Terminal";
 import ZoomControls from "@/components/ZoomControls";
 import SoundControls from "@/components/SoundControls";
 import ThemeControls from "@/components/ThemeControls";
-import AnalyticsDisplay from "@/components/AnalyticsDisplay";
+import SimpleAnalyticsDisplay from "@/components/SimpleAnalyticsDisplay";
 import FloatingAIAssistant from "@/components/FloatingAIAssistant";
-import SupabaseDebug from "@/components/SupabaseDebug";
 import WorldViewer from "@/components/WorldViewer";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import CommandSuggestions from "@/components/CommandSuggestions";
-import CookieConsent from "@/components/CookieConsent";
-import PrivacyPolicy from "@/components/PrivacyPolicy";
-import DataDeletionControl from "@/components/DataDeletionControl";
-import { analytics } from "@/lib/analytics";
+import TrulyAnonymousNotice from "@/components/TrulyAnonymousNotice";
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);
@@ -30,9 +26,6 @@ export default function Home() {
   const [demoMode, setDemoMode] = useState(false);
   const [demoStep, setDemoStep] = useState(0);
   const [lastActivity, setLastActivity] = useState(Date.now());
-  
-  // GDPR consent state
-  const [consentGiven, setConsentGiven] = useState<boolean | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -137,11 +130,7 @@ export default function Home() {
     }
   }, [handleAddToCommandHistory, handleNavigateToWorld]);
 
-  // Handle GDPR consent
-  const handleConsentChange = useCallback((consent: boolean) => {
-    setConsentGiven(consent);
-    analytics.setConsent(consent);
-  }, []);
+
 
   if (!mounted) {
     return (
@@ -194,7 +183,7 @@ export default function Home() {
             <ZoomControls onZoomChange={handleZoomChange} />
             <ThemeControls />
             <div className="hidden lg:block">
-              <AnalyticsDisplay />
+              <SimpleAnalyticsDisplay />
             </div>
           </div>
         </div>
@@ -330,12 +319,8 @@ export default function Home() {
               © 2024 Tijo Thomas | Interactive Portfolio Terminal
             </p>
             <div className="flex items-center gap-3 flex-wrap">
-              <PrivacyPolicy />
-              <DataDeletionControl />
               <span className="text-xs" style={{ color: "var(--theme-muted)" }}>
-                {consentGiven === true ? '🟢 Analytics On' : 
-                 consentGiven === false ? '🔴 Analytics Off' : 
-                 '⚪ Pending Consent'}
+                🔒 Anonymous Analytics Only
               </span>
             </div>
           </div>
@@ -345,8 +330,8 @@ export default function Home() {
       {/* Floating AI Assistant */}
       <FloatingAIAssistant />
       
-      {/* GDPR Cookie Consent */}
-      <CookieConsent onConsentChange={handleConsentChange} />
+      {/* Anonymous Analytics Notice */}
+      <TrulyAnonymousNotice />
     </main>
   );
 }

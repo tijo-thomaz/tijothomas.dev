@@ -7,14 +7,23 @@ let storeAnalyticsEvent: any = null;
 let storeSessionData: any = null;
 
 try {
-  if (typeof window !== 'undefined' && process.env.NEXT_PUBLIC_SUPABASE_URL) {
+  // Temporarily disable Supabase until tables are created
+  const supabaseEnabled = false; // Change to true when tables are created
+  
+  if (typeof window !== 'undefined' && 
+      supabaseEnabled &&
+      process.env.NEXT_PUBLIC_SUPABASE_URL && 
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY &&
+      process.env.NEXT_PUBLIC_SUPABASE_URL.includes('.supabase.co')) {
     const supabaseModule = require('./supabase');
     storeAnalyticsEvent = supabaseModule.storeAnalyticsEvent;
     storeSessionData = supabaseModule.storeSessionData;
     supabaseAvailable = true;
   }
 } catch (error) {
-  console.log('Supabase not configured - using local analytics only');
+  if (process.env.NODE_ENV === 'development') {
+    console.log('Supabase not configured - using local analytics only');
+  }
   supabaseAvailable = false;
 }
 
@@ -170,7 +179,9 @@ class Analytics {
       };
 
       storeSessionData(sessionData).catch((error: any) => {
-        console.warn('Failed to store session to Supabase:', error);
+        if (process.env.NODE_ENV === 'development') {
+          console.warn('Failed to store session to Supabase:', error);
+        }
       });
 
       // Also store session event
@@ -186,11 +197,15 @@ class Analytics {
           device_type: this.currentSession.device,
           screen_resolution: metadata.screenResolution
         }).catch((error: any) => {
-          console.warn('Failed to store session event to Supabase:', error);
+          if (process.env.NODE_ENV === 'development') {
+            console.warn('Failed to store session event to Supabase:', error);
+          }
         });
       }
     } catch (error) {
-      console.warn('Supabase session storage error:', error);
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('Supabase session storage error:', error);
+      }
     }
   }
 
@@ -253,10 +268,14 @@ class Analytics {
           device_type: this.getDeviceInfo(),
           screen_resolution: metadata.screenResolution
         }).catch((error: any) => {
-          console.warn('Failed to store command to Supabase:', error);
+          if (process.env.NODE_ENV === 'development') {
+            console.warn('Failed to store command to Supabase:', error);
+          }
         });
       } catch (error) {
-        console.warn('Supabase command tracking error:', error);
+        if (process.env.NODE_ENV === 'development') {
+          console.warn('Supabase command tracking error:', error);
+        }
       }
     }
   }
@@ -291,10 +310,14 @@ class Analytics {
           device_type: this.getDeviceInfo(),
           screen_resolution: metadata.screenResolution
         }).catch((error: any) => {
-          console.warn('Failed to store chat to Supabase:', error);
+          if (process.env.NODE_ENV === 'development') {
+            console.warn('Failed to store chat to Supabase:', error);
+          }
         });
       } catch (error) {
-        console.warn('Supabase chat tracking error:', error);
+        if (process.env.NODE_ENV === 'development') {
+          console.warn('Supabase chat tracking error:', error);
+        }
       }
     }
   }

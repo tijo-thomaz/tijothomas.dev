@@ -12,6 +12,13 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: 'Tijo Thomas | Senior Frontend Engineer | Manchester, UK',
   description: 'Senior Frontend Engineer with 8+ years experience in Angular, React, TypeScript, and Go. Currently at Bet365, previously worked with Home Depot, eBay, and major enterprises.',
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.svg', sizes: '32x32' }
+    ],
+    apple: '/favicon.svg'
+  },
   keywords: [
     'Tijo Thomas',
     'Senior Frontend Engineer', 
@@ -70,6 +77,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
+
       <body className={`${jetbrainsMono.variable} font-mono`}>
         <ThemeProvider>
           {children}

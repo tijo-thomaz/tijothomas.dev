@@ -7,7 +7,11 @@ let storeAnalyticsEvent: any = null;
 let storeSessionData: any = null;
 
 try {
+  // Temporarily disable Supabase until tables are created
+  const supabaseEnabled = false; // Change to true when tables are created
+  
   if (typeof window !== 'undefined' && 
+      supabaseEnabled &&
       process.env.NEXT_PUBLIC_SUPABASE_URL && 
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY &&
       process.env.NEXT_PUBLIC_SUPABASE_URL.includes('.supabase.co')) {

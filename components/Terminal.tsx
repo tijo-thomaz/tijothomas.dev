@@ -12,14 +12,42 @@ interface Command {
   timestamp: Date;
 }
 
-const Terminal = () => {
+interface TerminalProps {
+  onEnter3DWorld?: (world: string) => void;
+  onSectionVisit?: (section: string) => void;
+  onNavigateToWorld?: (section: string) => void;
+  onAddToCommandHistory?: (command: string) => void;
+  commandHistory?: string[];
+  demoMode?: boolean;
+  demoStep?: number;
+  demoCommands?: Array<{ command: string; delay: number; message: string }>;
+  onUserActivity?: () => void;
+  onDemoStepComplete?: () => void;
+}
+
+const Terminal = ({ 
+  onEnter3DWorld, 
+  onSectionVisit, 
+  onNavigateToWorld,
+  onAddToCommandHistory, 
+  commandHistory: externalCommandHistory = [],
+  demoMode = false,
+  demoStep = 0,
+  demoCommands = [],
+  onUserActivity,
+  onDemoStepComplete
+}: TerminalProps) => {
   const [input, setInput] = useState("");
   const [history, setHistory] = useState<Command[]>([]);
-  const [commandHistory, setCommandHistory] = useState<string[]>([]);
+  const [localCommandHistory, setLocalCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
+  
+  // Use external command history if provided, otherwise use local
+  const commandHistory = externalCommandHistory.length > 0 ? externalCommandHistory : localCommandHistory;
   const [currentDirectory, setCurrentDirectory] = useState("~");
   const inputRef = useRef<HTMLInputElement>(null);
   const terminalRef = useRef<HTMLDivElement>(null);
+  const [isAutoTyping, setIsAutoTyping] = useState(false);
 
   const portfolioData = {
     about: [
@@ -126,7 +154,7 @@ const Terminal = () => {
   const availableCommands = [
     'help', 'about', 'skills', 'projects', 'experience', 'contact',
     'ls', 'pwd', 'whoami', 'date', 'clear', 'resume', 'git-log',
-    'vim-skills', 'projects-demo'
+    'vim-skills', 'projects-demo', 'world', '3d', 'explore'
   ];
 
   const executeCommand = useCallback(async (cmd: string) => {
@@ -141,28 +169,38 @@ const Terminal = () => {
     let output: string[];
     let isError = false;
 
-    switch (trimmedCmd) {
+    // Parse the command and arguments
+    const commandParts = trimmedCmd.split(' ');
+    const baseCommand = commandParts[0];
+    const args = commandParts.slice(1);
+
+    switch (baseCommand) {
       case "help":
         output = [
-          "Available commands:",
+          "📋 PORTFOLIO COMMANDS:",
           "",
-          "about         - Learn about me",
-          "skills        - View my technical skills",
-          "projects      - See my recent projects",
-          "projects-demo - View live project demos",
-          "experience    - View my work experience",
-          "contact       - Get my contact information",
-          "resume        - Download my resume (PDF)",
-          "git-log       - View my recent commits",
-          "vim-skills    - Interactive skills explorer",
+          "🏢 about         - Learn about me",
+          "⚛️ skills        - View my technical skills", 
+          "🚀 projects      - See my recent projects",
+          "📈 experience    - View my work experience",
+          "🏆 clients       - View client success stories",
+          "📧 contact       - Get my contact information",
+          "📄 resume        - Download my resume (PDF)",
+          "",
+          "🌟 INTERACTIVE EXPLORATION:",
+          "explore experience - Immersive career timeline",
+          "explore projects   - Interactive project showcase", 
+          "explore skills     - Tech skills constellation",
+          "explore clients    - Client success gallery",
+          "",
+          "🔧 TERMINAL COMMANDS:",
           "clear         - Clear the terminal",
-          "ls            - List directory contents",
-          "pwd           - Show current directory",
-          "whoami        - Display current user",
-          "date          - Show current date and time",
+          "ls            - List directory contents", 
           "",
-          "💡 Use ↑/↓ arrows to navigate command history",
-          "💡 Try the AI chat assistant on the right for more interactive help!"
+          "💡 TIPS:",
+          "• Use ↑/↓ arrows for command history",
+          "• Try 'explore experience' for immersive journey!",
+          "• AI assistant available for interactive help"
         ];
         break;
       case "ls":
@@ -182,9 +220,11 @@ const Terminal = () => {
         break;
       case "skills":
         output = portfolioData.skills;
+        if (onSectionVisit) onSectionVisit('skills');
         break;
       case "projects":
         output = portfolioData.projects;
+        if (onSectionVisit) onSectionVisit('projects');
         break;
       case "projects-demo":
         output = [
@@ -214,6 +254,35 @@ const Terminal = () => {
         break;
       case "experience":
         output = portfolioData.experience;
+        if (onSectionVisit) onSectionVisit('experience');
+        break;
+      case "clients":
+        output = [
+          "🏆 CLIENT SUCCESS STORIES:",
+          "",
+          "🎯 Bet365 - Gaming Industry Leader", 
+          "   Role: Senior Frontend Engineer",
+          "   Achievement: 40% performance improvement",
+          "   Tech: TypeScript, Go, Performance Optimization",
+          "",
+          "🏠 Home Depot - Fortune 500 Retail",
+          "   Role: Frontend Consultant", 
+          "   Achievement: 10k+ concurrent users",
+          "   Tech: Angular, Enterprise Dashboards, Scalability",
+          "",
+          "🛒 eBay - E-commerce Platform",
+          "   Role: Frontend Consultant",
+          "   Achievement: 60% render cycle reduction", 
+          "   Tech: Angular, OnPush Strategy, Performance",
+          "",
+          "✈️ Gogo Business Aviation",
+          "   Role: Frontend Developer",
+          "   Achievement: Video streaming integration",
+          "   Tech: React, Chrome Extension, Video Streaming",
+          "",
+          "💡 Use 'explore clients' for interactive gallery view!"
+        ];
+        if (onSectionVisit) onSectionVisit('clients');
         break;
       case "contact":
         output = portfolioData.contact;
@@ -267,9 +336,89 @@ const Terminal = () => {
           ":wq to exit vim mode 😉"
         ];
         break;
+      
+      case 'world':
+      case '3d':
+        output = [
+          "🌍 INTERACTIVE PORTFOLIO WORLDS AVAILABLE:",
+          "",
+          "Available Interactive Experiences:",
+          "  • explore experience  - Enhanced career timeline",
+          "  • explore projects    - Detailed project showcase", 
+          "  • explore skills      - Technology expertise display",
+          "  • explore clients     - Client success gallery",
+          "",
+          "Usage: explore <world-name>",
+          "Example: explore experience",
+          "",
+          "🎮 Interactive exploration with detailed insights",
+          "🤖 AI companion available via left drawer chat",
+          "⌨️  Press ESC anytime to return to terminal"
+        ];
+        break;
+        
+      case 'explore':
+        if (args.length === 0) {
+          output = [
+            "Please specify which world to explore:",
+            "",
+            "Available worlds:",
+            "  • experience - Enhanced career journey",
+            "  • projects   - Interactive project showcase", 
+            "  • skills     - Technology expertise visualization",
+            "  • clients    - Client success gallery",
+            "",
+            "Usage: explore <world-name>",
+            "Example: explore experience"
+          ];
+        } else {
+          const worldName = args.join(' ').trim(); // Get all arguments as world name
+          const validWorlds = ['experience', 'projects', 'skills', 'clients'];
+          
+          if (validWorlds.includes(worldName)) {
+            output = [
+              `🚀 Launching ${worldName.toUpperCase()} World...`,
+              "",
+              "Initializing immersive environment...",
+              "Loading interactive portfolio...",
+              "Preparing enhanced experience...",
+              "",
+              "🖱️  Click items to interact",
+              "🎯  Navigate between worlds", 
+              "⌨️  Press ESC to return to terminal",
+              "",
+              `Welcome to the ${worldName} universe! 🌟`
+            ];
+            
+            // Trigger 3D world after a short delay - using fallback for now
+            setTimeout(() => {
+              if (onNavigateToWorld) {
+                onNavigateToWorld(worldName);
+              }
+              if (onEnter3DWorld) {
+                onEnter3DWorld(worldName);
+              }
+            }, 1500);
+          } else {
+            output = [
+              `Unknown world: ${worldName}`,
+              "",
+              "Available worlds:",
+              "  • experience",
+              "  • projects", 
+              "  • skills",
+              "  • clients",
+              "",
+              "Usage: explore <world-name>"
+            ];
+            isError = true;
+          }
+        }
+        break;
+        
       default:
-        if (trimmedCmd.startsWith('cd ')) {
-          const dir = trimmedCmd.substring(3).trim();
+        if (baseCommand === 'cd') {
+          const dir = args.join(' ').trim() || '~';
           if (dir === '~' || dir === '/home/tijo') {
             setCurrentDirectory('~');
             output = [];
@@ -283,7 +432,7 @@ const Terminal = () => {
         } else {
           // Auto-suggestion for similar commands
           const suggestions = availableCommands.filter(cmd => 
-            cmd.includes(trimmedCmd) || trimmedCmd.includes(cmd.substring(0, 3))
+            cmd.includes(baseCommand) || baseCommand.includes(cmd.substring(0, 3))
           ).slice(0, 3);
           
           output = [
@@ -305,7 +454,11 @@ const Terminal = () => {
     
     // Add to command history if not empty and not duplicate
     if (cmd.trim() && commandHistory[commandHistory.length - 1] !== cmd.trim()) {
-      setCommandHistory(prev => [...prev, cmd.trim()]);
+      if (onAddToCommandHistory) {
+        onAddToCommandHistory(cmd.trim());
+      } else {
+        setLocalCommandHistory(prev => [...prev, cmd.trim()]);
+      }
     }
     setHistoryIndex(-1);
 
@@ -318,17 +471,21 @@ const Terminal = () => {
 
     // Track command analytics
     analytics.trackCommand(cmd.trim());
-  }, [commandHistory, currentDirectory]);
+  }, [commandHistory, currentDirectory, onEnter3DWorld, onSectionVisit, onNavigateToWorld, onAddToCommandHistory]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (input.trim()) {
+      if (onUserActivity) onUserActivity();
       executeCommand(input);
       setInput("");
     }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
+    // Track user activity on any keypress
+    if (onUserActivity) onUserActivity();
+    
     // Play keypress sound for most keys
     if (e.key.length === 1 || e.key === 'Backspace' || e.key === 'Delete') {
       soundManager.playKeypress();
@@ -376,6 +533,45 @@ const Terminal = () => {
     // Focus input when component mounts
     inputRef.current?.focus();
   }, []);
+
+  // Auto-demo typing effect
+  useEffect(() => {
+    if (!demoMode || demoStep >= demoCommands.length || isAutoTyping) return;
+
+    const currentCommand = demoCommands[demoStep];
+    if (!currentCommand) return;
+
+    setIsAutoTyping(true);
+    
+    // Clear input first
+    setInput('');
+    
+    // Type out the command character by character
+    let charIndex = 0;
+    const typeInterval = setInterval(() => {
+      if (charIndex < currentCommand.command.length) {
+        setInput(currentCommand.command.slice(0, charIndex + 1));
+        charIndex++;
+      } else {
+        clearInterval(typeInterval);
+        
+        // Execute the command after typing is complete
+        setTimeout(() => {
+          executeCommand(currentCommand.command);
+          setInput('');
+          setIsAutoTyping(false);
+          if (onDemoStepComplete) {
+            onDemoStepComplete();
+          }
+        }, 1000); // Wait 1 second before executing
+      }
+    }, 100); // Type at 100ms per character
+
+    return () => {
+      clearInterval(typeInterval);
+      setIsAutoTyping(false);
+    };
+  }, [demoMode, demoStep, demoCommands, isAutoTyping, onDemoStepComplete]);
 
   // Responsive ASCII art based on screen size
   const getWelcomeMessage = useCallback(() => {
@@ -543,7 +739,10 @@ const Terminal = () => {
             ref={inputRef}
             type="text"
             value={input}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={(e) => {
+              if (!isAutoTyping && onUserActivity) onUserActivity();
+              setInput(e.target.value);
+            }}
             onKeyDown={handleKeyDown}
             className="ml-2 bg-transparent outline-none flex-1 font-mono terminal-cursor zoom-text-xs"
             style={{ color: 'var(--theme-text)' }}

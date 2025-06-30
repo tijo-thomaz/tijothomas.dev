@@ -1,26 +1,15 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import dynamic from 'next/dynamic';
-
-// Dynamically import 3D scene to avoid SSR issues
-const ThreeScene = dynamic(() => import('./3d/ThreeScene'), { 
-  ssr: false,
-  loading: () => (
-    <div className="w-full h-full flex items-center justify-center bg-black">
-      <div className="text-green-400 font-mono animate-pulse">
-        Loading 3D Experience...
-      </div>
-    </div>
-  )
-});
+import InteractiveWorldViewer from './InteractiveWorldViewer';
 
 interface WorldViewerProps {
   world: string;
   onExit: () => void;
+  initialSection?: number;
 }
 
-export default function WorldViewer({ world, onExit }: WorldViewerProps) {
+export default function WorldViewer({ world, onExit, initialSection }: WorldViewerProps) {
   const [currentWorld, setCurrentWorld] = useState(world);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -73,10 +62,11 @@ export default function WorldViewer({ world, onExit }: WorldViewerProps) {
 
   return (
     <div className="w-full h-full">
-      <ThreeScene
+      <InteractiveWorldViewer
         currentWorld={currentWorld}
         onWorldExit={onExit}
         onWorldChange={setCurrentWorld}
+        initialSection={initialSection}
       />
     </div>
   );

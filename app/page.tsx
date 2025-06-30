@@ -11,6 +11,9 @@ import SupabaseDebug from "@/components/SupabaseDebug";
 import WorldViewer from "@/components/WorldViewer";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import CommandSuggestions from "@/components/CommandSuggestions";
+import CookieConsent from "@/components/CookieConsent";
+import PrivacyPolicy from "@/components/PrivacyPolicy";
+import { analytics } from "@/lib/analytics";
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);
@@ -26,6 +29,9 @@ export default function Home() {
   const [demoMode, setDemoMode] = useState(false);
   const [demoStep, setDemoStep] = useState(0);
   const [lastActivity, setLastActivity] = useState(Date.now());
+  
+  // GDPR consent state
+  const [consentGiven, setConsentGiven] = useState<boolean | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -129,6 +135,12 @@ export default function Home() {
       handleNavigateToWorld(command);
     }
   }, [handleAddToCommandHistory, handleNavigateToWorld]);
+
+  // Handle GDPR consent
+  const handleConsentChange = useCallback((consent: boolean) => {
+    setConsentGiven(consent);
+    analytics.setConsent(consent);
+  }, []);
 
   if (!mounted) {
     return (
@@ -309,17 +321,30 @@ export default function Home() {
               </a>
             </div>
           </div>
-          <p
-            className="font-mono text-xs"
-            style={{ color: "var(--theme-muted)" }}
-          >
-            © 2024 Tijo Thomas | Interactive Portfolio Terminal
-          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
+            <p
+              className="font-mono text-xs"
+              style={{ color: "var(--theme-muted)" }}
+            >
+              © 2024 Tijo Thomas | Interactive Portfolio Terminal
+            </p>
+            <div className="flex items-center gap-3">
+              <PrivacyPolicy />
+              <span className="text-xs" style={{ color: "var(--theme-muted)" }}>
+                {consentGiven === true ? '🟢 Analytics On' : 
+                 consentGiven === false ? '🔴 Analytics Off' : 
+                 '⚪ Pending Consent'}
+              </span>
+            </div>
+          </div>
         </div>
       </div>
 
       {/* Floating AI Assistant */}
       <FloatingAIAssistant />
+      
+      {/* GDPR Cookie Consent */}
+      <CookieConsent onConsentChange={handleConsentChange} />
     </main>
   );
 }

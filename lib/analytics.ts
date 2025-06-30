@@ -2,19 +2,20 @@
 import { SessionManager } from './session';
 
 // Optional Supabase integration - gracefully fails if not configured
-let supabaseAvailable = false;
+let supabaseAvailable = false; // Disabled pending GDPR compliance
 let storeAnalyticsEvent: any = null;
 let storeSessionData: any = null;
+let userConsent = false;
 
 try {
-  // Temporarily disable Supabase until tables are created
-  const supabaseEnabled = false; // Change to true when tables are created
-  
-  if (typeof window !== 'undefined' && 
-      supabaseEnabled &&
-      process.env.NEXT_PUBLIC_SUPABASE_URL && 
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY &&
-      process.env.NEXT_PUBLIC_SUPABASE_URL.includes('.supabase.co')) {
+  // Enable Supabase analytics (set to false if you want local-only)
+  const supabaseEnabled = true; // Tables created - ready for Supabase analytics
+
+  if (typeof window !== 'undefined' &&
+    supabaseEnabled &&
+    process.env.NEXT_PUBLIC_SUPABASE_URL &&
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY &&
+    process.env.NEXT_PUBLIC_SUPABASE_URL.includes('.supabase.co')) {
     const supabaseModule = require('./supabase');
     storeAnalyticsEvent = supabaseModule.storeAnalyticsEvent;
     storeSessionData = supabaseModule.storeSessionData;
@@ -58,12 +59,44 @@ class Analytics {
   private currentSession: VisitorSession | null = null;
   private readonly STORAGE_KEY = 'tijothomas-analytics';
   private readonly SESSION_KEY = 'tijothomas-session';
+  private readonly CONSENT_KEY = 'tijothomas-cookie-consent';
 
   constructor() {
     if (typeof window !== 'undefined') {
+      this.checkConsent();
       this.initSession();
       this.setupBeforeUnload();
     }
+  }
+
+  private checkConsent(): void {
+    const consent = localStorage.getItem(this.CONSENT_KEY);
+    userConsent = consent === 'true';
+    supabaseAvailable = userConsent && supabaseAvailable;
+  }
+
+  public setConsent(consent: boolean): void {
+    userConsent = consent;
+    localStorage.setItem(this.CONSENT_KEY, consent.toString());
+    supabaseAvailable = consent && storeAnalyticsEvent !== null;
+    
+    if (!consent) {
+      // Clear any existing data if user revokes consent
+      this.clearAllData();
+    } else {
+      // Re-initialize if consent is given
+      this.initSession();
+    }
+  }
+
+  public hasConsent(): boolean {
+    return userConsent;
+  }
+
+  private clearAllData(): void {
+    localStorage.removeItem(this.STORAGE_KEY);
+    sessionStorage.removeItem(this.SESSION_KEY);
+    this.currentSession = null;
   }
 
   private generateSessionId(): string {
@@ -72,7 +105,7 @@ class Analytics {
 
   private getDeviceInfo(): string {
     if (typeof window === 'undefined') return 'unknown';
-    
+
     const width = window.innerWidth;
     if (width < 768) return 'mobile';
     if (width < 1024) return 'tablet';
@@ -82,7 +115,7 @@ class Analytics {
   private initSession() {
     const persistentSessionId = SessionManager.getSessionId();
     const existingSession = sessionStorage.getItem(this.SESSION_KEY);
-    
+
     if (!existingSession) {
       // New session
       this.currentSession = {
@@ -115,17 +148,17 @@ class Analytics {
     const sessionId = this.currentSession?.sessionId;
     const today = new Date().toDateString();
     const lastVisitDate = analytics.lastVisit ? new Date(analytics.lastVisit).toDateString() : '';
-    
+
     // Track unique visitors by session ID
     const visitedSessions = analytics.visitedSessions || [];
     const isNewVisitor = sessionId && !visitedSessions.includes(sessionId);
-    
+
     if (isNewVisitor) {
       analytics.totalVisitors++;
       visitedSessions.push(sessionId);
       analytics.visitedSessions = visitedSessions;
     }
-    
+
     // Always increment session count
     analytics.totalSessions++;
     analytics.lastVisit = Date.now();
@@ -137,7 +170,7 @@ class Analytics {
     if (stored) {
       return JSON.parse(stored);
     }
-    
+
     return {
       totalVisitors: 0,
       totalSessions: 0,
@@ -164,11 +197,11 @@ class Analytics {
       const sessionData = {
         session_id: this.currentSession.sessionId,
         start_time: new Date(this.currentSession.startTime).toISOString(),
-        end_time: event === 'end' && this.currentSession.endTime 
-          ? new Date(this.currentSession.endTime).toISOString() 
+        end_time: event === 'end' && this.currentSession.endTime
+          ? new Date(this.currentSession.endTime).toISOString()
           : undefined,
-        duration: event === 'end' && this.currentSession.endTime 
-          ? this.currentSession.endTime - this.currentSession.startTime 
+        duration: event === 'end' && this.currentSession.endTime
+          ? this.currentSession.endTime - this.currentSession.startTime
           : undefined,
         total_commands: this.currentSession.commands.length,
         total_questions: this.currentSession.chatQuestions.length,
@@ -189,9 +222,9 @@ class Analytics {
         storeAnalyticsEvent({
           session_id: this.currentSession.sessionId,
           event_type: `session_${event}` as any,
-          event_data: { 
+          event_data: {
             device: this.currentSession.device,
-            theme: this.currentSession.theme 
+            theme: this.currentSession.theme
           },
           user_agent: metadata.userAgent,
           device_type: this.currentSession.device,
@@ -229,7 +262,7 @@ class Analytics {
     const sessionDuration = this.currentSession.endTime - this.currentSession.startTime;
 
     const analytics = this.getAnalyticsData();
-    
+
     // Update average session duration
     const totalDuration = analytics.averageSessionDuration * (analytics.totalSessions - 1) + sessionDuration;
     analytics.averageSessionDuration = totalDuration / analytics.totalSessions;
@@ -285,16 +318,16 @@ class Analytics {
 
     // Extract key phrases for better analytics
     const keyPhrases = this.extractKeyPhrases(question);
-    
+
     this.currentSession.chatQuestions.push(question);
     sessionStorage.setItem(this.SESSION_KEY, JSON.stringify(this.currentSession));
 
     const analytics = this.getAnalyticsData();
-    
+
     keyPhrases.forEach(phrase => {
       analytics.popularQuestions[phrase] = (analytics.popularQuestions[phrase] || 0) + 1;
     });
-    
+
     analytics.totalQuestions++;
     this.saveAnalyticsData(analytics);
 
@@ -324,7 +357,7 @@ class Analytics {
 
   private extractKeyPhrases(question: string): string[] {
     const commonWords = ['i', 'a', 'an', 'the', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could', 'should', 'can', 'may', 'might', 'must', 'to', 'of', 'in', 'for', 'on', 'with', 'by', 'from', 'up', 'about', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'between', 'among', 'and', 'or', 'but', 'so', 'if', 'when', 'where', 'why', 'how', 'what', 'who', 'which', 'that', 'this', 'these', 'those'];
-    
+
     const words = question.toLowerCase()
       .replace(/[^\w\s]/g, ' ')
       .split(/\s+/)
@@ -332,7 +365,7 @@ class Analytics {
 
     // Return top keywords and some common phrases
     const phrases = [];
-    
+
     if (question.toLowerCase().includes('experience')) phrases.push('experience');
     if (question.toLowerCase().includes('skill')) phrases.push('skills');
     if (question.toLowerCase().includes('project')) phrases.push('projects');
@@ -342,13 +375,13 @@ class Analytics {
     if (question.toLowerCase().includes('react')) phrases.push('react');
     if (question.toLowerCase().includes('typescript')) phrases.push('typescript');
     if (question.toLowerCase().includes('bet365')) phrases.push('bet365');
-    
+
     return Array.from(new Set([...phrases, ...words.slice(0, 3)]));
   }
 
   trackThemeChange(theme: string) {
     if (!this.currentSession) return;
-    
+
     this.currentSession.theme = theme;
     sessionStorage.setItem(this.SESSION_KEY, JSON.stringify(this.currentSession));
   }
@@ -361,18 +394,18 @@ class Analytics {
     };
   }
 
-  getTopCommands(limit: number = 5): Array<{command: string, count: number}> {
+  getTopCommands(limit: number = 5): Array<{ command: string, count: number }> {
     const analytics = this.getAnalyticsData();
     return Object.entries(analytics.popularCommands)
-      .sort(([,a], [,b]) => b - a)
+      .sort(([, a], [, b]) => b - a)
       .slice(0, limit)
       .map(([command, count]) => ({ command, count }));
   }
 
-  getTopQuestions(limit: number = 5): Array<{question: string, count: number}> {
+  getTopQuestions(limit: number = 5): Array<{ question: string, count: number }> {
     const analytics = this.getAnalyticsData();
     return Object.entries(analytics.popularQuestions)
-      .sort(([,a], [,b]) => b - a)
+      .sort(([, a], [, b]) => b - a)
       .slice(0, limit)
       .map(([question, count]) => ({ question, count }));
   }

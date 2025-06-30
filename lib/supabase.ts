@@ -85,6 +85,109 @@ export async function storeSessionData(session: SessionData): Promise<boolean> {
  * SQL schema for Supabase tables
  * Run these in your Supabase SQL editor:
  */
+/**
+ * Get aggregated analytics data from Supabase
+ */
+export async function getSupabaseAnalytics() {
+  try {
+    // Get unique session count (total visitors)
+    const { data: sessions, error: sessionsError } = await supabase
+      .from('user_sessions')
+      .select('session_id, total_commands, total_questions, theme_used, device_info, start_time, end_time, duration');
+
+    if (sessionsError) {
+      console.warn('Error fetching sessions:', sessionsError);
+      return null;
+    }
+
+    // Get command events
+    const { data: commandEvents, error: commandsError } = await supabase
+      .from('analytics_events')
+      .select('event_data')
+      .eq('event_type', 'command');
+
+    if (commandsError) {
+      console.warn('Error fetching commands:', commandsError);
+    }
+
+    // Get chat events  
+    const { data: chatEvents, error: chatError } = await supabase
+      .from('analytics_events')
+      .select('event_data')
+      .eq('event_type', 'chat');
+
+    if (chatError) {
+      console.warn('Error fetching chat events:', chatError);
+    }
+
+    // Process the data
+    const uniqueSessions = new Set(sessions?.map(s => s.session_id)).size;
+    const totalSessions = sessions?.length || 0;
+    
+    // Calculate average session duration
+    const validDurations = sessions?.filter(s => s.duration).map(s => s.duration) || [];
+    const avgDuration = validDurations.length > 0 
+      ? validDurations.reduce((a, b) => a + b, 0) / validDurations.length 
+      : 0;
+
+    // Count commands
+    const commandCounts: { [key: string]: number } = {};
+    commandEvents?.forEach(event => {
+      const command = event.event_data?.command;
+      if (command) {
+        commandCounts[command] = (commandCounts[command] || 0) + 1;
+      }
+    });
+
+    // Count chat topics
+    const questionCounts: { [key: string]: number } = {};
+    chatEvents?.forEach(event => {
+      const question = event.event_data?.question;
+      const keywords = event.event_data?.metadata?.keyPhrases || [];
+      keywords.forEach((keyword: string) => {
+        questionCounts[keyword] = (questionCounts[keyword] || 0) + 1;
+      });
+    });
+
+    // Count themes and devices
+    const themeCounts: { [key: string]: number } = {};
+    const deviceCounts: { [key: string]: number } = {};
+    
+    sessions?.forEach(session => {
+      if (session.theme_used) {
+        themeCounts[session.theme_used] = (themeCounts[session.theme_used] || 0) + 1;
+      }
+      if (session.device_info) {
+        deviceCounts[session.device_info] = (deviceCounts[session.device_info] || 0) + 1;
+      }
+    });
+
+    return {
+      totalVisitors: uniqueSessions,
+      totalSessions,
+      averageSessionDuration: avgDuration,
+      totalCommands: commandEvents?.length || 0,
+      totalQuestions: chatEvents?.length || 0,
+      popularCommands: commandCounts,
+      popularQuestions: questionCounts,
+      themes: themeCounts,
+      devices: deviceCounts,
+      lastUpdated: new Date().toISOString()
+    };
+
+  } catch (error) {
+    console.error('Error fetching Supabase analytics:', error);
+    return null;
+  }
+}
+
+/**
+ * Check if Supabase is properly configured
+ */
+export function isSupabaseConfigured(): boolean {
+  return !!(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+}
+
 export const SUPABASE_SCHEMA = `
 -- Analytics Events Table
 CREATE TABLE IF NOT EXISTS analytics_events (

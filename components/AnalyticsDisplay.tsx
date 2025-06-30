@@ -131,6 +131,7 @@ const AnalyticsDisplay = () => {
                     <div>Total Visitors: <span style={{ color: 'var(--theme-accent)' }}>{analyticsData.totalVisitors}</span></div>
                     <div>Total Sessions: <span style={{ color: 'var(--theme-accent)' }}>{analyticsData.totalSessions}</span></div>
                     <div>Avg Session: <span style={{ color: 'var(--theme-accent)' }}>{analyticsData.formattedDuration}</span></div>
+                    <div>Database: <span style={{ color: analyticsData.supabaseStatus === 'Connected' ? 'var(--theme-accent)' : '#fbbf24' }}>{analyticsData.supabaseStatus}</span></div>
                   </div>
                 </div>
 

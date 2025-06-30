@@ -7,6 +7,7 @@ import SoundControls from "@/components/SoundControls";
 import ThemeControls from "@/components/ThemeControls";
 import AnalyticsDisplay from "@/components/AnalyticsDisplay";
 import EnhancedChatAgent from "@/components/EnhancedChatAgent";
+import SupabaseDebug from "@/components/SupabaseDebug";
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);
@@ -72,6 +73,11 @@ export default function Home() {
           {/* Chat Agent - Responsive height based on screen size */}
           <div className="h-1/2 sm:h-2/5 md:h-1/2 min-h-0" style={{ fontSize: `${zoom}%` }}>
             <EnhancedChatAgent />
+          </div>
+          
+          {/* Debug Panel - Temporary */}
+          <div className="p-4">
+            <SupabaseDebug />
           </div>
         </div>
 

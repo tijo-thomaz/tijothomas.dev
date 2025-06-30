@@ -1,6 +1,22 @@
 // Visitor Analytics System
 import { SessionManager } from './session';
-import { storeAnalyticsEvent, storeSessionData, type AnalyticsEvent, type SessionData } from './supabase';
+
+// Optional Supabase integration - gracefully fails if not configured
+let supabaseAvailable = false;
+let storeAnalyticsEvent: any = null;
+let storeSessionData: any = null;
+
+try {
+  if (typeof window !== 'undefined' && process.env.NEXT_PUBLIC_SUPABASE_URL) {
+    const supabaseModule = require('./supabase');
+    storeAnalyticsEvent = supabaseModule.storeAnalyticsEvent;
+    storeSessionData = supabaseModule.storeSessionData;
+    supabaseAvailable = true;
+  }
+} catch (error) {
+  console.log('Supabase not configured - using local analytics only');
+  supabaseAvailable = false;
+}
 
 interface VisitorSession {
   sessionId: string;
@@ -26,6 +42,7 @@ interface AnalyticsData {
   totalCommands: number;
   totalQuestions: number;
   lastVisit: number;
+  visitedSessions?: string[];
 }
 
 class Analytics {
@@ -73,6 +90,7 @@ class Analytics {
 
       sessionStorage.setItem(this.SESSION_KEY, JSON.stringify(this.currentSession));
       this.incrementVisitorCount();
+      this.storeSessionToSupabase('start');
     } else {
       // Existing session - update with persistent session ID
       this.currentSession = JSON.parse(existingSession);
@@ -85,14 +103,21 @@ class Analytics {
 
   private incrementVisitorCount() {
     const analytics = this.getAnalyticsData();
+    const sessionId = this.currentSession?.sessionId;
     const today = new Date().toDateString();
     const lastVisitDate = analytics.lastVisit ? new Date(analytics.lastVisit).toDateString() : '';
     
-    // Only count as new visitor if it's a new day or first visit
-    if (today !== lastVisitDate) {
+    // Track unique visitors by session ID
+    const visitedSessions = analytics.visitedSessions || [];
+    const isNewVisitor = sessionId && !visitedSessions.includes(sessionId);
+    
+    if (isNewVisitor) {
       analytics.totalVisitors++;
+      visitedSessions.push(sessionId);
+      analytics.visitedSessions = visitedSessions;
     }
     
+    // Always increment session count
     analytics.totalSessions++;
     analytics.lastVisit = Date.now();
     this.saveAnalyticsData(analytics);
@@ -120,6 +145,53 @@ class Analytics {
 
   private saveAnalyticsData(data: AnalyticsData) {
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
+  }
+
+  private storeSessionToSupabase(event: 'start' | 'end') {
+    if (!supabaseAvailable || !storeSessionData || !this.currentSession) return;
+
+    try {
+      const metadata = SessionManager.getSessionMetadata();
+      const sessionData = {
+        session_id: this.currentSession.sessionId,
+        start_time: new Date(this.currentSession.startTime).toISOString(),
+        end_time: event === 'end' && this.currentSession.endTime 
+          ? new Date(this.currentSession.endTime).toISOString() 
+          : undefined,
+        duration: event === 'end' && this.currentSession.endTime 
+          ? this.currentSession.endTime - this.currentSession.startTime 
+          : undefined,
+        total_commands: this.currentSession.commands.length,
+        total_questions: this.currentSession.chatQuestions.length,
+        theme_used: this.currentSession.theme,
+        device_info: this.currentSession.device,
+        user_agent: metadata.userAgent,
+        screen_resolution: metadata.screenResolution
+      };
+
+      storeSessionData(sessionData).catch((error: any) => {
+        console.warn('Failed to store session to Supabase:', error);
+      });
+
+      // Also store session event
+      if (storeAnalyticsEvent) {
+        storeAnalyticsEvent({
+          session_id: this.currentSession.sessionId,
+          event_type: `session_${event}` as any,
+          event_data: { 
+            device: this.currentSession.device,
+            theme: this.currentSession.theme 
+          },
+          user_agent: metadata.userAgent,
+          device_type: this.currentSession.device,
+          screen_resolution: metadata.screenResolution
+        }).catch((error: any) => {
+          console.warn('Failed to store session event to Supabase:', error);
+        });
+      }
+    } catch (error) {
+      console.warn('Supabase session storage error:', error);
+    }
   }
 
   private setupBeforeUnload() {
@@ -154,6 +226,7 @@ class Analytics {
     analytics.themes[this.currentSession.theme] = (analytics.themes[this.currentSession.theme] || 0) + 1;
 
     this.saveAnalyticsData(analytics);
+    this.storeSessionToSupabase('end');
     sessionStorage.removeItem(this.SESSION_KEY);
   }
 
@@ -168,16 +241,24 @@ class Analytics {
     analytics.totalCommands++;
     this.saveAnalyticsData(analytics);
 
-    // Store to Supabase
-    const metadata = SessionManager.getSessionMetadata();
-    storeAnalyticsEvent({
-      session_id: this.currentSession.sessionId,
-      event_type: 'command',
-      event_data: { command },
-      user_agent: metadata.userAgent,
-      device_type: this.getDeviceInfo(),
-      screen_resolution: metadata.screenResolution
-    });
+    // Store to Supabase (if available)
+    if (supabaseAvailable && storeAnalyticsEvent) {
+      try {
+        const metadata = SessionManager.getSessionMetadata();
+        storeAnalyticsEvent({
+          session_id: this.currentSession.sessionId,
+          event_type: 'command',
+          event_data: { command },
+          user_agent: metadata.userAgent,
+          device_type: this.getDeviceInfo(),
+          screen_resolution: metadata.screenResolution
+        }).catch((error: any) => {
+          console.warn('Failed to store command to Supabase:', error);
+        });
+      } catch (error) {
+        console.warn('Supabase command tracking error:', error);
+      }
+    }
   }
 
   trackChatQuestion(question: string) {
@@ -198,16 +279,24 @@ class Analytics {
     analytics.totalQuestions++;
     this.saveAnalyticsData(analytics);
 
-    // Store to Supabase
-    const metadata = SessionManager.getSessionMetadata();
-    storeAnalyticsEvent({
-      session_id: this.currentSession.sessionId,
-      event_type: 'chat',
-      event_data: { question, metadata: { keyPhrases } },
-      user_agent: metadata.userAgent,
-      device_type: this.getDeviceInfo(),
-      screen_resolution: metadata.screenResolution
-    });
+    // Store to Supabase (if available)
+    if (supabaseAvailable && storeAnalyticsEvent) {
+      try {
+        const metadata = SessionManager.getSessionMetadata();
+        storeAnalyticsEvent({
+          session_id: this.currentSession.sessionId,
+          event_type: 'chat',
+          event_data: { question, metadata: { keyPhrases } },
+          user_agent: metadata.userAgent,
+          device_type: this.getDeviceInfo(),
+          screen_resolution: metadata.screenResolution
+        }).catch((error: any) => {
+          console.warn('Failed to store chat to Supabase:', error);
+        });
+      } catch (error) {
+        console.warn('Supabase chat tracking error:', error);
+      }
+    }
   }
 
   private extractKeyPhrases(question: string): string[] {
@@ -241,8 +330,12 @@ class Analytics {
     sessionStorage.setItem(this.SESSION_KEY, JSON.stringify(this.currentSession));
   }
 
-  getAnalytics(): AnalyticsData {
-    return this.getAnalyticsData();
+  getAnalytics(): AnalyticsData & { supabaseStatus: string } {
+    const data = this.getAnalyticsData();
+    return {
+      ...data,
+      supabaseStatus: supabaseAvailable ? 'Connected' : 'Local Only'
+    };
   }
 
   getTopCommands(limit: number = 5): Array<{command: string, count: number}> {

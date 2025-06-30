@@ -46,17 +46,28 @@ export interface SessionData {
  */
 export async function storeAnalyticsEvent(event: AnalyticsEvent): Promise<boolean> {
   try {
+    // Check if Supabase is properly configured
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+      return false; // Silently fail if not configured
+    }
+
     const { error } = await supabase
       .from('analytics_events')
       .insert([event]);
     
     if (error) {
-      console.warn('Failed to store analytics event:', error);
+      // Only log in development
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('Failed to store analytics event:', error);
+      }
       return false;
     }
     return true;
   } catch (error) {
-    console.warn('Analytics storage error:', error);
+    // Only log in development
+    if (process.env.NODE_ENV === 'development') {
+      console.warn('Analytics storage error:', error);
+    }
     return false;
   }
 }
@@ -66,17 +77,28 @@ export async function storeAnalyticsEvent(event: AnalyticsEvent): Promise<boolea
  */
 export async function storeSessionData(session: SessionData): Promise<boolean> {
   try {
+    // Check if Supabase is properly configured
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+      return false; // Silently fail if not configured
+    }
+
     const { error } = await supabase
       .from('user_sessions')
       .upsert([session], { onConflict: 'session_id' });
     
     if (error) {
-      console.warn('Failed to store session data:', error);
+      // Only log in development
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('Failed to store session data:', error);
+      }
       return false;
     }
     return true;
   } catch (error) {
-    console.warn('Session storage error:', error);
+    // Only log in development
+    if (process.env.NODE_ENV === 'development') {
+      console.warn('Session storage error:', error);
+    }
     return false;
   }
 }

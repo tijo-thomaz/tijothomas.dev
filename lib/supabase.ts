@@ -9,21 +9,16 @@ const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 
 export const supabase = createClient(supabaseUrl, supabaseKey);
 
-// Analytics data structure
+// Privacy-first analytics data structure
 export interface AnalyticsEvent {
   id?: string;
   session_id: string;
-  event_type: 'command' | 'chat' | 'theme_change' | 'session_start' | 'session_end';
+  event_type: 'command' | 'theme_change'; // Removed 'chat' for privacy
   event_data: {
     command?: string;
-    question?: string;
     theme?: string;
-    metadata?: any;
   };
   created_at?: string;
-  user_agent?: string;
-  device_type?: string;
-  screen_resolution?: string;
 }
 
 export interface SessionData {
@@ -32,12 +27,19 @@ export interface SessionData {
   start_time: string;
   end_time?: string;
   duration?: number;
-  total_commands: number;
-  total_questions: number;
-  theme_used: string;
-  device_info: string;
-  user_agent: string;
-  screen_resolution: string;
+  consent_given: boolean;
+  device_type: string; // mobile/tablet/desktop only
+  commands_count: number;
+  questions_count: number;
+  data_retention_hours: number;
+  created_at?: string;
+}
+
+export interface VisitorStats {
+  id?: string;
+  date: string;
+  visitor_count: number;
+  unique_sessions: number;
   created_at?: string;
 }
 
@@ -200,6 +202,73 @@ export async function getSupabaseAnalytics() {
   } catch (error) {
     console.error('Error fetching Supabase analytics:', error);
     return null;
+  }
+}
+
+/**
+ * Delete user's session data (GDPR compliance)
+ */
+export async function deleteUserSessionData(sessionId: string): Promise<boolean> {
+  try {
+    // Check if Supabase is properly configured
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+      return false;
+    }
+
+    // Call the database function to delete user data
+    const { error } = await supabase.rpc('delete_user_session_data', {
+      user_session_id: sessionId
+    });
+    
+    if (error) {
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('Failed to delete user session data:', error);
+      }
+      return false;
+    }
+    return true;
+  } catch (error) {
+    if (process.env.NODE_ENV === 'development') {
+      console.warn('User data deletion error:', error);
+    }
+    return false;
+  }
+}
+
+/**
+ * Update daily visitor count (anonymous)
+ */
+export async function updateVisitorStats(): Promise<boolean> {
+  try {
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+      return false;
+    }
+
+    const today = new Date().toISOString().split('T')[0];
+    
+    const { error } = await supabase
+      .from('visitor_stats')
+      .upsert({
+        date: today,
+        visitor_count: 1,
+        unique_sessions: 1
+      }, {
+        onConflict: 'date',
+        ignoreDuplicates: false
+      });
+    
+    if (error) {
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('Failed to update visitor stats:', error);
+      }
+      return false;
+    }
+    return true;
+  } catch (error) {
+    if (process.env.NODE_ENV === 'development') {
+      console.warn('Visitor stats error:', error);
+    }
+    return false;
   }
 }
 

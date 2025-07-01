@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Send, Bot, User, Sparkles, Wifi, WifiOff } from "lucide-react";
 import { soundManager } from "@/lib/sounds";
-import { analytics } from "@/lib/analytics";
+import { trackQuestion } from "@/lib/simple-analytics";
 import ContactActions from "./ContactActions";
 import ContactMessage from "./ContactMessage";
 
@@ -286,6 +286,9 @@ const EnhancedChatAgent = () => {
     const messageToSend = messageText || input.trim();
     if (!messageToSend) return;
 
+    // Track question anonymously
+    trackQuestion();
+
     const userMessage: Message = {
       id: Date.now().toString(),
       text: messageToSend,
@@ -298,7 +301,7 @@ const EnhancedChatAgent = () => {
     setIsTyping(true);
 
     // Track chat question
-    analytics.trackChatQuestion(messageToSend);
+    // analytics.trackChatQuestion(messageToSend); // Disabled for privacy
 
     // Add to conversation context
     const newContext = [...conversationContext, messageToSend].slice(-5);

@@ -1,58 +1,50 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { DatabaseService, VisitorSession } from '@/lib/database';
+import { supabase } from '@/lib/supabase';
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { action, data } = body;
+    const { type } = body; // 'visit', 'command', or 'question'
+    
+    const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
 
-    switch (action) {
-      case 'start_session':
-        const session: VisitorSession = {
-          session_id: data.sessionId,
-          visitor_id: data.visitorId,
-          start_time: new Date().toISOString(),
-          device_type: data.deviceType,
-          user_agent: data.userAgent,
-          theme_used: data.theme,
-          sound_enabled: data.soundEnabled,
-          zoom_level: data.zoomLevel,
-          commands_executed: [],
-          chat_questions: [],
-        };
-
-        const result = await DatabaseService.storeSession(session);
-        return NextResponse.json({ success: true, session: result });
-
-      case 'update_session':
-        const updates = {
-          commands_executed: data.commands || [],
-          chat_questions: data.questions || [],
-          theme_used: data.theme,
-          sound_enabled: data.soundEnabled,
-          zoom_level: data.zoomLevel,
-        };
-
-        await DatabaseService.updateSession(data.sessionId, updates);
-        return NextResponse.json({ success: true });
-
-      case 'end_session':
-        const endUpdates = {
-          end_time: new Date().toISOString(),
-          duration_seconds: data.durationSeconds,
-          commands_executed: data.commands || [],
-          chat_questions: data.questions || [],
-        };
-
-        await DatabaseService.updateSession(data.sessionId, endUpdates);
-        return NextResponse.json({ success: true });
-
-      default:
-        return NextResponse.json(
-          { error: 'Invalid action' },
-          { status: 400 }
-        );
+    if (type === 'visit') {
+      // Increment daily visit count
+      const { error } = await supabase.rpc('increment_daily_visits', {
+        input_date: today
+      });
+      
+      if (error) {
+        console.warn('Supabase visit tracking failed:', error);
+        return NextResponse.json({ success: false, error: error.message });
+      }
+    } 
+    else if (type === 'command') {
+      // Increment commands used count
+      const { error } = await supabase.rpc('increment_usage_stat', {
+        input_date: today,
+        input_type: 'commands_used'
+      });
+      
+      if (error) {
+        console.warn('Supabase command tracking failed:', error);
+        return NextResponse.json({ success: false, error: error.message });
+      }
     }
+    else if (type === 'question') {
+      // Increment AI questions count
+      const { error } = await supabase.rpc('increment_usage_stat', {
+        input_date: today,
+        input_type: 'ai_questions'
+      });
+      
+      if (error) {
+        console.warn('Supabase question tracking failed:', error);
+        return NextResponse.json({ success: false, error: error.message });
+      }
+    }
+
+    return NextResponse.json({ success: true });
 
   } catch (error) {
     console.error('Analytics API Error:', error);
@@ -65,16 +57,36 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   try {
-    const analytics = await DatabaseService.getAnalyticsSummary();
-    
-    if (!analytics) {
-      return NextResponse.json(
-        { error: 'Failed to fetch analytics' },
-        { status: 500 }
-      );
+    // Get daily visits
+    const { data: visitsData, error: visitsError } = await supabase
+      .from('daily_visits')
+      .select('*')
+      .order('visit_date', { ascending: false })
+      .limit(30); // Last 30 days
+
+    // Get usage stats
+    const { data: usageData, error: usageError } = await supabase
+      .from('usage_stats')
+      .select('*')
+      .order('stat_date', { ascending: false })
+      .limit(30); // Last 30 days
+
+    if (visitsError || usageError) {
+      console.warn('Supabase read error:', visitsError || usageError);
+      return NextResponse.json({ 
+        visits: [],
+        usage: [],
+        error: 'Database read failed'
+      });
     }
 
-    return NextResponse.json(analytics);
+    return NextResponse.json({
+      visits: visitsData || [],
+      usage: usageData || [],
+      totalVisits: visitsData?.reduce((sum, day) => sum + (day.visit_count || 0), 0) || 0,
+      totalCommands: usageData?.reduce((sum, day) => sum + (day.commands_used || 0), 0) || 0,
+      totalQuestions: usageData?.reduce((sum, day) => sum + (day.ai_questions || 0), 0) || 0,
+    });
 
   } catch (error) {
     console.error('Analytics GET Error:', error);

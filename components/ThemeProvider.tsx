@@ -7,7 +7,6 @@ import {
   useState,
   ReactNode,
 } from "react";
-import { analytics } from "@/lib/analytics";
 
 type Theme = "terminal" | "light" | "dark" | "cyber";
 
@@ -71,7 +70,6 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
 
   const handleSetTheme = (newTheme: Theme) => {
     setTheme(newTheme);
-    analytics.trackThemeChange(newTheme);
   };
 
   return (

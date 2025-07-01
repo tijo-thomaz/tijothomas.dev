@@ -368,6 +368,8 @@ const EnhancedChatAgent = () => {
         backgroundColor: "var(--theme-card)",
         borderColor: "transparent",
       }}
+      role="region"
+      aria-label="AI chat assistant"
     >
       <CardHeader
         className="py-3 px-4 flex-shrink-0 border-b-0 transition-colors duration-300"
@@ -395,7 +397,12 @@ const EnhancedChatAgent = () => {
       </CardHeader>
 
       <CardContent className="flex-1 flex flex-col p-0 min-h-0 overflow-hidden">
-        <div className="flex-1 overflow-y-auto p-3 space-y-3 min-h-0 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-300">
+        <div 
+          className="flex-1 overflow-y-auto p-3 space-y-3 min-h-0 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-300"
+          role="log"
+          aria-live="polite"
+          aria-label="Chat conversation history"
+        >
           {messages.map((message) => (
             <div
               key={message.id}
@@ -413,11 +420,13 @@ const EnhancedChatAgent = () => {
                     <User
                       className="w-3 h-3"
                       style={{ color: "var(--theme-accent)" }}
+                      aria-hidden="true"
                     />
                   ) : (
                     <Bot
                       className="w-3 h-3"
                       style={{ color: "var(--theme-accent)" }}
+                      aria-hidden="true"
                     />
                   )}
                 </div>
@@ -436,6 +445,8 @@ const EnhancedChatAgent = () => {
                           borderColor: "var(--theme-border)",
                         }
                   }
+                  role="article"
+                  aria-label={`${message.isUser ? "User" : "AI Assistant"} message`}
                 >
                   {message.text === "SHOW_CONTACT_ACTIONS" ? (
                     <ContactMessage />
@@ -476,20 +487,21 @@ const EnhancedChatAgent = () => {
 
           {/* Quick Reply Buttons */}
           {messages.length === 1 && (
-            <div className="flex flex-wrap gap-1 px-3">
+            <div className="flex flex-wrap gap-1 px-3" role="group" aria-label="Quick reply suggestions">
               {quickReplies.map((reply, index) => (
                 <Button
                   key={index}
                   variant="outline"
                   size="sm"
                   onClick={() => handleSendMessage(reply)}
-                  className="border hover:opacity-80 zoom-text-xs px-2 py-1 transition-all duration-300"
+                  className="border hover:opacity-80 zoom-text-xs px-2 py-1 transition-all duration-300 focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
                   style={{
                     backgroundColor: "var(--theme-muted)",
                     borderColor: "var(--theme-border)",
                     color: "var(--theme-text)",
                   }}
                   disabled={isTyping}
+                  aria-label={`Quick reply: ${reply}`}
                 >
                   {reply}
                 </Button>
@@ -563,26 +575,35 @@ const EnhancedChatAgent = () => {
                   ? "Ask about skills, experience..."
                   : "Currently offline"
               }
-              className="font-mono text-sm border transition-colors duration-300 flex-1"
+              className="font-mono text-sm border transition-colors duration-300 flex-1 focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
               style={{
                 backgroundColor: "var(--theme-muted)",
                 borderColor: "var(--theme-border)",
                 color: "var(--theme-text)",
               }}
               disabled={isTyping || !isOnline}
+              aria-label="Chat message input. Ask questions about skills, experience, or projects"
+              aria-describedby="chat-help"
             />
             <Button
               onClick={() => handleSendMessage()}
               disabled={isTyping || !input.trim() || !isOnline}
-              className="px-3 py-2 border transition-colors duration-300 flex-shrink-0"
+              className="px-3 py-2 border transition-colors duration-300 flex-shrink-0 focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
               style={{
                 backgroundColor: "var(--theme-accent)",
                 borderColor: "var(--theme-accent)",
                 color: "var(--theme-bg)",
               }}
+              aria-label="Send message"
             >
-              <Send className="w-4 h-4" />
+              <Send className="w-4 h-4" aria-hidden="true" />
             </Button>
+          </div>
+          
+          {/* Hidden help text for screen readers */}
+          <div id="chat-help" className="sr-only">
+            Interactive AI chat assistant. Ask questions about skills, experience, projects, or any portfolio-related topics.
+            Use Enter to send messages.
           </div>
         </div>
       </CardContent>

@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { downloadFile, generatePDFResume } from "@/lib/utils";
 import { soundManager } from "@/lib/sounds";
-import { simpleAnalytics } from "@/lib/simple-analytics";
+import { trackCommand } from "@/lib/simple-analytics";
 
 interface Command {
   input: string;
@@ -470,7 +470,7 @@ const Terminal = ({
     }
 
     // Track command analytics (anonymous)
-    simpleAnalytics.trackCommand(cmd.trim());
+    trackCommand(cmd.trim());
   }, [commandHistory, currentDirectory, onEnter3DWorld, onSectionVisit, onNavigateToWorld, onAddToCommandHistory]);
 
   const handleSubmit = (e: React.FormEvent) => {

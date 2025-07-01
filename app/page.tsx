@@ -10,18 +10,21 @@ import FloatingAIAssistant from "@/components/FloatingAIAssistant";
 import WorldViewer from "@/components/WorldViewer";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import CommandSuggestions from "@/components/CommandSuggestions";
-import TrulyAnonymousNotice from "@/components/TrulyAnonymousNotice";
+import PrivacyPolicy from "@/components/PrivacyPolicy";
+import { trackVisit } from "@/lib/simple-analytics";
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);
   const [zoom, setZoom] = useState(100);
   const [current3DWorld, setCurrent3DWorld] = useState<string | null>(null);
-  
+
   // Persistent command history and navigation state
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [visitedSections, setVisitedSections] = useState<string[]>([]);
-  const [currentView, setCurrentView] = useState<'terminal' | 'interactive'>('terminal');
-  
+  const [currentView, setCurrentView] = useState<"terminal" | "interactive">(
+    "terminal"
+  );
+
   // Auto-demo state
   const [demoMode, setDemoMode] = useState(false);
   const [demoStep, setDemoStep] = useState(0);
@@ -29,6 +32,7 @@ export default function Home() {
 
   useEffect(() => {
     setMounted(true);
+    trackVisit(); // Track anonymous visit
   }, []);
 
   const handleZoomChange = useCallback((newZoom: number) => {
@@ -41,58 +45,103 @@ export default function Home() {
 
   const handle3DWorldExit = useCallback(() => {
     setCurrent3DWorld(null);
-    setCurrentView('terminal');
+    setCurrentView("terminal");
   }, []);
 
   // Command history management
-  const handleAddToCommandHistory = useCallback((command: string) => {
-    if (command.trim() && commandHistory[commandHistory.length - 1] !== command.trim()) {
-      setCommandHistory(prev => [...prev, command.trim()]);
-    }
-  }, [commandHistory]);
+  const handleAddToCommandHistory = useCallback(
+    (command: string) => {
+      if (
+        command.trim() &&
+        commandHistory[commandHistory.length - 1] !== command.trim()
+      ) {
+        setCommandHistory((prev) => [...prev, command.trim()]);
+      }
+    },
+    [commandHistory]
+  );
 
   // Section visit tracking (just tracking, no navigation)
-  const handleSectionVisit = useCallback((section: string) => {
-    if (!visitedSections.includes(section)) {
-      setVisitedSections(prev => [...prev, section]);
-    }
-  }, [visitedSections]);
+  const handleSectionVisit = useCallback(
+    (section: string) => {
+      if (!visitedSections.includes(section)) {
+        setVisitedSections((prev) => [...prev, section]);
+      }
+    },
+    [visitedSections]
+  );
 
   // Navigate to interactive world (for explore commands)
-  const handleNavigateToWorld = useCallback((section: string) => {
-    handleSectionVisit(section); // Track the visit
-    if (section === 'experience' || section === 'projects' || section === 'skills' || section === 'clients') {
-      setCurrentView('interactive');
-      setCurrent3DWorld(section);
-    }
-  }, [handleSectionVisit]);
+  const handleNavigateToWorld = useCallback(
+    (section: string) => {
+      handleSectionVisit(section); // Track the visit
+      if (
+        section === "experience" ||
+        section === "projects" ||
+        section === "skills" ||
+        section === "clients"
+      ) {
+        setCurrentView("interactive");
+        setCurrent3DWorld(section);
+      }
+    },
+    [handleSectionVisit]
+  );
 
   // Get section index for InteractiveWorldViewer navigation
   const getSectionIndex = useCallback((section: string) => {
     switch (section) {
-      case 'experience': return 0;
-      case 'skills': return 1;
-      case 'projects': return 2;
-      case 'clients': return 3;
-      default: return 0;
+      case "experience":
+        return 0;
+      case "skills":
+        return 1;
+      case "projects":
+        return 2;
+      case "clients":
+        return 3;
+      default:
+        return 0;
     }
   }, []);
 
   // Quick navigation from breadcrumbs
-  const handleQuickNavigate = useCallback((section: string) => {
-    handleNavigateToWorld(section);
-    handleAddToCommandHistory(section);
-    setLastActivity(Date.now());
-    setDemoMode(false); // Stop demo if user takes control
-  }, [handleNavigateToWorld, handleAddToCommandHistory]);
+  const handleQuickNavigate = useCallback(
+    (section: string) => {
+      handleNavigateToWorld(section);
+      handleAddToCommandHistory(section);
+      setLastActivity(Date.now());
+      setDemoMode(false); // Stop demo if user takes control
+    },
+    [handleNavigateToWorld, handleAddToCommandHistory]
+  );
 
   // Auto-demo functionality
   const demoCommands = [
-    { command: 'help', delay: 2000, message: '👋 Welcome! Let me show you around...' },
-    { command: 'experience', delay: 3000, message: '🏢 Let\'s explore my professional journey...' },
-    { command: 'projects', delay: 4000, message: '🚀 Check out some key projects...' },
-    { command: 'skills', delay: 3000, message: '⚛️ Here are my technical skills...' },
-    { command: 'contact', delay: 2000, message: '📧 Ready to connect? Here\'s how...' }
+    {
+      command: "help",
+      delay: 2000,
+      message: "👋 Welcome! Let me show you around...",
+    },
+    {
+      command: "experience",
+      delay: 3000,
+      message: "🏢 Let's explore my professional journey...",
+    },
+    {
+      command: "projects",
+      delay: 4000,
+      message: "🚀 Check out some key projects...",
+    },
+    {
+      command: "skills",
+      delay: 3000,
+      message: "⚛️ Here are my technical skills...",
+    },
+    {
+      command: "contact",
+      delay: 2000,
+      message: "📧 Ready to connect? Here's how...",
+    },
   ];
 
   // Track user activity to trigger demo
@@ -106,11 +155,12 @@ export default function Home() {
 
   // Auto-demo timer effect
   useEffect(() => {
-    if (currentView !== 'terminal' || visitedSections.length > 0) return;
+    if (currentView !== "terminal" || visitedSections.length > 0) return;
 
     const timer = setTimeout(() => {
       const timeSinceActivity = Date.now() - lastActivity;
-      if (timeSinceActivity >= 8000 && !demoMode) { // 8 seconds of inactivity
+      if (timeSinceActivity >= 8000 && !demoMode) {
+        // 8 seconds of inactivity
         setDemoMode(true);
         setDemoStep(0);
       }
@@ -120,17 +170,18 @@ export default function Home() {
   }, [lastActivity, demoMode, currentView, visitedSections.length]);
 
   // Execute command from suggestions or demo
-  const handleExecuteCommand = useCallback((command: string) => {
-    handleAddToCommandHistory(command);
-    setLastActivity(Date.now());
-    
-    // If it's a section command, navigate to world
-    if (['experience', 'projects', 'skills', 'clients'].includes(command)) {
-      handleNavigateToWorld(command);
-    }
-  }, [handleAddToCommandHistory, handleNavigateToWorld]);
+  const handleExecuteCommand = useCallback(
+    (command: string) => {
+      handleAddToCommandHistory(command);
+      setLastActivity(Date.now());
 
-
+      // If it's a section command, navigate to world
+      if (["experience", "projects", "skills", "clients"].includes(command)) {
+        handleNavigateToWorld(command);
+      }
+    },
+    [handleAddToCommandHistory, handleNavigateToWorld]
+  );
 
   if (!mounted) {
     return (
@@ -192,7 +243,7 @@ export default function Home() {
         <div className="flex-1 flex flex-col gap-2 md:gap-3 p-2 md:p-3 pt-0 min-h-0">
           {/* Terminal - Full height */}
           <div className="h-full min-h-0" style={{ fontSize: `${zoom}%` }}>
-            <Terminal 
+            <Terminal
               onEnter3DWorld={handle3DWorldEnter}
               onSectionVisit={handleSectionVisit}
               onNavigateToWorld={handleNavigateToWorld}
@@ -202,13 +253,13 @@ export default function Home() {
               demoStep={demoStep}
               demoCommands={demoCommands}
               onUserActivity={handleUserActivity}
-              onDemoStepComplete={() => setDemoStep(prev => prev + 1)}
+              onDemoStepComplete={() => setDemoStep((prev) => prev + 1)}
             />
           </div>
         </div>
 
         {/* Command Suggestions */}
-        {currentView === 'terminal' && (
+        {currentView === "terminal" && (
           <CommandSuggestions
             visitedSections={visitedSections}
             onExecuteCommand={handleExecuteCommand}
@@ -220,7 +271,7 @@ export default function Home() {
         )}
 
         {/* Breadcrumbs Navigation */}
-        <Breadcrumbs 
+        <Breadcrumbs
           visitedSections={visitedSections}
           onNavigate={handleQuickNavigate}
           currentView={currentView}
@@ -229,82 +280,87 @@ export default function Home() {
         {/* Footer - Minimal on mobile */}
         <div className="flex-shrink-0 p-0.5 sm:p-1 md:p-2 text-center space-y-0.5 sm:space-y-1">
           <div className="flex flex-wrap justify-center items-center gap-0.5 sm:gap-1 md:gap-2 text-xs font-mono">
-            <span className="hidden md:inline" style={{ color: "var(--theme-muted)" }}>Powered by:</span>
+            <span
+              className="hidden md:inline"
+              style={{ color: "var(--theme-muted)" }}
+            >
+              Powered by:
+            </span>
             <div className="flex flex-wrap justify-center gap-0.5 sm:gap-1 md:gap-2">
-              <a 
-                href="https://nextjs.org" 
-                target="_blank" 
+              <a
+                href="https://nextjs.org"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="px-1 py-0.5 md:px-2 md:py-1 rounded border transition-all duration-200 hover:scale-105 hover:opacity-80 text-xs" 
-                style={{ 
-                  backgroundColor: "var(--theme-surface)", 
+                className="px-1 py-0.5 md:px-2 md:py-1 rounded border transition-all duration-200 hover:scale-105 hover:opacity-80 text-xs"
+                style={{
+                  backgroundColor: "var(--theme-surface)",
                   borderColor: "var(--theme-border)",
-                  color: "var(--theme-accent)"
+                  color: "var(--theme-accent)",
                 }}
               >
                 Next.js 14
               </a>
-              <a 
-                href="https://www.typescriptlang.org" 
-                target="_blank" 
+              <a
+                href="https://www.typescriptlang.org"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="px-1 py-0.5 md:px-2 md:py-1 rounded border transition-all duration-200 hover:scale-105 hover:opacity-80 text-xs" 
-                style={{ 
-                  backgroundColor: "var(--theme-surface)", 
+                className="px-1 py-0.5 md:px-2 md:py-1 rounded border transition-all duration-200 hover:scale-105 hover:opacity-80 text-xs"
+                style={{
+                  backgroundColor: "var(--theme-surface)",
                   borderColor: "var(--theme-border)",
-                  color: "var(--theme-accent)"
+                  color: "var(--theme-accent)",
                 }}
               >
                 TypeScript
               </a>
-              <a 
-                href="https://tailwindcss.com" 
-                target="_blank" 
+              <a
+                href="https://tailwindcss.com"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="px-1 py-0.5 md:px-2 md:py-1 rounded border transition-all duration-200 hover:scale-105 hover:opacity-80 text-xs" 
-                style={{ 
-                  backgroundColor: "var(--theme-surface)", 
+                className="px-1 py-0.5 md:px-2 md:py-1 rounded border transition-all duration-200 hover:scale-105 hover:opacity-80 text-xs"
+                style={{
+                  backgroundColor: "var(--theme-surface)",
                   borderColor: "var(--theme-border)",
-                  color: "var(--theme-accent)"
+                  color: "var(--theme-accent)",
                 }}
               >
                 Tailwind CSS
               </a>
-              <a 
-                href="https://groq.com" 
-                target="_blank" 
+              <a
+                href="https://groq.com"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="px-1 py-0.5 md:px-2 md:py-1 rounded border transition-all duration-200 hover:scale-105 hover:opacity-80 text-xs" 
-                style={{ 
-                  backgroundColor: "var(--theme-surface)", 
+                className="px-1 py-0.5 md:px-2 md:py-1 rounded border transition-all duration-200 hover:scale-105 hover:opacity-80 text-xs"
+                style={{
+                  backgroundColor: "var(--theme-surface)",
                   borderColor: "var(--theme-border)",
-                  color: "var(--theme-accent)"
+                  color: "var(--theme-accent)",
                 }}
               >
                 Groq AI
               </a>
-              <a 
-                href="https://supabase.com" 
-                target="_blank" 
+              <a
+                href="https://supabase.com"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="px-1 py-0.5 md:px-2 md:py-1 rounded border transition-all duration-200 hover:scale-105 hover:opacity-80 text-xs" 
-                style={{ 
-                  backgroundColor: "var(--theme-surface)", 
+                className="px-1 py-0.5 md:px-2 md:py-1 rounded border transition-all duration-200 hover:scale-105 hover:opacity-80 text-xs"
+                style={{
+                  backgroundColor: "var(--theme-surface)",
                   borderColor: "var(--theme-border)",
-                  color: "var(--theme-accent)"
+                  color: "var(--theme-accent)",
                 }}
               >
                 Supabase
               </a>
-              <a 
-                href="https://vercel.com" 
-                target="_blank" 
+              <a
+                href="https://vercel.com"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="px-1 py-0.5 md:px-2 md:py-1 rounded border transition-all duration-200 hover:scale-105 hover:opacity-80 text-xs" 
-                style={{ 
-                  backgroundColor: "var(--theme-surface)", 
+                className="px-1 py-0.5 md:px-2 md:py-1 rounded border transition-all duration-200 hover:scale-105 hover:opacity-80 text-xs"
+                style={{
+                  backgroundColor: "var(--theme-surface)",
                   borderColor: "var(--theme-border)",
-                  color: "var(--theme-accent)"
+                  color: "var(--theme-accent)",
                 }}
               >
                 Vercel
@@ -316,12 +372,16 @@ export default function Home() {
               className="font-mono text-xs"
               style={{ color: "var(--theme-muted)" }}
             >
-              © 2024 Tijo Thomas | Interactive Portfolio Terminal
+              © 2025 Tijo Thomas | Interactive Portfolio Terminal
             </p>
             <div className="flex items-center gap-3 flex-wrap">
               <span className="text-xs" style={{ color: "var(--theme-muted)" }}>
                 🔒 Anonymous Analytics Only
               </span>
+              <span className="text-xs" style={{ color: "var(--theme-muted)" }}>
+                •
+              </span>
+              <PrivacyPolicy />
             </div>
           </div>
         </div>
@@ -329,9 +389,6 @@ export default function Home() {
 
       {/* Floating AI Assistant */}
       <FloatingAIAssistant />
-      
-      {/* Anonymous Analytics Notice */}
-      <TrulyAnonymousNotice />
     </main>
   );
 }

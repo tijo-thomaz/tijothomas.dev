@@ -22,6 +22,7 @@ interface TerminalProps {
   demoStep?: number;
   demoCommands?: Array<{ command: string; delay: number; message: string }>;
   onUserActivity?: () => void;
+  onTutorialActivity?: () => void;
   onDemoStepComplete?: () => void;
 }
 
@@ -35,6 +36,7 @@ const Terminal = ({
   demoStep = 0,
   demoCommands = [],
   onUserActivity,
+  onTutorialActivity,
   onDemoStepComplete
 }: TerminalProps) => {
   const [input, setInput] = useState("");
@@ -476,15 +478,24 @@ const Terminal = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (input.trim()) {
-      if (onUserActivity) onUserActivity();
+      // Use appropriate activity handler based on demo mode
+      if (demoMode && onTutorialActivity) {
+        onTutorialActivity();
+      } else if (!demoMode && onUserActivity) {
+        onUserActivity();
+      }
       executeCommand(input);
       setInput("");
     }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    // Track user activity on any keypress
-    if (onUserActivity) onUserActivity();
+    // Track user activity on any keypress - use appropriate handler
+    if (demoMode && onTutorialActivity) {
+      onTutorialActivity();
+    } else if (!demoMode && onUserActivity) {
+      onUserActivity();
+    }
     
     // Play keypress sound for most keys
     if (e.key.length === 1 || e.key === 'Backspace' || e.key === 'Delete') {
@@ -536,7 +547,9 @@ const Terminal = ({
 
   // Auto-demo typing effect
   useEffect(() => {
-    if (!demoMode || demoStep >= demoCommands.length || isAutoTyping) return;
+    if (!demoMode || demoStep >= demoCommands.length || isAutoTyping) {
+      return;
+    }
 
     const currentCommand = demoCommands[demoStep];
     if (!currentCommand) return;
@@ -546,32 +559,46 @@ const Terminal = ({
     // Clear input first
     setInput('');
     
-    // Type out the command character by character
-    let charIndex = 0;
-    const typeInterval = setInterval(() => {
-      if (charIndex < currentCommand.command.length) {
-        setInput(currentCommand.command.slice(0, charIndex + 1));
-        charIndex++;
-      } else {
-        clearInterval(typeInterval);
-        
-        // Execute the command after typing is complete
-        setTimeout(() => {
-          executeCommand(currentCommand.command);
-          setInput('');
-          setIsAutoTyping(false);
-          if (onDemoStepComplete) {
-            onDemoStepComplete();
-          }
-        }, 1000); // Wait 1 second before executing
-      }
-    }, 100); // Type at 100ms per character
+    // Wait for the command delay before starting to type
+    const startDelay = setTimeout(() => {
+      // Type out the command character by character with smoother animation
+      let charIndex = 0;
+      const typeInterval = setInterval(() => {
+        if (charIndex < currentCommand.command.length) {
+          // Use requestAnimationFrame for smoother updates
+          requestAnimationFrame(() => {
+            setInput(currentCommand.command.slice(0, charIndex + 1));
+          });
+          charIndex++;
+        } else {
+          clearInterval(typeInterval);
+          
+          // Execute the command after typing is complete
+          setTimeout(() => {
+            executeCommand(currentCommand.command);
+            
+            // Smooth cleanup
+            requestAnimationFrame(() => {
+              setInput('');
+              setIsAutoTyping(false);
+            });
+            
+            if (onDemoStepComplete) {
+              // Delay step completion slightly for better UX
+              setTimeout(() => {
+                onDemoStepComplete();
+              }, 200);
+            }
+          }, 800); // Slightly faster execution
+        }
+      }, 80); // Faster typing speed for smoother animation
+    }, currentCommand.delay || 2000);
 
     return () => {
-      clearInterval(typeInterval);
+      clearTimeout(startDelay);
       setIsAutoTyping(false);
     };
-  }, [demoMode, demoStep, demoCommands, isAutoTyping, onDemoStepComplete]);
+  }, [demoMode, demoStep, demoCommands, onDemoStepComplete]);
 
   // Responsive ASCII art based on screen size
   const getWelcomeMessage = useCallback(() => {
@@ -685,6 +712,8 @@ const Terminal = ({
         backgroundColor: 'var(--theme-card)', 
         borderColor: 'var(--theme-border)' 
       }}
+      role="application"
+      aria-label="Interactive terminal interface"
     >
       <CardHeader 
         className="py-1.5 px-3 flex-shrink-0 border-b transition-colors duration-300"
@@ -706,6 +735,9 @@ const Terminal = ({
         <div 
           ref={terminalRef}
           className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-green-400 scrollbar-track-gray-800 min-h-0"
+          role="log"
+          aria-live="polite"
+          aria-label="Terminal output history"
         >
           {history.map((command, index) => (
             <div key={index} className="mb-2">
@@ -740,16 +772,37 @@ const Terminal = ({
             type="text"
             value={input}
             onChange={(e) => {
-              if (!isAutoTyping && onUserActivity) onUserActivity();
+              // Always allow input changes, but handle activity differently
               setInput(e.target.value);
+              
+              if (!isAutoTyping) {
+                // Use appropriate activity handler based on demo mode
+                if (demoMode && onTutorialActivity) {
+                  onTutorialActivity();
+                } else if (!demoMode && onUserActivity) {
+                  onUserActivity();
+                }
+              }
             }}
             onKeyDown={handleKeyDown}
-            className="ml-2 bg-transparent outline-none flex-1 font-mono terminal-cursor zoom-text-xs"
+            className="ml-2 bg-transparent outline-none flex-1 font-mono terminal-cursor zoom-text-xs focus:outline-none"
             style={{ color: 'var(--theme-text)' }}
-            placeholder="Enter command..."
+            placeholder={isAutoTyping ? "Auto-typing..." : "Enter command..."}
+            aria-label="Terminal command input. Use arrow keys for history, tab for autocomplete, type 'help' for commands"
+            aria-describedby="terminal-help"
+            data-auto-typing={isAutoTyping}
+            readOnly={isAutoTyping}
             autoFocus
           />
         </form>
+        
+
+        
+        {/* Hidden help text for screen readers */}
+        <div id="terminal-help" className="sr-only">
+          Interactive terminal. Use arrow keys to navigate command history, tab for autocomplete, 
+          and enter to execute commands. Type 'help' to see available commands.
+        </div>
       </CardContent>
     </Card>
   );

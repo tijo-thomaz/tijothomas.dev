@@ -29,6 +29,7 @@ export default function Home() {
   const [demoMode, setDemoMode] = useState(false);
   const [demoStep, setDemoStep] = useState(0);
   const [lastActivity, setLastActivity] = useState(Date.now());
+  const [showWelcome, setShowWelcome] = useState(true);
 
   useEffect(() => {
     setMounted(true);
@@ -115,59 +116,104 @@ export default function Home() {
     [handleNavigateToWorld, handleAddToCommandHistory]
   );
 
-  // Auto-demo functionality
+  // Enhanced tutorial demo - comprehensive guide
   const demoCommands = [
     {
       command: "help",
-      delay: 2000,
-      message: "👋 Welcome! Let me show you around...",
+      delay: 2500,
+      message: "👋 Welcome to my interactive portfolio! Let me show you how to navigate...",
+      tip: "💡 Tip: Type 'help' anytime to see all available commands"
+    },
+    {
+      command: "ls",
+      delay: 3000,
+      message: "📁 These are the main sections available. Let's explore each one...",
+      tip: "💡 Try: Use arrow keys ↑↓ to browse your command history"
     },
     {
       command: "experience",
-      delay: 3000,
-      message: "🏢 Let's explore my professional journey...",
+      delay: 4000,
+      message: "🏢 Here's my professional journey. Notice the interactive timeline!",
+      tip: "💡 Click on any job to see detailed information"
+    },
+    {
+      command: "skills",
+      delay: 3500,
+      message: "⚛️ My technical expertise organized by category and proficiency",
+      tip: "💡 Try: Type 'vim-skills' for an interactive skill visualization"
     },
     {
       command: "projects",
       delay: 4000,
-      message: "🚀 Check out some key projects...",
+      message: "🚀 Key projects and achievements with live demos",
+      tip: "💡 Use 'projects-demo' to access direct project links"
     },
     {
-      command: "skills",
+      command: "git-log",
       delay: 3000,
-      message: "⚛️ Here are my technical skills...",
+      message: "📜 A simulated git history showing my development journey",
+      tip: "💡 Real terminal commands work here: try 'pwd', 'whoami', 'date'"
     },
     {
-      command: "contact",
-      delay: 2000,
-      message: "📧 Ready to connect? Here's how...",
+      command: "contact", 
+      delay: 2500,
+      message: "📧 Multiple ways to connect - email, LinkedIn, or WhatsApp",
+      tip: "💡 The AI assistant (chat bubble) can answer questions anytime!"
     },
+    {
+      command: "clear",
+      delay: 2000,
+      message: "✨ Tutorial complete! Start exploring on your own. Type 'help' for guidance.",
+      tip: "💡 Pro tip: Use Tab for autocomplete, themes in top-right, zoom controls available"
+    }
   ];
 
   // Track user activity to trigger demo
   const handleUserActivity = useCallback(() => {
     setLastActivity(Date.now());
+    setShowWelcome(false); // Hide welcome message on any activity
+    
+    // Only cancel demo if user is doing something OTHER than following the tutorial
+    // This allows tutorial to continue while user types guided commands
     if (demoMode) {
       setDemoMode(false);
       setDemoStep(0);
     }
   }, [demoMode]);
 
+  // Separate handler for tutorial-specific user activity (doesn't cancel demo)
+  const handleTutorialActivity = useCallback(() => {
+    setLastActivity(Date.now());
+    setShowWelcome(false);
+    // Don't cancel demo mode - let tutorial continue
+  }, []);
+
+  // Manual tutorial trigger for testing
+  const handleStartTutorial = useCallback(() => {
+    setDemoMode(true);
+    setDemoStep(0);
+    setShowWelcome(false);
+  }, []);
+
   // Auto-demo timer effect
   useEffect(() => {
-    if (currentView !== "terminal" || visitedSections.length > 0) return;
+    // Only check for terminal view and if demo hasn't started yet
+    if (currentView !== "terminal" || demoMode) {
+      return;
+    }
 
     const timer = setTimeout(() => {
       const timeSinceActivity = Date.now() - lastActivity;
-      if (timeSinceActivity >= 8000 && !demoMode) {
-        // 8 seconds of inactivity
+      
+      if (timeSinceActivity >= 5000 && !demoMode && showWelcome) {
+        // 5 seconds of inactivity - start tutorial (only if welcome is still showing)
         setDemoMode(true);
         setDemoStep(0);
       }
     }, 1000);
 
     return () => clearTimeout(timer);
-  }, [lastActivity, demoMode, currentView, visitedSections.length]);
+  }, [lastActivity, demoMode, currentView, showWelcome]);
 
   // Execute command from suggestions or demo
   const handleExecuteCommand = useCallback(
@@ -215,6 +261,13 @@ export default function Home() {
         color: "var(--theme-text)",
       }}
     >
+      {/* Skip Navigation Link */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-blue-600 focus:text-white focus:rounded focus:no-underline"
+      >
+        Skip to main content
+      </a>
       <div className="flex flex-col h-full max-w-7xl mx-auto w-full min-h-0">
         {/* Header - Minimal on mobile */}
         <div className="flex-shrink-0 p-1 sm:p-2 md:p-3 text-center relative">
@@ -240,7 +293,7 @@ export default function Home() {
         </div>
 
         {/* Main Content - Full Terminal */}
-        <div className="flex-1 flex flex-col gap-2 md:gap-3 p-2 md:p-3 pt-0 min-h-0">
+        <div id="main-content" className="flex-1 flex flex-col gap-2 md:gap-3 p-2 md:p-3 pt-0 min-h-0">
           {/* Terminal - Full height */}
           <div className="h-full min-h-0" style={{ fontSize: `${zoom}%` }}>
             <Terminal
@@ -253,6 +306,7 @@ export default function Home() {
               demoStep={demoStep}
               demoCommands={demoCommands}
               onUserActivity={handleUserActivity}
+              onTutorialActivity={handleTutorialActivity}
               onDemoStepComplete={() => setDemoStep((prev) => prev + 1)}
             />
           </div>
@@ -267,6 +321,8 @@ export default function Home() {
             demoStep={demoStep}
             demoCommands={demoCommands}
             onUserActivity={handleUserActivity}
+            showWelcome={showWelcome}
+            onStartTutorial={handleStartTutorial}
           />
         )}
 

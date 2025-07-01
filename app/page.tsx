@@ -121,58 +121,63 @@ export default function Home() {
     {
       command: "help",
       delay: 2500,
-      message: "👋 Welcome to my interactive portfolio! Let me show you how to navigate...",
-      tip: "💡 Tip: Type 'help' anytime to see all available commands"
+      message:
+        "👋 Welcome to my interactive portfolio! Let me show you how to navigate...",
+      tip: "💡 Tip: Type 'help' anytime to see all available commands",
     },
     {
       command: "ls",
       delay: 3000,
-      message: "📁 These are the main sections available. Let's explore each one...",
-      tip: "💡 Try: Use arrow keys ↑↓ to browse your command history"
+      message:
+        "📁 These are the main sections available. Let's explore each one...",
+      tip: "💡 Try: Use arrow keys ↑↓ to browse your command history",
     },
     {
       command: "experience",
       delay: 4000,
-      message: "🏢 Here's my professional journey. Notice the interactive timeline!",
-      tip: "💡 Click on any job to see detailed information"
+      message:
+        "🏢 Here's my professional journey. Notice the interactive timeline!",
+      tip: "💡 Click on any job to see detailed information",
     },
     {
       command: "skills",
       delay: 3500,
-      message: "⚛️ My technical expertise organized by category and proficiency",
-      tip: "💡 Try: Type 'vim-skills' for an interactive skill visualization"
+      message:
+        "⚛️ My technical expertise organized by category and proficiency",
+      tip: "💡 Try: Type 'vim-skills' for an interactive skill visualization",
     },
     {
       command: "projects",
       delay: 4000,
       message: "🚀 Key projects and achievements with live demos",
-      tip: "💡 Use 'projects-demo' to access direct project links"
+      tip: "💡 Use 'projects-demo' to access direct project links",
     },
     {
       command: "git-log",
       delay: 3000,
       message: "📜 A simulated git history showing my development journey",
-      tip: "💡 Real terminal commands work here: try 'pwd', 'whoami', 'date'"
+      tip: "💡 Real terminal commands work here: try 'pwd', 'whoami', 'date'",
     },
     {
-      command: "contact", 
+      command: "contact",
       delay: 2500,
       message: "📧 Multiple ways to connect - email, LinkedIn, or WhatsApp",
-      tip: "💡 The AI assistant (chat bubble) can answer questions anytime!"
+      tip: "💡 The AI assistant (chat bubble) can answer questions anytime!",
     },
     {
       command: "clear",
       delay: 2000,
-      message: "✨ Tutorial complete! Start exploring on your own. Type 'help' for guidance.",
-      tip: "💡 Pro tip: Use Tab for autocomplete, themes in top-right, zoom controls available"
-    }
+      message:
+        "✨ Tutorial complete! Start exploring on your own. Type 'help' for guidance.",
+      tip: "💡 Pro tip: Use Tab for autocomplete, themes in top-right, zoom controls available",
+    },
   ];
 
   // Track user activity to trigger demo
   const handleUserActivity = useCallback(() => {
     setLastActivity(Date.now());
     setShowWelcome(false); // Hide welcome message on any activity
-    
+
     // Only cancel demo if user is doing something OTHER than following the tutorial
     // This allows tutorial to continue while user types guided commands
     if (demoMode) {
@@ -204,7 +209,7 @@ export default function Home() {
 
     const timer = setTimeout(() => {
       const timeSinceActivity = Date.now() - lastActivity;
-      
+
       if (timeSinceActivity >= 5000 && !demoMode && showWelcome) {
         // 5 seconds of inactivity - start tutorial (only if welcome is still showing)
         setDemoMode(true);
@@ -293,7 +298,10 @@ export default function Home() {
         </div>
 
         {/* Main Content - Full Terminal */}
-        <div id="main-content" className="flex-1 flex flex-col gap-2 md:gap-3 p-2 md:p-3 pt-0 min-h-0">
+        <div
+          id="main-content"
+          className="flex-1 flex flex-col gap-2 md:gap-3 p-2 md:p-3 pt-0 min-h-0"
+        >
           {/* Terminal - Full height */}
           <div className="h-full min-h-0" style={{ fontSize: `${zoom}%` }}>
             <Terminal

@@ -93,20 +93,18 @@ export default function CommandSuggestions({
                 This isn't your typical portfolio - it's a fully interactive
                 terminal experience! Here's how to get started:
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-3">
+              <div className="grid grid-cols-1 gap-2 mt-3">
                 <div className="text-green-300/80 font-mono text-xs bg-green-500/10 rounded px-3 py-2">
-                  💡 <strong>Type commands</strong> like 'help', 'experience',
-                  'skills'
+                  💡 <strong>Type commands</strong> like 'help', 'experience', 'skills'
                 </div>
                 <div className="text-blue-300/80 font-mono text-xs bg-blue-500/10 rounded px-3 py-2">
-                  🤖 <strong>Ask the AI</strong> any questions about my
-                  background
+                  🤖 <strong>Ask the AI</strong> any questions about my background
                 </div>
                 <div className="text-purple-300/80 font-mono text-xs bg-purple-500/10 rounded px-3 py-2">
                   ⌨️ <strong>Use arrow keys</strong> to browse command history
                 </div>
                 <div className="text-orange-300/80 font-mono text-xs bg-orange-500/10 rounded px-3 py-2">
-                  ✨ <strong>Wait 5 seconds</strong> for an interactive tutorial
+                  ✨ <strong>Tap below to start</strong> an interactive tutorial
                 </div>
               </div>
               <div className="flex justify-center gap-3 mt-3">

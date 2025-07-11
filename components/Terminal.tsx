@@ -164,7 +164,7 @@ const Terminal = ({
     
     if (trimmedCmd === "clear") {
       setHistory([]);
-      soundManager.playCommand();
+      soundManager.enableWithUserInteraction().then(() => soundManager.playCommand());
       return;
     }
 
@@ -466,9 +466,9 @@ const Terminal = ({
 
     // Play appropriate sound
     if (isError) {
-      soundManager.playError();
+      soundManager.enableWithUserInteraction().then(() => soundManager.playError());
     } else {
-      soundManager.playCommand();
+      soundManager.enableWithUserInteraction().then(() => soundManager.playCommand());
     }
 
     // Track command analytics (anonymous)
@@ -497,9 +497,11 @@ const Terminal = ({
       onUserActivity();
     }
     
-    // Play keypress sound for most keys
+    // Enable audio on first interaction and play keypress sound
     if (e.key.length === 1 || e.key === 'Backspace' || e.key === 'Delete') {
-      soundManager.playKeypress();
+      soundManager.enableWithUserInteraction().then(() => {
+        soundManager.playKeypress();
+      });
     }
 
     if (e.key === 'ArrowUp') {
@@ -586,8 +588,9 @@ const Terminal = ({
             if (onDemoStepComplete) {
               // Delay step completion slightly for better UX
               setTimeout(() => {
+                console.log(`[Tutorial] Completing step ${demoStep + 1}, advancing to ${demoStep + 2}`);
                 onDemoStepComplete();
-              }, 200);
+              }, 500); // Increased delay for reliability
             }
           }, 800); // Slightly faster execution
         }

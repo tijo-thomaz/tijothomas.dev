@@ -198,6 +198,8 @@ export default function Home() {
     setDemoMode(true);
     setDemoStep(0);
     setShowWelcome(false);
+    // Ensure we're in terminal view for tutorial
+    setCurrentView("terminal");
   }, []);
 
   // Auto-demo timer effect
@@ -210,8 +212,12 @@ export default function Home() {
     const timer = setTimeout(() => {
       const timeSinceActivity = Date.now() - lastActivity;
 
-      if (timeSinceActivity >= 5000 && !demoMode && showWelcome) {
-        // 5 seconds of inactivity - start tutorial (only if welcome is still showing)
+      // Check if on mobile device
+      const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+      const requiredDelay = isMobile ? 8000 : 5000; // 8 seconds on mobile, 5 on desktop
+      
+      if (timeSinceActivity >= requiredDelay && !demoMode && showWelcome) {
+        // Start tutorial after delay (longer on mobile)
         setDemoMode(true);
         setDemoStep(0);
       }
@@ -219,6 +225,20 @@ export default function Home() {
 
     return () => clearTimeout(timer);
   }, [lastActivity, demoMode, currentView, showWelcome]);
+
+  // Handle viewport changes during tutorial
+  useEffect(() => {
+    if (!demoMode) return;
+
+    const handleResize = () => {
+      // Force re-render of tutorial components on viewport change
+      const isMobile = window.innerWidth < 768;
+      console.log(`[Tutorial] Viewport changed, mobile: ${isMobile}, step: ${demoStep + 1}`);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [demoMode, demoStep]);
 
   // Execute command from suggestions or demo
   const handleExecuteCommand = useCallback(
@@ -315,7 +335,13 @@ export default function Home() {
               demoCommands={demoCommands}
               onUserActivity={handleUserActivity}
               onTutorialActivity={handleTutorialActivity}
-              onDemoStepComplete={() => setDemoStep((prev) => prev + 1)}
+              onDemoStepComplete={() => {
+                console.log(`[Tutorial] Step completion callback triggered, current step: ${demoStep}`);
+                setDemoStep((prev) => {
+                  console.log(`[Tutorial] Advancing from step ${prev} to step ${prev + 1}`);
+                  return prev + 1;
+                });
+              }}
             />
           </div>
         </div>

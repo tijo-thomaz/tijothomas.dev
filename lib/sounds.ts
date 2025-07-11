@@ -13,6 +13,18 @@ class SoundManager {
   private async initAudioContext() {
     if (!this.audioContext && typeof window !== 'undefined') {
       this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      // Resume audio context if it's suspended (required for mobile)
+      if (this.audioContext.state === 'suspended') {
+        await this.audioContext.resume();
+      }
+    }
+  }
+
+  // Initialize audio context on first user interaction (required for mobile)
+  async enableWithUserInteraction() {
+    await this.initAudioContext();
+    if (this.audioContext && this.audioContext.state === 'suspended') {
+      await this.audioContext.resume();
     }
   }
 

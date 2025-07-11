@@ -17,12 +17,32 @@ const VersionSelector = ({ className = "" }: VersionSelectorProps) => {
     return <Zap className="w-4 h-4" />;
   };
 
-  const getStatusColor = (status: string) => {
+  const getStatusStyle = (status: string) => {
     switch (status) {
-      case 'stable': return 'text-green-400 bg-green-400/10 border-green-400/30';
-      case 'development': return 'text-orange-400 bg-orange-400/10 border-orange-400/30';
-      case 'beta': return 'text-blue-400 bg-blue-400/10 border-blue-400/30';
-      default: return 'text-gray-400 bg-gray-400/10 border-gray-400/30';
+      case 'stable': 
+        return {
+          color: "var(--theme-accent)",
+          backgroundColor: "var(--theme-muted)",
+          borderColor: "var(--theme-border)"
+        };
+      case 'development': 
+        return {
+          color: "var(--theme-secondary)", 
+          backgroundColor: "var(--theme-bg)",
+          borderColor: "var(--theme-border)"
+        };
+      case 'beta': 
+        return {
+          color: "var(--theme-text)",
+          backgroundColor: "var(--theme-surface)",
+          borderColor: "var(--theme-border)"
+        };
+      default: 
+        return {
+          color: "var(--theme-secondary)",
+          backgroundColor: "var(--theme-bg)", 
+          borderColor: "var(--theme-border)"
+        };
     }
   };
 
@@ -98,10 +118,18 @@ const VersionSelector = ({ className = "" }: VersionSelectorProps) => {
                         v{version.version}
                       </span>
                       {version.version === CURRENT_VERSION && (
-                        <span className="text-xs text-blue-400 font-medium">CURRENT</span>
+                        <span 
+                          className="text-xs font-medium"
+                          style={{ color: "var(--theme-accent)" }}
+                        >
+                          CURRENT
+                        </span>
                       )}
                     </div>
-                    <span className={`text-xs px-2 py-1 rounded border font-medium ${getStatusColor(version.status)}`}>
+                    <span 
+                      className="text-xs px-2 py-1 rounded border font-medium"
+                      style={getStatusStyle(version.status)}
+                    >
                       {version.status.toUpperCase()}
                     </span>
                   </div>

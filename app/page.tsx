@@ -63,8 +63,8 @@ export default function Home() {
     [commandHistory]
   );
 
-  // Section visit tracking (just tracking, no navigation)
-  const handleSectionVisit = useCallback(
+  // Journey tracking - only for actual exploration (not commands)
+  const handleJourneyProgress = useCallback(
     (section: string) => {
       if (!visitedSections.includes(section)) {
         setVisitedSections((prev) => [...prev, section]);
@@ -76,7 +76,7 @@ export default function Home() {
   // Navigate to interactive world (for explore commands)
   const handleNavigateToWorld = useCallback(
     (section: string) => {
-      handleSectionVisit(section); // Track the visit
+      handleJourneyProgress(section); // Track the journey progress
       if (
         section === "experience" ||
         section === "projects" ||
@@ -87,7 +87,7 @@ export default function Home() {
         setCurrent3DWorld(section);
       }
     },
-    [handleSectionVisit]
+    [handleJourneyProgress]
   );
 
   // Get section index for InteractiveWorldViewer navigation
@@ -164,6 +164,12 @@ export default function Home() {
       delay: 2500,
       message: "📧 Multiple ways to connect - email, LinkedIn, or WhatsApp",
       tip: "💡 The AI assistant (chat bubble) can answer questions anytime!",
+    },
+    {
+      command: "explore experience",
+      delay: 3000,
+      message: "🌟 Now for the real journey! This launches an immersive exploration...",
+      tip: "💡 Journey Progress: Use 'explore <section>' to unlock portfolio sections and track your exploration progress!",
     },
     {
       command: "clear",
@@ -328,7 +334,7 @@ export default function Home() {
           <div className="h-full min-h-0" style={{ fontSize: `${zoom}%` }}>
             <Terminal
               onEnter3DWorld={handle3DWorldEnter}
-              onSectionVisit={handleSectionVisit}
+              onJourneyProgress={handleJourneyProgress}
               onNavigateToWorld={handleNavigateToWorld}
               onAddToCommandHistory={handleAddToCommandHistory}
               commandHistory={commandHistory}

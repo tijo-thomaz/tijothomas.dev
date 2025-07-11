@@ -6,6 +6,7 @@ import ZoomControls from "@/components/ZoomControls";
 import SoundControls from "@/components/SoundControls";
 import ThemeControls from "@/components/ThemeControls";
 import SimpleAnalyticsDisplay from "@/components/SimpleAnalyticsDisplay";
+import VersionSelector from "@/components/VersionSelector";
 import FloatingAIAssistant from "@/components/FloatingAIAssistant";
 import WorldViewer from "@/components/WorldViewer";
 import Breadcrumbs from "@/components/Breadcrumbs";
@@ -308,6 +309,7 @@ export default function Home() {
 
           {/* Controls */}
           <div className="flex justify-center items-center gap-1 sm:gap-2 md:gap-3 flex-wrap">
+            <VersionSelector />
             <SoundControls />
             <ZoomControls onZoomChange={handleZoomChange} />
             <ThemeControls />

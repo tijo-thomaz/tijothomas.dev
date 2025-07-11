@@ -30,9 +30,9 @@ const VersionSelector = ({ className = "" }: VersionSelectorProps) => {
     <div className={`relative ${className}`}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-2 text-sm font-mono bg-gray-800/50 border border-gray-600/50 rounded-lg hover:bg-gray-700/50 transition-all duration-200"
+        className="flex items-center gap-2 px-3 py-2 text-sm font-mono border rounded-lg transition-all duration-200 hover:opacity-80"
         style={{
-          color: "var(--theme-text)",
+          color: "var(--theme-accent)",
           borderColor: "var(--theme-border)",
           backgroundColor: "var(--theme-surface)",
         }}
@@ -51,10 +51,29 @@ const VersionSelector = ({ className = "" }: VersionSelectorProps) => {
           />
           
           {/* Dropdown */}
-          <div className="absolute top-full right-0 mt-2 w-80 bg-gray-900/95 backdrop-blur-lg border border-gray-600/50 rounded-lg shadow-2xl z-50 overflow-hidden">
-            <div className="p-3 border-b border-gray-600/50">
-              <h3 className="text-sm font-semibold text-gray-200 mb-1">Portfolio Versions</h3>
-              <p className="text-xs text-gray-400">Choose between different portfolio experiences</p>
+          <div 
+            className="absolute top-full right-0 mt-2 w-80 backdrop-blur-lg border rounded-lg shadow-2xl z-50 overflow-hidden"
+            style={{
+              backgroundColor: "var(--theme-surface)",
+              borderColor: "var(--theme-border)"
+            }}
+          >
+            <div 
+              className="p-3 border-b"
+              style={{ borderColor: "var(--theme-border)" }}
+            >
+              <h3 
+                className="text-sm font-semibold mb-1"
+                style={{ color: "var(--theme-text)" }}
+              >
+                Portfolio Versions
+              </h3>
+              <p 
+                className="text-xs"
+                style={{ color: "var(--theme-secondary)" }}
+              >
+                Choose between different portfolio experiences
+              </p>
             </div>
             
             <div className="max-h-96 overflow-y-auto">
@@ -66,7 +85,8 @@ const VersionSelector = ({ className = "" }: VersionSelectorProps) => {
                   }`}
                   onClick={() => {
                     if (version.status === 'stable') {
-                      window.location.href = version.route === '/v1' ? '/' : version.route;
+                      const targetRoute = version.route === '/v1' ? '/' : version.route;
+                      window.location.href = targetRoute;
                     }
                     setIsOpen(false);
                   }}

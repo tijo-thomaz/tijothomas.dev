@@ -57,7 +57,12 @@ const SimpleAnalyticsDisplay = () => {
         variant="outline"
         size="sm"
         onClick={() => setIsOpen(true)}
-        className="bg-gray-800 border-green-400 text-green-300 hover:bg-gray-700 p-2 h-8 w-8"
+        className="p-2 h-8 w-8 border transition-colors hover:opacity-80"
+        style={{
+          backgroundColor: "var(--theme-surface)",
+          borderColor: "var(--theme-border)",
+          color: "var(--theme-accent)",
+        }}
         title="View Anonymous Analytics"
       >
         <BarChart3 className="w-4 h-4" />
@@ -97,7 +102,8 @@ const SimpleAnalyticsDisplay = () => {
               variant="ghost"
               size="sm"
               onClick={() => setIsOpen(false)}
-              className="text-green-300 hover:bg-green-400/10"
+              className="transition-colors hover:opacity-80"
+              style={{ color: "var(--theme-accent)" }}
             >
               <X className="h-4 w-4" />
             </Button>
@@ -105,54 +111,117 @@ const SimpleAnalyticsDisplay = () => {
 
           <CardContent className="p-6 space-y-4">
             {/* Privacy Notice */}
-            <div className="bg-green-500/10 border border-green-400/30 rounded-lg p-3">
-              <div className="flex items-center gap-2 text-green-400 font-mono font-bold text-sm">
+            <div
+              className="border rounded-lg p-3"
+              style={{
+                backgroundColor: "var(--theme-muted)",
+                borderColor: "var(--theme-border)",
+              }}
+            >
+              <div
+                className="flex items-center gap-2 font-mono font-bold text-sm"
+                style={{ color: "var(--theme-accent)" }}
+              >
                 <Shield className="w-3 h-3" />
                 Truly Anonymous
               </div>
-              <p className="text-green-300 text-xs font-mono mt-1">
+              <p
+                className="text-xs font-mono mt-1"
+                style={{ color: "var(--theme-secondary)" }}
+              >
                 No personal data, no tracking, just basic usage patterns.
               </p>
             </div>
 
             {/* Your Session Stats */}
             <div>
-              <div className="text-green-400 font-mono text-sm font-bold mb-2">
+              <div
+                className="font-mono text-sm font-bold mb-2"
+                style={{ color: "var(--theme-accent)" }}
+              >
                 📱 Your Session
               </div>
               <div className="grid grid-cols-2 gap-3">
-                <div className="bg-gray-800 rounded-lg p-3 border border-gray-700">
-                  <div className="text-green-400 font-mono text-xs mb-1">
+                <div
+                  className="rounded-lg p-3 border"
+                  style={{
+                    backgroundColor: "var(--theme-card)",
+                    borderColor: "var(--theme-border)",
+                  }}
+                >
+                  <div
+                    className="font-mono text-xs mb-1"
+                    style={{ color: "var(--theme-accent)" }}
+                  >
                     Visits
                   </div>
-                  <div className="text-white text-lg font-bold font-mono">
+                  <div
+                    className="text-lg font-bold font-mono"
+                    style={{ color: "var(--theme-text)" }}
+                  >
                     {localStats.visits}
                   </div>
                 </div>
 
-                <div className="bg-gray-800 rounded-lg p-3 border border-gray-700">
-                  <div className="text-green-400 font-mono text-xs mb-1">
+                <div
+                  className="rounded-lg p-3 border"
+                  style={{
+                    backgroundColor: "var(--theme-card)",
+                    borderColor: "var(--theme-border)",
+                  }}
+                >
+                  <div
+                    className="font-mono text-xs mb-1"
+                    style={{ color: "var(--theme-accent)" }}
+                  >
                     Commands
                   </div>
-                  <div className="text-white text-lg font-bold font-mono">
+                  <div
+                    className="text-lg font-bold font-mono"
+                    style={{ color: "var(--theme-text)" }}
+                  >
                     {localStats.commands}
                   </div>
                 </div>
 
-                <div className="bg-gray-800 rounded-lg p-3 border border-gray-700">
-                  <div className="text-green-400 font-mono text-xs mb-1">
+                <div
+                  className="rounded-lg p-3 border"
+                  style={{
+                    backgroundColor: "var(--theme-card)",
+                    borderColor: "var(--theme-border)",
+                  }}
+                >
+                  <div
+                    className="font-mono text-xs mb-1"
+                    style={{ color: "var(--theme-accent)" }}
+                  >
                     Questions
                   </div>
-                  <div className="text-white text-lg font-bold font-mono">
+                  <div
+                    className="text-lg font-bold font-mono"
+                    style={{ color: "var(--theme-text)" }}
+                  >
                     {localStats.questions}
                   </div>
                 </div>
 
-                <div className="bg-gray-800 rounded-lg p-3 border border-gray-700">
-                  <div className="text-green-400 font-mono text-xs mb-1">
+                <div
+                  className="rounded-lg p-3 border"
+                  style={{
+                    backgroundColor: "var(--theme-card)",
+                    borderColor: "var(--theme-border)",
+                  }}
+                >
+                  <div
+                    className="font-mono text-xs mb-1"
+                    style={{ color: "var(--theme-accent)" }}
+                  >
                     Time
                   </div>
-                  <div className="text-white text-lg font-bold font-mono">
+                  <div
+                    className="text-lg font-bold font-mono"
+                    style={{ color: "var(--theme-text)" }}
+                  >
                     {localStats.sessionTime}
                   </div>
                 </div>
@@ -160,11 +229,23 @@ const SimpleAnalyticsDisplay = () => {
 
               {/* Last Command */}
               {localStats.lastCommand !== "none" && (
-                <div className="bg-gray-800 rounded-lg p-3 border border-gray-700 mt-3">
-                  <div className="text-green-400 font-mono text-xs mb-1">
+                <div
+                  className="rounded-lg p-3 border mt-3"
+                  style={{
+                    backgroundColor: "var(--theme-card)",
+                    borderColor: "var(--theme-border)",
+                  }}
+                >
+                  <div
+                    className="font-mono text-xs mb-1"
+                    style={{ color: "var(--theme-accent)" }}
+                  >
                     Last Command
                   </div>
-                  <div className="text-gray-300 font-mono text-sm">
+                  <div
+                    className="font-mono text-sm"
+                    style={{ color: "var(--theme-secondary)" }}
+                  >
                     {localStats.lastCommand}
                   </div>
                 </div>
@@ -173,38 +254,80 @@ const SimpleAnalyticsDisplay = () => {
 
             {/* Global Portfolio Stats */}
             <div>
-              <div className="text-blue-400 font-mono text-sm font-bold mb-2">
+              <div
+                className="font-mono text-sm font-bold mb-2"
+                style={{ color: "var(--theme-accent)" }}
+              >
                 🌍 Portfolio Totals
               </div>
               {globalStats.error ? (
-                <div className="text-red-400 text-xs font-mono">
+                <div
+                  className="text-xs font-mono"
+                  style={{ color: "var(--theme-error)" }}
+                >
                   {globalStats.error}
                 </div>
               ) : (
                 <div className="grid grid-cols-3 gap-3">
-                  <div className="bg-gray-800 rounded-lg p-3 border border-gray-700">
-                    <div className="text-blue-400 font-mono text-xs mb-1">
+                  <div
+                    className="rounded-lg p-3 border"
+                    style={{
+                      backgroundColor: "var(--theme-card)",
+                      borderColor: "var(--theme-border)",
+                    }}
+                  >
+                    <div
+                      className="font-mono text-xs mb-1"
+                      style={{ color: "var(--theme-accent)" }}
+                    >
                       Total Visits
                     </div>
-                    <div className="text-white text-lg font-bold font-mono">
+                    <div
+                      className="text-lg font-bold font-mono"
+                      style={{ color: "var(--theme-text)" }}
+                    >
                       {globalStats.totalVisits}
                     </div>
                   </div>
 
-                  <div className="bg-gray-800 rounded-lg p-3 border border-gray-700">
-                    <div className="text-blue-400 font-mono text-xs mb-1">
+                  <div
+                    className="rounded-lg p-3 border"
+                    style={{
+                      backgroundColor: "var(--theme-card)",
+                      borderColor: "var(--theme-border)",
+                    }}
+                  >
+                    <div
+                      className="font-mono text-xs mb-1"
+                      style={{ color: "var(--theme-accent)" }}
+                    >
                       Commands
                     </div>
-                    <div className="text-white text-lg font-bold font-mono">
+                    <div
+                      className="text-lg font-bold font-mono"
+                      style={{ color: "var(--theme-text)" }}
+                    >
                       {globalStats.totalCommands}
                     </div>
                   </div>
 
-                  <div className="bg-gray-800 rounded-lg p-3 border border-gray-700">
-                    <div className="text-blue-400 font-mono text-xs mb-1">
+                  <div
+                    className="rounded-lg p-3 border"
+                    style={{
+                      backgroundColor: "var(--theme-card)",
+                      borderColor: "var(--theme-border)",
+                    }}
+                  >
+                    <div
+                      className="font-mono text-xs mb-1"
+                      style={{ color: "var(--theme-accent)" }}
+                    >
                       Questions
                     </div>
-                    <div className="text-white text-lg font-bold font-mono">
+                    <div
+                      className="text-lg font-bold font-mono"
+                      style={{ color: "var(--theme-text)" }}
+                    >
                       {globalStats.totalQuestions}
                     </div>
                   </div>
@@ -213,8 +336,14 @@ const SimpleAnalyticsDisplay = () => {
             </div>
 
             {/* Footer */}
-            <div className="text-center text-gray-400 text-xs font-mono border-t border-gray-700 pt-3">
-              <span className="text-green-400">
+            <div
+              className="text-center text-xs font-mono border-t pt-3"
+              style={{
+                color: "var(--theme-secondary)",
+                borderColor: "var(--theme-border)",
+              }}
+            >
+              <span style={{ color: "var(--theme-accent)" }}>
                 Anonymous counts only • No personal data
               </span>
             </div>

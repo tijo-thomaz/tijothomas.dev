@@ -28,7 +28,12 @@ const SoundControls = () => {
       variant="outline"
       size="sm"
       onClick={toggleSound}
-      className="bg-gray-800 border-green-400 text-green-300 hover:bg-gray-700 p-2 h-8 w-8"
+      className="p-2 h-8 w-8 border transition-colors hover:opacity-80"
+      style={{
+        backgroundColor: "var(--theme-surface)",
+        borderColor: "var(--theme-border)",
+        color: "var(--theme-accent)"
+      }}
       title={soundEnabled ? "Disable Sound" : "Enable Sound"}
     >
       {soundEnabled ? (

@@ -9,10 +9,10 @@ interface BreadcrumbsProps {
 }
 
 const sectionConfig = {
-  experience: { icon: '🏢', label: 'Experience', color: 'text-green-400' },
-  skills: { icon: '⚛️', label: 'Skills', color: 'text-purple-400' },
-  projects: { icon: '🚀', label: 'Projects', color: 'text-blue-400' },
-  clients: { icon: '🏆', label: 'Gallery', color: 'text-yellow-400' },
+  experience: { icon: '🏢', label: 'Experience' },
+  skills: { icon: '⚛️', label: 'Skills' },
+  projects: { icon: '🚀', label: 'Projects' },
+  clients: { icon: '🏆', label: 'Gallery' },
 };
 
 const allSections = ['experience', 'skills', 'projects', 'clients'];
@@ -28,10 +28,19 @@ export default function Breadcrumbs({ visitedSections, onNavigate, currentView }
   if (!isVisible) return null;
 
   return (
-    <div className="flex-shrink-0 px-2 md:px-4 py-2 bg-black/50 backdrop-blur-sm border-t border-green-400/30">
+    <div 
+      className="flex-shrink-0 px-2 md:px-4 py-2 backdrop-blur-sm border-t"
+      style={{
+        backgroundColor: "var(--theme-surface)",
+        borderColor: "var(--theme-border)"
+      }}
+    >
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between text-xs md:text-sm font-mono">
-          <div className="flex items-center gap-1 text-green-400/70">
+          <div 
+            className="flex items-center gap-1"
+            style={{ color: "var(--theme-secondary)" }}
+          >
             <span className="hidden sm:inline">Journey Progress:</span>
             <span className="sm:hidden">Progress:</span>
           </div>
@@ -49,14 +58,22 @@ export default function Breadcrumbs({ visitedSections, onNavigate, currentView }
                   disabled={!isAvailable}
                   className={`
                     flex items-center gap-1 px-2 py-1 rounded-lg border transition-all duration-300
-                    ${isVisited 
-                      ? `${config.color} bg-green-400/10 border-green-400/30 hover:bg-green-400/20 cursor-pointer` 
-                      : isAvailable
-                        ? 'text-gray-400 bg-gray-800/50 border-gray-600/30 hover:bg-gray-700/50 cursor-pointer hover:text-white'
-                        : 'text-gray-600 bg-gray-900/50 border-gray-700/20 cursor-not-allowed'
-                    }
-                    ${!isAvailable ? 'opacity-50' : 'hover:scale-105'}
+                    ${!isAvailable ? 'opacity-50' : 'hover:scale-105 hover:opacity-80'}
                   `}
+                  style={{
+                    color: isVisited 
+                      ? "var(--theme-accent)" 
+                      : isAvailable 
+                        ? "var(--theme-text)" 
+                        : "var(--theme-secondary)",
+                    backgroundColor: isVisited 
+                      ? "var(--theme-muted)" 
+                      : isAvailable 
+                        ? "var(--theme-bg)" 
+                        : "var(--theme-surface)",
+                    borderColor: "var(--theme-border)",
+                    cursor: !isAvailable ? 'not-allowed' : 'pointer'
+                  }}
                   title={
                     isVisited 
                       ? `Revisit ${config.label}` 

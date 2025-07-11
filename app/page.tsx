@@ -6,6 +6,7 @@ import ZoomControls from "@/components/ZoomControls";
 import SoundControls from "@/components/SoundControls";
 import ThemeControls from "@/components/ThemeControls";
 import SimpleAnalyticsDisplay from "@/components/SimpleAnalyticsDisplay";
+import VersionSelector from "@/components/VersionSelector";
 import FloatingAIAssistant from "@/components/FloatingAIAssistant";
 import WorldViewer from "@/components/WorldViewer";
 import Breadcrumbs from "@/components/Breadcrumbs";
@@ -62,8 +63,8 @@ export default function Home() {
     [commandHistory]
   );
 
-  // Section visit tracking (just tracking, no navigation)
-  const handleSectionVisit = useCallback(
+  // Journey tracking - only for actual exploration (not commands)
+  const handleJourneyProgress = useCallback(
     (section: string) => {
       if (!visitedSections.includes(section)) {
         setVisitedSections((prev) => [...prev, section]);
@@ -75,7 +76,7 @@ export default function Home() {
   // Navigate to interactive world (for explore commands)
   const handleNavigateToWorld = useCallback(
     (section: string) => {
-      handleSectionVisit(section); // Track the visit
+      handleJourneyProgress(section); // Track the journey progress
       if (
         section === "experience" ||
         section === "projects" ||
@@ -86,7 +87,7 @@ export default function Home() {
         setCurrent3DWorld(section);
       }
     },
-    [handleSectionVisit]
+    [handleJourneyProgress]
   );
 
   // Get section index for InteractiveWorldViewer navigation
@@ -165,6 +166,12 @@ export default function Home() {
       tip: "💡 The AI assistant (chat bubble) can answer questions anytime!",
     },
     {
+      command: "explore experience",
+      delay: 3000,
+      message: "🌟 Now for the real journey! This launches an immersive exploration...",
+      tip: "💡 Journey Progress: Use 'explore <section>' to unlock portfolio sections and track your exploration progress!",
+    },
+    {
       command: "clear",
       delay: 2000,
       message:
@@ -198,6 +205,8 @@ export default function Home() {
     setDemoMode(true);
     setDemoStep(0);
     setShowWelcome(false);
+    // Ensure we're in terminal view for tutorial
+    setCurrentView("terminal");
   }, []);
 
   // Auto-demo timer effect
@@ -210,8 +219,12 @@ export default function Home() {
     const timer = setTimeout(() => {
       const timeSinceActivity = Date.now() - lastActivity;
 
-      if (timeSinceActivity >= 5000 && !demoMode && showWelcome) {
-        // 5 seconds of inactivity - start tutorial (only if welcome is still showing)
+      // Check if on mobile device
+      const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+      const requiredDelay = isMobile ? 8000 : 5000; // 8 seconds on mobile, 5 on desktop
+      
+      if (timeSinceActivity >= requiredDelay && !demoMode && showWelcome) {
+        // Start tutorial after delay (longer on mobile)
         setDemoMode(true);
         setDemoStep(0);
       }
@@ -219,6 +232,20 @@ export default function Home() {
 
     return () => clearTimeout(timer);
   }, [lastActivity, demoMode, currentView, showWelcome]);
+
+  // Handle viewport changes during tutorial
+  useEffect(() => {
+    if (!demoMode) return;
+
+    const handleResize = () => {
+      // Force re-render of tutorial components on viewport change
+      const isMobile = window.innerWidth < 768;
+      console.log(`[Tutorial] Viewport changed, mobile: ${isMobile}, step: ${demoStep + 1}`);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [demoMode, demoStep]);
 
   // Execute command from suggestions or demo
   const handleExecuteCommand = useCallback(
@@ -288,6 +315,7 @@ export default function Home() {
 
           {/* Controls */}
           <div className="flex justify-center items-center gap-1 sm:gap-2 md:gap-3 flex-wrap">
+            <VersionSelector />
             <SoundControls />
             <ZoomControls onZoomChange={handleZoomChange} />
             <ThemeControls />
@@ -306,7 +334,7 @@ export default function Home() {
           <div className="h-full min-h-0" style={{ fontSize: `${zoom}%` }}>
             <Terminal
               onEnter3DWorld={handle3DWorldEnter}
-              onSectionVisit={handleSectionVisit}
+              onJourneyProgress={handleJourneyProgress}
               onNavigateToWorld={handleNavigateToWorld}
               onAddToCommandHistory={handleAddToCommandHistory}
               commandHistory={commandHistory}
@@ -315,7 +343,13 @@ export default function Home() {
               demoCommands={demoCommands}
               onUserActivity={handleUserActivity}
               onTutorialActivity={handleTutorialActivity}
-              onDemoStepComplete={() => setDemoStep((prev) => prev + 1)}
+              onDemoStepComplete={() => {
+                console.log(`[Tutorial] Step completion callback triggered, current step: ${demoStep}`);
+                setDemoStep((prev) => {
+                  console.log(`[Tutorial] Advancing from step ${prev} to step ${prev + 1}`);
+                  return prev + 1;
+                });
+              }}
             />
           </div>
         </div>

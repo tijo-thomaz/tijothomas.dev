@@ -58,19 +58,33 @@ const ZoomControls = ({ onZoomChange }: ZoomControlsProps) => {
   }, [zoom, isInitialized]);
 
   return (
-    <div className="flex items-center gap-2 bg-gray-900 border border-green-400 rounded-lg p-2">
+    <div 
+      className="flex items-center gap-2 border rounded-lg p-2"
+      style={{
+        backgroundColor: "var(--theme-surface)",
+        borderColor: "var(--theme-border)"
+      }}
+    >
       <Button
         variant="outline"
         size="sm"
         onClick={handleZoomOut}
         disabled={zoom === zoomLevels[0]}
-        className="bg-gray-800 border-green-400 text-green-300 hover:bg-gray-700 p-1 h-7 w-7"
+        className="p-1 h-7 w-7 border transition-colors hover:opacity-80 disabled:opacity-50"
+        style={{
+          backgroundColor: "var(--theme-bg)",
+          borderColor: "var(--theme-border)",
+          color: "var(--theme-accent)"
+        }}
         title="Zoom Out"
       >
         <ZoomOut className="w-3 h-3" />
       </Button>
       
-      <span className="text-green-400 font-mono text-xs min-w-[3rem] text-center">
+      <span 
+        className="font-mono text-xs min-w-[3rem] text-center"
+        style={{ color: "var(--theme-accent)" }}
+      >
         {zoom}%
       </span>
       
@@ -79,7 +93,12 @@ const ZoomControls = ({ onZoomChange }: ZoomControlsProps) => {
         size="sm"
         onClick={handleZoomIn}
         disabled={zoom === zoomLevels[zoomLevels.length - 1]}
-        className="bg-gray-800 border-green-400 text-green-300 hover:bg-gray-700 p-1 h-7 w-7"
+        className="p-1 h-7 w-7 border transition-colors hover:opacity-80 disabled:opacity-50"
+        style={{
+          backgroundColor: "var(--theme-bg)",
+          borderColor: "var(--theme-border)",
+          color: "var(--theme-accent)"
+        }}
         title="Zoom In"
       >
         <ZoomIn className="w-3 h-3" />
@@ -90,7 +109,12 @@ const ZoomControls = ({ onZoomChange }: ZoomControlsProps) => {
         size="sm"
         onClick={handleReset}
         disabled={zoom === 100}
-        className="bg-gray-800 border-green-400 text-green-300 hover:bg-gray-700 p-1 h-7 w-7"
+        className="p-1 h-7 w-7 border transition-colors hover:opacity-80 disabled:opacity-50"
+        style={{
+          backgroundColor: "var(--theme-bg)",
+          borderColor: "var(--theme-border)",
+          color: "var(--theme-accent)"
+        }}
         title="Reset Zoom"
       >
         <RotateCcw className="w-3 h-3" />

@@ -14,7 +14,7 @@ interface Command {
 
 interface TerminalProps {
   onEnter3DWorld?: (world: string) => void;
-  onSectionVisit?: (section: string) => void;
+  onJourneyProgress?: (section: string) => void;
   onNavigateToWorld?: (section: string) => void;
   onAddToCommandHistory?: (command: string) => void;
   commandHistory?: string[];
@@ -28,7 +28,7 @@ interface TerminalProps {
 
 const Terminal = ({ 
   onEnter3DWorld, 
-  onSectionVisit, 
+  onJourneyProgress, 
   onNavigateToWorld,
   onAddToCommandHistory, 
   commandHistory: externalCommandHistory = [],
@@ -164,7 +164,7 @@ const Terminal = ({
     
     if (trimmedCmd === "clear") {
       setHistory([]);
-      soundManager.playCommand();
+      soundManager.enableWithUserInteraction().then(() => soundManager.playCommand());
       return;
     }
 
@@ -221,12 +221,20 @@ const Terminal = ({
         output = portfolioData.about;
         break;
       case "skills":
-        output = portfolioData.skills;
-        if (onSectionVisit) onSectionVisit('skills');
+        output = [
+          ...portfolioData.skills,
+          "",
+          "💡 Want to explore interactively? Try: explore skills"
+        ];
+        // Regular command - no journey progress tracking
         break;
       case "projects":
-        output = portfolioData.projects;
-        if (onSectionVisit) onSectionVisit('projects');
+        output = [
+          ...portfolioData.projects,
+          "",
+          "💡 Want to explore interactively? Try: explore projects"
+        ];
+        // Regular command - no journey progress tracking
         break;
       case "projects-demo":
         output = [
@@ -255,8 +263,12 @@ const Terminal = ({
         ];
         break;
       case "experience":
-        output = portfolioData.experience;
-        if (onSectionVisit) onSectionVisit('experience');
+        output = [
+          ...portfolioData.experience,
+          "",
+          "💡 Want to explore interactively? Try: explore experience"
+        ];
+        // Regular command - no journey progress tracking
         break;
       case "clients":
         output = [
@@ -284,7 +296,7 @@ const Terminal = ({
           "",
           "💡 Use 'explore clients' for interactive gallery view!"
         ];
-        if (onSectionVisit) onSectionVisit('clients');
+        // Regular command - no journey progress tracking
         break;
       case "contact":
         output = portfolioData.contact;
@@ -466,14 +478,14 @@ const Terminal = ({
 
     // Play appropriate sound
     if (isError) {
-      soundManager.playError();
+      soundManager.enableWithUserInteraction().then(() => soundManager.playError());
     } else {
-      soundManager.playCommand();
+      soundManager.enableWithUserInteraction().then(() => soundManager.playCommand());
     }
 
     // Track command analytics (anonymous)
     trackCommand(cmd.trim());
-  }, [commandHistory, currentDirectory, onEnter3DWorld, onSectionVisit, onNavigateToWorld, onAddToCommandHistory]);
+  }, [commandHistory, currentDirectory, onEnter3DWorld, onJourneyProgress, onNavigateToWorld, onAddToCommandHistory]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -497,9 +509,11 @@ const Terminal = ({
       onUserActivity();
     }
     
-    // Play keypress sound for most keys
+    // Enable audio on first interaction and play keypress sound
     if (e.key.length === 1 || e.key === 'Backspace' || e.key === 'Delete') {
-      soundManager.playKeypress();
+      soundManager.enableWithUserInteraction().then(() => {
+        soundManager.playKeypress();
+      });
     }
 
     if (e.key === 'ArrowUp') {
@@ -586,8 +600,9 @@ const Terminal = ({
             if (onDemoStepComplete) {
               // Delay step completion slightly for better UX
               setTimeout(() => {
+                console.log(`[Tutorial] Completing step ${demoStep + 1}, advancing to ${demoStep + 2}`);
                 onDemoStepComplete();
-              }, 200);
+              }, 500); // Increased delay for reliability
             }
           }, 800); // Slightly faster execution
         }

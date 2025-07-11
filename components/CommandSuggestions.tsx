@@ -77,36 +77,81 @@ export default function CommandSuggestions({
   if (!showSuggestions && !demoMode) return null;
 
   return (
-    <div className="border-t backdrop-blur-sm p-3">
+    <div 
+      className="border-t backdrop-blur-sm p-3"
+      style={{ borderColor: "var(--theme-border)" }}
+    >
       <div className="max-w-4xl mx-auto">
         {/* Welcome Message for New Visitors */}
         {showWelcome && !demoMode && (
-          <div className="mb-4 bg-gradient-to-r from-green-500/20 to-blue-500/20 border border-green-400/30 rounded-lg p-4">
+          <div 
+            className="mb-4 rounded-lg p-4 border backdrop-blur-md"
+            style={{
+              backgroundColor: "var(--theme-surface)",
+              borderColor: "var(--theme-border)",
+              color: "var(--theme-text)"
+            }}
+          >
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-4 h-4 bg-gradient-to-r from-green-400 to-blue-400 rounded-full animate-pulse"></div>
-              <span className="text-green-300 font-mono text-lg font-bold">
+              <div 
+                className="w-4 h-4 rounded-full animate-pulse"
+                style={{ backgroundColor: "var(--theme-accent)" }}
+              ></div>
+              <span 
+                className="font-mono text-lg font-bold"
+                style={{ color: "var(--theme-accent)" }}
+              >
                 👋 Welcome to Tijo's Interactive Portfolio!
               </span>
             </div>
             <div className="space-y-2">
-              <div className="text-green-200 font-mono text-sm">
+              <div 
+                className="font-mono text-sm"
+                style={{ color: "var(--theme-secondary)" }}
+              >
                 This isn't your typical portfolio - it's a fully interactive
                 terminal experience! Here's how to get started:
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-3">
-                <div className="text-green-300/80 font-mono text-xs bg-green-500/10 rounded px-3 py-2">
-                  💡 <strong>Type commands</strong> like 'help', 'experience',
-                  'skills'
+              <div className="grid grid-cols-1 gap-2 mt-3">
+                <div 
+                  className="font-mono text-xs rounded px-3 py-2 border"
+                  style={{
+                    backgroundColor: "var(--theme-bg)",
+                    borderColor: "var(--theme-border)",
+                    color: "var(--theme-text)"
+                  }}
+                >
+                  💡 <strong>Type commands</strong> like 'help', 'experience', 'skills'
                 </div>
-                <div className="text-blue-300/80 font-mono text-xs bg-blue-500/10 rounded px-3 py-2">
-                  🤖 <strong>Ask the AI</strong> any questions about my
-                  background
+                <div 
+                  className="font-mono text-xs rounded px-3 py-2 border"
+                  style={{
+                    backgroundColor: "var(--theme-bg)",
+                    borderColor: "var(--theme-border)",
+                    color: "var(--theme-text)"
+                  }}
+                >
+                  🤖 <strong>Ask the AI</strong> any questions about my background
                 </div>
-                <div className="text-purple-300/80 font-mono text-xs bg-purple-500/10 rounded px-3 py-2">
+                <div 
+                  className="font-mono text-xs rounded px-3 py-2 border"
+                  style={{
+                    backgroundColor: "var(--theme-bg)",
+                    borderColor: "var(--theme-border)",
+                    color: "var(--theme-text)"
+                  }}
+                >
                   ⌨️ <strong>Use arrow keys</strong> to browse command history
                 </div>
-                <div className="text-orange-300/80 font-mono text-xs bg-orange-500/10 rounded px-3 py-2">
-                  ✨ <strong>Wait 5 seconds</strong> for an interactive tutorial
+                <div 
+                  className="font-mono text-xs rounded px-3 py-2 border"
+                  style={{
+                    backgroundColor: "var(--theme-bg)",
+                    borderColor: "var(--theme-border)",
+                    color: "var(--theme-text)"
+                  }}
+                >
+                  ✨ <strong>Tap below to start</strong> an interactive tutorial
                 </div>
               </div>
               <div className="flex justify-center gap-3 mt-3">
@@ -115,16 +160,26 @@ export default function CommandSuggestions({
                     onUserActivity();
                     onExecuteCommand("help");
                   }}
-                  className="text-green-300 hover:text-white font-mono text-sm px-3 py-2 border border-green-400/30 rounded hover:bg-green-400/10 transition-colors"
+                  className="font-mono text-sm px-3 py-2 border rounded transition-colors hover:opacity-80"
+                  style={{
+                    color: "var(--theme-accent)",
+                    borderColor: "var(--theme-border)",
+                    backgroundColor: "var(--theme-bg)"
+                  }}
                 >
                   🚀 Explore Now
                 </button>
-              <button
-              onClick={() => onStartTutorial?.()}
-                className="text-blue-300 hover:text-white font-mono text-sm px-3 py-2 border border-blue-400/30 rounded hover:bg-blue-400/10 transition-colors"
+                <button
+                  onClick={() => onStartTutorial?.()}
+                  className="font-mono text-sm px-3 py-2 border rounded transition-colors hover:opacity-80"
+                  style={{
+                    color: "var(--theme-accent)",
+                    borderColor: "var(--theme-border)",
+                    backgroundColor: "var(--theme-bg)"
+                  }}
                 >
-                   📚 Start Tutorial
-                 </button>
+                  📚 Start Tutorial
+                </button>
                </div>
             </div>
           </div>
@@ -132,17 +187,35 @@ export default function CommandSuggestions({
 
         {/* Enhanced Tutorial Mode */}
         {demoMode && (
-          <div className="mb-4 bg-blue-500/20 border border-blue-400/30 rounded-lg p-4">
+          <div 
+            className="mb-4 rounded-lg p-4 border backdrop-blur-md"
+            style={{
+              backgroundColor: "var(--theme-surface)",
+              borderColor: "var(--theme-border)",
+              color: "var(--theme-text)"
+            }}
+          >
             <div className="flex items-start justify-between mb-3">
               <div className="flex items-center gap-3">
-                <div className="w-3 h-3 bg-blue-400 rounded-full animate-pulse"></div>
-                <span className="text-blue-300 font-mono text-sm font-bold">
-                📚 Interactive Tutorial ({Math.min(demoStep + 1, demoCommands.length)}/{demoCommands.length})
+                <div 
+                  className="w-3 h-3 rounded-full animate-pulse"
+                  style={{ backgroundColor: "var(--theme-accent)" }}
+                ></div>
+                <span 
+                  className="font-mono text-sm font-bold"
+                  style={{ color: "var(--theme-accent)" }}
+                >
+                  📚 Interactive Tutorial ({Math.min(demoStep + 1, demoCommands.length)}/{demoCommands.length})
                 </span>
               </div>
               <button
                 onClick={() => onUserActivity()}
-                className="text-blue-300 hover:text-white text-xs font-mono px-2 py-1 border border-blue-400/30 rounded hover:bg-blue-400/10 transition-colors"
+                className="text-xs font-mono px-2 py-1 border rounded transition-colors hover:opacity-80"
+                style={{
+                  color: "var(--theme-text)",
+                  borderColor: "var(--theme-border)",
+                  backgroundColor: "var(--theme-bg)"
+                }}
                 aria-label="Skip tutorial"
               >
                 Skip
@@ -151,29 +224,46 @@ export default function CommandSuggestions({
 
             {/* Progress Bar */}
             <div className="mb-3">
-            <div className="flex justify-between text-xs text-blue-300/60 font-mono mb-1">
-            <span>Progress</span>
-            <span>
-            {Math.min(100, Math.round(((demoStep + 1) / demoCommands.length) * 100))}%
-            </span>
-            </div>
-            <div className="w-full bg-blue-900/30 rounded-full h-1.5 overflow-hidden">
-            <div
-            className="bg-blue-400 h-1.5 rounded-full transition-all duration-500 ease-out"
-            style={{
-            width: `${Math.min(100, ((demoStep + 1) / demoCommands.length) * 100)}%`,
-            }}
-            ></div>
-            </div>
+              <div 
+                className="flex justify-between text-xs font-mono mb-1"
+                style={{ color: "var(--theme-secondary)" }}
+              >
+                <span>Progress</span>
+                <span>
+                  {Math.min(100, Math.round(((demoStep + 1) / demoCommands.length) * 100))}%
+                </span>
+              </div>
+              <div 
+                className="w-full rounded-full h-1.5 overflow-hidden"
+                style={{ backgroundColor: "var(--theme-bg)" }}
+              >
+                <div
+                  className="h-1.5 rounded-full transition-all duration-500 ease-out"
+                  style={{
+                    width: `${Math.min(100, ((demoStep + 1) / demoCommands.length) * 100)}%`,
+                    backgroundColor: "var(--theme-accent)"
+                  }}
+                ></div>
+              </div>
             </div>
 
             {demoStep < demoCommands.length && (
               <div className="space-y-2">
-                <div className="text-blue-200 font-mono text-sm">
+                <div 
+                  className="font-mono text-sm"
+                  style={{ color: "var(--theme-text)" }}
+                >
                   {demoCommands[demoStep]?.message}
                 </div>
                 {demoCommands[demoStep]?.tip && (
-                  <div className="text-blue-300/80 font-mono text-xs bg-blue-500/10 rounded px-2 py-1 border-l-2 border-blue-400">
+                  <div 
+                    className="font-mono text-xs rounded px-2 py-1 border-l-2"
+                    style={{
+                      color: "var(--theme-secondary)",
+                      backgroundColor: "var(--theme-bg)",
+                      borderLeftColor: "var(--theme-accent)"
+                    }}
+                  >
                     {demoCommands[demoStep].tip}
                   </div>
                 )}
@@ -181,7 +271,10 @@ export default function CommandSuggestions({
             )}
 
             {demoStep >= demoCommands.length && (
-              <div className="text-green-300 font-mono text-sm">
+              <div 
+                className="font-mono text-sm"
+                style={{ color: "var(--theme-accent)" }}
+              >
                 🎯 Tutorial completed! You're now ready to explore
                 independently. Type any command or ask the AI assistant
                 questions.
@@ -193,9 +286,21 @@ export default function CommandSuggestions({
         {/* AI Assistant Message */}
         {!demoMode && (
           <div className="mb-3 text-center">
-            <div className="inline-flex items-center gap-2 bg-green-500/10 border border-green-400/30 rounded-lg px-4 py-2">
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              <span className="text-green-300 font-mono text-sm">
+            <div 
+              className="inline-flex items-center gap-2 border rounded-lg px-4 py-2 backdrop-blur-md"
+              style={{
+                backgroundColor: "var(--theme-surface)",
+                borderColor: "var(--theme-border)"
+              }}
+            >
+              <div 
+                className="w-2 h-2 rounded-full animate-pulse"
+                style={{ backgroundColor: "var(--theme-accent)" }}
+              ></div>
+              <span 
+                className="font-mono text-sm"
+                style={{ color: "var(--theme-text)" }}
+              >
                 {aiMessages[currentAiMessage]}
               </span>
             </div>

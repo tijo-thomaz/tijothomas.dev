@@ -170,15 +170,15 @@ export default function CommandSuggestions({
                   🚀 Explore Now
                 </button>
                 <button
-                  onClick={() => onStartTutorial?.()}
-                  className="font-mono text-sm px-3 py-2 border rounded transition-colors hover:opacity-80"
-                  style={{
-                    color: "var(--theme-accent)",
-                    borderColor: "var(--theme-border)",
-                    backgroundColor: "var(--theme-bg)"
-                  }}
+                onClick={() => onStartTutorial?.()}
+                className="font-mono text-sm px-4 py-3 sm:px-3 sm:py-2 border rounded transition-colors hover:opacity-80 min-h-[44px] sm:min-h-auto"
+                style={{
+                color: "var(--theme-accent)",
+                borderColor: "var(--theme-border)",
+                backgroundColor: "var(--theme-bg)"
+                }}
                 >
-                  📚 Start Tutorial
+                📚 Start Tutorial
                 </button>
                </div>
             </div>
@@ -202,10 +202,10 @@ export default function CommandSuggestions({
                   style={{ backgroundColor: "var(--theme-accent)" }}
                 ></div>
                 <span 
-                  className="font-mono text-sm font-bold"
-                  style={{ color: "var(--theme-accent)" }}
+                className="font-mono text-sm sm:text-sm text-xs font-bold"
+                style={{ color: "var(--theme-accent)" }}
                 >
-                  📚 Interactive Tutorial ({Math.min(demoStep + 1, demoCommands.length)}/{demoCommands.length})
+                📚 Tutorial ({Math.min(demoStep + 1, demoCommands.length)}/{demoCommands.length})
                 </span>
               </div>
               <button
@@ -223,7 +223,7 @@ export default function CommandSuggestions({
             </div>
 
             {/* Progress Bar */}
-            <div className="mb-3">
+            <div className="mb-2 sm:mb-3">
               <div 
                 className="flex justify-between text-xs font-mono mb-1"
                 style={{ color: "var(--theme-secondary)" }}

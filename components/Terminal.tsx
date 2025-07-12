@@ -807,7 +807,7 @@ const Terminal = ({
             aria-describedby="terminal-help"
             data-auto-typing={isAutoTyping}
             readOnly={isAutoTyping}
-            autoFocus
+            autoFocus={typeof window !== 'undefined' && window.innerWidth >= 768}
           />
         </form>
         

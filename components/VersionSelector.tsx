@@ -72,7 +72,9 @@ const VersionSelector = ({ className = "" }: VersionSelectorProps) => {
           
           {/* Dropdown */}
           <div 
-            className="absolute top-full right-0 mt-2 w-80 backdrop-blur-lg border rounded-lg shadow-2xl z-50 overflow-hidden"
+            className="absolute top-full mt-2 backdrop-blur-lg border rounded-lg shadow-2xl z-50 overflow-hidden
+                       w-screen max-w-sm left-1/2 transform -translate-x-1/2
+                       sm:w-80 sm:right-0 sm:left-auto sm:transform-none sm:translate-x-0"
             style={{
               backgroundColor: "var(--theme-surface)",
               borderColor: "var(--theme-border)"

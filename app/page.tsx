@@ -188,6 +188,7 @@ export default function Home() {
     // Only cancel demo if user is doing something OTHER than following the tutorial
     // This allows tutorial to continue while user types guided commands
     if (demoMode) {
+      console.log('[Tutorial] User activity detected - canceling demo mode');
       setDemoMode(false);
       setDemoStep(0);
     }
@@ -225,6 +226,7 @@ export default function Home() {
       
       if (timeSinceActivity >= requiredDelay && !demoMode && showWelcome) {
         // Start tutorial after delay (longer on mobile)
+        console.log(`[Tutorial] Starting auto-demo on ${isMobile ? 'mobile' : 'desktop'} after ${requiredDelay}ms`);
         setDemoMode(true);
         setDemoStep(0);
       }

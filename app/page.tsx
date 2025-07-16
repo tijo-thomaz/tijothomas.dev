@@ -358,12 +358,23 @@ export default function Home() {
                 console.log(
                   `[Tutorial] Step completion callback triggered, current step: ${demoStep}`
                 );
-                setDemoStep((prev) => {
+                // Only advance if we're still in demo mode and within valid range
+                if (demoMode && demoStep < demoCommands.length - 1) {
+                  setDemoStep((prev) => {
+                    const nextStep = prev + 1;
+                    console.log(
+                      `[Tutorial] Advancing from step ${prev} to step ${nextStep}`
+                    );
+                    return nextStep;
+                  });
+                } else if (demoStep >= demoCommands.length - 1) {
+                  // Tutorial completed
                   console.log(
-                    `[Tutorial] Advancing from step ${prev} to step ${prev + 1}`
+                    "[Tutorial] Tutorial completed, exiting demo mode"
                   );
-                  return prev + 1;
-                });
+                  setDemoMode(false);
+                  setDemoStep(0);
+                }
               }}
             />
           </div>

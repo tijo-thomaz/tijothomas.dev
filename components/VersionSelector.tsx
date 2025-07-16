@@ -82,9 +82,9 @@ const VersionSelector = ({ className = "" }: VersionSelectorProps) => {
 
           {/* Dropdown */}
           <div
-            className="absolute top-full mt-2 backdrop-blur-lg border rounded-lg shadow-2xl z-50 overflow-hidden
-                       w-screen max-w-sm left-1/2 transform -translate-x-1/2
-                       sm:w-80 sm:right-0 sm:left-auto sm:transform-none sm:translate-x-0"
+            className="fixed top-16 left-4 right-4 backdrop-blur-lg border rounded-lg shadow-2xl z-50 overflow-hidden
+                       max-w-sm mx-auto
+                       sm:absolute sm:top-full sm:mt-2 sm:left-auto sm:right-0 sm:w-80 sm:max-w-none sm:mx-0"
             style={{
               backgroundColor: "var(--theme-surface)",
               borderColor: "var(--theme-border)",
@@ -112,9 +112,16 @@ const VersionSelector = ({ className = "" }: VersionSelectorProps) => {
               {AVAILABLE_VERSIONS.map((version) => (
                 <div
                   key={version.version}
-                  className={`p-4 border-b border-gray-700/50 last:border-b-0 hover:bg-gray-800/30 transition-colors cursor-pointer ${
-                    version.version === CURRENT_VERSION ? "bg-blue-500/10" : ""
+                  className={`p-3 sm:p-4 border-b last:border-b-0 hover:opacity-80 transition-all cursor-pointer ${
+                    version.version === CURRENT_VERSION ? "opacity-90" : ""
                   }`}
+                  style={{
+                    borderColor: "var(--theme-border)",
+                    backgroundColor:
+                      version.version === CURRENT_VERSION
+                        ? "var(--theme-muted)"
+                        : "transparent",
+                  }}
                   onClick={() => {
                     if (version.status === "stable") {
                       const targetRoute =
@@ -127,7 +134,10 @@ const VersionSelector = ({ className = "" }: VersionSelectorProps) => {
                   <div className="flex items-start justify-between mb-2">
                     <div className="flex items-center gap-2">
                       {getVersionIcon(version)}
-                      <span className="font-mono text-sm text-gray-200">
+                      <span
+                        className="font-mono text-sm"
+                        style={{ color: "var(--theme-text)" }}
+                      >
                         v{version.version}
                       </span>
                       {version.version === CURRENT_VERSION && (
@@ -147,10 +157,16 @@ const VersionSelector = ({ className = "" }: VersionSelectorProps) => {
                     </span>
                   </div>
 
-                  <h4 className="font-semibold text-gray-200 mb-1">
+                  <h4
+                    className="font-semibold mb-1 text-sm"
+                    style={{ color: "var(--theme-text)" }}
+                  >
                     {version.name}
                   </h4>
-                  <p className="text-xs text-gray-400 mb-2">
+                  <p
+                    className="text-xs mb-2"
+                    style={{ color: "var(--theme-secondary)" }}
+                  >
                     {version.description}
                   </p>
 
@@ -158,7 +174,12 @@ const VersionSelector = ({ className = "" }: VersionSelectorProps) => {
                     {version.features.map((feature) => (
                       <span
                         key={feature}
-                        className="text-xs px-2 py-1 bg-gray-700/50 text-gray-300 rounded"
+                        className="text-xs px-2 py-1 rounded border"
+                        style={{
+                          backgroundColor: "var(--theme-muted)",
+                          color: "var(--theme-text)",
+                          borderColor: "var(--theme-border)",
+                        }}
                       >
                         {feature}
                       </span>
@@ -166,7 +187,10 @@ const VersionSelector = ({ className = "" }: VersionSelectorProps) => {
                   </div>
 
                   {version.status === "development" && (
-                    <div className="mt-2 flex items-center gap-1 text-xs text-orange-400">
+                    <div
+                      className="mt-2 flex items-center gap-1 text-xs"
+                      style={{ color: "var(--theme-secondary)" }}
+                    >
                       <Info className="w-3 h-3" />
                       <span>Coming soon - in development</span>
                     </div>

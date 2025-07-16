@@ -491,11 +491,14 @@ const Terminal = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (input.trim()) {
-      // Use appropriate activity handler based on demo mode
-      if (demoMode && onTutorialActivity) {
-        onTutorialActivity();
-      } else if (!demoMode && onUserActivity) {
-        onUserActivity();
+      // Only track activity if not auto-typing (to avoid canceling demo)
+      if (!isAutoTyping) {
+        // Use appropriate activity handler based on demo mode
+        if (demoMode && onTutorialActivity) {
+          onTutorialActivity();
+        } else if (!demoMode && onUserActivity) {
+          onUserActivity();
+        }
       }
       executeCommand(input);
       setInput("");
@@ -503,11 +506,14 @@ const Terminal = ({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    // Track user activity on any keypress - use appropriate handler
-    if (demoMode && onTutorialActivity) {
-      onTutorialActivity();
-    } else if (!demoMode && onUserActivity) {
-      onUserActivity();
+    // Don't track activity during auto-typing to prevent canceling demo
+    if (!isAutoTyping) {
+      // Track user activity on any keypress - use appropriate handler
+      if (demoMode && onTutorialActivity) {
+        onTutorialActivity();
+      } else if (!demoMode && onUserActivity) {
+        onUserActivity();
+      }
     }
     
     // Enable audio on first interaction and play keypress sound
@@ -569,6 +575,7 @@ const Terminal = ({
     const currentCommand = demoCommands[demoStep];
     if (!currentCommand) return;
 
+    console.log(`[Tutorial] Starting auto-type for step ${demoStep + 1}: "${currentCommand.command}"`);
     setIsAutoTyping(true);
     
     // Clear input first
@@ -576,9 +583,22 @@ const Terminal = ({
     
     // Wait for the command delay before starting to type
     const startDelay = setTimeout(() => {
+      // Verify we're still in demo mode before starting
+      if (!demoMode) {
+        setIsAutoTyping(false);
+        return;
+      }
+      
       // Type out the command character by character with smoother animation
       let charIndex = 0;
       const typeInterval = setInterval(() => {
+        // Check if demo mode was cancelled during typing
+        if (!demoMode) {
+          clearInterval(typeInterval);
+          setIsAutoTyping(false);
+          return;
+        }
+        
         if (charIndex < currentCommand.command.length) {
           // Use requestAnimationFrame for smoother updates
           requestAnimationFrame(() => {
@@ -590,6 +610,13 @@ const Terminal = ({
           
           // Execute the command after typing is complete
           setTimeout(() => {
+            // Final check before executing
+            if (!demoMode) {
+              setIsAutoTyping(false);
+              return;
+            }
+            
+            console.log(`[Tutorial] Executing command: "${currentCommand.command}"`);
             executeCommand(currentCommand.command);
             
             // Smooth cleanup
@@ -602,19 +629,22 @@ const Terminal = ({
               // Delay step completion slightly for better UX
               setTimeout(() => {
                 console.log(`[Tutorial] Completing step ${demoStep + 1}, advancing to ${demoStep + 2}`);
-                onDemoStepComplete();
-              }, 500); // Increased delay for reliability
+                // Only complete if still in demo mode
+                if (demoMode) {
+                  onDemoStepComplete();
+                }
+              }, 800); // Increased delay for reliability
             }
-          }, 800); // Slightly faster execution
+          }, 1000); // Slightly longer execution delay
         }
-      }, 80); // Faster typing speed for smoother animation
+      }, 100); // Slightly slower typing for better visibility
     }, currentCommand.delay || 2000);
 
     return () => {
       clearTimeout(startDelay);
       setIsAutoTyping(false);
     };
-  }, [demoMode, demoStep, demoCommands, onDemoStepComplete]);
+  }, [demoMode, demoStep, demoCommands, onDemoStepComplete, executeCommand]);
 
   // Responsive ASCII art based on screen size
   const getWelcomeMessage = useCallback(() => {

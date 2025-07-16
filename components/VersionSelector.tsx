@@ -117,7 +117,10 @@ const VersionSelector = ({ className = "" }: VersionSelectorProps) => {
                   }`}
                   style={{
                     borderColor: "var(--theme-border)",
-                    backgroundColor: version.version === CURRENT_VERSION ? "var(--theme-muted)" : "transparent",
+                    backgroundColor:
+                      version.version === CURRENT_VERSION
+                        ? "var(--theme-muted)"
+                        : "transparent",
                   }}
                   onClick={() => {
                     if (version.status === "stable") {
@@ -131,7 +134,7 @@ const VersionSelector = ({ className = "" }: VersionSelectorProps) => {
                   <div className="flex items-start justify-between mb-2">
                     <div className="flex items-center gap-2">
                       {getVersionIcon(version)}
-                      <span 
+                      <span
                         className="font-mono text-sm"
                         style={{ color: "var(--theme-text)" }}
                       >
@@ -154,13 +157,13 @@ const VersionSelector = ({ className = "" }: VersionSelectorProps) => {
                     </span>
                   </div>
 
-                  <h4 
+                  <h4
                     className="font-semibold mb-1 text-sm"
                     style={{ color: "var(--theme-text)" }}
                   >
                     {version.name}
                   </h4>
-                  <p 
+                  <p
                     className="text-xs mb-2"
                     style={{ color: "var(--theme-secondary)" }}
                   >
@@ -184,7 +187,10 @@ const VersionSelector = ({ className = "" }: VersionSelectorProps) => {
                   </div>
 
                   {version.status === "development" && (
-                    <div className="mt-2 flex items-center gap-1 text-xs" style={{ color: "var(--theme-secondary)" }}>
+                    <div
+                      className="mt-2 flex items-center gap-1 text-xs"
+                      style={{ color: "var(--theme-secondary)" }}
+                    >
                       <Info className="w-3 h-3" />
                       <span>Coming soon - in development</span>
                     </div>

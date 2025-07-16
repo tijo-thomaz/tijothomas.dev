@@ -369,7 +369,9 @@ export default function Home() {
                   });
                 } else if (demoStep >= demoCommands.length - 1) {
                   // Tutorial completed
-                  console.log("[Tutorial] Tutorial completed, exiting demo mode");
+                  console.log(
+                    "[Tutorial] Tutorial completed, exiting demo mode"
+                  );
                   setDemoMode(false);
                   setDemoStep(0);
                 }

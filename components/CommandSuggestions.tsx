@@ -77,27 +77,27 @@ export default function CommandSuggestions({
   if (!showSuggestions && !demoMode) return null;
 
   return (
-    <div 
+    <div
       className="border-t backdrop-blur-sm p-3"
       style={{ borderColor: "var(--theme-border)" }}
     >
       <div className="max-w-4xl mx-auto">
         {/* Welcome Message for New Visitors */}
         {showWelcome && !demoMode && (
-          <div 
+          <div
             className="mb-4 rounded-lg p-4 border backdrop-blur-md"
             style={{
               backgroundColor: "var(--theme-surface)",
               borderColor: "var(--theme-border)",
-              color: "var(--theme-text)"
+              color: "var(--theme-text)",
             }}
           >
             <div className="flex items-center gap-3 mb-3">
-              <div 
+              <div
                 className="w-4 h-4 rounded-full animate-pulse"
                 style={{ backgroundColor: "var(--theme-accent)" }}
               ></div>
-              <span 
+              <span
                 className="font-mono text-lg font-bold"
                 style={{ color: "var(--theme-accent)" }}
               >
@@ -105,7 +105,7 @@ export default function CommandSuggestions({
               </span>
             </div>
             <div className="space-y-2">
-              <div 
+              <div
                 className="font-mono text-sm"
                 style={{ color: "var(--theme-secondary)" }}
               >
@@ -113,42 +113,44 @@ export default function CommandSuggestions({
                 terminal experience! Here's how to get started:
               </div>
               <div className="grid grid-cols-1 gap-2 mt-3">
-                <div 
+                <div
                   className="font-mono text-xs rounded px-3 py-2 border"
                   style={{
                     backgroundColor: "var(--theme-bg)",
                     borderColor: "var(--theme-border)",
-                    color: "var(--theme-text)"
+                    color: "var(--theme-text)",
                   }}
                 >
-                  💡 <strong>Type commands</strong> like 'help', 'experience', 'skills'
+                  💡 <strong>Type commands</strong> like 'help', 'experience',
+                  'skills'
                 </div>
-                <div 
+                <div
                   className="font-mono text-xs rounded px-3 py-2 border"
                   style={{
                     backgroundColor: "var(--theme-bg)",
                     borderColor: "var(--theme-border)",
-                    color: "var(--theme-text)"
+                    color: "var(--theme-text)",
                   }}
                 >
-                  🤖 <strong>Ask the AI</strong> any questions about my background
+                  🤖 <strong>Ask the AI</strong> any questions about my
+                  background
                 </div>
-                <div 
+                <div
                   className="font-mono text-xs rounded px-3 py-2 border"
                   style={{
                     backgroundColor: "var(--theme-bg)",
                     borderColor: "var(--theme-border)",
-                    color: "var(--theme-text)"
+                    color: "var(--theme-text)",
                   }}
                 >
                   ⌨️ <strong>Use arrow keys</strong> to browse command history
                 </div>
-                <div 
+                <div
                   className="font-mono text-xs rounded px-3 py-2 border"
                   style={{
                     backgroundColor: "var(--theme-bg)",
                     borderColor: "var(--theme-border)",
-                    color: "var(--theme-text)"
+                    color: "var(--theme-text)",
                   }}
                 >
                   ✨ <strong>Tap below to start</strong> an interactive tutorial
@@ -164,48 +166,49 @@ export default function CommandSuggestions({
                   style={{
                     color: "var(--theme-accent)",
                     borderColor: "var(--theme-border)",
-                    backgroundColor: "var(--theme-bg)"
+                    backgroundColor: "var(--theme-bg)",
                   }}
                 >
                   🚀 Explore Now
                 </button>
                 <button
-                onClick={() => onStartTutorial?.()}
-                className="font-mono text-sm px-4 py-3 sm:px-3 sm:py-2 border rounded transition-colors hover:opacity-80 min-h-[44px] sm:min-h-auto"
-                style={{
-                color: "var(--theme-accent)",
-                borderColor: "var(--theme-border)",
-                backgroundColor: "var(--theme-bg)"
-                }}
+                  onClick={() => onStartTutorial?.()}
+                  className="font-mono text-sm px-4 py-3 sm:px-3 sm:py-2 border rounded transition-colors hover:opacity-80 min-h-[44px] sm:min-h-auto"
+                  style={{
+                    color: "var(--theme-accent)",
+                    borderColor: "var(--theme-border)",
+                    backgroundColor: "var(--theme-bg)",
+                  }}
                 >
-                📚 Start Tutorial
+                  📚 Start Tutorial
                 </button>
-               </div>
+              </div>
             </div>
           </div>
         )}
 
         {/* Enhanced Tutorial Mode */}
         {demoMode && (
-          <div 
+          <div
             className="mb-4 rounded-lg p-4 border backdrop-blur-md"
             style={{
               backgroundColor: "var(--theme-surface)",
               borderColor: "var(--theme-border)",
-              color: "var(--theme-text)"
+              color: "var(--theme-text)",
             }}
           >
             <div className="flex items-start justify-between mb-3">
               <div className="flex items-center gap-3">
-                <div 
+                <div
                   className="w-3 h-3 rounded-full animate-pulse"
                   style={{ backgroundColor: "var(--theme-accent)" }}
                 ></div>
-                <span 
-                className="font-mono text-sm sm:text-sm text-xs font-bold"
-                style={{ color: "var(--theme-accent)" }}
+                <span
+                  className="font-mono text-sm sm:text-sm text-xs font-bold"
+                  style={{ color: "var(--theme-accent)" }}
                 >
-                📚 Tutorial ({Math.min(demoStep + 1, demoCommands.length)}/{demoCommands.length})
+                  📚 Tutorial ({Math.min(demoStep + 1, demoCommands.length)}/
+                  {demoCommands.length})
                 </span>
               </div>
               <button
@@ -214,7 +217,7 @@ export default function CommandSuggestions({
                 style={{
                   color: "var(--theme-text)",
                   borderColor: "var(--theme-border)",
-                  backgroundColor: "var(--theme-bg)"
+                  backgroundColor: "var(--theme-bg)",
                 }}
                 aria-label="Skip tutorial"
               >
@@ -224,24 +227,31 @@ export default function CommandSuggestions({
 
             {/* Progress Bar */}
             <div className="mb-2 sm:mb-3">
-              <div 
+              <div
                 className="flex justify-between text-xs font-mono mb-1"
                 style={{ color: "var(--theme-secondary)" }}
               >
                 <span>Progress</span>
                 <span>
-                  {Math.min(100, Math.round(((demoStep + 1) / demoCommands.length) * 100))}%
+                  {Math.min(
+                    100,
+                    Math.round(((demoStep + 1) / demoCommands.length) * 100)
+                  )}
+                  %
                 </span>
               </div>
-              <div 
+              <div
                 className="w-full rounded-full h-1.5 overflow-hidden"
                 style={{ backgroundColor: "var(--theme-bg)" }}
               >
                 <div
                   className="h-1.5 rounded-full transition-all duration-500 ease-out"
                   style={{
-                    width: `${Math.min(100, ((demoStep + 1) / demoCommands.length) * 100)}%`,
-                    backgroundColor: "var(--theme-accent)"
+                    width: `${Math.min(
+                      100,
+                      ((demoStep + 1) / demoCommands.length) * 100
+                    )}%`,
+                    backgroundColor: "var(--theme-accent)",
                   }}
                 ></div>
               </div>
@@ -249,19 +259,19 @@ export default function CommandSuggestions({
 
             {demoStep < demoCommands.length && (
               <div className="space-y-2">
-                <div 
+                <div
                   className="font-mono text-sm"
                   style={{ color: "var(--theme-text)" }}
                 >
                   {demoCommands[demoStep]?.message}
                 </div>
                 {demoCommands[demoStep]?.tip && (
-                  <div 
+                  <div
                     className="font-mono text-xs rounded px-2 py-1 border-l-2"
                     style={{
                       color: "var(--theme-secondary)",
                       backgroundColor: "var(--theme-bg)",
-                      borderLeftColor: "var(--theme-accent)"
+                      borderLeftColor: "var(--theme-accent)",
                     }}
                   >
                     {demoCommands[demoStep].tip}
@@ -271,7 +281,7 @@ export default function CommandSuggestions({
             )}
 
             {demoStep >= demoCommands.length && (
-              <div 
+              <div
                 className="font-mono text-sm"
                 style={{ color: "var(--theme-accent)" }}
               >
@@ -286,18 +296,18 @@ export default function CommandSuggestions({
         {/* AI Assistant Message */}
         {!demoMode && (
           <div className="mb-3 text-center">
-            <div 
+            <div
               className="inline-flex items-center gap-2 border rounded-lg px-4 py-2 backdrop-blur-md"
               style={{
                 backgroundColor: "var(--theme-surface)",
-                borderColor: "var(--theme-border)"
+                borderColor: "var(--theme-border)",
               }}
             >
-              <div 
+              <div
                 className="w-2 h-2 rounded-full animate-pulse"
                 style={{ backgroundColor: "var(--theme-accent)" }}
               ></div>
-              <span 
+              <span
                 className="font-mono text-sm"
                 style={{ color: "var(--theme-text)" }}
               >

@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { downloadFile, generatePDFResume } from "@/lib/utils";
 import { soundManager } from "@/lib/sounds";
 import { trackCommand } from "@/lib/simple-analytics";
+import { CURRENT_VERSION } from "@/lib/version";
 
 interface Command {
   input: string;
@@ -623,12 +624,12 @@ const Terminal = ({
     if (isSmallScreen) {
       return [
         "Welcome to tijothomas.dev",
-        "Portfolio Terminal v2.0",
+        `Portfolio Terminal v${CURRENT_VERSION}`,
         "",
         "┌─────────────────────────────────┐",
-        "│         TIJO THOMAS            │",
-        "│    Senior Frontend Engineer   │",
-        "│        Manchester, UK          │",
+        "│         TIJO THOMAS             │",
+        "│    Senior Frontend Engineer     │",
+        "│        Manchester, UK           │",
         "└─────────────────────────────────┘",
         "",
         "💡 Interactive terminal features!",
@@ -641,7 +642,7 @@ const Terminal = ({
       ];
     } else if (isMediumScreen) {
       return [
-        "Welcome to tijothomas.dev - Portfolio Terminal v2.0",
+        `Welcome to tijothomas.dev - Portfolio Terminal v${CURRENT_VERSION}`,
         "",
         "████████╗██╗     ██╗ ██████╗ ",
         "╚══██╔══╝██║     ██║██╔═══██╗",
@@ -667,7 +668,7 @@ const Terminal = ({
       ];
     } else {
       return [
-        "Welcome to tijothomas.dev - Portfolio Terminal v2.0",
+        `Welcome to tijothomas.dev - Portfolio Terminal v${CURRENT_VERSION}`,
         "",
         "████████╗██╗     ██╗ ██████╗     ████████╗██╗  ██╗ ██████╗ ███╗   ███╗ █████╗ ███████╗",
         "╚══██╔══╝██║     ██║██╔═══██╗    ╚══██╔══╝██║  ██║██╔═══██╗████╗ ████║██╔══██╗██╔════╝",

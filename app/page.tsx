@@ -168,7 +168,8 @@ export default function Home() {
     {
       command: "explore experience",
       delay: 3000,
-      message: "🌟 Now for the real journey! This launches an immersive exploration...",
+      message:
+        "🌟 Now for the real journey! This launches an immersive exploration...",
       tip: "💡 Journey Progress: Use 'explore <section>' to unlock portfolio sections and track your exploration progress!",
     },
     {
@@ -188,7 +189,7 @@ export default function Home() {
     // Only cancel demo if user is doing something OTHER than following the tutorial
     // This allows tutorial to continue while user types guided commands
     if (demoMode) {
-      console.log('[Tutorial] User activity detected - canceling demo mode');
+      console.log("[Tutorial] User activity detected - canceling demo mode");
       setDemoMode(false);
       setDemoStep(0);
     }
@@ -221,12 +222,16 @@ export default function Home() {
       const timeSinceActivity = Date.now() - lastActivity;
 
       // Check if on mobile device
-      const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+      const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
       const requiredDelay = isMobile ? 8000 : 5000; // 8 seconds on mobile, 5 on desktop
-      
+
       if (timeSinceActivity >= requiredDelay && !demoMode && showWelcome) {
         // Start tutorial after delay (longer on mobile)
-        console.log(`[Tutorial] Starting auto-demo on ${isMobile ? 'mobile' : 'desktop'} after ${requiredDelay}ms`);
+        console.log(
+          `[Tutorial] Starting auto-demo on ${
+            isMobile ? "mobile" : "desktop"
+          } after ${requiredDelay}ms`
+        );
         setDemoMode(true);
         setDemoStep(0);
       }
@@ -242,11 +247,15 @@ export default function Home() {
     const handleResize = () => {
       // Force re-render of tutorial components on viewport change
       const isMobile = window.innerWidth < 768;
-      console.log(`[Tutorial] Viewport changed, mobile: ${isMobile}, step: ${demoStep + 1}`);
+      console.log(
+        `[Tutorial] Viewport changed, mobile: ${isMobile}, step: ${
+          demoStep + 1
+        }`
+      );
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, [demoMode, demoStep]);
 
   // Execute command from suggestions or demo
@@ -346,9 +355,13 @@ export default function Home() {
               onUserActivity={handleUserActivity}
               onTutorialActivity={handleTutorialActivity}
               onDemoStepComplete={() => {
-                console.log(`[Tutorial] Step completion callback triggered, current step: ${demoStep}`);
+                console.log(
+                  `[Tutorial] Step completion callback triggered, current step: ${demoStep}`
+                );
                 setDemoStep((prev) => {
-                  console.log(`[Tutorial] Advancing from step ${prev} to step ${prev + 1}`);
+                  console.log(
+                    `[Tutorial] Advancing from step ${prev} to step ${prev + 1}`
+                  );
                   return prev + 1;
                 });
               }}

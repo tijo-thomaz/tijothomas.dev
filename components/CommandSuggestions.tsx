@@ -1,18 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { TutorialStep } from "@/lib/tutorial-manager";
 
 interface CommandSuggestionsProps {
   visitedSections: string[];
   onExecuteCommand: (command: string) => void;
-  demoMode: boolean;
-  demoStep: number;
-  demoCommands: Array<{
-    command: string;
-    delay: number;
-    message: string;
-    tip?: string;
-  }>;
+  tutorialActive: boolean;
+  tutorialStep: number;
+  tutorialSteps: TutorialStep[];
   onUserActivity: () => void;
   showWelcome?: boolean;
   onStartTutorial?: () => void;
@@ -37,9 +33,9 @@ const aiMessages = [
 export default function CommandSuggestions({
   visitedSections,
   onExecuteCommand,
-  demoMode,
-  demoStep,
-  demoCommands,
+  tutorialActive,
+  tutorialStep,
+  tutorialSteps,
   onUserActivity,
   showWelcome = false,
   onStartTutorial,
@@ -49,13 +45,13 @@ export default function CommandSuggestions({
 
   // Rotate AI messages
   useEffect(() => {
-    if (!demoMode) {
+    if (!tutorialActive) {
       const interval = setInterval(() => {
         setCurrentAiMessage((prev) => (prev + 1) % aiMessages.length);
       }, 4000);
       return () => clearInterval(interval);
     }
-  }, [demoMode]);
+  }, [tutorialActive]);
 
   // Get suggested commands based on what user hasn't visited
   const getSuggestions = () => {
@@ -74,7 +70,7 @@ export default function CommandSuggestions({
     onExecuteCommand(command);
   };
 
-  if (!showSuggestions && !demoMode) return null;
+  if (!showSuggestions && !tutorialActive) return null;
 
   return (
     <div
@@ -83,7 +79,7 @@ export default function CommandSuggestions({
     >
       <div className="max-w-4xl mx-auto">
         {/* Welcome Message for New Visitors */}
-        {showWelcome && !demoMode && (
+        {showWelcome && !tutorialActive && (
           <div
             className="mb-4 rounded-lg p-4 border backdrop-blur-md"
             style={{
@@ -188,7 +184,7 @@ export default function CommandSuggestions({
         )}
 
         {/* Enhanced Tutorial Mode */}
-        {demoMode && (
+        {tutorialActive && (
           <div
             className="mb-4 rounded-lg p-4 border backdrop-blur-md"
             style={{
@@ -207,8 +203,8 @@ export default function CommandSuggestions({
                   className="font-mono text-sm sm:text-sm text-xs font-bold"
                   style={{ color: "var(--theme-accent)" }}
                 >
-                  📚 Tutorial ({Math.min(demoStep + 1, demoCommands.length)}/
-                  {demoCommands.length})
+                  📚 Tutorial ({Math.min(tutorialStep + 1, tutorialSteps.length)}/
+                  {tutorialSteps.length})
                 </span>
               </div>
               <button
@@ -235,7 +231,7 @@ export default function CommandSuggestions({
                 <span>
                   {Math.min(
                     100,
-                    Math.round(((demoStep + 1) / demoCommands.length) * 100)
+                    Math.round(((tutorialStep + 1) / tutorialSteps.length) * 100)
                   )}
                   %
                 </span>
@@ -249,7 +245,7 @@ export default function CommandSuggestions({
                   style={{
                     width: `${Math.min(
                       100,
-                      ((demoStep + 1) / demoCommands.length) * 100
+                      ((tutorialStep + 1) / tutorialSteps.length) * 100
                     )}%`,
                     backgroundColor: "var(--theme-accent)",
                   }}
@@ -257,15 +253,15 @@ export default function CommandSuggestions({
               </div>
             </div>
 
-            {demoStep < demoCommands.length && (
+            {tutorialStep < tutorialSteps.length && (
               <div className="space-y-2">
                 <div
                   className="font-mono text-sm"
                   style={{ color: "var(--theme-text)" }}
                 >
-                  {demoCommands[demoStep]?.message}
+                  {tutorialSteps[tutorialStep]?.message}
                 </div>
-                {demoCommands[demoStep]?.tip && (
+                {tutorialSteps[tutorialStep]?.tip && (
                   <div
                     className="font-mono text-xs rounded px-2 py-1 border-l-2"
                     style={{
@@ -274,13 +270,13 @@ export default function CommandSuggestions({
                       borderLeftColor: "var(--theme-accent)",
                     }}
                   >
-                    {demoCommands[demoStep].tip}
+                    {tutorialSteps[tutorialStep].tip}
                   </div>
                 )}
               </div>
             )}
 
-            {demoStep >= demoCommands.length && (
+            {tutorialStep >= tutorialSteps.length && (
               <div
                 className="font-mono text-sm"
                 style={{ color: "var(--theme-accent)" }}
@@ -294,7 +290,7 @@ export default function CommandSuggestions({
         )}
 
         {/* AI Assistant Message */}
-        {!demoMode && (
+        {!tutorialActive && (
           <div className="mb-3 text-center">
             <div
               className="inline-flex items-center gap-2 border rounded-lg px-4 py-2 backdrop-blur-md"

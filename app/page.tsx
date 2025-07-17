@@ -39,7 +39,7 @@ export default function Home() {
   useEffect(() => {
     setMounted(true);
     trackVisit(); // Track anonymous visit
-    
+
     // Initialize tutorial manager
     if (!tutorialManagerRef.current) {
       tutorialManagerRef.current = new TutorialManager(
@@ -204,7 +204,11 @@ export default function Home() {
       const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
       const requiredDelay = isMobile ? 8000 : 5000; // 8 seconds on mobile, 5 on desktop
 
-      if (timeSinceActivity >= requiredDelay && !tutorialActive && showWelcome) {
+      if (
+        timeSinceActivity >= requiredDelay &&
+        !tutorialActive &&
+        showWelcome
+      ) {
         // Start tutorial after delay (longer on mobile)
         console.log(
           `[Tutorial] Starting auto-tutorial on ${
@@ -216,7 +220,13 @@ export default function Home() {
     }, 1000);
 
     return () => clearTimeout(timer);
-  }, [lastActivity, tutorialActive, currentView, showWelcome, handleStartTutorial]);
+  }, [
+    lastActivity,
+    tutorialActive,
+    currentView,
+    showWelcome,
+    handleStartTutorial,
+  ]);
 
   // Handle viewport changes during tutorial
   useEffect(() => {

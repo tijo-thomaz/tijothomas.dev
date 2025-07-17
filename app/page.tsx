@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import Terminal from "@/components/Terminal";
+import { useState, useEffect, useCallback, useRef } from "react";
+import Terminal, { TerminalHandle } from "@/components/Terminal";
 import ZoomControls from "@/components/ZoomControls";
 import SoundControls from "@/components/SoundControls";
 import ThemeControls from "@/components/ThemeControls";
@@ -13,6 +13,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import CommandSuggestions from "@/components/CommandSuggestions";
 import PrivacyPolicy from "@/components/PrivacyPolicy";
 import { trackVisit } from "@/lib/simple-analytics";
+import { TutorialManager, TUTORIAL_STEPS } from "@/lib/tutorial-manager";
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);
@@ -26,15 +27,53 @@ export default function Home() {
     "terminal"
   );
 
-  // Auto-demo state
-  const [demoMode, setDemoMode] = useState(false);
-  const [demoStep, setDemoStep] = useState(0);
+  // Tutorial state
+  const [tutorialActive, setTutorialActive] = useState(false);
+  const [tutorialStep, setTutorialStep] = useState(0);
   const [lastActivity, setLastActivity] = useState(Date.now());
   const [showWelcome, setShowWelcome] = useState(true);
+  const [terminalInput, setTerminalInput] = useState("");
+  const tutorialManagerRef = useRef<TutorialManager | null>(null);
+  const terminalRef = useRef<TerminalHandle>(null);
 
   useEffect(() => {
     setMounted(true);
     trackVisit(); // Track anonymous visit
+    
+    // Initialize tutorial manager
+    if (!tutorialManagerRef.current) {
+      tutorialManagerRef.current = new TutorialManager(
+        () => {
+          // onTypeStart
+          console.log("[Tutorial] Started typing");
+        },
+        () => {
+          // onTypeComplete
+          console.log("[Tutorial] Completed typing");
+        },
+        (value: string) => {
+          // onInputChange
+          setTerminalInput(value);
+        },
+        (command: string) => {
+          // onExecuteCommand
+          if (terminalRef.current) {
+            terminalRef.current.executeCommand(command);
+          }
+        },
+        (step: number) => {
+          // onStepComplete
+          console.log(`[Tutorial] Step ${step + 1} completed`);
+          setTutorialStep(step);
+        },
+        () => {
+          // onTutorialComplete
+          console.log("[Tutorial] Tutorial completed");
+          setTutorialActive(false);
+          setTutorialStep(0);
+        }
+      );
+    }
   }, []);
 
   const handleZoomChange = useCallback((newZoom: number) => {
@@ -112,109 +151,49 @@ export default function Home() {
       handleNavigateToWorld(section);
       handleAddToCommandHistory(section);
       setLastActivity(Date.now());
-      setDemoMode(false); // Stop demo if user takes control
+      tutorialManagerRef.current?.stop(); // Stop tutorial if user takes control
     },
     [handleNavigateToWorld, handleAddToCommandHistory]
   );
 
-  // Enhanced tutorial demo - comprehensive guide
-  const demoCommands = [
-    {
-      command: "help",
-      delay: 2500,
-      message:
-        "👋 Welcome to my interactive portfolio! Let me show you how to navigate...",
-      tip: "💡 Tip: Type 'help' anytime to see all available commands",
-    },
-    {
-      command: "ls",
-      delay: 3000,
-      message:
-        "📁 These are the main sections available. Let's explore each one...",
-      tip: "💡 Try: Use arrow keys ↑↓ to browse your command history",
-    },
-    {
-      command: "experience",
-      delay: 4000,
-      message:
-        "🏢 Here's my professional journey. Notice the interactive timeline!",
-      tip: "💡 Click on any job to see detailed information",
-    },
-    {
-      command: "skills",
-      delay: 3500,
-      message:
-        "⚛️ My technical expertise organized by category and proficiency",
-      tip: "💡 Try: Type 'vim-skills' for an interactive skill visualization",
-    },
-    {
-      command: "projects",
-      delay: 4000,
-      message: "🚀 Key projects and achievements with live demos",
-      tip: "💡 Use 'projects-demo' to access direct project links",
-    },
-    {
-      command: "git-log",
-      delay: 3000,
-      message: "📜 A simulated git history showing my development journey",
-      tip: "💡 Real terminal commands work here: try 'pwd', 'whoami', 'date'",
-    },
-    {
-      command: "contact",
-      delay: 2500,
-      message: "📧 Multiple ways to connect - email, LinkedIn, or WhatsApp",
-      tip: "💡 The AI assistant (chat bubble) can answer questions anytime!",
-    },
-    {
-      command: "explore experience",
-      delay: 3000,
-      message:
-        "🌟 Now for the real journey! This launches an immersive exploration...",
-      tip: "💡 Journey Progress: Use 'explore <section>' to unlock portfolio sections and track your exploration progress!",
-    },
-    {
-      command: "clear",
-      delay: 2000,
-      message:
-        "✨ Tutorial complete! Start exploring on your own. Type 'help' for guidance.",
-      tip: "💡 Pro tip: Use Tab for autocomplete, themes in top-right, zoom controls available",
-    },
-  ];
+  // Tutorial commands are now handled by TutorialManager
 
-  // Track user activity to trigger demo
+  // Track user activity to trigger tutorial
   const handleUserActivity = useCallback(() => {
     setLastActivity(Date.now());
     setShowWelcome(false); // Hide welcome message on any activity
 
-    // Only cancel demo if user is doing something OTHER than following the tutorial
-    // This allows tutorial to continue while user types guided commands
-    if (demoMode) {
-      console.log("[Tutorial] User activity detected - canceling demo mode");
-      setDemoMode(false);
-      setDemoStep(0);
+    // Cancel tutorial if user is doing something OTHER than following the tutorial
+    if (tutorialActive) {
+      console.log("[Tutorial] User activity detected - canceling tutorial");
+      tutorialManagerRef.current?.stop();
+      setTutorialActive(false);
+      setTutorialStep(0);
     }
-  }, [demoMode]);
+  }, [tutorialActive]);
 
-  // Separate handler for tutorial-specific user activity (doesn't cancel demo)
+  // Separate handler for tutorial-specific user activity (doesn't cancel tutorial)
   const handleTutorialActivity = useCallback(() => {
     setLastActivity(Date.now());
     setShowWelcome(false);
-    // Don't cancel demo mode - let tutorial continue
+    // Don't cancel tutorial - let tutorial continue
   }, []);
 
-  // Manual tutorial trigger for testing
+  // Manual tutorial trigger
   const handleStartTutorial = useCallback(() => {
-    setDemoMode(true);
-    setDemoStep(0);
+    setTutorialActive(true);
+    setTutorialStep(0);
     setShowWelcome(false);
     // Ensure we're in terminal view for tutorial
     setCurrentView("terminal");
+    // Start the tutorial
+    tutorialManagerRef.current?.start();
   }, []);
 
-  // Auto-demo timer effect
+  // Auto-tutorial timer effect
   useEffect(() => {
-    // Only check for terminal view and if demo hasn't started yet
-    if (currentView !== "terminal" || demoMode) {
+    // Only check for terminal view and if tutorial hasn't started yet
+    if (currentView !== "terminal" || tutorialActive) {
       return;
     }
 
@@ -225,40 +204,39 @@ export default function Home() {
       const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
       const requiredDelay = isMobile ? 8000 : 5000; // 8 seconds on mobile, 5 on desktop
 
-      if (timeSinceActivity >= requiredDelay && !demoMode && showWelcome) {
+      if (timeSinceActivity >= requiredDelay && !tutorialActive && showWelcome) {
         // Start tutorial after delay (longer on mobile)
         console.log(
-          `[Tutorial] Starting auto-demo on ${
+          `[Tutorial] Starting auto-tutorial on ${
             isMobile ? "mobile" : "desktop"
           } after ${requiredDelay}ms`
         );
-        setDemoMode(true);
-        setDemoStep(0);
+        handleStartTutorial();
       }
     }, 1000);
 
     return () => clearTimeout(timer);
-  }, [lastActivity, demoMode, currentView, showWelcome]);
+  }, [lastActivity, tutorialActive, currentView, showWelcome, handleStartTutorial]);
 
   // Handle viewport changes during tutorial
   useEffect(() => {
-    if (!demoMode) return;
+    if (!tutorialActive) return;
 
     const handleResize = () => {
       // Force re-render of tutorial components on viewport change
       const isMobile = window.innerWidth < 768;
       console.log(
         `[Tutorial] Viewport changed, mobile: ${isMobile}, step: ${
-          demoStep + 1
+          tutorialStep + 1
         }`
       );
     };
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [demoMode, demoStep]);
+  }, [tutorialActive, tutorialStep]);
 
-  // Execute command from suggestions or demo
+  // Execute command from suggestions or tutorial
   const handleExecuteCommand = useCallback(
     (command: string) => {
       handleAddToCommandHistory(command);
@@ -344,38 +322,16 @@ export default function Home() {
           {/* Terminal - Full height */}
           <div className="h-full min-h-0" style={{ fontSize: `${zoom}%` }}>
             <Terminal
+              ref={terminalRef}
               onEnter3DWorld={handle3DWorldEnter}
               onJourneyProgress={handleJourneyProgress}
               onNavigateToWorld={handleNavigateToWorld}
               onAddToCommandHistory={handleAddToCommandHistory}
               commandHistory={commandHistory}
-              demoMode={demoMode}
-              demoStep={demoStep}
-              demoCommands={demoCommands}
+              tutorialManager={tutorialManagerRef.current}
               onUserActivity={handleUserActivity}
               onTutorialActivity={handleTutorialActivity}
-              onDemoStepComplete={() => {
-                console.log(
-                  `[Tutorial] Step completion callback triggered, current step: ${demoStep}`
-                );
-                // Only advance if we're still in demo mode and within valid range
-                if (demoMode && demoStep < demoCommands.length - 1) {
-                  setDemoStep((prev) => {
-                    const nextStep = prev + 1;
-                    console.log(
-                      `[Tutorial] Advancing from step ${prev} to step ${nextStep}`
-                    );
-                    return nextStep;
-                  });
-                } else if (demoStep >= demoCommands.length - 1) {
-                  // Tutorial completed
-                  console.log(
-                    "[Tutorial] Tutorial completed, exiting demo mode"
-                  );
-                  setDemoMode(false);
-                  setDemoStep(0);
-                }
-              }}
+              terminalInput={terminalInput}
             />
           </div>
         </div>
@@ -385,9 +341,9 @@ export default function Home() {
           <CommandSuggestions
             visitedSections={visitedSections}
             onExecuteCommand={handleExecuteCommand}
-            demoMode={demoMode}
-            demoStep={demoStep}
-            demoCommands={demoCommands}
+            tutorialActive={tutorialActive}
+            tutorialStep={tutorialStep}
+            tutorialSteps={TUTORIAL_STEPS}
             onUserActivity={handleUserActivity}
             showWelcome={showWelcome}
             onStartTutorial={handleStartTutorial}

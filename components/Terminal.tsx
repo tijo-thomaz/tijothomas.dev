@@ -1,11 +1,12 @@
 "use client"
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useImperativeHandle, forwardRef } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { downloadFile, generatePDFResume } from "@/lib/utils";
 import { soundManager } from "@/lib/sounds";
 import { trackCommand } from "@/lib/simple-analytics";
 import { CURRENT_VERSION } from "@/lib/version";
+import { TutorialManager } from "@/lib/tutorial-manager";
 
 interface Command {
   input: string;
@@ -19,27 +20,27 @@ interface TerminalProps {
   onNavigateToWorld?: (section: string) => void;
   onAddToCommandHistory?: (command: string) => void;
   commandHistory?: string[];
-  demoMode?: boolean;
-  demoStep?: number;
-  demoCommands?: Array<{ command: string; delay: number; message: string }>;
+  tutorialManager?: TutorialManager | null;
   onUserActivity?: () => void;
   onTutorialActivity?: () => void;
-  onDemoStepComplete?: () => void;
+  terminalInput?: string;
 }
 
-const Terminal = ({ 
+export interface TerminalHandle {
+  executeCommand: (command: string) => void;
+}
+
+const Terminal = forwardRef<TerminalHandle, TerminalProps>(({ 
   onEnter3DWorld, 
   onJourneyProgress, 
   onNavigateToWorld,
   onAddToCommandHistory, 
   commandHistory: externalCommandHistory = [],
-  demoMode = false,
-  demoStep = 0,
-  demoCommands = [],
+  tutorialManager,
   onUserActivity,
   onTutorialActivity,
-  onDemoStepComplete
-}: TerminalProps) => {
+  terminalInput
+}, ref) => {
   const [input, setInput] = useState("");
   const [history, setHistory] = useState<Command[]>([]);
   const [localCommandHistory, setLocalCommandHistory] = useState<string[]>([]);
@@ -50,7 +51,10 @@ const Terminal = ({
   const [currentDirectory, setCurrentDirectory] = useState("~");
   const inputRef = useRef<HTMLInputElement>(null);
   const terminalRef = useRef<HTMLDivElement>(null);
-  const [isAutoTyping, setIsAutoTyping] = useState(false);
+  
+  // Tutorial state
+  const isAutoTyping = tutorialManager?.isCurrentlyTyping() || false;
+  const demoMode = tutorialManager?.isActive() || false;
 
   const portfolioData = {
     about: [
@@ -508,11 +512,19 @@ const Terminal = ({
   const handleKeyDown = (e: React.KeyboardEvent) => {
     // Don't track activity during auto-typing to prevent canceling demo
     if (!isAutoTyping) {
-      // Track user activity on any keypress - use appropriate handler
-      if (demoMode && onTutorialActivity) {
-        onTutorialActivity();
-      } else if (!demoMode && onUserActivity) {
-        onUserActivity();
+      // Special handling for arrow keys - always use tutorial activity to prevent demo cancellation
+      if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+        // Always use tutorial activity for arrow keys to prevent demo cancellation
+        if (onTutorialActivity) {
+          onTutorialActivity();
+        }
+      } else {
+        // For other keys, use normal activity tracking
+        if (demoMode && onTutorialActivity) {
+          onTutorialActivity();
+        } else if (!demoMode && onUserActivity) {
+          onUserActivity();
+        }
       }
     }
     
@@ -566,85 +578,18 @@ const Terminal = ({
     inputRef.current?.focus();
   }, []);
 
-  // Auto-demo typing effect
+  // Tutorial effects handled by TutorialManager
   useEffect(() => {
-    if (!demoMode || demoStep >= demoCommands.length || isAutoTyping) {
-      return;
+    if (tutorialManager) {
+      // No additional setup needed - manager handles everything
+      console.log("[Tutorial] Tutorial manager connected to terminal");
     }
+  }, [tutorialManager]);
 
-    const currentCommand = demoCommands[demoStep];
-    if (!currentCommand) return;
-
-    console.log(`[Tutorial] Starting auto-type for step ${demoStep + 1}: "${currentCommand.command}"`);
-    setIsAutoTyping(true);
-    
-    // Clear input first
-    setInput('');
-    
-    // Wait for the command delay before starting to type
-    const startDelay = setTimeout(() => {
-      // Verify we're still in demo mode before starting
-      if (!demoMode) {
-        setIsAutoTyping(false);
-        return;
-      }
-      
-      // Type out the command character by character with smoother animation
-      let charIndex = 0;
-      const typeInterval = setInterval(() => {
-        // Check if demo mode was cancelled during typing
-        if (!demoMode) {
-          clearInterval(typeInterval);
-          setIsAutoTyping(false);
-          return;
-        }
-        
-        if (charIndex < currentCommand.command.length) {
-          // Use requestAnimationFrame for smoother updates
-          requestAnimationFrame(() => {
-            setInput(currentCommand.command.slice(0, charIndex + 1));
-          });
-          charIndex++;
-        } else {
-          clearInterval(typeInterval);
-          
-          // Execute the command after typing is complete
-          setTimeout(() => {
-            // Final check before executing
-            if (!demoMode) {
-              setIsAutoTyping(false);
-              return;
-            }
-            
-            console.log(`[Tutorial] Executing command: "${currentCommand.command}"`);
-            executeCommand(currentCommand.command);
-            
-            // Smooth cleanup
-            requestAnimationFrame(() => {
-              setInput('');
-              setIsAutoTyping(false);
-            });
-            
-            if (onDemoStepComplete) {
-              // Delay step completion slightly for better UX
-              setTimeout(() => {
-                console.log(`[Tutorial] Completing step ${demoStep + 1}, advancing to ${demoStep + 2}`);
-                // Only complete if still in demo mode
-                if (demoMode) {
-                  onDemoStepComplete();
-                }
-              }, 800); // Increased delay for reliability
-            }
-          }, 1000); // Slightly longer execution delay
-        }
-      }, 100); // Slightly slower typing for better visibility
-    }, currentCommand.delay || 2000);
-
-    return () => {
-      clearTimeout(startDelay);
-      setIsAutoTyping(false);
-    };
-  }, [demoMode, demoStep, demoCommands, onDemoStepComplete, executeCommand]);
+  // Expose executeCommand method to parent
+  useImperativeHandle(ref, () => ({
+    executeCommand
+  }));
 
   // Responsive ASCII art based on screen size
   const getWelcomeMessage = useCallback(() => {
@@ -813,10 +758,64 @@ const Terminal = ({
           style={{ borderColor: 'var(--theme-muted)' }}
         >
           <span className="zoom-text-xs" style={{ color: 'var(--theme-accent)' }}>$</span>
+          
+          {/* Mobile command history buttons */}
+          <div className="flex items-center gap-1 mr-2 sm:hidden">
+            <button
+              type="button"
+              onClick={() => {
+                if (commandHistory.length > 0) {
+                  const newIndex = historyIndex === -1 
+                    ? commandHistory.length - 1 
+                    : Math.max(0, historyIndex - 1);
+                  setHistoryIndex(newIndex);
+                  setInput(commandHistory[newIndex] || '');
+                  
+                  // Use tutorial activity to prevent demo cancellation
+                  if (onTutorialActivity) {
+                    onTutorialActivity();
+                  }
+                }
+              }}
+              disabled={commandHistory.length === 0 || isAutoTyping}
+              className="p-1 rounded text-xs opacity-70 hover:opacity-100 transition-opacity disabled:opacity-30"
+              style={{ color: 'var(--theme-accent)' }}
+              aria-label="Previous command"
+            >
+              ↑
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                if (historyIndex > -1) {
+                  const newIndex = historyIndex + 1;
+                  if (newIndex >= commandHistory.length) {
+                    setHistoryIndex(-1);
+                    setInput('');
+                  } else {
+                    setHistoryIndex(newIndex);
+                    setInput(commandHistory[newIndex]);
+                  }
+                  
+                  // Use tutorial activity to prevent demo cancellation
+                  if (onTutorialActivity) {
+                    onTutorialActivity();
+                  }
+                }
+              }}
+              disabled={historyIndex === -1 || isAutoTyping}
+              className="p-1 rounded text-xs opacity-70 hover:opacity-100 transition-opacity disabled:opacity-30"
+              style={{ color: 'var(--theme-accent)' }}
+              aria-label="Next command"
+            >
+              ↓
+            </button>
+          </div>
+          
           <input
             ref={inputRef}
             type="text"
-            value={input}
+            value={terminalInput || input}
             onChange={(e) => {
               // Always allow input changes, but handle activity differently
               setInput(e.target.value);
@@ -852,6 +851,8 @@ const Terminal = ({
       </CardContent>
     </Card>
   );
-};
+});
+
+Terminal.displayName = "Terminal";
 
 export default Terminal;

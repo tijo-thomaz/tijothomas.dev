@@ -221,12 +221,62 @@ export default function InteractiveWorldViewer({
       items: ["Material UI", "Tailwind", "Sass", "Responsive", "A11y", "Figma"],
       level: 88,
     },
+    {
+      category: "🚀 Performance & Optimization",
+      items: [
+        "Webpack",
+        "Vite",
+        "Code Splitting",
+        "Lazy Loading",
+        "Bundle Analysis",
+        "Web Vitals",
+      ],
+      level: 92,
+    },
+    {
+      category: "🔄 State Management",
+      items: ["NgRx", "Redux", "Zustand", "Context API", "MobX", "Recoil"],
+      level: 87,
+    },
+    {
+      category: "📱 Mobile & Cross-Platform",
+      items: [
+        "React Native",
+        "PWA",
+        "Ionic",
+        "Capacitor",
+        "Responsive Web",
+        "Touch UI",
+      ],
+      level: 75,
+    },
+    {
+      category: "🗄️ Database & Storage",
+      items: ["PostgreSQL", "MongoDB", "Redis", "DynamoDB", "Firebase", "SQL"],
+      level: 82,
+    },
+    {
+      category: "🔐 Security & Authentication",
+      items: ["JWT", "OAuth", "AWS Cognito", "CORS", "HTTPS", "API Security"],
+      level: 85,
+    },
   ];
 
   // Projects data
   const projectsData = [
     {
       id: 1,
+      title: "PromptShield - AI Security Sandbox",
+      description:
+        "Enterprise-grade security testing platform for detecting and preventing prompt injection attacks in LLM workflows",
+      tech: ["Go", "React", "TypeScript", "Docker", "Multi-cloud"],
+      status: "Live Demo",
+      impact: "Featured Project",
+      link: "https://promptshield.vercel.app/",
+      highlight: true,
+    },
+    {
+      id: 2,
       title: "Legacy .NET to TypeScript + Go Migration",
       description:
         "Modernizing critical betting systems with 40% performance improvement",
@@ -235,7 +285,7 @@ export default function InteractiveWorldViewer({
       impact: "40% Performance Boost",
     },
     {
-      id: 2,
+      id: 3,
       title: "Enterprise Dashboards for Fortune 500",
       description: "Scalable Angular dashboards serving 10k+ concurrent users",
       tech: ["Angular", "NgRx", "OnPush Strategy", "Performance"],
@@ -243,7 +293,7 @@ export default function InteractiveWorldViewer({
       impact: "10k+ Users",
     },
     {
-      id: 3,
+      id: 4,
       title: "COVID-19 Employee Onboarding Portal",
       description:
         "React-based rapid deployment solution for remote work transition",
@@ -252,7 +302,7 @@ export default function InteractiveWorldViewer({
       impact: "1000+ Employees",
     },
     {
-      id: 4,
+      id: 5,
       title: "Cloud-based Parking Management",
       description:
         "Real-time parking data with AWS integration and live tracking",
@@ -311,11 +361,11 @@ export default function InteractiveWorldViewer({
       <div
         ref={scrollContainerRef}
         className="relative z-10 flex-1 overflow-y-auto md:scrollbar-hide"
-        style={{ 
+        style={{
           scrollBehavior: "smooth",
           WebkitOverflowScrolling: "touch",
           touchAction: "pan-y",
-          overscrollBehavior: "contain"
+          overscrollBehavior: "contain",
         }}
       >
         {/* Section 1: Experience - Vertical Timeline */}
@@ -510,68 +560,127 @@ export default function InteractiveWorldViewer({
               </div>
             ))}
           </div>
-
-          {/* Smooth Transition to Skills */}
-          <div className="relative z-10 mt-32 mb-16 text-center">
-            <div className="max-w-2xl mx-auto bg-gradient-to-br from-purple-900/40 to-blue-900/40 backdrop-blur-sm p-8 rounded-2xl border border-purple-400/30">
-              <div className="w-1 h-12 bg-gradient-to-b from-green-400 via-purple-400 to-blue-400 mx-auto mb-6"></div>
-              <h3 className="text-3xl font-bold text-purple-400 mb-4">
-                Ready to Explore Skills?
-              </h3>
-              <p className="text-gray-300 mb-6">
-                Discover the technologies and expertise gained throughout this
-                journey
-              </p>
-              <div className="animate-bounce">
-                <div className="text-purple-400 text-2xl">⬇️</div>
-              </div>
-            </div>
-          </div>
         </section>
 
-        {/* Section 2: Skills - Futuristic Grid */}
-        <section className="min-h-screen flex flex-col justify-center px-4 md:px-8 py-8 bg-gradient-to-br from-purple-900/20 to-blue-900/20">
-          <div className="text-center mb-6 md:mb-8">
+        {/* Section 2: Skills - Infinite Carousel */}
+        <section className="min-h-screen flex flex-col justify-center px-4 md:px-8 py-8 bg-gradient-to-br from-purple-900/20 to-blue-900/20 relative overflow-hidden">
+          {/* Animated Background */}
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse"></div>
+            <div
+              className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-blue-500/20 rounded-full blur-3xl animate-pulse"
+              style={{ animationDelay: "1s" }}
+            ></div>
+          </div>
+
+          <div className="text-center mb-8 md:mb-12 relative z-10">
             <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-purple-400 mb-2 md:mb-4">
-              Skills
+              Skills Constellation
             </h2>
             <p className="text-sm md:text-lg opacity-80 px-2">
-              Tech constellation mastered over the years
+              Technologies mastered over the years • Hover to explore • Infinite
+              scroll
             </p>
           </div>
-          <div className="max-w-6xl mx-auto px-2">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-              {skillsData.map((skill, index) => (
-                <div
-                  key={index}
-                  className="bg-black/40 backdrop-blur-sm border border-purple-400/30 rounded-xl p-4 md:p-6 hover:border-purple-400 hover:bg-black/60 transition-all duration-300 group"
-                >
-                  <div className="text-lg md:text-2xl mb-2 md:mb-3">
-                    {skill.category}
-                  </div>
-                  <div className="mb-4">
-                    <div className="w-full bg-gray-700 rounded-full h-2">
-                      <div
-                        className="bg-gradient-to-r from-purple-500 to-blue-500 h-2 rounded-full transition-all duration-1000"
-                        style={{ width: `${skill.level}%` }}
-                      />
+
+          {/* Main Carousel Container */}
+          <div className="relative z-10 w-full max-w-7xl mx-auto">
+            {/* Top Row - Moving Left */}
+            <div className="relative h-32 md:h-40 mb-8 overflow-hidden group">
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-900/40 via-transparent to-purple-900/40 z-10 pointer-events-none"></div>
+              <div className="flex animate-scroll-left space-x-4 md:space-x-6 h-full group-hover:animation-play-state-paused">
+                {/* Duplicate skills for infinite scroll */}
+                {[...skillsData, ...skillsData, ...skillsData].map(
+                  (skill, index) => (
+                    <div
+                      key={`top-${index}`}
+                      className="flex-shrink-0 w-72 md:w-80 lg:w-96 bg-gradient-to-br from-purple-900/60 to-blue-900/60 backdrop-blur-sm border border-purple-400/40 rounded-2xl p-4 md:p-6 hover:border-purple-400 hover:scale-105 transition-all duration-300 group cursor-pointer shadow-lg shadow-purple-500/20"
+                    >
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="text-lg md:text-xl font-bold text-purple-300">
+                          {skill.category}
+                        </div>
+                        <div className="text-2xl md:text-3xl font-bold text-purple-400">
+                          {skill.level}%
+                        </div>
+                      </div>
+                      <div className="mb-4">
+                        <div className="w-full bg-gray-700/50 rounded-full h-2">
+                          <div
+                            className="bg-gradient-to-r from-purple-400 to-blue-400 h-2 rounded-full transition-all duration-1000 shadow-lg shadow-purple-500/30"
+                            style={{ width: `${skill.level}%` }}
+                          />
+                        </div>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {skill.items.map((item, i) => (
+                          <span
+                            key={i}
+                            className="px-3 py-1 bg-purple-500/30 text-purple-200 rounded-full text-xs font-mono border border-purple-400/40 group-hover:bg-purple-500/50 group-hover:text-white transition-all duration-300"
+                          >
+                            {item}
+                          </span>
+                        ))}
+                      </div>
                     </div>
-                    <div className="text-right text-xs md:text-sm text-purple-300 mt-1">
-                      {skill.level}%
-                    </div>
-                  </div>
-                  <div className="flex flex-wrap gap-1.5 md:gap-2">
-                    {skill.items.map((item, i) => (
-                      <span
-                        key={i}
-                        className="px-2 py-0.5 md:py-1 bg-purple-500/20 text-purple-300 rounded text-xs font-mono border border-purple-500/30 group-hover:bg-purple-500/30 transition-colors"
-                      >
-                        {item}
-                      </span>
-                    ))}
-                  </div>
+                  )
+                )}
+              </div>
+            </div>
+
+            {/* Center Focus Section */}
+            <div className="text-center mb-8 relative">
+              <div className="inline-block bg-gradient-to-r from-purple-900/80 to-blue-900/80 backdrop-blur-sm border border-purple-400/50 rounded-full px-8 py-4 shadow-xl shadow-purple-500/30">
+                <div className="text-purple-400 text-lg md:text-xl font-bold mb-2">
+                  🚀 8+ Years Experience
                 </div>
-              ))}
+                <div className="text-purple-300 text-sm md:text-base">
+                  Full Stack • Enterprise • Performance
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom Row - Moving Right */}
+            <div className="relative h-32 md:h-40 overflow-hidden group">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-900/40 via-transparent to-blue-900/40 z-10 pointer-events-none"></div>
+              <div className="flex animate-scroll-right space-x-4 md:space-x-6 h-full group-hover:animation-play-state-paused">
+                {/* Duplicate skills for infinite scroll */}
+                {[...skillsData, ...skillsData, ...skillsData].map(
+                  (skill, index) => (
+                    <div
+                      key={`bottom-${index}`}
+                      className="flex-shrink-0 w-72 md:w-80 lg:w-96 bg-gradient-to-br from-blue-900/60 to-purple-900/60 backdrop-blur-sm border border-blue-400/40 rounded-2xl p-4 md:p-6 hover:border-blue-400 hover:scale-105 transition-all duration-300 group cursor-pointer shadow-lg shadow-blue-500/20"
+                    >
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="text-lg md:text-xl font-bold text-blue-300">
+                          {skill.category}
+                        </div>
+                        <div className="text-2xl md:text-3xl font-bold text-blue-400">
+                          {skill.level}%
+                        </div>
+                      </div>
+                      <div className="mb-4">
+                        <div className="w-full bg-gray-700/50 rounded-full h-2">
+                          <div
+                            className="bg-gradient-to-r from-blue-400 to-purple-400 h-2 rounded-full transition-all duration-1000 shadow-lg shadow-blue-500/30"
+                            style={{ width: `${skill.level}%` }}
+                          />
+                        </div>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {skill.items.map((item, i) => (
+                          <span
+                            key={i}
+                            className="px-3 py-1 bg-blue-500/30 text-blue-200 rounded-full text-xs font-mono border border-blue-400/40 group-hover:bg-blue-500/50 group-hover:text-white transition-all duration-300"
+                          >
+                            {item}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )
+                )}
+              </div>
             </div>
           </div>
         </section>
@@ -591,11 +700,34 @@ export default function InteractiveWorldViewer({
               {projectsData.map((project, index) => (
                 <div
                   key={project.id}
-                  className="bg-black/40 backdrop-blur-sm border border-green-400/30 rounded-xl p-4 md:p-8 hover:border-green-400 hover:bg-black/60 transition-all duration-300 group cursor-pointer transform hover:scale-105"
+                  className={`${
+                    project.highlight
+                      ? "bg-gradient-to-br from-blue-900/40 to-purple-900/40 border-2 border-blue-400/50 shadow-lg shadow-blue-500/20"
+                      : "bg-black/40 border border-green-400/30"
+                  } backdrop-blur-sm rounded-xl p-4 md:p-8 hover:border-green-400 hover:bg-black/60 transition-all duration-300 group cursor-pointer transform hover:scale-105`}
+                  onClick={() =>
+                    project.link && window.open(project.link, "_blank")
+                  }
                 >
+                  {project.highlight && (
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="bg-gradient-to-r from-blue-400 to-purple-400 text-white px-3 py-1 rounded-full text-xs font-bold">
+                        🌟 FEATURED PROJECT
+                      </span>
+                      {project.link && (
+                        <span className="text-blue-300 text-xs">
+                          Click to view live demo →
+                        </span>
+                      )}
+                    </div>
+                  )}
                   <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-4 space-y-3 md:space-y-0">
                     <div className="flex-1 md:mr-4">
-                      <h3 className="text-lg md:text-xl font-bold text-green-300 mb-2">
+                      <h3
+                        className={`text-lg md:text-xl font-bold mb-2 ${
+                          project.highlight ? "text-blue-300" : "text-green-300"
+                        }`}
+                      >
                         {project.title}
                       </h3>
                       <p className="text-gray-300 leading-relaxed text-sm md:text-base mb-4">
@@ -603,10 +735,20 @@ export default function InteractiveWorldViewer({
                       </p>
                     </div>
                     <div className="text-left md:text-right">
-                      <div className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs font-mono mb-2 inline-block">
+                      <div
+                        className={`px-3 py-1 rounded-full text-xs font-mono mb-2 inline-block ${
+                          project.highlight
+                            ? "bg-blue-500/20 text-blue-400"
+                            : "bg-green-500/20 text-green-400"
+                        }`}
+                      >
                         {project.status}
                       </div>
-                      <div className="text-green-300 font-bold text-sm">
+                      <div
+                        className={`font-bold text-sm ${
+                          project.highlight ? "text-blue-300" : "text-green-300"
+                        }`}
+                      >
                         {project.impact}
                       </div>
                     </div>
@@ -615,7 +757,11 @@ export default function InteractiveWorldViewer({
                     {project.tech.map((tech, i) => (
                       <span
                         key={i}
-                        className="px-2 md:px-3 py-0.5 md:py-1 bg-green-500/20 text-green-300 rounded-md text-xs font-mono border border-green-500/30 group-hover:bg-green-500/30 transition-colors"
+                        className={`px-2 md:px-3 py-0.5 md:py-1 rounded-md text-xs font-mono border transition-colors ${
+                          project.highlight
+                            ? "bg-blue-500/20 text-blue-300 border-blue-500/30 group-hover:bg-blue-500/30"
+                            : "bg-green-500/20 text-green-300 border-green-500/30 group-hover:bg-green-500/30"
+                        }`}
                       >
                         {tech}
                       </span>
@@ -685,172 +831,172 @@ export default function InteractiveWorldViewer({
       {/* Glassmorphed Floating Navigation with Swipe */}
       <div className="fixed right-0 top-1/2 transform -translate-y-1/2 z-20 pointer-events-none">
         <div className="pointer-events-auto">
-        {/* Navigation Panel Container */}
-        <div
-          className={`transition-all duration-500 ease-in-out ${
-            navExpanded ? "translate-x-0" : "translate-x-full"
-          }`}
-          style={{
-            width: "280px",
-          }}
-        >
-          {/* Swipe Handle */}
-          <div className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-full">
-            <button
-              onClick={() => setNavExpanded(!navExpanded)}
-              className="bg-black/40 backdrop-blur-md border border-white/20 shadow-xl hover:bg-black/60 transition-all duration-300 group p-3"
-              style={{ borderRadius: "0.75rem 0 0 0.75rem" }}
-            >
-              <div className="flex flex-col items-center space-y-2">
-                <div
-                  className={`text-white/80 transition-transform duration-500 text-lg ${
-                    navExpanded ? "rotate-180" : ""
-                  }`}
-                >
-                  ▶
-                </div>
-                <div className="w-0.5 h-8 bg-gradient-to-b from-green-400 to-blue-500 rounded-full"></div>
-                <div className="text-xs text-white/60 font-mono -rotate-90 whitespace-nowrap">
-                  NAV
-                </div>
-              </div>
-            </button>
-          </div>
-
-          {/* Navigation Panel */}
+          {/* Navigation Panel Container */}
           <div
-            className={`bg-black/20 backdrop-blur-md border-l border-t border-b border-white/10 shadow-2xl transition-all duration-200 scrollbar-hide ${
-              navExpanded ? "opacity-100 visible" : "opacity-0 invisible"
+            className={`transition-all duration-500 ease-in-out ${
+              navExpanded ? "translate-x-0" : "translate-x-full"
             }`}
             style={{
-              borderRadius: "1rem 0 0 1rem",
               width: "280px",
-              maxHeight: "80vh",
-              overflowY: "auto",
             }}
           >
-            <div className="p-6">
-              {/* AI Assistant Style Header */}
-              <div className="text-center mb-6 pb-4 border-b border-white/10">
-                <div className="w-12 h-12 bg-gradient-to-br from-green-400 to-blue-500 rounded-full mx-auto mb-3 flex items-center justify-center">
-                  <div className="w-5 h-5 bg-white rounded-full animate-pulse"></div>
-                </div>
-                <div className="text-lg text-white font-mono font-bold">
-                  Portfolio Navigator
-                </div>
-                <div className="text-xs text-white/60 mt-1">
-                  Navigate through sections
-                </div>
-              </div>
-
-              {/* Navigation Items */}
-              <div className="space-y-4">
-                {[
-                  {
-                    name: "Experience",
-                    icon: "📈",
-                    section: 0,
-                    description: "Career Timeline",
-                  },
-                  {
-                    name: "Skills",
-                    icon: "⚛️",
-                    section: 1,
-                    description: "Tech Stack",
-                  },
-                  {
-                    name: "Projects",
-                    icon: "🚀",
-                    section: 2,
-                    description: "Portfolio Work",
-                  },
-                  {
-                    name: "Gallery",
-                    icon: "🏆",
-                    section: 3,
-                    description: "Client Success",
-                  },
-                ].map((item, index) => (
-                  <button
-                    key={item.name}
-                    onClick={() => {
-                      scrollToSection(index);
-                      setNavExpanded(false);
-                    }}
-                    className={`w-full flex items-center justify-between p-4 rounded-xl transition-all duration-300 group ${
-                      currentSection === index
-                        ? "bg-gradient-to-r from-green-500/40 to-blue-500/40 border border-green-400/60 shadow-lg scale-105"
-                        : "bg-white/5 hover:bg-white/15 border border-transparent hover:border-white/30 hover:scale-102"
+            {/* Swipe Handle */}
+            <div className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-full">
+              <button
+                onClick={() => setNavExpanded(!navExpanded)}
+                className="bg-black/40 backdrop-blur-md border border-white/20 shadow-xl hover:bg-black/60 transition-all duration-300 group p-3"
+                style={{ borderRadius: "0.75rem 0 0 0.75rem" }}
+              >
+                <div className="flex flex-col items-center space-y-2">
+                  <div
+                    className={`text-white/80 transition-transform duration-500 text-lg ${
+                      navExpanded ? "rotate-180" : ""
                     }`}
                   >
-                    <div className="flex items-center space-x-4">
-                      <div className="text-2xl">{item.icon}</div>
-                      <div className="text-left">
-                        <div className="text-white text-sm font-mono font-semibold">
-                          {item.name}
-                        </div>
-                        <div className="text-white/70 text-xs">
-                          {item.description}
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      className={`w-3 h-3 rounded-full transition-all ${
-                        currentSection === index
-                          ? "bg-green-400 shadow-lg shadow-green-400/50"
-                          : "bg-white/40"
-                      }`}
-                    ></div>
-                  </button>
-                ))}
-              </div>
-
-              {/* Progress Indicator */}
-              <div className="mt-6 pt-4 border-t border-white/10">
-                <div className="flex justify-between text-xs text-white/50 mb-3">
-                  <span>Journey Progress</span>
-                  <span>{Math.round(((currentSection + 1) / 4) * 100)}%</span>
+                    ▶
+                  </div>
+                  <div className="w-0.5 h-8 bg-gradient-to-b from-green-400 to-blue-500 rounded-full"></div>
+                  <div className="text-xs text-white/60 font-mono -rotate-90 whitespace-nowrap">
+                    NAV
+                  </div>
                 </div>
-                <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
-                  <div
-                    className="bg-gradient-to-r from-green-400 to-blue-500 h-2 rounded-full transition-all duration-500 shadow-lg"
-                    style={{ width: `${((currentSection + 1) / 4) * 100}%` }}
-                  ></div>
-                </div>
-
-                {/* Quick Actions */}
-                <div className="mt-4 flex space-x-2">
-                  <button
-                    onClick={() => {
-                      scrollToSection(0);
-                      setNavExpanded(false);
-                    }}
-                    className="flex-1 bg-white/5 hover:bg-white/15 rounded-lg p-2 text-xs text-white/70 transition-all font-mono"
-                  >
-                    ⏮ Start
-                  </button>
-                  <button
-                    onClick={() => {
-                      scrollToSection(3);
-                      setNavExpanded(false);
-                    }}
-                    className="flex-1 bg-white/5 hover:bg-white/15 rounded-lg p-2 text-xs text-white/70 transition-all font-mono"
-                  >
-                    End ⏭
-                  </button>
-                </div>
-              </div>
-
-              {/* Close Button */}
-              <button
-                onClick={() => setNavExpanded(false)}
-                className="w-full mt-4 bg-red-500/20 hover:bg-red-500/30 border border-red-400/50 rounded-lg p-3 text-red-300 text-sm font-mono transition-all"
-              >
-                ✕ Close Navigator
               </button>
             </div>
+
+            {/* Navigation Panel */}
+            <div
+              className={`bg-black/20 backdrop-blur-md border-l border-t border-b border-white/10 shadow-2xl transition-all duration-200 scrollbar-hide ${
+                navExpanded ? "opacity-100 visible" : "opacity-0 invisible"
+              }`}
+              style={{
+                borderRadius: "1rem 0 0 1rem",
+                width: "280px",
+                maxHeight: "80vh",
+                overflowY: "auto",
+              }}
+            >
+              <div className="p-6">
+                {/* AI Assistant Style Header */}
+                <div className="text-center mb-6 pb-4 border-b border-white/10">
+                  <div className="w-12 h-12 bg-gradient-to-br from-green-400 to-blue-500 rounded-full mx-auto mb-3 flex items-center justify-center">
+                    <div className="w-5 h-5 bg-white rounded-full animate-pulse"></div>
+                  </div>
+                  <div className="text-lg text-white font-mono font-bold">
+                    Portfolio Navigator
+                  </div>
+                  <div className="text-xs text-white/60 mt-1">
+                    Navigate through sections
+                  </div>
+                </div>
+
+                {/* Navigation Items */}
+                <div className="space-y-4">
+                  {[
+                    {
+                      name: "Experience",
+                      icon: "📈",
+                      section: 0,
+                      description: "Career Timeline",
+                    },
+                    {
+                      name: "Skills",
+                      icon: "⚛️",
+                      section: 1,
+                      description: "Tech Stack",
+                    },
+                    {
+                      name: "Projects",
+                      icon: "🚀",
+                      section: 2,
+                      description: "Portfolio Work",
+                    },
+                    {
+                      name: "Gallery",
+                      icon: "🏆",
+                      section: 3,
+                      description: "Client Success",
+                    },
+                  ].map((item, index) => (
+                    <button
+                      key={item.name}
+                      onClick={() => {
+                        scrollToSection(index);
+                        setNavExpanded(false);
+                      }}
+                      className={`w-full flex items-center justify-between p-4 rounded-xl transition-all duration-300 group ${
+                        currentSection === index
+                          ? "bg-gradient-to-r from-green-500/40 to-blue-500/40 border border-green-400/60 shadow-lg scale-105"
+                          : "bg-white/5 hover:bg-white/15 border border-transparent hover:border-white/30 hover:scale-102"
+                      }`}
+                    >
+                      <div className="flex items-center space-x-4">
+                        <div className="text-2xl">{item.icon}</div>
+                        <div className="text-left">
+                          <div className="text-white text-sm font-mono font-semibold">
+                            {item.name}
+                          </div>
+                          <div className="text-white/70 text-xs">
+                            {item.description}
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        className={`w-3 h-3 rounded-full transition-all ${
+                          currentSection === index
+                            ? "bg-green-400 shadow-lg shadow-green-400/50"
+                            : "bg-white/40"
+                        }`}
+                      ></div>
+                    </button>
+                  ))}
+                </div>
+
+                {/* Progress Indicator */}
+                <div className="mt-6 pt-4 border-t border-white/10">
+                  <div className="flex justify-between text-xs text-white/50 mb-3">
+                    <span>Journey Progress</span>
+                    <span>{Math.round(((currentSection + 1) / 4) * 100)}%</span>
+                  </div>
+                  <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
+                    <div
+                      className="bg-gradient-to-r from-green-400 to-blue-500 h-2 rounded-full transition-all duration-500 shadow-lg"
+                      style={{ width: `${((currentSection + 1) / 4) * 100}%` }}
+                    ></div>
+                  </div>
+
+                  {/* Quick Actions */}
+                  <div className="mt-4 flex space-x-2">
+                    <button
+                      onClick={() => {
+                        scrollToSection(0);
+                        setNavExpanded(false);
+                      }}
+                      className="flex-1 bg-white/5 hover:bg-white/15 rounded-lg p-2 text-xs text-white/70 transition-all font-mono"
+                    >
+                      ⏮ Start
+                    </button>
+                    <button
+                      onClick={() => {
+                        scrollToSection(3);
+                        setNavExpanded(false);
+                      }}
+                      className="flex-1 bg-white/5 hover:bg-white/15 rounded-lg p-2 text-xs text-white/70 transition-all font-mono"
+                    >
+                      End ⏭
+                    </button>
+                  </div>
+                </div>
+
+                {/* Close Button */}
+                <button
+                  onClick={() => setNavExpanded(false)}
+                  className="w-full mt-4 bg-red-500/20 hover:bg-red-500/30 border border-red-400/50 rounded-lg p-3 text-red-300 text-sm font-mono transition-all"
+                >
+                  ✕ Close Navigator
+                </button>
+              </div>
+            </div>
           </div>
-        </div>
         </div>
       </div>
 

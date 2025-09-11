@@ -29,6 +29,12 @@ export async function POST(request: NextRequest) {
       try {
         console.log('🤖 Trying Groq API...');
         
+        // Validate API key format (should start with gsk_)
+        const apiKey = process.env.GROQ_API_KEY;
+        if (!apiKey?.startsWith('gsk_')) {
+          throw new Error('Invalid Groq API key format - should start with "gsk_"');
+        }
+        
         // Build detailed system prompt with portfolio context
         const systemPrompt = portfolioContext ? `You are an AI assistant representing ${portfolioContext.name}, a ${portfolioContext.role} from ${portfolioContext.location}.
 
@@ -77,7 +83,7 @@ INSTRUCTIONS:
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            model: 'llama3-8b-8192',
+            model: 'llama-3.1-8b-instant',
             messages: [
               { role: 'system', content: systemPrompt },
               { role: 'user', content: message }
@@ -92,7 +98,13 @@ INSTRUCTIONS:
           response = data.choices[0].message.content;
           console.log('✅ Groq response received');
         } else {
-          console.error('❌ Groq API error:', groqResponse.status);
+          // Get detailed error info
+          const errorText = await groqResponse.text();
+          console.error('❌ Groq API error:', {
+            status: groqResponse.status,
+            statusText: groqResponse.statusText,
+            body: errorText
+          });
           response = "I'm using a fallback response since Groq API isn't working. " + response;
         }
       } catch (error) {

@@ -17,7 +17,7 @@ const sectionConfig = {
 
 const allSections = ['experience', 'skills', 'projects', 'clients'];
 
-export default function Breadcrumbs({ visitedSections, onNavigate, currentView }: BreadcrumbsProps) {
+export const Breadcrumbs = ({ visitedSections, onNavigate, currentView }: BreadcrumbsProps) => {
   const [isVisible, setIsVisible] = useState(false);
 
   // Show breadcrumbs after first section visit or if user is in interactive mode
@@ -105,4 +105,4 @@ export default function Breadcrumbs({ visitedSections, onNavigate, currentView }
       </div>
     </div>
   );
-}
+};

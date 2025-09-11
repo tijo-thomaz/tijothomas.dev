@@ -30,7 +30,7 @@ const aiMessages = [
   "📧 Ready to connect? Use 'contact'",
 ];
 
-export default function CommandSuggestions({
+export const CommandSuggestions = ({
   visitedSections,
   onExecuteCommand,
   tutorialActive,
@@ -39,7 +39,7 @@ export default function CommandSuggestions({
   onUserActivity,
   showWelcome = false,
   onStartTutorial,
-}: CommandSuggestionsProps) {
+}: CommandSuggestionsProps) => {
   const [currentAiMessage, setCurrentAiMessage] = useState(0);
   const [showSuggestions, setShowSuggestions] = useState(true);
 
@@ -350,4 +350,4 @@ export default function CommandSuggestions({
       </div>
     </div>
   );
-}
+};

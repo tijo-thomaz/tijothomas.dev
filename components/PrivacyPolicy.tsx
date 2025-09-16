@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-export default function PrivacyPolicy() {
+export const PrivacyPolicy = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   if (!isOpen) {
@@ -115,4 +115,4 @@ export default function PrivacyPolicy() {
       </div>
     </div>
   );
-}
+};

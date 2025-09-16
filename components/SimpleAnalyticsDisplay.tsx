@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart3, Users, Command, X, Shield } from "lucide-react";
 import { getAnalyticsSummary } from "@/lib/simple-analytics";
 
-const SimpleAnalyticsDisplay = () => {
+export const SimpleAnalyticsDisplay = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [localStats, setLocalStats] = useState({
     visits: 0,
@@ -353,5 +353,3 @@ const SimpleAnalyticsDisplay = () => {
     </>
   );
 };
-
-export default SimpleAnalyticsDisplay;

@@ -12,7 +12,7 @@ interface VersionSelectorProps {
   className?: string;
 }
 
-const VersionSelector = ({ className = "" }: VersionSelectorProps) => {
+export const VersionSelector = ({ className = "" }: VersionSelectorProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const currentVersion = AVAILABLE_VERSIONS.find(
     (v) => v.version === CURRENT_VERSION
@@ -204,5 +204,3 @@ const VersionSelector = ({ className = "" }: VersionSelectorProps) => {
     </div>
   );
 };
-
-export default VersionSelector;

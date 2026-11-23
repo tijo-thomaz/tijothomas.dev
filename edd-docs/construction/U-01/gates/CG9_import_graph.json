@@ -5,8 +5,9 @@
   "exitCode": 0,
   "cmd": "node scripts/check-unreachable.mjs",
   "evidence": "PLAT-AC-11/12 import graph from route entries, 0 unreachable modules (direction rules from U-03)",
-  "startedAt": "2026-11-23T19:33:03.435Z",
-  "durationMs": 236,
+  "base": "35521e2",
+  "startedAt": "2026-11-23T19:56:46.946Z",
+  "durationMs": 219,
   "outputTail": [
     "PASS PLAT-AC-11 import graph is non-empty (entry points and modules found)",
     "PASS PLAT-AC-11 unreachable path lists are readable and non-empty",

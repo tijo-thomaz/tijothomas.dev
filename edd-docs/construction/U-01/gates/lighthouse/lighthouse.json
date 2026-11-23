@@ -6,60 +6,60 @@
     {
       "run": 1,
       "scores": {
+        "performance": 92,
+        "accessibility": 90,
+        "best-practices": 96,
+        "seo": 100
+      },
+      "cls": 0,
+      "lcpMs": 2196,
+      "tbtMs": 304,
+      "formFactor": "mobile",
+      "lighthouseVersion": "13.6.0",
+      "fetchTime": "2026-11-23T19:57:25.567Z"
+    },
+    {
+      "run": 2,
+      "scores": {
         "performance": 90,
         "accessibility": 90,
         "best-practices": 96,
         "seo": 100
       },
       "cls": 0,
-      "lcpMs": 2260,
-      "tbtMs": 367,
+      "lcpMs": 2298,
+      "tbtMs": 349,
       "formFactor": "mobile",
       "lighthouseVersion": "13.6.0",
-      "fetchTime": "2026-11-23T19:33:34.123Z"
-    },
-    {
-      "run": 2,
-      "scores": {
-        "performance": 98,
-        "accessibility": 90,
-        "best-practices": 96,
-        "seo": 100
-      },
-      "cls": 0,
-      "lcpMs": 2166,
-      "tbtMs": 134,
-      "formFactor": "mobile",
-      "lighthouseVersion": "13.6.0",
-      "fetchTime": "2026-11-23T19:33:55.162Z"
+      "fetchTime": "2026-11-23T19:57:43.717Z"
     },
     {
       "run": 3,
       "scores": {
-        "performance": 98,
+        "performance": 95,
         "accessibility": 90,
         "best-practices": 96,
         "seo": 100
       },
       "cls": 0,
-      "lcpMs": 2148,
-      "tbtMs": 124,
+      "lcpMs": 2174,
+      "tbtMs": 231,
       "formFactor": "mobile",
       "lighthouseVersion": "13.6.0",
-      "fetchTime": "2026-11-23T19:34:15.181Z"
+      "fetchTime": "2026-11-23T19:58:03.003Z"
     }
   ],
-  "medianRun": 2,
+  "medianRun": 1,
   "median": {
     "scores": {
-      "performance": 98,
+      "performance": 92,
       "accessibility": 90,
       "best-practices": 96,
       "seo": 100
     },
     "cls": 0,
-    "lcpMs": 2166,
-    "tbtMs": 134
+    "lcpMs": 2196,
+    "tbtMs": 304
   },
   "thresholds": {
     "minScore": 95,

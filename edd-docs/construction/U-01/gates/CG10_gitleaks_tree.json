@@ -1,14 +1,17 @@
 {
   "id": "CG10_gitleaks_tree",
   "enforce": true,
-  "status": "blocked",
-  "exitCode": 78,
-  "cmd": "node scripts/require-tool.mjs gitleaks dir . --redact --no-banner --report-format json --report-path edd-docs/construction/U-01/gates/gitleaks-tree.json",
+  "status": "pass",
+  "exitCode": 0,
+  "cmd": "node scripts/require-tool.mjs gitleaks dir . --config .gitleaks.toml --redact --no-banner --report-format json --report-path edd-docs/construction/U-01/gates/gitleaks-tree.json",
   "evidence": "PLAT-AC-25 0 secrets in the working tree",
-  "startedAt": "2026-11-23T19:33:19.339Z",
-  "durationMs": 222,
+  "base": "35521e2",
+  "startedAt": "2026-11-23T19:57:11.593Z",
+  "durationMs": 2106,
   "outputTail": [
-    "BLOCKED gitleaks is not installed (not on PATH); install it to run this gate: gitleaks dir . --redact --no-banner --report-format json --report-path edd-docs/construction/U-01/gates/gitleaks-tree.json"
+    "using gitleaks: ~\\AppData\\Local\\Microsoft\\WinGet\\Packages\\Gitleaks.Gitleaks_Microsoft.Winget.Source_8wekyb3d8bbwe\\gitleaks.exe",
+    "1:27AM INF scanned ~4033404 bytes (4.03 MB) in 806ms",
+    "1:27AM INF no leaks found"
   ],
   "log": "edd-docs/construction/U-01/gates/CG10_gitleaks_tree.log"
 }

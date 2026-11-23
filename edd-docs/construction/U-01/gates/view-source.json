@@ -5,8 +5,9 @@
   "exitCode": 1,
   "cmd": "node scripts/view-source.mjs --out edd-docs/construction/U-01/gates",
   "evidence": "server HTML of / holds every rendered content string; enforced from U-07",
-  "startedAt": "2026-11-23T19:34:25.144Z",
-  "durationMs": 1493,
+  "base": "35521e2",
+  "startedAt": "2026-11-23T19:58:13.073Z",
+  "durationMs": 1674,
   "outputTail": [
     "PASS view-source GET / returns 200 (got 200)",
     "FAIL view-source expected strings configured (0)",

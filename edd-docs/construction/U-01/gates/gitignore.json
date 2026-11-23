@@ -5,8 +5,9 @@
   "exitCode": 0,
   "cmd": "node scripts/check-gitignore.mjs",
   "evidence": "PLAT-AC-18 specs/home.md tracked and not ignored",
-  "startedAt": "2026-11-23T19:33:21.920Z",
-  "durationMs": 186,
+  "base": "35521e2",
+  "startedAt": "2026-11-23T19:57:15.260Z",
+  "durationMs": 185,
   "outputTail": [
     "PASS PLAT-AC-18 specs/home.md is tracked and not git-ignored"
   ],

@@ -5,8 +5,9 @@
   "exitCode": 0,
   "cmd": "npm run build",
   "evidence": "next build exit code and route table (empty-env build from U-02)",
-  "startedAt": "2026-11-23T19:31:36.782Z",
-  "durationMs": 32876,
+  "base": "35521e2",
+  "startedAt": "2026-11-23T19:55:35.718Z",
+  "durationMs": 29109,
   "outputTail": [
     "",
     "> tijothomas.dev@1.0.0 build",

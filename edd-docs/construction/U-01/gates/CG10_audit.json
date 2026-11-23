@@ -5,8 +5,9 @@
   "exitCode": 1,
   "cmd": "npm audit --audit-level=high",
   "evidence": "0 high or critical advisories in the installed tree",
-  "startedAt": "2026-11-23T19:33:03.674Z",
-  "durationMs": 7539,
+  "base": "35521e2",
+  "startedAt": "2026-11-23T19:56:47.167Z",
+  "durationMs": 5657,
   "outputTail": [
     "Vite Vulnerable to Arbitrary File Read via Vite Dev Server WebSocket - https://github.com/advisories/GHSA-p9ff-h696-f583",
     "launch-editor: NTLMv2 hash disclosure via UNC path handling on Windows - https://github.com/advisories/GHSA-v6wh-96g9-6wx3",

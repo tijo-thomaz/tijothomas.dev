@@ -1,15 +1,18 @@
 {
   "bomFormat": "CycloneDX",
   "specVersion": "1.5",
+  "serialNumber": "urn:uuid:04cffb21-fed3-44eb-b989-bb72c6d1146f",
   "version": 1,
   "metadata": {
-    "timestamp": "2026-11-23T19:33:19.690Z",
-    "tools": [
-      {
-        "vendor": "tijothomas.dev",
-        "name": "scripts/sbom.mjs"
-      }
-    ],
+    "timestamp": "2026-11-23T19:57:13.870Z",
+    "tools": {
+      "components": [
+        {
+          "type": "application",
+          "name": "scripts/sbom.mjs"
+        }
+      ]
+    },
     "component": {
       "type": "application",
       "bom-ref": "pkg:npm/tijothomas.dev@1.0.0",
@@ -21,7 +24,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40adobe/css-tools@4.4.4",
-      "name": "@adobe/css-tools",
+      "group": "@adobe",
+      "name": "css-tools",
       "version": "4.4.4",
       "purl": "pkg:npm/%40adobe/css-tools@4.4.4",
       "scope": "excluded",
@@ -40,7 +44,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40alloc/quick-lru@5.2.0",
-      "name": "@alloc/quick-lru",
+      "group": "@alloc",
+      "name": "quick-lru",
       "version": "5.2.0",
       "purl": "pkg:npm/%40alloc/quick-lru@5.2.0",
       "scope": "excluded",
@@ -59,7 +64,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40ampproject/remapping@2.3.0",
-      "name": "@ampproject/remapping",
+      "group": "@ampproject",
+      "name": "remapping",
       "version": "2.3.0",
       "purl": "pkg:npm/%40ampproject/remapping@2.3.0",
       "scope": "excluded",
@@ -78,7 +84,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40asamuzakjp/css-color@3.2.0",
-      "name": "@asamuzakjp/css-color",
+      "group": "@asamuzakjp",
+      "name": "css-color",
       "version": "3.2.0",
       "purl": "pkg:npm/%40asamuzakjp/css-color@3.2.0",
       "scope": "excluded",
@@ -97,7 +104,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40babel/code-frame@7.27.1",
-      "name": "@babel/code-frame",
+      "group": "@babel",
+      "name": "code-frame",
       "version": "7.27.1",
       "purl": "pkg:npm/%40babel/code-frame@7.27.1",
       "scope": "excluded",
@@ -116,7 +124,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40babel/helper-string-parser@7.27.1",
-      "name": "@babel/helper-string-parser",
+      "group": "@babel",
+      "name": "helper-string-parser",
       "version": "7.27.1",
       "purl": "pkg:npm/%40babel/helper-string-parser@7.27.1",
       "scope": "excluded",
@@ -135,7 +144,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40babel/helper-validator-identifier@7.27.1",
-      "name": "@babel/helper-validator-identifier",
+      "group": "@babel",
+      "name": "helper-validator-identifier",
       "version": "7.27.1",
       "purl": "pkg:npm/%40babel/helper-validator-identifier@7.27.1",
       "scope": "excluded",
@@ -154,7 +164,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40babel/parser@7.28.4",
-      "name": "@babel/parser",
+      "group": "@babel",
+      "name": "parser",
       "version": "7.28.4",
       "purl": "pkg:npm/%40babel/parser@7.28.4",
       "scope": "excluded",
@@ -173,7 +184,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40babel/runtime@7.28.4",
-      "name": "@babel/runtime",
+      "group": "@babel",
+      "name": "runtime",
       "version": "7.28.4",
       "purl": "pkg:npm/%40babel/runtime@7.28.4",
       "scope": "excluded",
@@ -192,7 +204,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40babel/types@7.28.4",
-      "name": "@babel/types",
+      "group": "@babel",
+      "name": "types",
       "version": "7.28.4",
       "purl": "pkg:npm/%40babel/types@7.28.4",
       "scope": "excluded",
@@ -211,7 +224,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40bcoe/v8-coverage@1.0.2",
-      "name": "@bcoe/v8-coverage",
+      "group": "@bcoe",
+      "name": "v8-coverage",
       "version": "1.0.2",
       "purl": "pkg:npm/%40bcoe/v8-coverage@1.0.2",
       "scope": "excluded",
@@ -230,7 +244,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40csstools/color-helpers@5.1.0",
-      "name": "@csstools/color-helpers",
+      "group": "@csstools",
+      "name": "color-helpers",
       "version": "5.1.0",
       "purl": "pkg:npm/%40csstools/color-helpers@5.1.0",
       "scope": "excluded",
@@ -249,7 +264,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40csstools/css-calc@2.1.4",
-      "name": "@csstools/css-calc",
+      "group": "@csstools",
+      "name": "css-calc",
       "version": "2.1.4",
       "purl": "pkg:npm/%40csstools/css-calc@2.1.4",
       "scope": "excluded",
@@ -268,7 +284,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40csstools/css-color-parser@3.1.0",
-      "name": "@csstools/css-color-parser",
+      "group": "@csstools",
+      "name": "css-color-parser",
       "version": "3.1.0",
       "purl": "pkg:npm/%40csstools/css-color-parser@3.1.0",
       "scope": "excluded",
@@ -287,7 +304,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40csstools/css-parser-algorithms@3.0.5",
-      "name": "@csstools/css-parser-algorithms",
+      "group": "@csstools",
+      "name": "css-parser-algorithms",
       "version": "3.0.5",
       "purl": "pkg:npm/%40csstools/css-parser-algorithms@3.0.5",
       "scope": "excluded",
@@ -306,7 +324,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40csstools/css-tokenizer@3.0.4",
-      "name": "@csstools/css-tokenizer",
+      "group": "@csstools",
+      "name": "css-tokenizer",
       "version": "3.0.4",
       "purl": "pkg:npm/%40csstools/css-tokenizer@3.0.4",
       "scope": "excluded",
@@ -325,7 +344,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40discoveryjs/json-ext@0.5.7",
-      "name": "@discoveryjs/json-ext",
+      "group": "@discoveryjs",
+      "name": "json-ext",
       "version": "0.5.7",
       "purl": "pkg:npm/%40discoveryjs/json-ext@0.5.7",
       "scope": "excluded",
@@ -344,7 +364,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40esbuild/aix-ppc64@0.25.9",
-      "name": "@esbuild/aix-ppc64",
+      "group": "@esbuild",
+      "name": "aix-ppc64",
       "version": "0.25.9",
       "purl": "pkg:npm/%40esbuild/aix-ppc64@0.25.9",
       "scope": "excluded",
@@ -363,7 +384,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40esbuild/android-arm@0.25.9",
-      "name": "@esbuild/android-arm",
+      "group": "@esbuild",
+      "name": "android-arm",
       "version": "0.25.9",
       "purl": "pkg:npm/%40esbuild/android-arm@0.25.9",
       "scope": "excluded",
@@ -382,7 +404,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40esbuild/android-arm64@0.25.9",
-      "name": "@esbuild/android-arm64",
+      "group": "@esbuild",
+      "name": "android-arm64",
       "version": "0.25.9",
       "purl": "pkg:npm/%40esbuild/android-arm64@0.25.9",
       "scope": "excluded",
@@ -401,7 +424,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40esbuild/android-x64@0.25.9",
-      "name": "@esbuild/android-x64",
+      "group": "@esbuild",
+      "name": "android-x64",
       "version": "0.25.9",
       "purl": "pkg:npm/%40esbuild/android-x64@0.25.9",
       "scope": "excluded",
@@ -420,7 +444,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40esbuild/darwin-arm64@0.25.9",
-      "name": "@esbuild/darwin-arm64",
+      "group": "@esbuild",
+      "name": "darwin-arm64",
       "version": "0.25.9",
       "purl": "pkg:npm/%40esbuild/darwin-arm64@0.25.9",
       "scope": "excluded",
@@ -439,7 +464,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40esbuild/darwin-x64@0.25.9",
-      "name": "@esbuild/darwin-x64",
+      "group": "@esbuild",
+      "name": "darwin-x64",
       "version": "0.25.9",
       "purl": "pkg:npm/%40esbuild/darwin-x64@0.25.9",
       "scope": "excluded",
@@ -458,7 +484,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40esbuild/freebsd-arm64@0.25.9",
-      "name": "@esbuild/freebsd-arm64",
+      "group": "@esbuild",
+      "name": "freebsd-arm64",
       "version": "0.25.9",
       "purl": "pkg:npm/%40esbuild/freebsd-arm64@0.25.9",
       "scope": "excluded",
@@ -477,7 +504,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40esbuild/freebsd-x64@0.25.9",
-      "name": "@esbuild/freebsd-x64",
+      "group": "@esbuild",
+      "name": "freebsd-x64",
       "version": "0.25.9",
       "purl": "pkg:npm/%40esbuild/freebsd-x64@0.25.9",
       "scope": "excluded",
@@ -496,7 +524,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40esbuild/linux-arm@0.25.9",
-      "name": "@esbuild/linux-arm",
+      "group": "@esbuild",
+      "name": "linux-arm",
       "version": "0.25.9",
       "purl": "pkg:npm/%40esbuild/linux-arm@0.25.9",
       "scope": "excluded",
@@ -515,7 +544,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40esbuild/linux-arm64@0.25.9",
-      "name": "@esbuild/linux-arm64",
+      "group": "@esbuild",
+      "name": "linux-arm64",
       "version": "0.25.9",
       "purl": "pkg:npm/%40esbuild/linux-arm64@0.25.9",
       "scope": "excluded",
@@ -534,7 +564,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40esbuild/linux-ia32@0.25.9",
-      "name": "@esbuild/linux-ia32",
+      "group": "@esbuild",
+      "name": "linux-ia32",
       "version": "0.25.9",
       "purl": "pkg:npm/%40esbuild/linux-ia32@0.25.9",
       "scope": "excluded",
@@ -553,7 +584,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40esbuild/linux-loong64@0.25.9",
-      "name": "@esbuild/linux-loong64",
+      "group": "@esbuild",
+      "name": "linux-loong64",
       "version": "0.25.9",
       "purl": "pkg:npm/%40esbuild/linux-loong64@0.25.9",
       "scope": "excluded",
@@ -572,7 +604,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40esbuild/linux-mips64el@0.25.9",
-      "name": "@esbuild/linux-mips64el",
+      "group": "@esbuild",
+      "name": "linux-mips64el",
       "version": "0.25.9",
       "purl": "pkg:npm/%40esbuild/linux-mips64el@0.25.9",
       "scope": "excluded",
@@ -591,7 +624,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40esbuild/linux-ppc64@0.25.9",
-      "name": "@esbuild/linux-ppc64",
+      "group": "@esbuild",
+      "name": "linux-ppc64",
       "version": "0.25.9",
       "purl": "pkg:npm/%40esbuild/linux-ppc64@0.25.9",
       "scope": "excluded",
@@ -610,7 +644,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40esbuild/linux-riscv64@0.25.9",
-      "name": "@esbuild/linux-riscv64",
+      "group": "@esbuild",
+      "name": "linux-riscv64",
       "version": "0.25.9",
       "purl": "pkg:npm/%40esbuild/linux-riscv64@0.25.9",
       "scope": "excluded",
@@ -629,7 +664,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40esbuild/linux-s390x@0.25.9",
-      "name": "@esbuild/linux-s390x",
+      "group": "@esbuild",
+      "name": "linux-s390x",
       "version": "0.25.9",
       "purl": "pkg:npm/%40esbuild/linux-s390x@0.25.9",
       "scope": "excluded",
@@ -648,7 +684,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40esbuild/linux-x64@0.25.9",
-      "name": "@esbuild/linux-x64",
+      "group": "@esbuild",
+      "name": "linux-x64",
       "version": "0.25.9",
       "purl": "pkg:npm/%40esbuild/linux-x64@0.25.9",
       "scope": "excluded",
@@ -667,7 +704,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40esbuild/netbsd-arm64@0.25.9",
-      "name": "@esbuild/netbsd-arm64",
+      "group": "@esbuild",
+      "name": "netbsd-arm64",
       "version": "0.25.9",
       "purl": "pkg:npm/%40esbuild/netbsd-arm64@0.25.9",
       "scope": "excluded",
@@ -686,7 +724,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40esbuild/netbsd-x64@0.25.9",
-      "name": "@esbuild/netbsd-x64",
+      "group": "@esbuild",
+      "name": "netbsd-x64",
       "version": "0.25.9",
       "purl": "pkg:npm/%40esbuild/netbsd-x64@0.25.9",
       "scope": "excluded",
@@ -705,7 +744,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40esbuild/openbsd-arm64@0.25.9",
-      "name": "@esbuild/openbsd-arm64",
+      "group": "@esbuild",
+      "name": "openbsd-arm64",
       "version": "0.25.9",
       "purl": "pkg:npm/%40esbuild/openbsd-arm64@0.25.9",
       "scope": "excluded",
@@ -724,7 +764,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40esbuild/openbsd-x64@0.25.9",
-      "name": "@esbuild/openbsd-x64",
+      "group": "@esbuild",
+      "name": "openbsd-x64",
       "version": "0.25.9",
       "purl": "pkg:npm/%40esbuild/openbsd-x64@0.25.9",
       "scope": "excluded",
@@ -743,7 +784,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40esbuild/openharmony-arm64@0.25.9",
-      "name": "@esbuild/openharmony-arm64",
+      "group": "@esbuild",
+      "name": "openharmony-arm64",
       "version": "0.25.9",
       "purl": "pkg:npm/%40esbuild/openharmony-arm64@0.25.9",
       "scope": "excluded",
@@ -762,7 +804,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40esbuild/sunos-x64@0.25.9",
-      "name": "@esbuild/sunos-x64",
+      "group": "@esbuild",
+      "name": "sunos-x64",
       "version": "0.25.9",
       "purl": "pkg:npm/%40esbuild/sunos-x64@0.25.9",
       "scope": "excluded",
@@ -781,7 +824,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40esbuild/win32-arm64@0.25.9",
-      "name": "@esbuild/win32-arm64",
+      "group": "@esbuild",
+      "name": "win32-arm64",
       "version": "0.25.9",
       "purl": "pkg:npm/%40esbuild/win32-arm64@0.25.9",
       "scope": "excluded",
@@ -800,7 +844,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40esbuild/win32-ia32@0.25.9",
-      "name": "@esbuild/win32-ia32",
+      "group": "@esbuild",
+      "name": "win32-ia32",
       "version": "0.25.9",
       "purl": "pkg:npm/%40esbuild/win32-ia32@0.25.9",
       "scope": "excluded",
@@ -819,7 +864,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40esbuild/win32-x64@0.25.9",
-      "name": "@esbuild/win32-x64",
+      "group": "@esbuild",
+      "name": "win32-x64",
       "version": "0.25.9",
       "purl": "pkg:npm/%40esbuild/win32-x64@0.25.9",
       "scope": "excluded",
@@ -838,7 +884,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40isaacs/cliui@8.0.2",
-      "name": "@isaacs/cliui",
+      "group": "@isaacs",
+      "name": "cliui",
       "version": "8.0.2",
       "purl": "pkg:npm/%40isaacs/cliui@8.0.2",
       "scope": "excluded",
@@ -895,7 +942,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40istanbuljs/schema@0.1.3",
-      "name": "@istanbuljs/schema",
+      "group": "@istanbuljs",
+      "name": "schema",
       "version": "0.1.3",
       "purl": "pkg:npm/%40istanbuljs/schema@0.1.3",
       "scope": "excluded",
@@ -914,7 +962,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40jridgewell/gen-mapping@0.3.13",
-      "name": "@jridgewell/gen-mapping",
+      "group": "@jridgewell",
+      "name": "gen-mapping",
       "version": "0.3.13",
       "purl": "pkg:npm/%40jridgewell/gen-mapping@0.3.13",
       "scope": "excluded",
@@ -933,7 +982,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40jridgewell/resolve-uri@3.1.2",
-      "name": "@jridgewell/resolve-uri",
+      "group": "@jridgewell",
+      "name": "resolve-uri",
       "version": "3.1.2",
       "purl": "pkg:npm/%40jridgewell/resolve-uri@3.1.2",
       "scope": "excluded",
@@ -952,7 +1002,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40jridgewell/sourcemap-codec@1.5.5",
-      "name": "@jridgewell/sourcemap-codec",
+      "group": "@jridgewell",
+      "name": "sourcemap-codec",
       "version": "1.5.5",
       "purl": "pkg:npm/%40jridgewell/sourcemap-codec@1.5.5",
       "scope": "excluded",
@@ -971,7 +1022,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40jridgewell/trace-mapping@0.3.31",
-      "name": "@jridgewell/trace-mapping",
+      "group": "@jridgewell",
+      "name": "trace-mapping",
       "version": "0.3.31",
       "purl": "pkg:npm/%40jridgewell/trace-mapping@0.3.31",
       "scope": "excluded",
@@ -990,7 +1042,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40next/bundle-analyzer@15.5.3",
-      "name": "@next/bundle-analyzer",
+      "group": "@next",
+      "name": "bundle-analyzer",
       "version": "15.5.3",
       "purl": "pkg:npm/%40next/bundle-analyzer@15.5.3",
       "scope": "excluded",
@@ -1009,7 +1062,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40next/env@14.2.30",
-      "name": "@next/env",
+      "group": "@next",
+      "name": "env",
       "version": "14.2.30",
       "purl": "pkg:npm/%40next/env@14.2.30",
       "scope": "required",
@@ -1028,10 +1082,11 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40next/swc-darwin-arm64@14.2.30",
-      "name": "@next/swc-darwin-arm64",
+      "group": "@next",
+      "name": "swc-darwin-arm64",
       "version": "14.2.30",
       "purl": "pkg:npm/%40next/swc-darwin-arm64@14.2.30",
-      "scope": "required",
+      "scope": "optional",
       "licenses": [
         {
           "expression": "MIT"
@@ -1047,10 +1102,11 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40next/swc-darwin-x64@14.2.30",
-      "name": "@next/swc-darwin-x64",
+      "group": "@next",
+      "name": "swc-darwin-x64",
       "version": "14.2.30",
       "purl": "pkg:npm/%40next/swc-darwin-x64@14.2.30",
-      "scope": "required",
+      "scope": "optional",
       "licenses": [
         {
           "expression": "MIT"
@@ -1066,10 +1122,11 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40next/swc-linux-arm64-gnu@14.2.30",
-      "name": "@next/swc-linux-arm64-gnu",
+      "group": "@next",
+      "name": "swc-linux-arm64-gnu",
       "version": "14.2.30",
       "purl": "pkg:npm/%40next/swc-linux-arm64-gnu@14.2.30",
-      "scope": "required",
+      "scope": "optional",
       "licenses": [
         {
           "expression": "MIT"
@@ -1085,10 +1142,11 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40next/swc-linux-arm64-musl@14.2.30",
-      "name": "@next/swc-linux-arm64-musl",
+      "group": "@next",
+      "name": "swc-linux-arm64-musl",
       "version": "14.2.30",
       "purl": "pkg:npm/%40next/swc-linux-arm64-musl@14.2.30",
-      "scope": "required",
+      "scope": "optional",
       "licenses": [
         {
           "expression": "MIT"
@@ -1104,10 +1162,11 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40next/swc-linux-x64-gnu@14.2.30",
-      "name": "@next/swc-linux-x64-gnu",
+      "group": "@next",
+      "name": "swc-linux-x64-gnu",
       "version": "14.2.30",
       "purl": "pkg:npm/%40next/swc-linux-x64-gnu@14.2.30",
-      "scope": "required",
+      "scope": "optional",
       "licenses": [
         {
           "expression": "MIT"
@@ -1123,10 +1182,11 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40next/swc-linux-x64-musl@14.2.30",
-      "name": "@next/swc-linux-x64-musl",
+      "group": "@next",
+      "name": "swc-linux-x64-musl",
       "version": "14.2.30",
       "purl": "pkg:npm/%40next/swc-linux-x64-musl@14.2.30",
-      "scope": "required",
+      "scope": "optional",
       "licenses": [
         {
           "expression": "MIT"
@@ -1142,10 +1202,11 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40next/swc-win32-arm64-msvc@14.2.30",
-      "name": "@next/swc-win32-arm64-msvc",
+      "group": "@next",
+      "name": "swc-win32-arm64-msvc",
       "version": "14.2.30",
       "purl": "pkg:npm/%40next/swc-win32-arm64-msvc@14.2.30",
-      "scope": "required",
+      "scope": "optional",
       "licenses": [
         {
           "expression": "MIT"
@@ -1161,10 +1222,11 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40next/swc-win32-ia32-msvc@14.2.30",
-      "name": "@next/swc-win32-ia32-msvc",
+      "group": "@next",
+      "name": "swc-win32-ia32-msvc",
       "version": "14.2.30",
       "purl": "pkg:npm/%40next/swc-win32-ia32-msvc@14.2.30",
-      "scope": "required",
+      "scope": "optional",
       "licenses": [
         {
           "expression": "MIT"
@@ -1180,10 +1242,11 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40next/swc-win32-x64-msvc@14.2.30",
-      "name": "@next/swc-win32-x64-msvc",
+      "group": "@next",
+      "name": "swc-win32-x64-msvc",
       "version": "14.2.30",
       "purl": "pkg:npm/%40next/swc-win32-x64-msvc@14.2.30",
-      "scope": "required",
+      "scope": "optional",
       "licenses": [
         {
           "expression": "MIT"
@@ -1199,7 +1262,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40nodelib/fs.scandir@2.1.5",
-      "name": "@nodelib/fs.scandir",
+      "group": "@nodelib",
+      "name": "fs.scandir",
       "version": "2.1.5",
       "purl": "pkg:npm/%40nodelib/fs.scandir@2.1.5",
       "scope": "excluded",
@@ -1218,7 +1282,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40nodelib/fs.stat@2.0.5",
-      "name": "@nodelib/fs.stat",
+      "group": "@nodelib",
+      "name": "fs.stat",
       "version": "2.0.5",
       "purl": "pkg:npm/%40nodelib/fs.stat@2.0.5",
       "scope": "excluded",
@@ -1237,7 +1302,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40nodelib/fs.walk@1.2.8",
-      "name": "@nodelib/fs.walk",
+      "group": "@nodelib",
+      "name": "fs.walk",
       "version": "1.2.8",
       "purl": "pkg:npm/%40nodelib/fs.walk@1.2.8",
       "scope": "excluded",
@@ -1256,7 +1322,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40oxlint/binding-android-arm-eabi@1.95.0",
-      "name": "@oxlint/binding-android-arm-eabi",
+      "group": "@oxlint",
+      "name": "binding-android-arm-eabi",
       "version": "1.95.0",
       "purl": "pkg:npm/%40oxlint/binding-android-arm-eabi@1.95.0",
       "scope": "excluded",
@@ -1270,7 +1337,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40oxlint/binding-android-arm64@1.95.0",
-      "name": "@oxlint/binding-android-arm64",
+      "group": "@oxlint",
+      "name": "binding-android-arm64",
       "version": "1.95.0",
       "purl": "pkg:npm/%40oxlint/binding-android-arm64@1.95.0",
       "scope": "excluded",
@@ -1284,7 +1352,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40oxlint/binding-darwin-arm64@1.95.0",
-      "name": "@oxlint/binding-darwin-arm64",
+      "group": "@oxlint",
+      "name": "binding-darwin-arm64",
       "version": "1.95.0",
       "purl": "pkg:npm/%40oxlint/binding-darwin-arm64@1.95.0",
       "scope": "excluded",
@@ -1298,7 +1367,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40oxlint/binding-darwin-x64@1.95.0",
-      "name": "@oxlint/binding-darwin-x64",
+      "group": "@oxlint",
+      "name": "binding-darwin-x64",
       "version": "1.95.0",
       "purl": "pkg:npm/%40oxlint/binding-darwin-x64@1.95.0",
       "scope": "excluded",
@@ -1312,7 +1382,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40oxlint/binding-freebsd-x64@1.95.0",
-      "name": "@oxlint/binding-freebsd-x64",
+      "group": "@oxlint",
+      "name": "binding-freebsd-x64",
       "version": "1.95.0",
       "purl": "pkg:npm/%40oxlint/binding-freebsd-x64@1.95.0",
       "scope": "excluded",
@@ -1326,7 +1397,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40oxlint/binding-linux-arm-gnueabihf@1.95.0",
-      "name": "@oxlint/binding-linux-arm-gnueabihf",
+      "group": "@oxlint",
+      "name": "binding-linux-arm-gnueabihf",
       "version": "1.95.0",
       "purl": "pkg:npm/%40oxlint/binding-linux-arm-gnueabihf@1.95.0",
       "scope": "excluded",
@@ -1340,7 +1412,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40oxlint/binding-linux-arm-musleabihf@1.95.0",
-      "name": "@oxlint/binding-linux-arm-musleabihf",
+      "group": "@oxlint",
+      "name": "binding-linux-arm-musleabihf",
       "version": "1.95.0",
       "purl": "pkg:npm/%40oxlint/binding-linux-arm-musleabihf@1.95.0",
       "scope": "excluded",
@@ -1354,7 +1427,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40oxlint/binding-linux-arm64-gnu@1.95.0",
-      "name": "@oxlint/binding-linux-arm64-gnu",
+      "group": "@oxlint",
+      "name": "binding-linux-arm64-gnu",
       "version": "1.95.0",
       "purl": "pkg:npm/%40oxlint/binding-linux-arm64-gnu@1.95.0",
       "scope": "excluded",
@@ -1368,7 +1442,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40oxlint/binding-linux-arm64-musl@1.95.0",
-      "name": "@oxlint/binding-linux-arm64-musl",
+      "group": "@oxlint",
+      "name": "binding-linux-arm64-musl",
       "version": "1.95.0",
       "purl": "pkg:npm/%40oxlint/binding-linux-arm64-musl@1.95.0",
       "scope": "excluded",
@@ -1382,7 +1457,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40oxlint/binding-linux-ppc64-gnu@1.95.0",
-      "name": "@oxlint/binding-linux-ppc64-gnu",
+      "group": "@oxlint",
+      "name": "binding-linux-ppc64-gnu",
       "version": "1.95.0",
       "purl": "pkg:npm/%40oxlint/binding-linux-ppc64-gnu@1.95.0",
       "scope": "excluded",
@@ -1396,7 +1472,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40oxlint/binding-linux-riscv64-gnu@1.95.0",
-      "name": "@oxlint/binding-linux-riscv64-gnu",
+      "group": "@oxlint",
+      "name": "binding-linux-riscv64-gnu",
       "version": "1.95.0",
       "purl": "pkg:npm/%40oxlint/binding-linux-riscv64-gnu@1.95.0",
       "scope": "excluded",
@@ -1410,7 +1487,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40oxlint/binding-linux-riscv64-musl@1.95.0",
-      "name": "@oxlint/binding-linux-riscv64-musl",
+      "group": "@oxlint",
+      "name": "binding-linux-riscv64-musl",
       "version": "1.95.0",
       "purl": "pkg:npm/%40oxlint/binding-linux-riscv64-musl@1.95.0",
       "scope": "excluded",
@@ -1424,7 +1502,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40oxlint/binding-linux-s390x-gnu@1.95.0",
-      "name": "@oxlint/binding-linux-s390x-gnu",
+      "group": "@oxlint",
+      "name": "binding-linux-s390x-gnu",
       "version": "1.95.0",
       "purl": "pkg:npm/%40oxlint/binding-linux-s390x-gnu@1.95.0",
       "scope": "excluded",
@@ -1438,7 +1517,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40oxlint/binding-linux-x64-gnu@1.95.0",
-      "name": "@oxlint/binding-linux-x64-gnu",
+      "group": "@oxlint",
+      "name": "binding-linux-x64-gnu",
       "version": "1.95.0",
       "purl": "pkg:npm/%40oxlint/binding-linux-x64-gnu@1.95.0",
       "scope": "excluded",
@@ -1452,7 +1532,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40oxlint/binding-linux-x64-musl@1.95.0",
-      "name": "@oxlint/binding-linux-x64-musl",
+      "group": "@oxlint",
+      "name": "binding-linux-x64-musl",
       "version": "1.95.0",
       "purl": "pkg:npm/%40oxlint/binding-linux-x64-musl@1.95.0",
       "scope": "excluded",
@@ -1466,7 +1547,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40oxlint/binding-openharmony-arm64@1.95.0",
-      "name": "@oxlint/binding-openharmony-arm64",
+      "group": "@oxlint",
+      "name": "binding-openharmony-arm64",
       "version": "1.95.0",
       "purl": "pkg:npm/%40oxlint/binding-openharmony-arm64@1.95.0",
       "scope": "excluded",
@@ -1480,7 +1562,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40oxlint/binding-win32-arm64-msvc@1.95.0",
-      "name": "@oxlint/binding-win32-arm64-msvc",
+      "group": "@oxlint",
+      "name": "binding-win32-arm64-msvc",
       "version": "1.95.0",
       "purl": "pkg:npm/%40oxlint/binding-win32-arm64-msvc@1.95.0",
       "scope": "excluded",
@@ -1494,7 +1577,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40oxlint/binding-win32-ia32-msvc@1.95.0",
-      "name": "@oxlint/binding-win32-ia32-msvc",
+      "group": "@oxlint",
+      "name": "binding-win32-ia32-msvc",
       "version": "1.95.0",
       "purl": "pkg:npm/%40oxlint/binding-win32-ia32-msvc@1.95.0",
       "scope": "excluded",
@@ -1508,7 +1592,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40oxlint/binding-win32-x64-msvc@1.95.0",
-      "name": "@oxlint/binding-win32-x64-msvc",
+      "group": "@oxlint",
+      "name": "binding-win32-x64-msvc",
       "version": "1.95.0",
       "purl": "pkg:npm/%40oxlint/binding-win32-x64-msvc@1.95.0",
       "scope": "excluded",
@@ -1522,7 +1607,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40pkgjs/parseargs@0.11.0",
-      "name": "@pkgjs/parseargs",
+      "group": "@pkgjs",
+      "name": "parseargs",
       "version": "0.11.0",
       "purl": "pkg:npm/%40pkgjs/parseargs@0.11.0",
       "scope": "excluded",
@@ -1541,7 +1627,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40playwright/test@1.65.1",
-      "name": "@playwright/test",
+      "group": "@playwright",
+      "name": "test",
       "version": "1.65.1",
       "purl": "pkg:npm/%40playwright/test@1.65.1",
       "scope": "excluded",
@@ -1555,7 +1642,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40polka/url@1.0.0-next.29",
-      "name": "@polka/url",
+      "group": "@polka",
+      "name": "url",
       "version": "1.0.0-next.29",
       "purl": "pkg:npm/%40polka/url@1.0.0-next.29",
       "scope": "excluded",
@@ -1574,7 +1662,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40rollup/rollup-android-arm-eabi@4.50.1",
-      "name": "@rollup/rollup-android-arm-eabi",
+      "group": "@rollup",
+      "name": "rollup-android-arm-eabi",
       "version": "4.50.1",
       "purl": "pkg:npm/%40rollup/rollup-android-arm-eabi@4.50.1",
       "scope": "excluded",
@@ -1593,7 +1682,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40rollup/rollup-android-arm64@4.50.1",
-      "name": "@rollup/rollup-android-arm64",
+      "group": "@rollup",
+      "name": "rollup-android-arm64",
       "version": "4.50.1",
       "purl": "pkg:npm/%40rollup/rollup-android-arm64@4.50.1",
       "scope": "excluded",
@@ -1612,7 +1702,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40rollup/rollup-darwin-arm64@4.50.1",
-      "name": "@rollup/rollup-darwin-arm64",
+      "group": "@rollup",
+      "name": "rollup-darwin-arm64",
       "version": "4.50.1",
       "purl": "pkg:npm/%40rollup/rollup-darwin-arm64@4.50.1",
       "scope": "excluded",
@@ -1631,7 +1722,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40rollup/rollup-darwin-x64@4.50.1",
-      "name": "@rollup/rollup-darwin-x64",
+      "group": "@rollup",
+      "name": "rollup-darwin-x64",
       "version": "4.50.1",
       "purl": "pkg:npm/%40rollup/rollup-darwin-x64@4.50.1",
       "scope": "excluded",
@@ -1650,7 +1742,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40rollup/rollup-freebsd-arm64@4.50.1",
-      "name": "@rollup/rollup-freebsd-arm64",
+      "group": "@rollup",
+      "name": "rollup-freebsd-arm64",
       "version": "4.50.1",
       "purl": "pkg:npm/%40rollup/rollup-freebsd-arm64@4.50.1",
       "scope": "excluded",
@@ -1669,7 +1762,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40rollup/rollup-freebsd-x64@4.50.1",
-      "name": "@rollup/rollup-freebsd-x64",
+      "group": "@rollup",
+      "name": "rollup-freebsd-x64",
       "version": "4.50.1",
       "purl": "pkg:npm/%40rollup/rollup-freebsd-x64@4.50.1",
       "scope": "excluded",
@@ -1688,7 +1782,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40rollup/rollup-linux-arm-gnueabihf@4.50.1",
-      "name": "@rollup/rollup-linux-arm-gnueabihf",
+      "group": "@rollup",
+      "name": "rollup-linux-arm-gnueabihf",
       "version": "4.50.1",
       "purl": "pkg:npm/%40rollup/rollup-linux-arm-gnueabihf@4.50.1",
       "scope": "excluded",
@@ -1707,7 +1802,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40rollup/rollup-linux-arm-musleabihf@4.50.1",
-      "name": "@rollup/rollup-linux-arm-musleabihf",
+      "group": "@rollup",
+      "name": "rollup-linux-arm-musleabihf",
       "version": "4.50.1",
       "purl": "pkg:npm/%40rollup/rollup-linux-arm-musleabihf@4.50.1",
       "scope": "excluded",
@@ -1726,7 +1822,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40rollup/rollup-linux-arm64-gnu@4.50.1",
-      "name": "@rollup/rollup-linux-arm64-gnu",
+      "group": "@rollup",
+      "name": "rollup-linux-arm64-gnu",
       "version": "4.50.1",
       "purl": "pkg:npm/%40rollup/rollup-linux-arm64-gnu@4.50.1",
       "scope": "excluded",
@@ -1745,7 +1842,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40rollup/rollup-linux-arm64-musl@4.50.1",
-      "name": "@rollup/rollup-linux-arm64-musl",
+      "group": "@rollup",
+      "name": "rollup-linux-arm64-musl",
       "version": "4.50.1",
       "purl": "pkg:npm/%40rollup/rollup-linux-arm64-musl@4.50.1",
       "scope": "excluded",
@@ -1764,7 +1862,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40rollup/rollup-linux-loongarch64-gnu@4.50.1",
-      "name": "@rollup/rollup-linux-loongarch64-gnu",
+      "group": "@rollup",
+      "name": "rollup-linux-loongarch64-gnu",
       "version": "4.50.1",
       "purl": "pkg:npm/%40rollup/rollup-linux-loongarch64-gnu@4.50.1",
       "scope": "excluded",
@@ -1783,7 +1882,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40rollup/rollup-linux-ppc64-gnu@4.50.1",
-      "name": "@rollup/rollup-linux-ppc64-gnu",
+      "group": "@rollup",
+      "name": "rollup-linux-ppc64-gnu",
       "version": "4.50.1",
       "purl": "pkg:npm/%40rollup/rollup-linux-ppc64-gnu@4.50.1",
       "scope": "excluded",
@@ -1802,7 +1902,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40rollup/rollup-linux-riscv64-gnu@4.50.1",
-      "name": "@rollup/rollup-linux-riscv64-gnu",
+      "group": "@rollup",
+      "name": "rollup-linux-riscv64-gnu",
       "version": "4.50.1",
       "purl": "pkg:npm/%40rollup/rollup-linux-riscv64-gnu@4.50.1",
       "scope": "excluded",
@@ -1821,7 +1922,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40rollup/rollup-linux-riscv64-musl@4.50.1",
-      "name": "@rollup/rollup-linux-riscv64-musl",
+      "group": "@rollup",
+      "name": "rollup-linux-riscv64-musl",
       "version": "4.50.1",
       "purl": "pkg:npm/%40rollup/rollup-linux-riscv64-musl@4.50.1",
       "scope": "excluded",
@@ -1840,7 +1942,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40rollup/rollup-linux-s390x-gnu@4.50.1",
-      "name": "@rollup/rollup-linux-s390x-gnu",
+      "group": "@rollup",
+      "name": "rollup-linux-s390x-gnu",
       "version": "4.50.1",
       "purl": "pkg:npm/%40rollup/rollup-linux-s390x-gnu@4.50.1",
       "scope": "excluded",
@@ -1859,7 +1962,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40rollup/rollup-linux-x64-gnu@4.50.1",
-      "name": "@rollup/rollup-linux-x64-gnu",
+      "group": "@rollup",
+      "name": "rollup-linux-x64-gnu",
       "version": "4.50.1",
       "purl": "pkg:npm/%40rollup/rollup-linux-x64-gnu@4.50.1",
       "scope": "excluded",
@@ -1878,7 +1982,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40rollup/rollup-linux-x64-musl@4.50.1",
-      "name": "@rollup/rollup-linux-x64-musl",
+      "group": "@rollup",
+      "name": "rollup-linux-x64-musl",
       "version": "4.50.1",
       "purl": "pkg:npm/%40rollup/rollup-linux-x64-musl@4.50.1",
       "scope": "excluded",
@@ -1897,7 +2002,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40rollup/rollup-openharmony-arm64@4.50.1",
-      "name": "@rollup/rollup-openharmony-arm64",
+      "group": "@rollup",
+      "name": "rollup-openharmony-arm64",
       "version": "4.50.1",
       "purl": "pkg:npm/%40rollup/rollup-openharmony-arm64@4.50.1",
       "scope": "excluded",
@@ -1916,7 +2022,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40rollup/rollup-win32-arm64-msvc@4.50.1",
-      "name": "@rollup/rollup-win32-arm64-msvc",
+      "group": "@rollup",
+      "name": "rollup-win32-arm64-msvc",
       "version": "4.50.1",
       "purl": "pkg:npm/%40rollup/rollup-win32-arm64-msvc@4.50.1",
       "scope": "excluded",
@@ -1935,7 +2042,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40rollup/rollup-win32-ia32-msvc@4.50.1",
-      "name": "@rollup/rollup-win32-ia32-msvc",
+      "group": "@rollup",
+      "name": "rollup-win32-ia32-msvc",
       "version": "4.50.1",
       "purl": "pkg:npm/%40rollup/rollup-win32-ia32-msvc@4.50.1",
       "scope": "excluded",
@@ -1954,7 +2062,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40rollup/rollup-win32-x64-msvc@4.50.1",
-      "name": "@rollup/rollup-win32-x64-msvc",
+      "group": "@rollup",
+      "name": "rollup-win32-x64-msvc",
       "version": "4.50.1",
       "purl": "pkg:npm/%40rollup/rollup-win32-x64-msvc@4.50.1",
       "scope": "excluded",
@@ -1973,7 +2082,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40supabase/auth-js@2.70.0",
-      "name": "@supabase/auth-js",
+      "group": "@supabase",
+      "name": "auth-js",
       "version": "2.70.0",
       "purl": "pkg:npm/%40supabase/auth-js@2.70.0",
       "scope": "required",
@@ -1992,7 +2102,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40supabase/functions-js@2.4.4",
-      "name": "@supabase/functions-js",
+      "group": "@supabase",
+      "name": "functions-js",
       "version": "2.4.4",
       "purl": "pkg:npm/%40supabase/functions-js@2.4.4",
       "scope": "required",
@@ -2011,7 +2122,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40supabase/node-fetch@2.6.15",
-      "name": "@supabase/node-fetch",
+      "group": "@supabase",
+      "name": "node-fetch",
       "version": "2.6.15",
       "purl": "pkg:npm/%40supabase/node-fetch@2.6.15",
       "scope": "required",
@@ -2030,7 +2142,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40supabase/postgrest-js@1.19.4",
-      "name": "@supabase/postgrest-js",
+      "group": "@supabase",
+      "name": "postgrest-js",
       "version": "1.19.4",
       "purl": "pkg:npm/%40supabase/postgrest-js@1.19.4",
       "scope": "required",
@@ -2049,7 +2162,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40supabase/realtime-js@2.11.15",
-      "name": "@supabase/realtime-js",
+      "group": "@supabase",
+      "name": "realtime-js",
       "version": "2.11.15",
       "purl": "pkg:npm/%40supabase/realtime-js@2.11.15",
       "scope": "required",
@@ -2068,7 +2182,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40supabase/storage-js@2.7.1",
-      "name": "@supabase/storage-js",
+      "group": "@supabase",
+      "name": "storage-js",
       "version": "2.7.1",
       "purl": "pkg:npm/%40supabase/storage-js@2.7.1",
       "scope": "required",
@@ -2087,7 +2202,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40supabase/supabase-js@2.50.2",
-      "name": "@supabase/supabase-js",
+      "group": "@supabase",
+      "name": "supabase-js",
       "version": "2.50.2",
       "purl": "pkg:npm/%40supabase/supabase-js@2.50.2",
       "scope": "required",
@@ -2106,7 +2222,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40swc/counter@0.1.3",
-      "name": "@swc/counter",
+      "group": "@swc",
+      "name": "counter",
       "version": "0.1.3",
       "purl": "pkg:npm/%40swc/counter@0.1.3",
       "scope": "required",
@@ -2125,7 +2242,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40swc/helpers@0.5.5",
-      "name": "@swc/helpers",
+      "group": "@swc",
+      "name": "helpers",
       "version": "0.5.5",
       "purl": "pkg:npm/%40swc/helpers@0.5.5",
       "scope": "required",
@@ -2144,7 +2262,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40testing-library/dom@10.4.1",
-      "name": "@testing-library/dom",
+      "group": "@testing-library",
+      "name": "dom",
       "version": "10.4.1",
       "purl": "pkg:npm/%40testing-library/dom@10.4.1",
       "scope": "excluded",
@@ -2182,7 +2301,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40testing-library/jest-dom@6.8.0",
-      "name": "@testing-library/jest-dom",
+      "group": "@testing-library",
+      "name": "jest-dom",
       "version": "6.8.0",
       "purl": "pkg:npm/%40testing-library/jest-dom@6.8.0",
       "scope": "excluded",
@@ -2220,7 +2340,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40testing-library/react@16.3.0",
-      "name": "@testing-library/react",
+      "group": "@testing-library",
+      "name": "react",
       "version": "16.3.0",
       "purl": "pkg:npm/%40testing-library/react@16.3.0",
       "scope": "excluded",
@@ -2239,7 +2360,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40types/aria-query@5.0.4",
-      "name": "@types/aria-query",
+      "group": "@types",
+      "name": "aria-query",
       "version": "5.0.4",
       "purl": "pkg:npm/%40types/aria-query@5.0.4",
       "scope": "excluded",
@@ -2258,7 +2380,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40types/chai@5.2.2",
-      "name": "@types/chai",
+      "group": "@types",
+      "name": "chai",
       "version": "5.2.2",
       "purl": "pkg:npm/%40types/chai@5.2.2",
       "scope": "excluded",
@@ -2277,7 +2400,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40types/deep-eql@4.0.2",
-      "name": "@types/deep-eql",
+      "group": "@types",
+      "name": "deep-eql",
       "version": "4.0.2",
       "purl": "pkg:npm/%40types/deep-eql@4.0.2",
       "scope": "excluded",
@@ -2296,7 +2420,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40types/estree@1.0.8",
-      "name": "@types/estree",
+      "group": "@types",
+      "name": "estree",
       "version": "1.0.8",
       "purl": "pkg:npm/%40types/estree@1.0.8",
       "scope": "excluded",
@@ -2315,7 +2440,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40types/node@20.19.1",
-      "name": "@types/node",
+      "group": "@types",
+      "name": "node",
       "version": "20.19.1",
       "purl": "pkg:npm/%40types/node@20.19.1",
       "scope": "required",
@@ -2334,7 +2460,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40types/phoenix@1.6.6",
-      "name": "@types/phoenix",
+      "group": "@types",
+      "name": "phoenix",
       "version": "1.6.6",
       "purl": "pkg:npm/%40types/phoenix@1.6.6",
       "scope": "required",
@@ -2353,7 +2480,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40types/prop-types@15.7.15",
-      "name": "@types/prop-types",
+      "group": "@types",
+      "name": "prop-types",
       "version": "15.7.15",
       "purl": "pkg:npm/%40types/prop-types@15.7.15",
       "scope": "excluded",
@@ -2372,7 +2500,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40types/react@18.3.23",
-      "name": "@types/react",
+      "group": "@types",
+      "name": "react",
       "version": "18.3.23",
       "purl": "pkg:npm/%40types/react@18.3.23",
       "scope": "excluded",
@@ -2391,7 +2520,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40types/react-dom@18.3.7",
-      "name": "@types/react-dom",
+      "group": "@types",
+      "name": "react-dom",
       "version": "18.3.7",
       "purl": "pkg:npm/%40types/react-dom@18.3.7",
       "scope": "excluded",
@@ -2410,7 +2540,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40types/ws@8.18.1",
-      "name": "@types/ws",
+      "group": "@types",
+      "name": "ws",
       "version": "8.18.1",
       "purl": "pkg:npm/%40types/ws@8.18.1",
       "scope": "required",
@@ -2429,7 +2560,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40vercel/analytics@1.5.0",
-      "name": "@vercel/analytics",
+      "group": "@vercel",
+      "name": "analytics",
       "version": "1.5.0",
       "purl": "pkg:npm/%40vercel/analytics@1.5.0",
       "scope": "required",
@@ -2448,7 +2580,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40vitest/coverage-v8@3.2.4",
-      "name": "@vitest/coverage-v8",
+      "group": "@vitest",
+      "name": "coverage-v8",
       "version": "3.2.4",
       "purl": "pkg:npm/%40vitest/coverage-v8@3.2.4",
       "scope": "excluded",
@@ -2467,7 +2600,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40vitest/expect@3.2.4",
-      "name": "@vitest/expect",
+      "group": "@vitest",
+      "name": "expect",
       "version": "3.2.4",
       "purl": "pkg:npm/%40vitest/expect@3.2.4",
       "scope": "excluded",
@@ -2486,7 +2620,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40vitest/mocker@3.2.4",
-      "name": "@vitest/mocker",
+      "group": "@vitest",
+      "name": "mocker",
       "version": "3.2.4",
       "purl": "pkg:npm/%40vitest/mocker@3.2.4",
       "scope": "excluded",
@@ -2505,7 +2640,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40vitest/pretty-format@3.2.4",
-      "name": "@vitest/pretty-format",
+      "group": "@vitest",
+      "name": "pretty-format",
       "version": "3.2.4",
       "purl": "pkg:npm/%40vitest/pretty-format@3.2.4",
       "scope": "excluded",
@@ -2524,7 +2660,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40vitest/runner@3.2.4",
-      "name": "@vitest/runner",
+      "group": "@vitest",
+      "name": "runner",
       "version": "3.2.4",
       "purl": "pkg:npm/%40vitest/runner@3.2.4",
       "scope": "excluded",
@@ -2543,7 +2680,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40vitest/snapshot@3.2.4",
-      "name": "@vitest/snapshot",
+      "group": "@vitest",
+      "name": "snapshot",
       "version": "3.2.4",
       "purl": "pkg:npm/%40vitest/snapshot@3.2.4",
       "scope": "excluded",
@@ -2562,7 +2700,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40vitest/spy@3.2.4",
-      "name": "@vitest/spy",
+      "group": "@vitest",
+      "name": "spy",
       "version": "3.2.4",
       "purl": "pkg:npm/%40vitest/spy@3.2.4",
       "scope": "excluded",
@@ -2581,7 +2720,8 @@
     {
       "type": "library",
       "bom-ref": "pkg:npm/%40vitest/utils@3.2.4",
-      "name": "@vitest/utils",
+      "group": "@vitest",
+      "name": "utils",
       "version": "3.2.4",
       "purl": "pkg:npm/%40vitest/utils@3.2.4",
       "scope": "excluded",
@@ -2789,10 +2929,10 @@
     },
     {
       "type": "library",
-      "bom-ref": "pkg:npm/ast-v8-to-istanbul@0.3.5",
+      "bom-ref": "pkg:npm/ast-v8-to-istanbul@0.3.12",
       "name": "ast-v8-to-istanbul",
-      "version": "0.3.5",
-      "purl": "pkg:npm/ast-v8-to-istanbul@0.3.5",
+      "version": "0.3.12",
+      "purl": "pkg:npm/ast-v8-to-istanbul@0.3.12",
       "scope": "excluded",
       "licenses": [
         {
@@ -2802,16 +2942,16 @@
       "hashes": [
         {
           "alg": "SHA-512",
-          "content": "f527578cd85e4a213c6c02c0402410b93e9f8106a8c4987b21162b44667cffd9eff16849782d5a5c0c0df136da3acb063ae914bf2be79200fdf98bb292f97568"
+          "content": "051442f1545963647867894520bdf93303579b056a062b72bce230113b6c092c2f8e5d0876016ccbd36175a03a8fbe2751db49265232a5e461a436a6d7d5aade"
         }
       ]
     },
     {
       "type": "library",
-      "bom-ref": "pkg:npm/js-tokens@9.0.1",
+      "bom-ref": "pkg:npm/js-tokens@10.0.1",
       "name": "js-tokens",
-      "version": "9.0.1",
-      "purl": "pkg:npm/js-tokens@9.0.1",
+      "version": "10.0.1",
+      "purl": "pkg:npm/js-tokens@10.0.1",
       "scope": "excluded",
       "licenses": [
         {
@@ -2821,7 +2961,7 @@
       "hashes": [
         {
           "alg": "SHA-512",
-          "content": "9b16bd13d21314eb746da9f78fa2f93298f07a01b3ea505098cd4826459e05919c331b68e74f9e59d8c2ff9db10db4b6bf2d24eef20c2b415edb07cbf4e412a5"
+          "content": "5ccb7eba1fb212ceacac5bc46ffa447b820cbdbb685d574dc45ee564553e23db1d588eb8d4bf7b2fe81740c4c69b5c774633d4562ccd5631ee79c957af453bb3"
         }
       ]
     },
@@ -5951,6 +6091,25 @@
         {
           "alg": "SHA-512",
           "content": "4dc71ca0c84938cdce79b1a1481126a77519d927c331950405d440ffdca77cb8bcc986a3c965f72625c0adc26de149a1e2f212a6ca6440863c659a02aa36ef88"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/js-tokens@9.0.1",
+      "name": "js-tokens",
+      "version": "9.0.1",
+      "purl": "pkg:npm/js-tokens@9.0.1",
+      "scope": "excluded",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "9b16bd13d21314eb746da9f78fa2f93298f07a01b3ea505098cd4826459e05919c331b68e74f9e59d8c2ff9db10db4b6bf2d24eef20c2b415edb07cbf4e412a5"
         }
       ]
     },

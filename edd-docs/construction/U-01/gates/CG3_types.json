@@ -5,8 +5,9 @@
   "exitCode": 0,
   "cmd": "npm run type-check",
   "evidence": "tsc --noEmit exit 0",
-  "startedAt": "2026-11-23T19:32:12.299Z",
-  "durationMs": 9293,
+  "base": "35521e2",
+  "startedAt": "2026-11-23T19:56:06.452Z",
+  "durationMs": 4265,
   "outputTail": [
     "",
     "> tijothomas.dev@1.0.0 type-check",

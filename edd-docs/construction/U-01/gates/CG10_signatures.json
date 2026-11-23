@@ -1,17 +1,18 @@
 {
   "id": "CG10_signatures",
   "enforce": true,
-  "status": "fail",
-  "exitCode": 1,
-  "cmd": "npm audit signatures",
+  "status": "pass",
+  "exitCode": 0,
+  "cmd": "node scripts/audit-signatures.mjs -- npm audit signatures",
   "evidence": "PLAT-AC-25 registry signatures and attestations verify",
-  "startedAt": "2026-11-23T19:33:11.218Z",
-  "durationMs": 7854,
+  "base": "35521e2",
+  "startedAt": "2026-11-23T19:56:52.827Z",
+  "durationMs": 16164,
   "outputTail": [
-    "npm ERR! code EEXPIREDSIGNATUREKEY",
-    "npm ERR! class-variance-authority@0.7.1 has a registry signature with keyid: SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA but the corresponding public key has expired 2025-01-29T00:00:00.000Z",
-    "",
-    "npm ERR! A complete log of this run can be found in: C:\\Users\\tijo1\\AppData\\Local\\npm-cache\\_logs\\2026-11-23T19_33_12_344Z-debug-0.log"
+    "PASS PLAT-AC-25 npm audit signatures with 1 exception: @oxlint/binding-win32-x64-msvc@1.95.0",
+    "  - attestation fetch skipped (registry fault: GET /-/npm/v1/attestations/<spec> answers 200 text/plain \"OK\" instead of JSON, so npm audit signatures aborts with FETCH_ERROR. Other oxlint 1.95.0 packages and binding 1.94.0 return valid attestations.); since 2026-11-24, re-check by U-11",
+    "  - @oxlint/binding-win32-x64-msvc@1.95.0: registry signature verified against https://registry.npmjs.org/-/npm/v1/keys; integrity matches the lockfile",
+    "  - all other packages: 319 packages have verified registry signatures | 30 packages have verified attestations | (use --json --include-attestations to view attestation details)"
   ],
   "log": "edd-docs/construction/U-01/gates/CG10_signatures.log"
 }

@@ -5,8 +5,9 @@
   "exitCode": 0,
   "cmd": "node scripts/check-deps.mjs",
   "evidence": "PLAT-AC-13 0 unused dependencies",
-  "startedAt": "2026-11-23T19:33:21.741Z",
-  "durationMs": 177,
+  "base": "35521e2",
+  "startedAt": "2026-11-23T19:57:15.074Z",
+  "durationMs": 184,
   "outputTail": [
     "PASS PLAT-AC-13 package.json has 0 unused dependencies"
   ],

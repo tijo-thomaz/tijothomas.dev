@@ -6,6 +6,10 @@ module.exports = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
+    // Temporary: reachable code still lives here until U-03 moves it into terminal/. Remove in U-03.
+    './features/**/*.{ts,tsx}',
+    './widgets/**/*.{ts,tsx}',
+    './shared/**/*.{ts,tsx}',
   ],
   theme: {
     container: {

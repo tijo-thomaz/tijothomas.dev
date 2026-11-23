@@ -14,7 +14,7 @@ export const AVAILABLE_VERSIONS: Version[] = [
     version: '1.0.0',
     name: 'Interactive Terminal',
     status: 'stable',
-    route: '/v1',
+    route: '/terminal',
     description: 'Terminal-based portfolio with AI chat assistant',
     features: ['Interactive Terminal', 'AI Chat', '3D Fallback', 'Analytics']
   },

@@ -3,8 +3,10 @@
 // Usage: node scripts/sbom.mjs [--root <dir>] --out <dir>   -> <out>/sbom.cdx.json
 // Built from package-lock.json (lockfileVersion 2/3) with no dependencies and no network, because
 // `npm sbom` needs npm >= 10 and the repo pins nothing above npm 9. Every lockfile package becomes a
-// component (purl, version, sha512 hash from `integrity`, scope `excluded` for dev-only packages);
+// component (purl, version, sha512 hash from `integrity`, scoped names split into group/name,
+// scope `excluded` for dev/devOptional packages and `optional` for optional ones; random serialNumber);
 // the root's direct dependencies are listed in `dependencies`.
+import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -40,10 +42,10 @@ for (const [key, meta] of Object.entries(lock.packages)) {
   components.set(ref, {
     type: 'library',
     'bom-ref': ref,
-    name,
+    ...(name.startsWith('@') ? { group: name.slice(0, name.indexOf('/')), name: name.slice(name.indexOf('/') + 1) } : { name }),
     version: meta.version,
     purl: ref,
-    scope: meta.dev ? 'excluded' : 'required',
+    scope: meta.dev || meta.devOptional ? 'excluded' : meta.optional ? 'optional' : 'required',
     ...(meta.license ? { licenses: [{ expression: meta.license }] } : {}),
     ...(hashes(meta.integrity) ? { hashes: hashes(meta.integrity) } : {}),
   });
@@ -56,10 +58,11 @@ const direct = Object.keys({ ...pkg.dependencies, ...pkg.devDependencies })
 const bom = {
   bomFormat: 'CycloneDX',
   specVersion: '1.5',
+  serialNumber: `urn:uuid:${crypto.randomUUID()}`,
   version: 1,
   metadata: {
     timestamp: new Date().toISOString(),
-    tools: [{ vendor: 'tijothomas.dev', name: 'scripts/sbom.mjs' }],
+    tools: { components: [{ type: 'application', name: 'scripts/sbom.mjs' }] },
     component: { type: 'application', 'bom-ref': rootRef, name: pkg.name, version: pkg.version },
   },
   components: [...components.values()],

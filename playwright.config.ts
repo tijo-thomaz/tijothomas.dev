@@ -21,6 +21,9 @@ function freePort(): string {
 }
 
 process.env.E2E_PORT ??= freePort();
+if (RESERVED_PORTS.has(Number(process.env.E2E_PORT))) {
+  throw new Error(`playwright.config.ts: E2E_PORT ${process.env.E2E_PORT} is reserved (3000 Next default, 3100 owner's next dev)`);
+}
 const port = process.env.E2E_PORT;
 const origin = `http://127.0.0.1:${port}`;
 

@@ -99,3 +99,6 @@ storybook-static
 !docs/**/*.md
 !edd-docs/**/*.md
 !specs/**/*.md
+
+# U-00 smoke screenshots: local evidence only, not committed
+edd-docs/construction/U-00/smoke/*.png

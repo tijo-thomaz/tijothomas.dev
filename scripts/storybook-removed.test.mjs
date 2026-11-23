@@ -5,14 +5,28 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { walk } from './lib/repo-graph.mjs';
+
+// "Given the repo": scan everything (docs/, public/, specs/, edd-docs/ included) except installed,
+// generated and VCS dirs, and .claude/ (agent worktrees hold full repo copies).
+const SKIP = new Set(['node_modules', '.git', '.next', '.claude']);
+function walkRepo(dir, rel = '', out = []) {
+  for (const ent of fs.readdirSync(path.join(dir, rel), { withFileTypes: true })) {
+    if (SKIP.has(ent.name)) continue;
+    const p = rel ? `${rel}/${ent.name}` : ent.name;
+    if (ent.isDirectory()) walkRepo(dir, p, out);
+    else out.push(p);
+  }
+  return out;
+}
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const pkg = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
 const allDeps = Object.keys({ ...pkg.dependencies, ...pkg.devDependencies, ...pkg.optionalDependencies });
 
 test('PLAT-AC-17 repo has no *.stories.* files', () => {
-  const stories = walk(root).filter((f) => /\.stories\.[^/]+$/.test(f));
+  const files = walkRepo(root);
+  assert.ok(files.length > 0, 'repo walk found no files');
+  const stories = files.filter((f) => /\.stories\.[^/]+$/.test(f));
   assert.deepEqual(stories, [], `story files still present:\n${stories.join('\n')}`);
 });
 

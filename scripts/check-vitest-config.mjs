@@ -35,9 +35,58 @@ report('vitest config has no Storybook plugin or import', /storybook/i.test(cfg)
 const hasAlias = /alias[\s\S]{0,200}?['"]@['"]\s*[:,]/.test(cfg) || /find\s*:\s*['"]@['"]/.test(cfg) || /tsconfigPaths\s*\(/.test(cfg);
 report("vitest config resolves the '@/' alias", hasAlias ? [] : [`${cfgFile} defines no resolve.alias for '@' (tsconfig paths are not read by Vite)`]);
 
+// Read the string literals of `test.include` only (not coverage.include or any other text).
+// String-aware bracket matching, because globs contain `{` `}`.
+function matchClose(src, openIdx) {
+  const open = src[openIdx];
+  const close = open === '{' ? '}' : ']';
+  let depth = 0;
+  for (let i = openIdx; i < src.length; i += 1) {
+    const c = src[i];
+    if (c === '"' || c === "'" || c === '`') {
+      for (i += 1; i < src.length && src[i] !== c; i += 1) if (src[i] === '\\') i += 1;
+    } else if (c === open) depth += 1;
+    else if (c === close && --depth === 0) return i;
+  }
+  return -1;
+}
+// Top-level `key: {…}` / `key: […]` inside an object body (skips nested objects/arrays).
+function topLevelValue(body, key) {
+  let depth = 0;
+  for (let i = 0; i < body.length; i += 1) {
+    const c = body[i];
+    if (c === '"' || c === "'" || c === '`') {
+      for (i += 1; i < body.length && body[i] !== c; i += 1) if (body[i] === '\\') i += 1;
+    } else if (c === '{' || c === '[') depth += 1;
+    else if (c === '}' || c === ']') depth -= 1;
+    else if (depth === 0) {
+      const m = new RegExp(`^\\b${key}\\s*:\\s*([[{])`).exec(body.slice(i));
+      if (m && (i === 0 || /[\s,{]/.test(body[i - 1]))) {
+        const start = i + m[0].length - 1;
+        const end = matchClose(body, start);
+        return end > 0 ? body.slice(start + 1, end) : null;
+      }
+    }
+  }
+  return null;
+}
+const configOpen = cfg.search(/defineConfig\s*\(\s*\{/);
+const configBody = configOpen >= 0 ? (() => {
+  const start = cfg.indexOf('{', configOpen);
+  return cfg.slice(start + 1, matchClose(cfg, start));
+})() : '';
+const testBody = topLevelValue(configBody, 'test');
+const includeBody = testBody ? topLevelValue(testBody, 'include') : null;
+const includeGlobs = includeBody ? [...includeBody.matchAll(/(['"`])((?:\\.|(?!\1).)*)\1/g)].map((m) => m[2]) : [];
+
 const braceGlob = `{${DIRS.join(',')}}/**/*.test.{ts,tsx}`;
-const missingDirs = cfg.includes(braceGlob) ? [] : DIRS.filter((d) => !cfg.includes(`${d}/**/*.test.{ts,tsx}`));
-report(`test.include covers ${braceGlob}`, missingDirs.map((d) => `include has no glob for ${d}/`));
+const includeProblems = [];
+if (!testBody) includeProblems.push(`${cfgFile} has no test: { … } block in defineConfig({ … })`);
+else if (!includeBody) includeProblems.push('test.include is missing or not an array literal');
+else if (!includeGlobs.includes(braceGlob)) {
+  for (const d of DIRS) if (!includeGlobs.includes(`${d}/**/*.test.{ts,tsx}`)) includeProblems.push(`test.include has no glob for ${d}/`);
+}
+report(`test.include covers ${braceGlob}`, includeProblems);
 
 if (!args.includes('--static')) {
   const sh = (cmd) => spawnSync(cmd, { cwd: root, shell: true, encoding: 'utf8' });

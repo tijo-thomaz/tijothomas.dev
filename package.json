@@ -12,6 +12,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:scripts": "node --test scripts/*.test.mjs",
+    "spec:check": "node scripts/spec-check.mjs",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage",
     "analyze": "ANALYZE=true npm run build"

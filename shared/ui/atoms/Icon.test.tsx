@@ -1,122 +1,96 @@
+import { createRef } from 'react';
 import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { Icon } from './Icon';
+import {
+  ChevronDownIcon,
+  ChevronRightIcon,
+  LoadingIcon,
+  SendIcon,
+  ShieldIcon,
+  TerminalIcon,
+} from './Icon';
 
-describe('Icon Atom', () => {
-  it('renders icon with correct name', () => {
-    render(<Icon name="user" />);
-    const icon = screen.getByRole('img', { hidden: true });
-    expect(icon).toBeInTheDocument();
-  });
+const icons = [
+  ['ChevronRightIcon', ChevronRightIcon],
+  ['ChevronDownIcon', ChevronDownIcon],
+  ['SendIcon', SendIcon],
+  ['ShieldIcon', ShieldIcon],
+  ['LoadingIcon', LoadingIcon],
+  ['TerminalIcon', TerminalIcon],
+] as const;
 
-  it('applies default size correctly', () => {
-    render(<Icon name="home" />);
-    const icon = screen.getByRole('img', { hidden: true });
-    expect(icon).toHaveClass('w-4', 'h-4');
-  });
+const renderSvg = (ui: React.ReactElement) => {
+  const { container } = render(ui);
+  const svg = container.querySelector('svg');
+  if (!svg) throw new Error('no svg rendered');
+  return svg;
+};
 
-  it('applies custom size correctly', () => {
-    render(<Icon name="settings" size="lg" />);
-    const icon = screen.getByRole('img', { hidden: true });
-    expect(icon).toHaveClass('w-6', 'h-6');
-  });
+describe('Icon atoms', () => {
+  describe.each(icons)('%s', (name, Icon) => {
+    it('renders an svg with a 24x24 viewBox', () => {
+      const svg = renderSvg(<Icon />);
+      expect(svg).toHaveAttribute('viewBox', '0 0 24 24');
+      expect(svg).toHaveAttribute('fill', 'none');
+    });
 
-  it('applies custom className', () => {
-    render(<Icon name="search" className="custom-icon" />);
-    const icon = screen.getByRole('img', { hidden: true });
-    expect(icon).toHaveClass('custom-icon');
-  });
+    it('applies the default size and base classes', () => {
+      const svg = renderSvg(<Icon />);
+      expect(svg).toHaveClass('inline-block', 'h-5', 'w-5', 'text-current');
+    });
 
-  it('uses current color by default', () => {
-    render(<Icon name="heart" />);
-    const icon = screen.getByRole('img', { hidden: true });
-    expect(icon).toHaveStyle({ color: 'currentColor' });
-  });
+    it('applies the size variant', () => {
+      const svg = renderSvg(<Icon size="xl" />);
+      expect(svg).toHaveClass('h-8', 'w-8');
+      expect(svg).not.toHaveClass('h-5');
+    });
 
-  it('applies custom color', () => {
-    render(<Icon name="star" color="red" />);
-    const icon = screen.getByRole('img', { hidden: true });
-    expect(icon).toHaveStyle({ color: 'red' });
-  });
+    it('applies the colour variant', () => {
+      const svg = renderSvg(<Icon variant="terminal" />);
+      expect(svg).toHaveClass('text-green-400');
+    });
 
-  it('supports different icon variants', () => {
-    render(<Icon name="chevron-right" variant="outline" />);
-    const icon = screen.getByRole('img', { hidden: true });
-    expect(icon).toHaveAttribute('data-variant', 'outline');
-  });
+    it('merges a custom className', () => {
+      const svg = renderSvg(<Icon className="custom-icon" />);
+      expect(svg).toHaveClass('custom-icon', 'inline-block');
+    });
 
-  it('has correct accessibility attributes', () => {
-    render(<Icon name="info" aria-label="Information" />);
-    const icon = screen.getByRole('img');
-    expect(icon).toHaveAttribute('aria-label', 'Information');
-  });
+    it('forwards the ref to the svg element', () => {
+      const ref = createRef<SVGSVGElement>();
+      render(<Icon ref={ref} />);
+      expect(ref.current).toBeInstanceOf(SVGSVGElement);
+    });
 
-  it('is hidden from screen readers by default', () => {
-    render(<Icon name="decoration" />);
-    const icon = screen.getByRole('img', { hidden: true });
-    expect(icon).toHaveAttribute('aria-hidden', 'true');
-  });
+    it('passes through svg and aria attributes', () => {
+      const svg = renderSvg(<Icon aria-hidden="true" data-testid={name} />);
+      expect(svg).toHaveAttribute('aria-hidden', 'true');
+      expect(svg).toHaveAttribute('data-testid', name);
+    });
 
-  it('can be made visible to screen readers', () => {
-    render(<Icon name="warning" aria-hidden="false" />);
-    const icon = screen.getByRole('img');
-    expect(icon).toHaveAttribute('aria-hidden', 'false');
-  });
-
-  it('supports rotation', () => {
-    render(<Icon name="arrow-right" rotate={90} />);
-    const icon = screen.getByRole('img', { hidden: true });
-    expect(icon).toHaveStyle({ transform: 'rotate(90deg)' });
-  });
-
-  it('supports flip transformations', () => {
-    render(<Icon name="arrow-left" flip="horizontal" />);
-    const icon = screen.getByRole('img', { hidden: true });
-    expect(icon).toHaveStyle({ transform: 'scaleX(-1)' });
-  });
-
-  it('combines multiple transformations', () => {
-    render(<Icon name="arrow-up" rotate={45} flip="vertical" />);
-    const icon = screen.getByRole('img', { hidden: true });
-    expect(icon).toHaveStyle({ 
-      transform: expect.stringMatching(/rotate\(45deg\).*scaleY\(-1\)|scaleY\(-1\).*rotate\(45deg\)/)
+    it('has the displayName set', () => {
+      expect(Icon.displayName).toBe(name);
     });
   });
 
-  it('handles invalid icon names gracefully', () => {
-    render(<Icon name="non-existent-icon" />);
-    const icon = screen.getByRole('img', { hidden: true });
-    expect(icon).toBeInTheDocument();
+  it('applies the animate variant to non-loading icons', () => {
+    const svg = renderSvg(<ChevronRightIcon animate="pulse" />);
+    expect(svg).toHaveClass('animate-pulse');
   });
 
-  it('supports custom viewBox', () => {
-    render(<Icon name="custom" viewBox="0 0 100 100" />);
-    const icon = screen.getByRole('img', { hidden: true });
-    expect(icon).toHaveAttribute('viewBox', '0 0 100 100');
+  it('defaults to no animation', () => {
+    const svg = renderSvg(<SendIcon />);
+    expect(svg).not.toHaveClass('animate-spin');
+    expect(svg).not.toHaveClass('animate-pulse');
   });
 
-  it('maintains aspect ratio', () => {
-    render(<Icon name="square" />);
-    const icon = screen.getByRole('img', { hidden: true });
-    expect(icon).toHaveClass('w-4', 'h-4'); // Square dimensions
+  it('LoadingIcon always spins', () => {
+    const svg = renderSvg(<LoadingIcon />);
+    expect(svg).toHaveClass('animate-spin');
   });
 
-  it('supports custom stroke width', () => {
-    render(<Icon name="circle" strokeWidth={2} />);
-    const icon = screen.getByRole('img', { hidden: true });
-    expect(icon).toHaveAttribute('stroke-width', '2');
-  });
-
-  it('applies theme colors correctly', () => {
-    render(<Icon name="moon" color="var(--theme-accent)" />);
-    const icon = screen.getByRole('img', { hidden: true });
-    expect(icon).toHaveStyle({ color: 'var(--theme-accent)' });
-  });
-
-  it('handles responsive sizing', () => {
-    render(<Icon name="responsive" className="sm:w-6 sm:h-6" />);
-    const icon = screen.getByRole('img', { hidden: true });
-    expect(icon).toHaveClass('sm:w-6', 'sm:h-6');
+  it('stroked icons use currentColor', () => {
+    const svg = renderSvg(<ShieldIcon />);
+    expect(svg).toHaveAttribute('stroke', 'currentColor');
   });
 });

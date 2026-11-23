@@ -1,19 +1,14 @@
-// U-01 walking-skeleton smoke: proves build -> next start -> Playwright works end to end on the
-// current `/` terminal. U-03 renames it to cite the /terminal AC once the terminal moves there.
+// Walking-skeleton smoke (U-01, retargeted in U-03): both route groups build and serve. The
+// behavioural checks live in terminal.spec.ts, v2-redirect.spec.ts and site-home.spec.ts.
 import { expect, test } from '@playwright/test';
 
-test('U-01 smoke: / serves the terminal and answers the help command with no page errors', async ({ page }) => {
-  const pageErrors: string[] = [];
-  page.on('pageerror', (e) => pageErrors.push(e.message));
-
-  const response = await page.goto('/');
-  expect(response?.status()).toBe(200);
-
-  const input = page.getByRole('textbox', { name: /Terminal command input/ });
-  await expect(input).toBeVisible();
-  await input.fill('help');
-  await input.press('Enter');
-
-  await expect(page.getByText('PORTFOLIO COMMANDS', { exact: false }).first()).toBeVisible();
-  expect(pageErrors).toEqual([]);
-});
+for (const route of ['/', '/terminal']) {
+  test(`U-03 smoke: ${route} responds 200 with no uncaught page errors`, async ({ page }) => {
+    const pageErrors: string[] = [];
+    page.on('pageerror', (e) => pageErrors.push(e.message));
+    const response = await page.goto(route);
+    expect(response?.status()).toBe(200);
+    await page.waitForLoadState('networkidle');
+    expect(pageErrors).toEqual([]);
+  });
+}

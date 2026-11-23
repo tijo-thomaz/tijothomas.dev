@@ -14,3 +14,7 @@
 | 2026-11-23 | PG1 amendment | Owner widened scope to whole-repo restructure: drop FSD, oxlint only, `specs/` at root, remove Storybook, move terminal as-is into `terminal/`, delete 58 dead modules. See `questions/1.1-scope-change.md`. Stage 1.1 re-opened. | owner |
 | 2026-11-23 | Stage 1.1 amended | `specs/` created (README + home 25, content 12, seo 10, terminal-route 6, platform 20 = 73 ACs). PRD §3a target tree, FR-070..080, US-24..28, RQ-16..23. `.gitignore` gained `!specs/**/*.md` so specs are tracked. Awaiting PG1. | edd-product-analyst + orchestrator |
 | 2026-11-23 | PG1 approved | Owner: "approve". Requirements, specs (73 ACs) and RQ-01..23 recommended defaults approved; specs status set Approved. Facts sheet partially answered (62/90); 28 blank and several ambiguous answers being clarified before the content unit. | owner |
+| 2026-11-23 | Facts clarified | Ambiguous fact answers resolved with owner; see `questions/1.1-facts-resolved.md`. Open: F-48, F-58..60, C-01..18, F-67..72. | owner |
+| 2026-11-23 | Stage 1.3 start | Dispatched `edd-security-architect`. | orchestrator |
+| 2026-11-23 | Facts | F-67 LinkedIn supplied; F-68/F-69 candidates confirmed ("yes"); F-72 no current CV, button hidden. | owner |
+| 2026-11-23 | Facts complete | Owner approved all remaining rows; later changes in a separate content cycle. All 90 rows resolved. | owner |

@@ -1,5 +1,5 @@
 # SEO and crawlability
-Status: Draft
+Status: Approved (PG1 2026-11-23)
 Prefix: SEO
 Traces: FR-050–FR-057, FR-068, NFR-001–NFR-003, NFR-010, NFR-020, NFR-022, NFR-040; US-16–US-20
 

@@ -1,5 +1,5 @@
 # Terminal route (`/terminal`)
-Status: Draft
+Status: Approved (PG1 2026-11-23)
 Prefix: TERM
 Traces: FR-003–FR-006, FR-072, NFR-031; US-02, US-03, US-24
 

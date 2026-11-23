@@ -1,5 +1,5 @@
 # Content rules
-Status: Draft
+Status: Approved (PG1 2026-11-23)
 Prefix: CONT
 Traces: FR-010–FR-016; US-07, US-08, US-12, US-13
 

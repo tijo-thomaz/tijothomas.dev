@@ -1,5 +1,5 @@
 # Home page (`/`)
-Status: Draft
+Status: Approved (PG1 2026-11-23)
 Prefix: HOME
 Traces: FR-001, FR-002, FR-007, FR-008, FR-020–FR-032, FR-040–FR-044, NFR-011, NFR-013, NFR-014, NFR-016, NFR-017, NFR-019, NFR-021, NFR-024; US-03–US-06, US-09–US-12, US-14, US-15, US-21
 

@@ -27,7 +27,7 @@
 | Stage | Status | Artifacts | Approved (date) |
 |-------|--------|-----------|-----------------|
 | 1.0 Codebase analysis | approved | `edd-docs/audit/README.md`, `audit-report.md`, `reconstructed-adrs.md`, `metrics.md`, `raw/` | 2026-11-23 |
-| 1.1 Requirements | awaiting PG1 (amended) | `specs/` (73 ACs), `inception/prd.md`, `inception/user-stories.md`, `questions/1.1-facts.md`, `questions/1.1-requirements.md` | |
+| 1.1 Requirements | approved (PG1) | `specs/` (73 ACs), `inception/prd.md`, `inception/user-stories.md`, `questions/1.1-facts.md`, `questions/1.1-requirements.md` | 2026-11-23 |
 | 1.2 Architecture | skipped (feature) | | |
 | 1.3 Security & compliance | todo | | |
 | 1.4 AI/ML design | n/a (no AI) | | |

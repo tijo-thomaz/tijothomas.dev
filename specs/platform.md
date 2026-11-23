@@ -1,5 +1,5 @@
 # Platform, tooling and repo structure
-Status: Draft
+Status: Approved (PG1 2026-11-23)
 Prefix: PLAT
 Traces: FR-060–FR-067, FR-070–FR-080, NFR-030, NFR-032, NFR-041, NFR-050–NFR-056; US-01, US-02, US-22, US-24–US-28
 

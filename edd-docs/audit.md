@@ -23,3 +23,4 @@
 | 2026-11-23 | PG3 approved | Owner: SQ-01 disable /api/chat (not recommended guard); SQ-02 /privacy + fix modal; SQ-05 strip contact PII from terminal + scan gate; SQ-03/04/06..09 defaults. Owner actions open: SQ-07 Supabase service-role key check, SQ-09 MFA/DNS confirm. | owner |
 | 2026-11-23 | Stage 1.5 start | Dispatched `edd-planner` (also folds PG3-approved ADRs/ACs into specs/). | orchestrator |
 | 2026-11-23 | Stage 1.5 done | 12 units U-00..U-11 + spikes SP-01 (Next 16 install/build), SP-02 (oxlint parity). Specs amended after PG3: 93 ACs (HOME 28, CONT 15, SEO 11, TERM 12, PLAT 27), each in exactly one unit. Planner questions Q-1..Q-6. Awaiting PG4. | edd-planner |
+| 2026-11-23 | PG4 approved | Owner approved plan and planner Q-1..Q-6 recommendations (see `questions/1.5-plan.md`). Construction starts with spikes SP-01, SP-02. | owner |

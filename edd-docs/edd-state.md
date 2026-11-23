@@ -31,7 +31,7 @@
 | 1.2 Architecture | skipped (feature) | | |
 | 1.3 Security & compliance | approved (PG3) | `inception/threat-model.md`, `inception/compliance.md`, `questions/1.3-security.md` | 2026-11-23 |
 | 1.4 AI/ML design | n/a (no AI) | | |
-| 1.5 Units & plan | awaiting PG4 | `inception/plan.md`, `inception/units/U-00..U-11`, specs amended (93 ACs) | |
+| 1.5 Units & plan | approved (PG4) | `inception/plan.md`, `inception/units/U-00..U-11`, specs amended (93 ACs) | 2026-11-23 |
 | 2.x Construction (per unit) | todo | | |
 | 3.1 CI/CD & observability | todo | | |
 | 3.2 Release readiness | todo | | |

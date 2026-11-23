@@ -41,7 +41,7 @@ gates:
     enforce: true
     evidence: 0 high or critical advisories in the installed tree
   - id: CG10_signatures
-    cmd: npm audit signatures
+    cmd: node scripts/audit-signatures.mjs -- npm audit signatures
     enforce: true
     evidence: PLAT-AC-25 registry signatures and attestations verify
   - id: CG10_gitleaks_history

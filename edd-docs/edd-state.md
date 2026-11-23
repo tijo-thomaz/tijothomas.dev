@@ -41,7 +41,7 @@ Order (amended 2026-11-24): U-00 → U-01 → U-03 → U-02 → U-04 → … →
 | Unit | Flags (hot-path/critical/ai) | Status | Tests | Gates CG1–14 | Self-heal/RCA | NFR verify | Review | PG5 approved |
 |------|------------------------------|--------|-------|--------------|---------------|------------|--------|--------------|
 | U-00 Baseline purge | critical | done | 78/78 pass | CG lint/type/test/build PASS (pre-U-01 tooling) | 0 self-heal; 1 review loop | n/a | changes-required → fixed | 2026-11-24 |
-| U-01 Walking skeleton + gates | walking skeleton | todo | | | | | | |
+| U-01 Walking skeleton + gates | walking skeleton | gates partially red (CG10) | 53/53 node, 78/78 vitest | 14/16 PASS; CG10 audit+signatures FAIL, gitleaks BLOCKED | 0 | n/a | pending | |
 | U-03 Route split + terminal move | critical | todo | | | | | | |
 | U-02 Next 16.4.6 + React 19 | critical | todo | | | | | | |
 | U-04 Terminal PII strip + chat off | critical | todo | | | | | | |

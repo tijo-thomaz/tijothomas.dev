@@ -102,3 +102,8 @@ storybook-static
 
 # U-00 smoke screenshots: local evidence only, not committed
 edd-docs/construction/U-00/smoke/*.png
+
+# Playwright output
+playwright-report/
+test-results/
+blob-report/

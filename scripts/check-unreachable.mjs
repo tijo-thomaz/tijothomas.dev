@@ -7,13 +7,14 @@
 // modules loaded by string). Exit 1 if any check fails.
 import fs from 'node:fs';
 import path from 'node:path';
-import { buildGraph, readListedPaths, isTest, isCode, specifiers, resolveLocal, CODE_EXT } from './lib/repo-graph.mjs';
+import { buildGraph, readListedPaths, isTest, isCode, specifiers, resolveLocal, inRoots, CODE_EXT } from './lib/repo-graph.mjs';
+import { paths } from './paths.mjs';
 
 const args = process.argv.slice(2);
 const opt = (name) => args.flatMap((a, i) => (a === name ? [args[i + 1]] : []));
 const root = path.resolve(opt('--root')[0] ?? process.cwd());
 const excludeEntries = opt('--exclude-entry');
-const AC11_DIRS = ['components', 'terminal', 'lib', 'features', 'widgets', 'shared'];
+const AC11_DIRS = paths.srcRoots;
 
 const keepFile = path.join(root, 'scripts/check-unreachable.keep.txt');
 const keep = new Set(fs.existsSync(keepFile)
@@ -21,11 +22,11 @@ const keep = new Set(fs.existsSync(keepFile)
   : []);
 
 const graph = buildGraph(root, { excludeEntries });
-const unreachable = graph.unreachable.filter((m) => AC11_DIRS.includes(m.split('/')[0]) && !keep.has(m));
+const unreachable = graph.unreachable.filter((m) => inRoots(m, AC11_DIRS) && !keep.has(m));
 
 // Guard against a vacuous pass: an empty graph (wrong --root, moved app/) reports "0 unreachable".
 const emptyGraph = [
-  ...(graph.entries.length === 0 ? ['0 route entry points found (wrong --root or app/ moved?)'] : []),
+  ...(graph.entries.length === 0 ? [`0 route entry points found under ${paths.entries.join(', ')} (wrong --root or paths.mjs out of date?)`] : []),
   ...(graph.modules.length === 0 ? ['0 modules found'] : []),
 ];
 

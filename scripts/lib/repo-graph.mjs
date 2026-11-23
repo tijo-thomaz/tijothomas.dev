@@ -3,11 +3,13 @@
 // `import()` / `next/dynamic` and `require()`. Bare specifiers are external.
 import fs from 'node:fs';
 import path from 'node:path';
+import { paths } from '../paths.mjs';
 
 export const CODE_EXT = ['.ts', '.tsx', '.js', '.jsx', '.mjs', '.cjs'];
 export const IGNORED_DIRS = new Set(['node_modules', '.next', '.git', '.claude', 'coverage', 'edd-docs', 'docs', 'public', 'specs']);
-// Every directory that may hold app code (legacy FSD dirs until U-03 removes them).
-export const SOURCE_DIRS = ['app', 'components', 'terminal', 'content', 'lib', 'features', 'widgets', 'shared'];
+// Every directory that may hold app code (from scripts/paths.mjs; U-03 switches it to src/).
+export const SOURCE_DIRS = paths.srcRoots;
+const ENTRY_ROOTS = paths.entries.map((e) => `${e.replace(/\/+$/, '')}/`);
 // Next.js special files that the framework loads by convention.
 const NEXT_ENTRY = /^(page|layout|route|not-found|error|global-error|loading|template|default|opengraph-image|twitter-image|icon|apple-icon|sitemap|robots|manifest)\.(ts|tsx|js|jsx|mjs)$/;
 const ROOT_ENTRY = /^(middleware|proxy|instrumentation)\.(ts|js)$/;
@@ -57,17 +59,20 @@ export function resolveLocal(root, fromFile, spec) {
   return { unresolved: base };
 }
 
+// True when a repo-relative POSIX path lies under one of the given root folders.
+export const inRoots = (f, roots) => roots.some((r) => f === r || f.startsWith(`${r.replace(/\/+$/, '')}/`));
+
 export function entryPoints(root, files, excludeEntries = []) {
   return files.filter((f) => {
     if (excludeEntries.includes(f)) return false;
-    if (f.startsWith('app/') && NEXT_ENTRY.test(path.basename(f))) return true;
+    if (ENTRY_ROOTS.some((r) => f.startsWith(r)) && NEXT_ENTRY.test(path.basename(f))) return true;
     return !f.includes('/') && ROOT_ENTRY.test(f);
   });
 }
 
 export function buildGraph(root, { excludeEntries = [] } = {}) {
   const files = walk(root);
-  const modules = files.filter((f) => isCode(f) && !isTest(f) && !isStory(f) && SOURCE_DIRS.includes(f.split('/')[0]));
+  const modules = files.filter((f) => isCode(f) && !isTest(f) && !isStory(f) && inRoots(f, SOURCE_DIRS));
   const entries = entryPoints(root, files, excludeEntries);
   const reachable = new Set();
   const stack = [...entries];

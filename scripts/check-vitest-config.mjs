@@ -7,13 +7,13 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { stripComments } from './lib/repo-graph.mjs';
+import { paths } from './paths.mjs';
 
 const args = process.argv.slice(2);
 const val = (n, d) => (args.includes(n) ? args[args.indexOf(n) + 1] : d);
 const root = path.resolve(val('--root', process.cwd()));
 const runs = Number(val('--runs', 3));
-const PROBE = 'lib/vitest-alias.test.ts';
-const DIRS = ['app', 'components', 'terminal', 'content', 'lib'];
+const PROBE = paths.aliasProbe;
 
 let failed = false;
 const report = (name, problems) => {
@@ -79,14 +79,11 @@ const testBody = topLevelValue(configBody, 'test');
 const includeBody = testBody ? topLevelValue(testBody, 'include') : null;
 const includeGlobs = includeBody ? [...includeBody.matchAll(/(['"`])((?:\\.|(?!\1).)*)\1/g)].map((m) => m[2]) : [];
 
-const braceGlob = `{${DIRS.join(',')}}/**/*.test.{ts,tsx}`;
 const includeProblems = [];
 if (!testBody) includeProblems.push(`${cfgFile} has no test: { … } block in defineConfig({ … })`);
 else if (!includeBody) includeProblems.push('test.include is missing or not an array literal');
-else if (!includeGlobs.includes(braceGlob)) {
-  for (const d of DIRS) if (!includeGlobs.includes(`${d}/**/*.test.{ts,tsx}`)) includeProblems.push(`test.include has no glob for ${d}/`);
-}
-report(`test.include covers ${braceGlob}`, includeProblems);
+else for (const g of paths.testGlobs) if (!includeGlobs.includes(g)) includeProblems.push(`test.include has no '${g}' (scripts/paths.mjs testGlobs)`);
+report(`test.include covers ${paths.testGlobs.join(' and ')}`, includeProblems);
 
 if (!args.includes('--static')) {
   const sh = (cmd) => spawnSync(cmd, { cwd: root, shell: true, encoding: 'utf8' });

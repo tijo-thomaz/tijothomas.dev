@@ -39,7 +39,7 @@
 ## Units of work
 | Unit | Flags (hot-path/critical/ai) | Status | Tests | Gates CG1–14 | Self-heal/RCA | NFR verify | Review | PG5 approved |
 |------|------------------------------|--------|-------|--------------|---------------|------------|--------|--------------|
-| U-00 Baseline purge | critical | in review | 79/79 pass | CG lint/type/test/build PASS (pre-U-01 tooling) | 0 | n/a | pending | |
+| U-00 Baseline purge | critical | awaiting PG5 | 78/78 pass | CG lint/type/test/build PASS (pre-U-01 tooling) | 0 self-heal; 1 review loop | n/a | changes-required → fixed | |
 | U-01 Walking skeleton + gates | walking skeleton | todo | | | | | | |
 | U-02 Next 16.4.6 + React 19 | critical | todo | | | | | | |
 | U-03 Route split + terminal move | critical | todo | | | | | | |

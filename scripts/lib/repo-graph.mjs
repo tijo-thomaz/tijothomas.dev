@@ -12,6 +12,8 @@ export const SOURCE_DIRS = paths.srcRoots;
 const ENTRY_ROOTS = paths.entries.map((e) => `${e.replace(/\/+$/, '')}/`);
 // Next.js special files that the framework loads by convention.
 const NEXT_ENTRY = /^(page|layout|route|not-found|error|global-error|loading|template|default|opengraph-image|twitter-image|icon|apple-icon|sitemap|robots|manifest)\.(ts|tsx|js|jsx|mjs)$/;
+// True for a Next.js route convention file (page, layout, route, ...), by basename.
+export const isRouteFile = (f) => NEXT_ENTRY.test(path.basename(f));
 const ROOT_ENTRY = /^(middleware|proxy|instrumentation)\.(ts|js)$/;
 
 export const toPosix = (p) => p.split(path.sep).join('/');

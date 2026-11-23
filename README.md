@@ -1,7 +1,30 @@
 # tijothomas.dev
 
-Personal site of Tijo Thomas: a Next.js (App Router) app deployed on Vercel. The current `/` is the
-interactive terminal; the home redesign moves it to `/terminal` (see `edd-docs/inception/plan.md`).
+Personal site of Tijo Thomas: a Next.js (App Router) app deployed on Vercel. `/` is the new site
+(a placeholder until the home page lands); the interactive terminal lives at `/terminal`, and `/v2`
+redirects there (308). See `edd-docs/inception/plan.md`.
+
+## Folder rules
+
+All app code lives under `src/`; the repo root holds only config, docs and these folders:
+`src/`, `specs/`, `edd-docs/`, `scripts/`, `e2e/`, `public/`, `docs/` (PLAT-AC-08).
+
+| Folder | Holds | May import |
+|--------|-------|------------|
+| `src/app/(site)/` | public routes; its own root layout (no terminal CSS, theme or SEO block) | components, content, lib (never terminal or Supabase) |
+| `src/app/(terminal)/` | `/terminal`; root layout that reuses `src/terminal/layout.tsx` | terminal, lib |
+| `src/app/api/` | route entries (handlers for the terminal live in `src/terminal/api/`) | terminal, lib |
+| `src/components/` | site UI | anything except `src/terminal` |
+| `src/content/` | site content as typed data | `import type` only |
+| `src/lib/` | shared helpers (`site.ts`: `siteUrl`) | anything except `src/terminal` |
+| `src/terminal/` | the legacy terminal, moved unchanged | terminal, lib |
+
+- `@/*` maps to `./src/*` (tsconfig and Vitest), e.g. `@/lib/site`, `@/terminal/lib/version`.
+- `src/components`, `src/content` and `src/lib` never import `src/terminal`; `src/terminal` never
+  imports `src/components` or `src/content`; no import cycles (PLAT-AC-09, `check-imports`).
+  Nothing reachable from `(site)` imports `src/terminal` or Supabase (HOME-AC-04).
+- Files moved into `src/terminal/` stay renames (>= 90 % similar) of their old paths
+  (PLAT-AC-10, `check-renames`); data-only edits are recorded in `scripts/rename-exceptions.json`.
 
 ## Getting started
 
@@ -53,6 +76,8 @@ npm run gates -- --unit U-01 --base 35521e2 --only CG2_lint,spec
 - CG1 and the runtime gates build into `.next/`. Do not run them in a checkout where `next dev` is
   running; use a separate git worktree.
 - Gate scripts never hard-code source folders: they read them from `scripts/paths.mjs`.
+- `node scripts/css-diff.mjs --base <css> --head <css>` compares two Tailwind builds and fails when a
+  removed class is still used under `src/` (run the builds in scratch worktrees).
 
 ## Linting
 

@@ -35,9 +35,13 @@ gates:
     enforce: true
     evidence: PLAT-AC-16 complexity 10, max-lines 400, function 50, params 4, depth 3 as Oxlint errors; exit 0
   - id: CG9_import_graph
-    cmd: node scripts/check-unreachable.mjs
+    cmd: node scripts/check-unreachable.mjs && node scripts/check-imports.mjs
     enforce: true
-    evidence: PLAT-AC-11/12 import graph from route entries, 0 unreachable modules (direction rules from U-03)
+    evidence: PLAT-AC-11/12 0 unreachable modules from route entries; PLAT-AC-09 0 cycles and layer direction rules; HOME-AC-04 (site) graph reaches no terminal or Supabase module
+  - id: renames
+    cmd: node scripts/check-renames.mjs
+    enforce: true
+    evidence: PLAT-AC-10 the U-03 move commit is renames only (>= 90 %) and moved files stay >= 90 % at HEAD, exceptions in scripts/rename-exceptions.json
   - id: CG10_audit
     cmd: npm audit --audit-level=high
     enforce: true

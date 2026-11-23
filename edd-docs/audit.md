@@ -18,3 +18,7 @@
 | 2026-11-23 | Stage 1.3 start | Dispatched `edd-security-architect`. | orchestrator |
 | 2026-11-23 | Facts | F-67 LinkedIn supplied; F-68/F-69 candidates confirmed ("yes"); F-72 no current CV, button hidden. | owner |
 | 2026-11-23 | Facts complete | Owner approved all remaining rows; later changes in a separate content cycle. All 90 rows resolved. | owner |
+| 2026-11-23 | Facts change | F-64 superseded: owner email must not appear anywhere on the site. Contact = LinkedIn + GitHub only. | owner |
+| 2026-11-23 | Stage 1.3 done | STRIDE threat model + ASVS 5.0 L1 (46 SEC reqs, Now/Deferred), compliance (GDPR/UK GDPR/ePrivacy/EU AI Act Art. 50), 9 questions SQ-01..09, proposed ADR-P1..P5 and ACs (PLAT-AC-21..26, HOME-AC-26/27, CONT-AC-13/14, SEO-AC-11, TERM-AC-07..10). Git-history secret scan not run (agent had no shell). Awaiting PG3. | edd-security-architect |
+| 2026-11-23 | PG3 approved | Owner: SQ-01 disable /api/chat (not recommended guard); SQ-02 /privacy + fix modal; SQ-05 strip contact PII from terminal + scan gate; SQ-03/04/06..09 defaults. Owner actions open: SQ-07 Supabase service-role key check, SQ-09 MFA/DNS confirm. | owner |
+| 2026-11-23 | Stage 1.5 start | Dispatched `edd-planner` (also folds PG3-approved ADRs/ACs into specs/). | orchestrator |

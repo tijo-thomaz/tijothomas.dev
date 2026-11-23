@@ -67,3 +67,4 @@ Out of scope: any edit to terminal behaviour, text or data (U-04, U-10); the Nex
 - Move-then-fix in separate commits, so "unchanged" can be proven.
 - Strangler fig: the old app keeps running behind `/terminal` while the new `/` grows.
 - Before/after artefact diff (generated CSS) for changes that import graphs cannot see.
+- Re-export entry for route handlers (`src/app/api/*/route.ts` → `src/terminal/api/*`): where: `/api/analytics`, `/api/chat`; why: Next needs the route file under `src/app`, while the legacy handlers must stay inside the exact `src/terminal/**` lint override (PLAT-AC-14) and unchanged (PLAT-AC-10); trade-off: one indirection per route, gone when U-04 deletes `/api/chat` and analytics is rebuilt.

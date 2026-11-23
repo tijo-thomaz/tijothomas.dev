@@ -1,0 +1,22 @@
+{
+  "id": "lighthouse",
+  "enforce": false,
+  "status": "fail",
+  "exitCode": 1,
+  "cmd": "node scripts/lighthouse.mjs --runs 3 --out edd-docs/construction/U-03/gates/lighthouse",
+  "evidence": "mobile median of 3 on / (next start); scores >= 95, CLS, LCP, TBT; enforced from U-09",
+  "base": "2535185",
+  "startedAt": "2026-11-23T20:52:05.013Z",
+  "durationMs": 47805,
+  "outputTail": [
+    "PASS lighthouse mobile median of 3: performance 100 >= 95",
+    "PASS lighthouse mobile median of 3: accessibility 100 >= 95",
+    "PASS lighthouse mobile median of 3: best-practices 96 >= 95",
+    "FAIL lighthouse mobile median of 3: seo 90 >= 95",
+    "PASS lighthouse mobile median of 3: CLS 0 <= 0.05",
+    "PASS lighthouse mobile median of 3: LCP 767 ms <= 2500 ms",
+    "PASS lighthouse mobile median of 3: TBT 9 ms <= 150 ms",
+    "evidence: edd-docs/construction/U-03/gates/lighthouse/lighthouse.json"
+  ],
+  "log": "edd-docs/construction/U-03/gates/lighthouse.log"
+}

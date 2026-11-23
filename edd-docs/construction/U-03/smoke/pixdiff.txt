@@ -1,0 +1,8 @@
+desktop-1280-1-load {"diffPx":621,"pct":0.061,"rows":"328-463"}
+desktop-1280-2-help {"diffPx":809,"pct":0.079,"rows":"330-429"}
+desktop-1280-3-theme {"diffPx":1687,"pct":0.165,"rows":"336-652"}
+desktop-1280-4-chat {"diffPx":0,"pct":0,"rows":"-"}
+mobile-360-1-load {"diffPx":0,"pct":0,"rows":"-"}
+mobile-360-2-help {"diffPx":0,"pct":0,"rows":"-"}
+mobile-360-3-theme {"diffPx":0,"pct":0,"rows":"-"}
+mobile-360-4-chat {"diffPx":0,"pct":0,"rows":"-"}

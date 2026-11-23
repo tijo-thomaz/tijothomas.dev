@@ -49,7 +49,7 @@ gates:
     enforce: true
     evidence: PLAT-AC-25 0 secrets in the full git history (RR-8)
   - id: CG10_gitleaks_tree
-    cmd: node scripts/require-tool.mjs gitleaks dir . --redact --no-banner --report-format json --report-path {evidence}/gitleaks-tree.json
+    cmd: node scripts/require-tool.mjs gitleaks dir . --config .gitleaks.toml --redact --no-banner --report-format json --report-path {evidence}/gitleaks-tree.json
     enforce: true
     evidence: PLAT-AC-25 0 secrets in the working tree
   - id: CG10_sbom

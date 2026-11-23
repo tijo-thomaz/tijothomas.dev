@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Runs an external CLI tool (e.g. gitleaks) and passes its exit code through. If the tool is not on
-// PATH, prints `BLOCKED <tool> …` and exits 78, which scripts/gates.mjs records as "blocked" (never
+// Runs an external CLI tool (e.g. gitleaks) and passes its exit code through. If the tool cannot be
+// found, prints `BLOCKED <tool> …` and exits 78, which scripts/gates.mjs records as "blocked" (never
 // a pass, never a crash). Usage: node scripts/require-tool.mjs <tool> [args...]
 import fs from 'node:fs';
 import path from 'node:path';
@@ -24,8 +24,28 @@ function findOnPath(name) {
   return null;
 }
 
-const bin = findOnPath(tool);
-if (!bin) blocked(`${tool} is not installed (not on PATH); install it to run this gate: ${tool} ${args.join(' ')}`);
+const isFile = (f) => Boolean(f) && fs.existsSync(f) && fs.statSync(f).isFile();
+
+// Windows: `where <tool>` (sees the registry App Paths too), then winget's per-user install folders,
+// because a fresh winget install is not on the PATH of shells that were already open.
+function findOnWindows(name) {
+  if (process.platform !== 'win32') return null;
+  const where = spawnSync('where', [name], { encoding: 'utf8' });
+  const hit = where.status === 0 ? where.stdout.split(/\r?\n/).map((l) => l.trim()).find(isFile) : null;
+  if (hit) return hit;
+  const winget = path.join(process.env.LOCALAPPDATA ?? '', 'Microsoft', 'WinGet');
+  const link = path.join(winget, 'Links', `${name}.exe`);
+  if (isFile(link)) return link;
+  const pkgs = path.join(winget, 'Packages');
+  const dirs = fs.existsSync(pkgs) ? fs.readdirSync(pkgs) : [];
+  return dirs.map((d) => path.join(pkgs, d, `${name}.exe`)).find(isFile) ?? null;
+}
+
+// <TOOL>_PATH (e.g. GITLEAKS_PATH) wins, then PATH, then the Windows fallbacks.
+const override = process.env[`${tool.toUpperCase().replace(/\W/g, '_')}_PATH`];
+const bin = (isFile(override) && override) || findOnPath(tool) || findOnWindows(tool);
+if (!bin) blocked(`${tool} is not installed (not on PATH, not found by where or in WinGet); install it to run this gate: ${tool} ${args.join(' ')}`);
+console.log(`using ${tool}: ${bin}`);
 const reportPath = args[args.indexOf('--report-path') + 1];
 if (args.includes('--report-path') && reportPath) fs.mkdirSync(path.dirname(path.resolve(reportPath)), { recursive: true });
 const r = spawnSync(bin, args, { stdio: 'inherit' });

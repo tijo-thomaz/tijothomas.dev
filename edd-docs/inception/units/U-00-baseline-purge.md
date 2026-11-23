@@ -2,6 +2,7 @@
 Stories: US-25, US-27 (primary); US-02 (part)     Depends on: SP-01 (findings only)
 Flags: **critical** (a wrongly deleted module could break the terminal; R7) · hot-path: no · ai: no
 Estimate: M
+Status: **done, PG5 approved 2026-11-24** (`edd-docs/construction/U-00/`). The paths below are from before the restructure. U-03 (next after U-01) moves everything under `src/` and removes the temporary Tailwind globs (`features/`, `widgets/`, `shared/`) and the temporary vitest glob that U-00 added.
 
 ## Goal
 Make the baseline green by deleting code that never runs, together with its tests, then fix the tests that remain. Nothing new is built.

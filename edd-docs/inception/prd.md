@@ -5,6 +5,7 @@
 - **Date:** 2026-11-23
 - **Sources:** `docs/design/REDESIGN_SPEC.md` (ROLE through WORKING STYLE are binding), `docs/design/home-reference/Main.dc.html` (the mockup; written below as `Main.dc.html:Lnn`), `edd-docs/questions/1.0-audit.md` (owner decisions Q1–Q10, binding), and `edd-docs/audit/*` (baseline evidence).
 - **Amended:** 2026-11-23 by the PG1 scope change (`edd-docs/questions/1.1-scope-change.md`, binding). The scope now includes a whole-repo restructure: FSD is dropped, Oxlint replaces ESLint, Storybook is removed, and the 58 unreachable modules are deleted.
+- **Amended:** 2026-11-24 by the owner: `src/` layout (§3a, FR-063, FR-065). Restructure now runs before the Next 16 upgrade (`inception/plan.md`).
 - **Canonical spec:** `specs/*.md` at the repo root holds the numbered acceptance criteria (`HOME-AC-01`…), and tests cite those IDs. This PRD keeps the **rationale, scope, NFRs and traceability**. If a spec AC and this PRD disagree, the spec AC wins and this PRD is corrected. Every spec AC traces to an FR/US ID here.
 - **Fact rule:** This PRD sets out *rules* about content. It does not assert any fact about the owner. Every factual claim comes from `edd-docs/questions/1.1-facts.md` and must be confirmed by the owner before it goes into `content/*.ts`.
 
@@ -84,36 +85,44 @@ Today `/` is a client-only terminal (`"use client"` plus a `mounted` guard). The
 ### Future (not committed)
 Real MDX case studies and posts, a CV PDF, company logos, "Ask Tijo", Supabase retirement.
 
-## 3a. Folder structure (target; scope change, binding)
+## 3a. Folder structure (target; scope change, binding; amended 2026-11-24: `src/` layout)
+The owner chose a `src/` layout (2026-11-24). All app code lives under `src/`. The repo root keeps only config files and the non-app folders. The `@/*` alias maps to `./src/*` (`tsconfig.json` `paths`, `vitest.config.ts` `resolve.alias`), so `@/content/profile` is `src/content/profile.ts`.
 ```
-app/
-  (site)/              # new home + SEO routes; root layout A; server components only
-    page.tsx, layout.tsx, opengraph-image.tsx, work/[slug]/, writing/[slug]/
-  (terminal)/terminal/ # old terminal page, root layout B (ThemeProvider, JetBrains, terminal CSS)
-  api/chat/            # unchanged LLM route (out of scope to harden)
-  api/analytics/       # kept while Supabase stays on /terminal (Q7a) — see RQ-17
-  sitemap.ts, robots.ts
-components/            # site UI only; server-first; no imports from terminal/
-terminal/              # every module /terminal still uses, moved as-is (behaviour unchanged)
-content/               # typed facts and copy: profile.ts, experience.ts, work.ts, posts.ts
-lib/                   # small framework-free helpers shared by site code (flags, json-ld, site url)
-specs/                 # canonical feature specs with numbered ACs (README.md defines the format)
-edd-docs/              # EDD process evidence only (no requirements live here once specs/ exists)
-public/                # static assets
+src/
+  app/
+    (site)/              # home, /privacy, SEO routes; root layout A; server components only
+      page.tsx, layout.tsx, opengraph-image.tsx, privacy/, work/[slug]/, writing/[slug]/
+    (terminal)/terminal/ # old terminal page, root layout B (ThemeProvider, JetBrains, terminal CSS)
+    api/analytics/       # kept while Supabase stays on /terminal (Q7a, RQ-17)
+    sitemap.ts, robots.ts
+                         # api/chat/ is deleted in U-04 (PG3 SQ-01 c)
+  components/            # site UI only; server-first; no imports from src/terminal/
+  terminal/              # every module /terminal still uses, moved as-is (RQ-18 a: old relative paths kept)
+  content/               # typed facts and copy: profile.ts, experience.ts, work.ts, posts.ts, privacy.ts
+  lib/                   # small framework-free helpers shared by site code (flags, json-ld, site url)
+specs/                   # canonical feature specs with numbered ACs (README.md defines the format)
+scripts/                 # gate scripts, plain Node, no new deps (RQ-19 a)
+e2e/                     # Playwright tests (RQ-19 a)
+edd-docs/                # EDD process evidence only (no requirements live here once specs/ exists)
+docs/                    # design reference and redesign spec
+public/                  # static assets
+<root config files>      # package.json, tsconfig.json, next.config.*, tailwind.config.*, postcss.config.*,
+                         # vitest.config.ts, playwright.config.ts, .oxlintrc.json, gates.yml, vercel.json, .env.example
 ```
 | Folder | Rule (one line) |
 |--------|-----------------|
-| `app/(site)` | Routes and metadata only. Server components only. Rendering is delegated to `components/` and data comes from `content/`. |
-| `app/(terminal)/terminal` | A thin route file that renders the moved terminal page. Imports only from `terminal/`. |
-| `app/api/*` | Route handlers. Unchanged in this feature. |
-| `components/` | Site UI. No `"use client"`, and no imports from `terminal/` or `app/`. Tests sit next to the component as `*.test.tsx`. |
-| `terminal/` | Legacy terminal code. May import `lib/` but never `components/` or `content/`. No new features. |
-| `content/` | Data only (typed constants and types). No React and no I/O. |
-| `lib/` | Pure helpers with no React and no terminal imports, each with a unit test. |
+| `src/app/(site)` | Routes and metadata only. Server components only. Rendering is delegated to `src/components/` and data comes from `src/content/`. |
+| `src/app/(terminal)/terminal` | A thin route file that renders the moved terminal page. Imports only from `src/terminal/`. |
+| `src/app/api/*` | Route handlers. `api/analytics` is unchanged in this feature. |
+| `src/components/` | Site UI. No `"use client"`, and no imports from `src/terminal/` or `src/app/`. Tests sit next to the component as `*.test.tsx`. |
+| `src/terminal/` | Legacy terminal code. May import `src/lib/` but never `src/components/` or `src/content/`. No new features. |
+| `src/content/` | Data only (typed constants and types). No React and no I/O. |
+| `src/lib/` | Pure helpers with no React and no terminal imports, each with a unit test. |
 | `specs/` | One Markdown file per feature. Each AC ID is cited by at least one test. |
-| `edd-docs/` | Audit, decisions, gate evidence and RCAs. Never imported by code. |
+| `scripts/`, `e2e/` | Gate scripts and Playwright tests. They may read `src/` and `specs/`, and are never imported by app code. |
+| `edd-docs/`, `docs/` | Process evidence and design references. Never imported by code. |
 
-The folders `features/`, `widgets/`, `shared/`, `stories/` and `.storybook/` no longer exist after the restructure. Pending owner answers: where e2e tests and gate scripts live (RQ-19 recommends `e2e/` and `scripts/`), and the layout inside `terminal/` (RQ-18 recommends a mechanical move with terminal-only libs in `terminal/lib/`).
+After the restructure, the root has no `app/`, `components/`, `lib/`, `features/`, `widgets/`, `shared/`, `stories/` or `.storybook/`. Tailwind `content` globs and the vitest `include` list only `src/**` paths, plus `scripts/` tests for vitest. The temporary U-00 globs for `features/`, `widgets/` and `shared/` are removed.
 
 ---
 
@@ -187,9 +196,9 @@ Priority uses MoSCoW. "Spec" is the `REDESIGN_SPEC.md` section.
 | FR-060 | `next@16.4.6`, `react@19`, `react-dom@19`, and matching `@types/react` and `@types/react-dom` are installed. The lockfile is updated. | M | Q1c | `npm ls next react react-dom` |
 | FR-061 | `npm run lint` runs `oxlint` with `.oxlintrc.json` (plugins react, nextjs, jsx-a11y, typescript, vitest). There is no ESLint config or dependency in the repo. | M | Q1c; scope change | `npm run lint` exit 0; `npm ls eslint` empty |
 | FR-062 | `npm run build` succeeds with **no** env vars set (lazy, guarded Supabase client). | M | F-07, E8 | CG1 in a clean shell |
-| FR-063 | `vitest.config.ts` resolves `@/`, has no Storybook plugin, and includes `{app,components,terminal,content,lib}/**/*.test.{ts,tsx}`. `npm run test` runs `vitest run` (not watch mode). | M | Q4b | a test importing `@/content/profile` loads; `npm run test` exits |
+| FR-063 | `vitest.config.ts` resolves `@/` to `./src/`, has no Storybook plugin, and includes `src/{app,components,terminal,content,lib}/**/*.test.{ts,tsx}` (amended 2026-11-24). `npm run test` runs `vitest run` (not watch mode). | M | Q4b | a test importing `@/content/profile` loads; `npm run test` exits |
 | FR-064 | Test cleanup: delete every test whose subject module is deleted (FR-071). Fix every remaining failing test. | M | Q4b; scope change | CG3 0 errors; CG4 100% pass |
-| FR-065 | Tailwind `content` globs are exactly `app/`, `components/`, `terminal/` and `content/`. | M | F-08, E9 | sentinel class present in built CSS |
+| FR-065 | Tailwind `content` globs are exactly `src/app/`, `src/components/`, `src/terminal/` and `src/content/` (amended 2026-11-24). | M | F-08, E9 | sentinel class present in built CSS |
 | FR-066 | The unused `images` config is removed from `next.config.*`. | S | F-22 | config review |
 | FR-067 | Security response headers for all routes: HSTS, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy`, `frame-ancestors 'none'`/`X-Frame-Options: DENY`, `poweredByHeader: false`. A CSP applies to `(site)` routes (RQ-11). | S | F-10 | `curl -I` checks |
 | FR-068 | `gates.yml` gets two extra gates: Lighthouse mobile ≥ 95 ×4 and the view-source text check. | M | edd-state | `gates.yml` review |

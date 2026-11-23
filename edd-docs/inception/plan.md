@@ -1,20 +1,28 @@
 # Delivery plan: tijothomas.dev home redesign (EDD stage 1.5)
 
-- **Date:** 2026-11-23 · **Branch:** `redesign-home`
-- **Inputs:** `specs/*.md` (93 ACs, amended after PG3), `inception/prd.md`, `user-stories.md`, `threat-model.md`, `compliance.md`, `questions/*` (owner answers binding).
+- **Date:** 2026-11-23 · **Amended:** 2026-11-24 (owner, after PG4/PG5 U-00) · **Branch:** `redesign-home`
+- **Inputs:** `specs/*.md` (93 ACs, amended after PG3 and on 2026-11-24), `inception/prd.md`, `user-stories.md`, `threat-model.md`, `compliance.md`, `questions/*` (owner answers binding).
+- **Amendment 2026-11-24:**
+  1. **`src/` layout.** All app code moves to `src/app`, `src/components`, `src/content`, `src/lib` and `src/terminal`, and `@/*` maps to `./src/*`. The repo root keeps only config files, `specs/`, `edd-docs/`, `scripts/`, `e2e/`, `public/` and `docs/` (PRD §3a).
+  2. **New order.** The restructure (U-03) runs right after U-01 and before the Next 16 upgrade (U-02). Unit IDs are unchanged.
+  3. **TERM-AC-06 moves from U-03 to U-02**, because it needs the lazy Supabase client.
+  4. **No AC IDs changed**, so `specs/pending.txt` is unchanged.
+  5. **U-00 is done** (PG5 approved).
 - **Shape:** 12 small units, one person, built in order. Each unit is a few small commits and ends with `npm run gates` green (from U-01 on). Every spec AC belongs to exactly one unit (§6).
 - **Flags:** no `hot-path` units (`/` is a static CDN page; performance is proven by the Lighthouse gate, not CG12). No `ai` units (the only AI call is removed in U-04). `critical` = U-00, U-02, U-03, U-04, U-11.
 
 ## 1. Unit order
 
-| # | Unit | Goal (one line) | ACs | Flags | Size |
-|---|------|-----------------|-----|-------|------|
-| U-00 | [Baseline purge](units/U-00-baseline-purge.md) | Delete dead and `/v2`-only code, Storybook and their tests; vitest config; green tests | 5 | critical | M |
-| U-01 | [Walking skeleton: gates](units/U-01-walking-skeleton-gates.md) | `gates.yml` + runner, Oxlint, spec:check, gitleaks/SBOM, Playwright harness, baseline Lighthouse | 6 | **walking skeleton** | M |
-| U-02 | [Next 16 upgrade](units/U-02-next16-upgrade.md) | Next 16.4.6 + React 19, lazy Supabase, build with empty env, CVEs closed | 5 | critical | M |
-| U-03 | [Route split + terminal move](units/U-03-route-split-terminal-move.md) | `(site)`/`(terminal)` layouts, `git mv` into `terminal/`, `/v2` 308, `/terminal` noindex, hello-world `/` | 13 | critical | M |
-| U-04 | [Terminal PII strip + chat off](units/U-04-terminal-pii-strip-chat-off.md) | Data-only PII commit, delete `/api/chat`, "chat unavailable", PII + Groq scan gates | 8 | critical | S |
-| U-05 | [Content layer](units/U-05-content-layer.md) | Typed `content/*.ts` from resolved facts, `SHOW_PLANNED` parser | 5 | — | S |
+Rows are in **build order**.
+
+| # | Unit | Goal (one line) | ACs | Flags | Size | Status |
+|---|------|-----------------|-----|-------|------|--------|
+| U-00 | [Baseline purge](units/U-00-baseline-purge.md) | Delete dead and `/v2`-only code, Storybook and their tests; vitest config; green tests | 5 | critical | M | done (PG5 2026-11-24) |
+| U-01 | [Walking skeleton: gates](units/U-01-walking-skeleton-gates.md) | `gates.yml` + runner, Oxlint, spec:check, gitleaks/SBOM, Playwright harness, baseline Lighthouse; all folder names in `scripts/paths.mjs` | 6 | **walking skeleton** | M | next |
+| U-03 | [Restructure into `src/`](units/U-03-route-split-terminal-move.md) | `git mv` into `src/` (terminal → `src/terminal/`), `@/*` → `./src/*`, `(site)`/`(terminal)` layouts, `/v2` 308, `/terminal` noindex, hello-world `/`; temporary globs removed; CSS-diff 0 missing | 12 | critical | M | todo |
+| U-02 | [Next 16 upgrade](units/U-02-next16-upgrade.md) | Next 16.4.6 + React 19 on the `src/` layout, lazy Supabase, build with empty env, CVEs closed | 6 | critical | M | todo |
+| U-04 | [Terminal PII strip + chat off](units/U-04-terminal-pii-strip-chat-off.md) | Data-only PII commit, delete `/api/chat`, "chat unavailable", PII + Groq scan gates | 8 | critical | S | todo |
+| U-05 | [Content layer](units/U-05-content-layer.md) | Typed `src/content/*.ts` from resolved facts, `SHOW_PLANNED` parser | 5 | — | S | todo |
 | U-06 | [Home shell](units/U-06-home-shell.md) | Nav, Hero text, Highlights, Contact, Footer as server components | 10 | — | M |
 | U-07 | [Home lists](units/U-07-home-lists.md) | Work, Experience, How I work, Writing; view-source gate enforced | 13 | — | M |
 | U-08 | [CityMap, motion, a11y](units/U-08-citymap-motion-a11y.md) | SVG city nav, CSS-only motion, 360 px / keyboard / axe checks | 10 | — | M |
@@ -24,15 +32,28 @@
 
 No unit is L. The owner's suggested U-01 (upgrade + Oxlint + gates) was split into U-01 (gates, Oxlint) and U-02 (upgrade), and Storybook removal moved into U-00 because the vitest config fix (PLAT-AC-05) needs it gone. The owner's U-02 restructure was split into U-03 (mechanical move) and U-04 (PG3 terminal changes) so the move commit stays provably unchanged. Home sections were split into U-06/U-07/U-08, and `/privacy` became its own unit U-10.
 
+**Why the restructure comes first (2026-11-24):**
+- U-03 only moves code, and it still works on Next 14.2.30: route groups, `src/` and `redirects()` are all supported there.
+- Moving first means the U-02 codemods and React 19 fixes touch the final file locations once.
+- PLAT-AC-10 is measured across the move commit, so later U-02/U-04/U-10 edits do not affect it.
+- Builds in U-03 still use the placeholder Supabase env, as U-00 did. The empty-env build (PLAT-AC-03, TERM-AC-06) arrives in U-02.
+
+**How the gates survive the move:**
+- U-01 keeps every folder name in `scripts/paths.mjs`. That includes U-00's scripts, which U-01 refactors onto it.
+- The Oxlint warning override is a single `legacy-terminal` entry listing today's paths.
+- U-03 switches `paths.mjs`, the Oxlint override (→ `src/terminal/**`), the Tailwind `content` globs, the vitest `include` and the `tsconfig`/vitest alias in its config commit (U-03 commit B).
+- `gates.yml` references scripts, not globs, so it does not change.
+- U-03 re-verifies PLAT-AC-05, 11, 12, 13, 14 and 16 on the new paths. Their owners stay U-00/U-01.
+
 ### Dependency graph
 ```mermaid
 flowchart LR
   SP01([SP-01 Next 16 spike]) -.-> U02
-  U00[U-00 Purge] --> U01[U-01 Walking skeleton / gates]
-  U01 --> U02[U-02 Next 16 + React 19]
-  U02 --> U03[U-03 Route split + terminal move]
-  U03 --> U04[U-04 Terminal PII strip + chat off]
-  U03 --> U05[U-05 Content layer]
+  U00[U-00 Purge ✔] --> U01[U-01 Walking skeleton / gates]
+  U01 --> U03[U-03 Restructure into src/]
+  U03 --> U02[U-02 Next 16 + React 19]
+  U02 --> U04[U-04 Terminal PII strip + chat off]
+  U04 --> U05[U-05 Content layer]
   U04 --> U06[U-06 Home shell]
   U05 --> U06
   U06 --> U07[U-07 Home lists]
@@ -43,7 +64,7 @@ flowchart LR
   U09 --> U11[U-11 Security headers + release checks]
   U10 --> U11
 ```
-Build order: U-00 → U-01 → U-02 → U-03 → U-04 → U-05 → U-06 → U-07 → U-08 → U-09 → U-10 → U-11.
+Build order: U-00 (done) → U-01 → U-03 → U-02 → U-04 → U-05 → U-06 → U-07 → U-08 → U-09 → U-10 → U-11.
 
 ### Spikes (run before the unit that needs them; record in `edd-state.md`)
 | ID | Question | Timebox | Feeds |
@@ -54,7 +75,7 @@ Build order: U-00 → U-01 → U-02 → U-03 → U-04 → U-05 → U-06 → U-07
 ## 2. Milestones and MVP cut line
 | Milestone | After | What it proves |
 |-----------|-------|----------------|
-| M1 Green baseline | U-02 | Clean, upgraded, env-independent build; every gate runs from one command |
+| M1 Green baseline | U-02 (after U-03) | Clean `src/` layout, upgraded, env-independent build; every gate runs from one command |
 | M2 Safe split | U-04 | `/terminal` works at its new URL; no route serves owner email/phone; nothing talks to Groq |
 | M3 New home (demo) | U-08 | Complete `/` server-rendered, accessible, CSS-only motion. Can be shown on a Vercel preview **after owner approval to push** |
 | M4 Release candidate | U-11 | SEO, privacy notice, headers, all 93 ACs cited, all gates enforced |
@@ -80,16 +101,18 @@ Build order: U-00 → U-01 → U-02 → U-03 → U-04 → U-05 → U-06 → U-07
 | R12 | Disabling chat makes the terminal throw | U-04 | TERM-AC-08 (0 console errors) |
 | R13 | PII strip changes more than data | U-04 | data-only commit reviewed on its own; rename-exception list |
 | R14 | Site CSP breaks Next inline scripts or analytics | U-11 | PLAT-AC-22/24 + `/` static check |
-| R15 | `/v2` returns 404 on the branch between U-00 and U-03 | U-03 | branch only, never deployed in between |
+| R15 | `/v2` returns 404 on the branch between U-00 and U-03 (shorter window now: only U-01 in between) | U-03 | branch only, never deployed in between |
+| R17 | Moving to `src/` or narrowing globs drops Tailwind classes still used (seen in the U-00 review: 413–422 classes) | **U-03** | temporary globs removed only together with the new `src/**` globs; CSS-diff of generated classes vs the pre-move build must show 0 missing; repeated in U-02 |
+| R18 | Gate scripts hard-code old folders and pass vacuously after the move | U-01, U-03 | all folders in `scripts/paths.mjs`; U-00's non-vacuous checks (fail on 0 entries/modules) kept |
 | R16 | spec:check cannot pass while later units' ACs are uncited | U-01 | `specs/pending.txt` staging list, emptied by U-11 (owner question Q-1) |
 
 ## 4. Traceability matrix (stories)
-Primary unit = the unit that owns the story. Other units listed in brackets deliver some of its ACs.
+Primary unit = the unit that owns the story. Other units listed in brackets deliver some of its ACs. Component paths are relative to `src/` (amended 2026-11-24), except config files, `scripts/` and `e2e/`.
 
 | Story | Pri | FRs | Components | SEC / CMP | Spec ACs | Unit |
 |-------|-----|-----|-----------|-----------|----------|------|
 | US-01 | M | FR-060, FR-061 | `package.json`, `next.config.js` | SEC-13 | PLAT-AC-01, 02, 04 | U-02 |
-| US-02 | M | FR-062–066 | `lib/supabase.ts`, `vitest.config.ts`, `tailwind.config.js`, `next.config.js` | SEC-17 | PLAT-AC-03, 07 [U-00: 05; U-03: 06; TERM-AC-06 in U-03] | U-02 |
+| US-02 | M | FR-062–066 | `terminal/lib/supabase.ts`, `vitest.config.ts`, `tailwind.config.js`, `next.config.js` | SEC-17 | PLAT-AC-03, 07, TERM-AC-06 [U-00: 05; U-03: 06] | U-02 |
 | US-03 | M | FR-003–008 | `app/(terminal)/*`, `terminal/**`, `next.config.js` redirects | SEC-12 | TERM-AC-01–05, HOME-AC-04, 05 [HOME-AC-18 in U-06] | U-03 |
 | US-04 | M | FR-001, 002, 007, 021, 030 | `app/(site)/{layout,page}.tsx`, `components/Hero.tsx` | — | HOME-AC-01, 03 [HOME-AC-02, 06 in U-07; 07 in U-08] | U-06 |
 | US-05 | M | FR-022, FR-031 | `components/CityMap.tsx` | — | HOME-AC-08, 10 [HOME-AC-09 in U-07] | U-08 |
@@ -142,7 +165,7 @@ Primary unit = the unit that owns the story. Other units listed in brackets deli
 | SEC-45 | n/a | closed by SQ-03 a (no preload) |
 
 ## 5. Definition of Done (every unit from U-01)
-`npm run gates` green: CG1 build (empty env from U-02), CG2 Oxlint, CG3 `tsc`, CG4 tests ×3, CG5 coverage (diff ≥ 80% lines / 70% branches; `content/`, `lib/` ≥ 85%), CG7 complexity, CG9 import graph, CG10 audit + gitleaks + signatures, CG14 docs, `spec:check` (with `specs/pending.txt`), PII scan (from U-04), view-source (enforced from U-07), Lighthouse mobile ≥ 95 ×4 (enforced from U-09). The unit's ACs are removed from `specs/pending.txt`. Review clean. No push or PR without owner approval.
+`npm run gates` green: CG1 build (empty env from U-02), CG2 Oxlint, CG3 `tsc`, CG4 tests ×3, CG5 coverage (diff ≥ 80% lines / 70% branches; `src/content/`, `src/lib/` ≥ 85%), CG7 complexity, CG9 import graph, CG10 audit + gitleaks + signatures, CG14 docs, `spec:check` (with `specs/pending.txt`), PII scan (from U-04), view-source (enforced from U-07), Lighthouse mobile ≥ 95 ×4 (enforced from U-09). The unit's ACs are removed from `specs/pending.txt`. Review clean. No push or PR without owner approval.
 
 ## 6. AC coverage (93 ACs, each in exactly one unit)
 | AC | Unit | AC | Unit | AC | Unit |
@@ -175,11 +198,11 @@ Primary unit = the unit that owns the story. Other units listed in brackets deli
 | SEO-AC-06 | U-09 | SEO-AC-07 | U-09 | SEO-AC-08 | U-09 |
 | SEO-AC-09 | U-07 | SEO-AC-10 | U-09 | SEO-AC-11 | U-09 |
 | TERM-AC-01 | U-03 | TERM-AC-02 | U-03 | TERM-AC-03 | U-03 |
-| TERM-AC-04 | U-03 | TERM-AC-05 | U-03 | TERM-AC-06 | U-03 |
+| TERM-AC-04 | U-03 | TERM-AC-05 | U-03 | TERM-AC-06 | U-02 |
 | TERM-AC-07 | U-04 | TERM-AC-08 | U-04 | TERM-AC-09 | U-04 |
 | TERM-AC-10 | U-04 | TERM-AC-11 | U-04 | TERM-AC-12 | U-10 |
 
-Per unit: U-00 5 · U-01 6 · U-02 5 · U-03 13 · U-04 8 · U-05 5 · U-06 10 · U-07 13 · U-08 10 · U-09 10 · U-10 3 · U-11 5 = **93**. Uncovered: 0.
+Per unit: U-00 5 · U-01 6 · U-03 12 · U-02 6 · U-04 8 · U-05 5 · U-06 10 · U-07 13 · U-08 10 · U-09 10 · U-10 3 · U-11 5 = **93**. Uncovered: 0. Amended 2026-11-24: TERM-AC-06 moved from U-03 to U-02. No AC ID changed. The AC texts that name paths now use `src/`. PLAT-AC-05 and PLAT-AC-11 (owned by the finished U-00) are re-verified on `src/` paths in U-03.
 
 ## 7. Traceability gaps found
 1. **PRD and user stories still predate PG3:** FR-013 and §6 rule 4 list "email" as a placeholder, FR-028 and US-12 show email "if supplied", FR-016 covers `/` only, and PRD §3 says `/api/chat` "stays live, unchanged". The specs (canonical) are amended; the PRD/US text is not.
@@ -188,3 +211,4 @@ Per unit: U-00 5 · U-01 6 · U-02 5 · U-03 13 · U-04 8 · U-05 5 · U-06 10 �
 4. **No AC for owner-console controls:** SEC-18 (Vercel env), SEC-19, SEC-21, SEC-22, CMP-07. They are handled by the U-11 owner checklist.
 5. **CONT-AC-09 overlaps CONT-AC-14** (it is a subset). It is kept because ACs are never deleted.
 6. **US-23 / FR-069** has no AC by design (process evidence). It is a U-01 task.
+7. **(2026-11-24)** The PRD §3a tree, FR-063 and FR-065 now use `src/`. FR-070's wording ("matches the target tree in §3a") is unchanged and follows the tree. The user stories still name root paths (US-02, US-24); the specs win.

@@ -1,17 +1,17 @@
 # Home page (`/`)
-Status: Approved (PG1 2026-11-23; amended after PG3 2026-11-23)
+Status: Approved (PG1 2026-11-23; amended after PG3 2026-11-23; amended 2026-11-24: `src/` layout)
 Prefix: HOME
 Traces: FR-001, FR-002, FR-007, FR-008, FR-020–FR-032, FR-040–FR-044, NFR-011, NFR-013, NFR-014, NFR-016, NFR-017, NFR-019, NFR-021, NFR-024, NFR-043; US-03–US-06, US-09–US-12, US-14, US-15, US-21; SEC-20, SEC-23; CMP-01, CMP-03
 
 ## Decisions (PG3, 2026-11-23)
-- **ADR-P3:** one privacy notice at `/privacy`: static server route, text from `content/privacy.ts`, linked from the footer of `/` and from the terminal privacy modal. Controller contact channel is LinkedIn; no email (SQ-02 a).
+- **ADR-P3:** one privacy notice at `/privacy`: static server route, text from `src/content/privacy.ts`, linked from the footer of `/` and from the terminal privacy modal. Controller contact channel is LinkedIn; no email (SQ-02 a).
 
 ## Acceptance criteria
 ### Structure and rendering
 - **HOME-AC-01** — Given the home page is rendered, when I query level-1 headings, then exactly 1 exists and its text equals `profile.headline`. _Traces: FR-030, US-04 · Verify: unit_ (spec test "renders h1")
 - **HOME-AC-02** — Given the site layout and page, when I list headings, then the layout has no `h1`, each section title is an `h2`, each work card name is an `h3`, and no level is skipped. _Traces: FR-030, NFR-023, US-04 · Verify: unit_
-- **HOME-AC-03** — Given `app/(site)`, `components/`, `content/` and `lib/` and their imports, when scanned, then 0 modules contain `"use client"` except `@vercel/analytics`, and the build marks `/` as static. _Traces: FR-001, FR-044, NFR-004, NFR-021, US-04 · Verify: gate_
-- **HOME-AC-04** — Given the `(site)` import graph, when scanned, then nothing under `terminal/` and nothing that reaches Supabase is imported. _Traces: FR-007, US-03 · Verify: gate_
+- **HOME-AC-03** — Given `src/app/(site)`, `src/components/`, `src/content/` and `src/lib/` and their imports, when scanned, then 0 modules contain `"use client"` except `@vercel/analytics`, and the build marks `/` as static. _Traces: FR-001, FR-044, NFR-004, NFR-021, US-04 · Verify: gate_
+- **HOME-AC-04** — Given the `(site)` import graph, when scanned, then nothing under `src/terminal/` and nothing that reaches Supabase is imported. _Traces: FR-007, US-03 · Verify: gate_
 - **HOME-AC-05** — Given `localStorage['tijothomas-theme']='cyber'`, when `/` loads, then `<html>` has no `theme-*` class. _Traces: FR-002, US-03 · Verify: e2e_
 - **HOME-AC-06** — Given JS is disabled, when `/` loads, then every section is visible, no "Loading" text exists, and each nav anchor scrolls to its target. _Traces: NFR-024, US-04 · Verify: e2e_
 - **HOME-AC-07** — Given viewports 360×740 and 1440×900, when `/` loads, then the location line, `h1`, intro and "View work" CTA each have `top < viewport height`. _Traces: FR-021, NFR-019, US-04 · Verify: e2e_

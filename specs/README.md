@@ -35,4 +35,6 @@ These files are the canonical, testable requirements for this repo. Rationale, N
 | `terminal-route.md` | TERM | `/terminal`, `/v2` redirect, version selector, chat disabled, terminal PII strip |
 | `platform.md` | PLAT | Next 16, Oxlint, folder structure, dead code, Storybook removal, test/build config, spec gate, security headers, supply chain |
 
+Paths (amended 2026-11-24): app code lives under `src/` (`src/app`, `src/components`, `src/content`, `src/lib`, `src/terminal`), and `@/*` maps to `./src/*`. `specs/`, `scripts/`, `e2e/`, `edd-docs/`, `public/` and `docs/` stay at the repo root. AC IDs did not change.
+
 Amended after PG3 (2026-11-23): 93 ACs (HOME 28, CONT 15, SEO 11, TERM 12, PLAT 27).

@@ -11,17 +11,17 @@ SEO-AC-01, SEO-AC-02, SEO-AC-04, SEO-AC-05, SEO-AC-06, SEO-AC-07, SEO-AC-08, SEO
 
 ## Scope
 1. `metadata` for `/` from `profile.seo` (title < 60, description 70–160 per C-17, canonical, OG + Twitter `summary_large_image`, no `twitter.creator`, no email/telephone).
-2. `app/(site)/opengraph-image.tsx` via `next/og`, 1200×630, confirmed name + headline, **local bundled font** (no network fetch, T-56/R8).
-3. `app/sitemap.ts` (data-driven from published items; excludes `/terminal`, `/v2`, noindex placeholders), `app/robots.ts`.
-4. `lib/json-ld.ts`: `serializeJsonLd(obj)` = `JSON.stringify` + `<` → `<` (SEC-09); `Person` on `/` (`sameAs` = confirmed LinkedIn + GitHub only).
-5. `app/(site)/work/[slug]/page.tsx`, `app/(site)/writing/[slug]/page.tsx`: one placeholder slug each from content, `generateStaticParams`, `dynamicParams = false` (unknown → 404), `robots: noindex`; `TechArticle` JSON-LD on writing.
-6. Oxlint `react/no-danger` as error with a single override for `lib/json-ld.ts` (PLAT-AC-23).
+2. `src/app/(site)/opengraph-image.tsx` (paths follow the `src/` layout, amended 2026-11-24) via `next/og`, 1200×630, confirmed name + headline, **local bundled font** (no network fetch, T-56/R8).
+3. `src/app/sitemap.ts` (data-driven from published items; excludes `/terminal`, `/v2`, noindex placeholders), `src/app/robots.ts`.
+4. `src/lib/json-ld.ts`: `serializeJsonLd(obj)` = `JSON.stringify` + `<` → `<` (SEC-09); `Person` on `/` (`sameAs` = confirmed LinkedIn + GitHub only).
+5. `src/app/(site)/work/[slug]/page.tsx`, `src/app/(site)/writing/[slug]/page.tsx`: one placeholder slug each from content, `generateStaticParams`, `dynamicParams = false` (unknown → 404), `robots: noindex`; `TechArticle` JSON-LD on writing.
+6. Oxlint `react/no-danger` as error with a single override for `src/lib/json-ld.ts` (PLAT-AC-23).
 7. Switch the Lighthouse gate to **enforce** (median of 3, mobile, RQ-15 a).
 
 Out of scope: `/privacy` (U-10), headers/CSP (U-11).
 
 ## Files touched
-`app/(site)/page.tsx` (metadata + JSON-LD), `app/(site)/opengraph-image.tsx`, `app/(site)/fonts/*` (local font file), `app/sitemap.ts`, `app/robots.ts`, `app/(site)/work/[slug]/page.tsx`, `app/(site)/writing/[slug]/page.tsx`, `lib/json-ld.ts` + test, `content/posts.ts`/`work.ts` (placeholder entries flagged `noindex`), `.oxlintrc.json`, `gates.yml`, tests, `e2e/seo.spec.ts`, `CHANGELOG.md`.
+`src/app/(site)/page.tsx` (metadata + JSON-LD), `src/app/(site)/opengraph-image.tsx`, `src/app/(site)/fonts/*` (local font file), `src/app/sitemap.ts`, `src/app/robots.ts`, `src/app/(site)/work/[slug]/page.tsx`, `src/app/(site)/writing/[slug]/page.tsx`, `src/lib/json-ld.ts` + test, `src/content/posts.ts`/`work.ts` (placeholder entries flagged `noindex`), `.oxlintrc.json`, `gates.yml`, tests, `e2e/seo.spec.ts`, `CHANGELOG.md`.
 
 ## Interfaces
 - `serializeJsonLd(data: Record<string, unknown>): string`.

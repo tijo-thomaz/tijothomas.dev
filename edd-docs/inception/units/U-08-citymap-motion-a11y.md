@@ -10,7 +10,7 @@ Add the isometric city as working navigation with CSS-only motion that respects 
 HOME-AC-07, HOME-AC-08, HOME-AC-10, HOME-AC-19, HOME-AC-20, HOME-AC-21, HOME-AC-22, HOME-AC-23, HOME-AC-24, HOME-AC-25
 
 ## Scope
-1. `components/CityMap.tsx`: inline SVG ported from `Main.dc.html:L49`, `viewBox="-418 -303 837 794"`, `width: 100%; height: auto`, 4 building `<a>` with `aria-label` Experience/Work/Writing/Contact; accents via `var(--accent)`; labels from `content/profile.ts`.
+1. `src/components/CityMap.tsx` (paths follow the `src/` layout, amended 2026-11-24): inline SVG ported from `Main.dc.html:L49`, `viewBox="-418 -303 837 794"`, `width: 100%; height: auto`, 4 building `<a>` with `aria-label` Experience/Work/Writing/Contact; accents via `var(--accent)`; labels from `src/content/profile.ts`.
 2. CSS: building lift `translateY(-4px)` + label highlight on hover/`:focus-visible`, `150ms ease-out`; car keyframes 12 s × 1; card hover border-colour only; `@media (prefers-reduced-motion: reduce)` turns all of it off but keeps the focus colour.
 3. Playwright + `@axe-core/playwright` checks at 360×740 and 1440×900 (first viewport, overflow, Tab walk, axe, target size).
 4. Fix any contrast/target-size/focus issue the checks find (site code only).
@@ -18,7 +18,7 @@ HOME-AC-07, HOME-AC-08, HOME-AC-10, HOME-AC-19, HOME-AC-20, HOME-AC-21, HOME-AC-
 Out of scope: SEO metadata (U-09), headers (U-11).
 
 ## Files touched
-`components/CityMap.tsx` + test, `components/Hero.tsx` (mount CityMap), `app/(site)/globals.css` (or `components/city.css`), `e2e/home-motion.spec.ts`, `e2e/home-a11y.spec.ts`, `e2e/home-viewport.spec.ts`, `package.json` (`@axe-core/playwright` dev dep, exact pin), `CHANGELOG.md`.
+`src/components/CityMap.tsx` + test, `src/components/Hero.tsx` (mount CityMap), `src/app/(site)/globals.css` (or `src/components/city.css`), `e2e/home-motion.spec.ts`, `e2e/home-a11y.spec.ts`, `e2e/home-viewport.spec.ts`, `package.json` (`@axe-core/playwright` dev dep, exact pin), `CHANGELOG.md`.
 
 ## Interfaces
 - `CityMap({ labels }: { labels: Profile['city'] })` (server component, no props from the request).

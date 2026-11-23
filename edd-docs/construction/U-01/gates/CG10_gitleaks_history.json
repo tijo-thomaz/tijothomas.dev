@@ -1,0 +1,14 @@
+{
+  "id": "CG10_gitleaks_history",
+  "enforce": true,
+  "status": "blocked",
+  "exitCode": 78,
+  "cmd": "node scripts/require-tool.mjs gitleaks git --redact --no-banner --report-format json --report-path edd-docs/construction/U-01/gates/gitleaks-history.json",
+  "evidence": "PLAT-AC-25 0 secrets in the full git history (RR-8)",
+  "startedAt": "2026-11-23T19:33:19.075Z",
+  "durationMs": 262,
+  "outputTail": [
+    "BLOCKED gitleaks is not installed (not on PATH); install it to run this gate: gitleaks git --redact --no-banner --report-format json --report-path edd-docs/construction/U-01/gates/gitleaks-history.json"
+  ],
+  "log": "edd-docs/construction/U-01/gates/CG10_gitleaks_history.log"
+}

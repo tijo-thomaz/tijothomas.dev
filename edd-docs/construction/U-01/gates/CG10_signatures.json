@@ -1,0 +1,17 @@
+{
+  "id": "CG10_signatures",
+  "enforce": true,
+  "status": "fail",
+  "exitCode": 1,
+  "cmd": "npm audit signatures",
+  "evidence": "PLAT-AC-25 registry signatures and attestations verify",
+  "startedAt": "2026-11-23T19:33:11.218Z",
+  "durationMs": 7854,
+  "outputTail": [
+    "npm ERR! code EEXPIREDSIGNATUREKEY",
+    "npm ERR! class-variance-authority@0.7.1 has a registry signature with keyid: SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA but the corresponding public key has expired 2025-01-29T00:00:00.000Z",
+    "",
+    "npm ERR! A complete log of this run can be found in: C:\\Users\\tijo1\\AppData\\Local\\npm-cache\\_logs\\2026-11-23T19_33_12_344Z-debug-0.log"
+  ],
+  "log": "edd-docs/construction/U-01/gates/CG10_signatures.log"
+}

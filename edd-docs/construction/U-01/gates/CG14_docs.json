@@ -1,0 +1,14 @@
+{
+  "id": "CG14_docs",
+  "enforce": true,
+  "status": "pass",
+  "exitCode": 0,
+  "cmd": "node scripts/check-docs.mjs",
+  "evidence": "README.md and CHANGELOG.md updated in this change",
+  "startedAt": "2026-11-23T19:33:19.720Z",
+  "durationMs": 545,
+  "outputTail": [
+    "PASS CG14 README.md and CHANGELOG.md updated in this change"
+  ],
+  "log": "edd-docs/construction/U-01/gates/CG14_docs.log"
+}

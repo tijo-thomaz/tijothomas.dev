@@ -40,3 +40,12 @@ Out of scope: CI workflow (stage 3.1), any product code.
 - Walking skeleton (thin pipeline through every layer before features).
 - Gatekeeper / quality gates as code (`gates.yml` + one runner).
 - Spec-to-test traceability (AC IDs in test names, checked by a gate).
+
+### Patterns used (implementation, 2026-11-24)
+| Pattern | Where | Why | Trade-off |
+|---------|-------|-----|-----------|
+| Walking skeleton | `gates.yml` → `scripts/gates.mjs` → build → `next start` → Playwright / Lighthouse / view-source → evidence JSON | Every later unit is judged by one command on the real pipeline | Runtime gates need a build; they must run in a worktree while `next dev` runs |
+| Quality gates as code (gatekeeper) | `gates.yml`, `scripts/gates.mjs` | One declarative list, one runner, one evidence format | Hand-rolled YAML subset reader (no dependency); only `- id:` lists are supported |
+| Single source of truth (registry) | `scripts/paths.mjs` | U-03 folder move is one edit; no gate passes vacuously on old folders (R18) | Every script imports it; a missing folder fails `paths.test.mjs` |
+| Fail-closed tool adapter | `scripts/require-tool.mjs` (exit 78 = blocked) | A missing scanner (gitleaks) must never look like a pass | Enforced blocked gates make the whole run red until the tool is installed |
+| Spec-to-test traceability | `scripts/spec-check.mjs`, `specs/pending.txt` | AC IDs in test names, checked by a gate | Citation by text match: an ID in a test-file comment also counts |

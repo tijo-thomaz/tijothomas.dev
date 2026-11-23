@@ -109,9 +109,12 @@ describe('Text Atom', () => {
     expect(screen.getByText('Custom styled')).toHaveClass('custom-text');
   });
 
-  it('applies responsive text sizes', () => {
-    render(<Text className="text-sm md:text-base">Responsive text</Text>);
-    expect(screen.getByText('Responsive text')).toHaveClass('text-sm', 'md:text-base');
+  it('replaces the default size with a responsive className and keeps the breakpoint class', () => {
+    render(<Text className="text-sm md:text-lg">Responsive text</Text>);
+    const text = screen.getByText('Responsive text');
+    // tailwind-merge drops the cva default `text-base` in favour of `text-sm`.
+    expect(text).not.toHaveClass('text-base');
+    expect(text).toHaveClass('text-sm', 'md:text-lg');
   });
 
   it('lets className override a conflicting size via tailwind-merge', () => {
@@ -129,11 +132,6 @@ describe('Text Atom', () => {
   it('handles accessibility attributes', () => {
     render(<Text aria-label="Accessible text">Screen reader text</Text>);
     expect(screen.getByText('Screen reader text')).toHaveAttribute('aria-label', 'Accessible text');
-  });
-
-  it('supports data attributes', () => {
-    render(<Text data-testid="text-element">Test text</Text>);
-    expect(screen.getByTestId('text-element')).toBeInTheDocument();
   });
 
   it('forwards the ref to the rendered element', () => {

@@ -6,7 +6,7 @@ import {
   AVAILABLE_VERSIONS,
   CURRENT_VERSION,
   type Version,
-} from "@/lib/version";
+} from "@/terminal/lib/version";
 import { VersionButton } from './atoms/VersionButton';
 import { VersionDropdown } from './organisms/VersionDropdown';
 

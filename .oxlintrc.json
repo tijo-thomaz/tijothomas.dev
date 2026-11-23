@@ -24,7 +24,7 @@
     "react/display-name": "error",
     "react/react-in-jsx-scope": "off",
     "react/no-unescaped-entities": "off",
-    "react/no-danger": "error",                       // PLAT-AC-23; allowed only in lib/json-ld.ts (override)
+    "react/no-danger": "error",                       // PLAT-AC-23; allowed only in src/lib/json-ld.ts (override)
     // React-Compiler + noisy vitest rules from `correctness`: not in baseline
     "react/purity": "off",
     "react/set-state-in-effect": "off",
@@ -94,8 +94,8 @@
   "overrides": [
     {
       // legacy-terminal (RQ-20 a): the only place warnings are allowed. files = scripts/paths.mjs
-      // terminalGlobs exactly (checked by scripts/oxlint-config.test.mjs). U-03 narrows it to src/terminal/**.
-      "files": ["app/page.tsx", "app/api/analytics/route.ts", "app/api/chat/route.ts", "components/**", "features/**", "widgets/**", "shared/**", "lib/**"],
+      // terminalGlobs exactly (checked by scripts/oxlint-config.test.mjs), PLAT-AC-14: src/terminal/**.
+      "files": ["src/terminal/**"],
       "rules": {
         "complexity": ["warn", { "max": 10 }],
         "max-lines": ["warn", { "max": 400, "skipBlankLines": true, "skipComments": true }],
@@ -115,7 +115,7 @@
         "jsx-a11y/heading-has-content": "warn"
       }
     },
-    { "files": ["lib/json-ld.ts"], "rules": { "react/no-danger": "off" } },
+    { "files": ["src/lib/json-ld.ts"], "rules": { "react/no-danger": "off" } },
     {
       // must stay LAST so it wins over the legacy override
       "files": ["**/*.test.{ts,tsx}", "**/*.spec.{ts,tsx}", "e2e/**"],

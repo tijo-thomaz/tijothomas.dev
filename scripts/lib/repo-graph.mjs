@@ -1,5 +1,5 @@
 // Plain-Node import graph for the gate scripts (no dependencies).
-// Resolves relative and `@/` imports (tsconfig paths `@/*` -> `./*`), including
+// Resolves relative and `@/` imports (through <root>/tsconfig.json paths['@/*'][0]), including
 // `import()` / `next/dynamic` and `require()`. Bare specifiers are external.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -46,9 +46,26 @@ export function specifiers(src) {
   return out;
 }
 
+// The folder that `@/` maps to, read from <root>/tsconfig.json compilerOptions.paths['@/*'][0]
+// (e.g. './src/*' -> 'src/'). No tsconfig or no alias: '' (repo root). Cached per root.
+const aliasCache = new Map();
+export function aliasPrefix(root) {
+  if (aliasCache.has(root)) return aliasCache.get(root);
+  let prefix = '';
+  const file = path.join(root, 'tsconfig.json');
+  if (fs.existsSync(file)) {
+    const json = stripComments(fs.readFileSync(file, 'utf8')).replace(/,(\s*[}\]])/g, '$1');
+    const target = JSON.parse(json).compilerOptions?.paths?.['@/*']?.[0] ?? './*';
+    prefix = target.replace(/\*$/, '').replace(/^\.\//, '').replace(/^\.$/, '');
+    if (prefix && !prefix.endsWith('/')) prefix += '/';
+  }
+  aliasCache.set(root, prefix);
+  return prefix;
+}
+
 export function resolveLocal(root, fromFile, spec) {
   let base;
-  if (spec.startsWith('@/')) base = spec.slice(2);
+  if (spec.startsWith('@/')) base = aliasPrefix(root) + spec.slice(2);
   else if (spec.startsWith('.')) base = toPosix(path.join(path.dirname(fromFile), spec));
   else return null; // external
   const candidates = [base, ...CODE_EXT.map((e) => base + e), ...CODE_EXT.map((e) => `${base}/index${e}`)];

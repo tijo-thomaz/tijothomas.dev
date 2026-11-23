@@ -8,12 +8,12 @@ import {
   useImperativeHandle,
   forwardRef,
 } from "react";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { downloadFile, generatePDFResume } from "@/lib/utils";
-import { soundManager } from "@/lib/sounds";
-import { trackCommand } from "@/lib/simple-analytics";
-import { CURRENT_VERSION } from "@/lib/version";
-import { TutorialManager } from "@/lib/tutorial-manager";
+import { Card, CardContent, CardHeader } from "@/terminal/components/ui/card";
+import { downloadFile, generatePDFResume } from "@/terminal/lib/utils";
+import { soundManager } from "@/terminal/lib/sounds";
+import { trackCommand } from "@/terminal/lib/simple-analytics";
+import { CURRENT_VERSION } from "@/terminal/lib/version";
+import { TutorialManager } from "@/terminal/lib/tutorial-manager";
 
 interface Command {
   input: string;

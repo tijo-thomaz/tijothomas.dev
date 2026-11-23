@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/terminal/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/terminal/components/ui/card";
 import { X, Shield } from "lucide-react";
 import { PrivacyNotice } from '../atoms/PrivacyNotice';
 import { StatGrid } from '../molecules/StatGrid';

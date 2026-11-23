@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getAnalyticsSummary } from "@/lib/simple-analytics";
+import { getAnalyticsSummary } from "@/terminal/lib/simple-analytics";
 import { AnalyticsButton } from './atoms/AnalyticsButton';
 import { AnalyticsModal } from './organisms/AnalyticsModal';
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { VersionOption } from '../molecules/VersionOption';
-import { type Version } from "@/lib/version";
+import { type Version } from "@/terminal/lib/version";
 
 interface VersionDropdownProps {
   versions: Version[];

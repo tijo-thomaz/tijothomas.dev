@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/terminal/components/ui/button";
 import { BarChart3 } from "lucide-react";
 
 interface AnalyticsButtonProps {

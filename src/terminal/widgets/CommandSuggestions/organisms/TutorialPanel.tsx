@@ -1,6 +1,6 @@
 "use client";
 
-import { TutorialStep } from "@/lib/tutorial-manager";
+import { TutorialStep } from "@/terminal/lib/tutorial-manager";
 import { ProgressIndicator } from '../atoms/ProgressIndicator';
 
 interface TutorialPanelProps {

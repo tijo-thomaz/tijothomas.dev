@@ -69,7 +69,9 @@ report('PLAT-AC-11', `import graph has 0 unreachable modules in ${AC11_DIRS.join
 // PLAT-AC-12: no test imports a missing or dead module; no test of a dead module remains.
 const dead = new Set([...graph.unreachable, ...stillThere]);
 const testProblems = [];
-for (const t of graph.files.filter((f) => isTest(f) && isCode(f))) {
+// App tests only (paths.srcRoots): the node:test gate tests embed fixture source as string literals,
+// whose `import … from './x'` text is not a real import of the repo.
+for (const t of graph.files.filter((f) => isTest(f) && isCode(f) && inRoots(f, AC11_DIRS))) {
   const src = fs.readFileSync(path.join(root, t), 'utf8');
   for (const s of specifiers(src)) {
     const r = resolveLocal(root, t, s);

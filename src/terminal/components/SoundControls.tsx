@@ -1,9 +1,9 @@
 "use client"
 
 import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/terminal/components/ui/button';
 import { Volume2, VolumeX } from 'lucide-react';
-import { soundManager } from '@/lib/sounds';
+import { soundManager } from '@/terminal/lib/sounds';
 
 const SoundControls = () => {
   const [soundEnabled, setSoundEnabled] = useState(false);

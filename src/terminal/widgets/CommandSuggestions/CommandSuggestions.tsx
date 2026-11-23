@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { TutorialStep } from "@/lib/tutorial-manager";
+import { TutorialStep } from "@/terminal/lib/tutorial-manager";
 import { CommandButton } from './atoms/CommandButton';
 import { WelcomePanel } from './molecules/WelcomePanel';
 import { TutorialPanel } from './organisms/TutorialPanel';

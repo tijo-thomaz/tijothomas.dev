@@ -1,7 +1,7 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { JetBrains_Mono } from 'next/font/google'
-import { ThemeProvider } from '@/components/ThemeProvider'
+import { ThemeProvider } from '@/terminal/components/ThemeProvider'
 import { Analytics } from '@vercel/analytics/react'
 
 const jetbrainsMono = JetBrains_Mono({ 

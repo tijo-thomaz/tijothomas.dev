@@ -8,27 +8,20 @@ const dirname =
 
 export default defineConfig({
   resolve: {
-    // Mirrors tsconfig "paths": { "@/*": ["./*"] } (Vite does not read tsconfig paths).
+    // Mirrors tsconfig "paths": { "@/*": ["./src/*"] } (Vite does not read tsconfig paths).
     alias: {
-      '@': path.resolve(dirname, '.'),
+      '@': path.resolve(dirname, './src'),
     },
   },
   test: {
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
-    include: [
-      '{app,components,terminal,content,lib}/**/*.test.{ts,tsx}',
-      // Temporary until U-03 moves these trees into terminal/ (PLAT-AC-08).
-      '{features,widgets,shared}/**/*.test.{ts,tsx}',
-    ],
+    include: ['src/{app,components,terminal,content,lib}/**/*.test.{ts,tsx}'],
     exclude: ['**/node_modules/**', '**/.next/**', '.claude/**'],
     coverage: {
       reporter: ['text', 'json', 'html'],
-      include: [
-        '{app,components,terminal,content,lib}/**/*.{ts,tsx}',
-        '{features,widgets,shared}/**/*.{ts,tsx}',
-      ],
+      include: ['src/{app,components,terminal,content,lib}/**/*.{ts,tsx}'],
       exclude: ['**/*.test.{ts,tsx}', '**/node_modules/**', '**/.next/**', '.claude/**'],
     },
   },

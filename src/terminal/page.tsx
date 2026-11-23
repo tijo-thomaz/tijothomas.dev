@@ -1,19 +1,19 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import Terminal, { TerminalHandle } from "@/components/Terminal";
-import ZoomControls from "@/components/ZoomControls";
-import SoundControls from "@/components/SoundControls";
-import ThemeControls from "@/components/ThemeControls";
-import { SimpleAnalyticsDisplay } from "@/widgets/Analytics";
-import { VersionSelector } from "@/widgets/VersionSelector";
-import FloatingAIAssistant from "@/features/chat-assistant";
-import WorldViewer from "@/features/world-viewer";
-import { Breadcrumbs } from "@/widgets/Breadcrumbs";
-import { CommandSuggestions } from "@/widgets/CommandSuggestions";
-import { PrivacyPolicy } from "@/widgets/PrivacyPolicy";
-import { trackVisit } from "@/lib/simple-analytics";
-import { TutorialManager, TUTORIAL_STEPS } from "@/lib/tutorial-manager";
+import Terminal, { TerminalHandle } from "@/terminal/components/Terminal";
+import ZoomControls from "@/terminal/components/ZoomControls";
+import SoundControls from "@/terminal/components/SoundControls";
+import ThemeControls from "@/terminal/components/ThemeControls";
+import { SimpleAnalyticsDisplay } from "@/terminal/widgets/Analytics";
+import { VersionSelector } from "@/terminal/widgets/VersionSelector";
+import FloatingAIAssistant from "@/terminal/features/chat-assistant";
+import WorldViewer from "@/terminal/features/world-viewer";
+import { Breadcrumbs } from "@/terminal/widgets/Breadcrumbs";
+import { CommandSuggestions } from "@/terminal/widgets/CommandSuggestions";
+import { PrivacyPolicy } from "@/terminal/widgets/PrivacyPolicy";
+import { trackVisit } from "@/terminal/lib/simple-analytics";
+import { TutorialManager, TUTORIAL_STEPS } from "@/terminal/lib/tutorial-manager";
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);

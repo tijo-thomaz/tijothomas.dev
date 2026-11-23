@@ -2,7 +2,7 @@
 
 import { Info } from "lucide-react";
 import { StatusBadge } from '../atoms/StatusBadge';
-import { type Version } from "@/lib/version";
+import { type Version } from "@/terminal/lib/version";
 
 interface VersionOptionProps {
   version: Version;

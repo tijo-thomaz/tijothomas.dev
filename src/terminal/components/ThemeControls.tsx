@@ -1,9 +1,9 @@
 "use client"
 
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/terminal/components/ui/button';
 import { Palette, ChevronDown } from 'lucide-react';
-import { useTheme } from '@/components/ThemeProvider';
+import { useTheme } from '@/terminal/components/ThemeProvider';
 
 const ThemeControls = () => {
   const { theme, setTheme, themes } = useTheme();

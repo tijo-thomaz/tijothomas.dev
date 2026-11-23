@@ -34,7 +34,10 @@ const errors = diags.filter((d) => d.severity === 'error');
 const warnings = diags.filter((d) => d.severity === 'warning');
 const outside = warnings.filter((d) => !isLegacy(file(d)));
 
+const files = Number(report.number_of_files ?? 0);
 const checks = [
+  // No vacuous pass: an over-broad ignorePatterns entry must not let lint succeed on nothing.
+  ['PLAT-AC-14', `oxlint linted at least 1 file (${files})`, files > 0],
   ['PLAT-AC-14', `oxlint exits 0 with 0 errors (${errors.length} errors)`, r.status === 0 && errors.length === 0],
   ['PLAT-AC-14', `oxlint wall time <= ${MAX_MS} ms (${ms.toFixed(0)} ms)`, ms <= MAX_MS],
   ['PLAT-AC-14', `0 warnings outside the legacy-terminal override (${outside.length})`, outside.length === 0],
@@ -48,7 +51,7 @@ if (out) {
   const byRule = {};
   for (const d of warnings) byRule[d.code] = (byRule[d.code] ?? 0) + 1;
   writeJson(path.join(root, out, 'lint.json'), {
-    tool: 'oxlint', version: pkg.devDependencies?.oxlint, files: report.number_of_files, wallTimeMs: Math.round(ms),
+    tool: 'oxlint', version: pkg.devDependencies?.oxlint, files, wallTimeMs: Math.round(ms),
     errors: errors.length, warnings: warnings.length, warningsOutsideLegacy: outside.length, ceiling, warningsByRule: byRule,
   });
 }

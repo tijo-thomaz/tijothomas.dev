@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import { loadPaths, readJsonc, readPkg, readText, walkRepo } from './lib/test-utils.mjs';
 
 const CONFIG = '.oxlintrc.json';
-const BASELINE_WARNINGS = 262; // SP-02 measured ceiling; may only go down
+const BASELINE_WARNINGS = 109; // U-01 re-measured ceiling (SP-02: 262); lower it with every ceiling drop
 const norm = (rule) => rule.replace(/^eslint\//, '');
 const level = (v) => {
   const s = Array.isArray(v) ? v[0] : v;
@@ -20,7 +20,7 @@ test('PLAT-AC-14 .oxlintrc.json at the repo root enables react, nextjs, jsx-a11y
   assert.deepEqual(missing, [], `plugins missing from ${CONFIG}`);
 });
 
-test('PLAT-AC-14 npm run lint runs oxlint with --max-warnings at or below the 262 baseline', () => {
+test('PLAT-AC-14 npm run lint runs oxlint with --max-warnings at or below the 109 baseline', () => {
   const lint = readPkg().scripts?.lint ?? '';
   assert.match(lint, /^oxlint(\s|$)/, `scripts.lint is '${lint}'`);
   const m = lint.match(/--max-warnings[ =](\d+)/);

@@ -2,6 +2,11 @@
   "name": "tijothomas.dev",
   "version": "1.0.0",
   "private": true,
+  "packageManager": "npm@11.21.3",
+  "engines": {
+    "node": ">=22",
+    "npm": ">=11"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",

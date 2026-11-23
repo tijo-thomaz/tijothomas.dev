@@ -6,7 +6,7 @@ interactive terminal; the home redesign moves it to `/terminal` (see `edd-docs/i
 ## Getting started
 
 ```bash
-npm ci
+npm ci                 # npm >= 11 (packageManager pins npm@11.21.3; no --legacy-peer-deps needed)
 npm run dev            # next dev
 ```
 

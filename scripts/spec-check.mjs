@@ -4,12 +4,14 @@
 // Usage: node scripts/spec-check.mjs [--root <dir>]   (default root: cwd)
 //   ACs:       bullets `- **<P>-AC-NN**` in specs/*.md (README.md skipped);
 //              retired: `- ~~**<P>-AC-NN**…~~` (no citation needed; citing one is not "unknown").
-//   Citations: *.test.* / *.spec.* files, everything under e2e/, and scripts/**/*.mjs (gate check
-//              names and node:test files). specs/, edd-docs/ and docs/ text never counts.
+//   Citations: test titles (test/it/describe) in *.test.* / *.spec.* files and e2e/, and string
+//              literals (check names) in the other scripts/**/*.mjs. Comments never count, nor does
+//              any text in specs/, edd-docs/ or docs/.
 // Exit 1 and name the ID on: uncited non-pending AC, unknown cited ID, pending ID that is cited or
 // is not an AC, or 0 ACs found (no vacuous pass).
 import fs from 'node:fs';
 import path from 'node:path';
+import { stripComments } from './lib/repo-graph.mjs';
 
 const args = process.argv.slice(2);
 const root = path.resolve(args.includes('--root') ? args[args.indexOf('--root') + 1] : process.cwd());
@@ -52,11 +54,24 @@ function readSpecs() {
   return { files, active, retired };
 }
 
+// Comments never cite. In test files (*.test.*, *.spec.*, e2e/) only the title (first string
+// argument) of test()/it()/describe() and their modifiers counts. In gate scripts only string
+// literals count (check names such as `PASS PLAT-AC-18 …` or report('PLAT-AC-11', …)).
+const STRING = /"(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*'|`(?:\\.|[^`\\])*`/g;
+const TITLE = /(?<![.\w$])(?:test|it|describe)(?:\.(?:only|skip|todo|each|concurrent|serial|fixme|fail))*\s*\(\s*("(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*'|`(?:\\.|[^`\\])*`)/g;
+const isTestFile = (rel) => /\.(test|spec)\.[cm]?[jt]sx?$/.test(rel) || rel.startsWith('e2e/');
+
+function citingText(rel) {
+  const code = stripComments(fs.readFileSync(path.join(root, rel), 'utf8'));
+  return isTestFile(rel) ? [...code.matchAll(TITLE)].map((m) => m[1]) : code.match(STRING) ?? [];
+}
+
 function readCitations() {
   const cited = new Map(); // id -> first file citing it
   const files = walk().filter(isCitingFile);
   for (const f of files) {
-    for (const m of fs.readFileSync(path.join(root, f), 'utf8').matchAll(CITE)) if (!cited.has(m[0])) cited.set(m[0], f);
+    const ids = citingText(f).flatMap((text) => text.match(CITE) ?? []);
+    for (const x of ids) if (!cited.has(x)) cited.set(x, f);
   }
   return { files, cited };
 }

@@ -27,6 +27,8 @@ npm run dev            # next dev
 
 1. Every test name cites the AC IDs it proves, e.g. `it('HOME-AC-01 renders exactly one h1', …)`.
    Gate scripts print the AC ID in their check names (`PASS PLAT-AC-18 …`).
+   `spec:check` counts only those: titles of `test`/`it`/`describe` (incl. `.skip`, `.each` …) in
+   test files and `e2e/`, and string literals in other `scripts/**/*.mjs`. Comments never count.
 2. `specs/pending.txt` lists ACs whose unit is not built yet, one per line. When a unit lands,
    delete its IDs from that file; it must be empty at the end of the redesign.
 3. `npm run spec:check` fails, naming the ID, when an AC is neither cited nor pending, when a test

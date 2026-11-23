@@ -1,7 +1,11 @@
 # Platform, tooling and repo structure
-Status: Approved (PG1 2026-11-23)
+Status: Approved (PG1 2026-11-23; amended after PG3 2026-11-23)
 Prefix: PLAT
-Traces: FR-060–FR-067, FR-070–FR-080, NFR-030, NFR-032, NFR-041, NFR-050–NFR-056; US-01, US-02, US-22, US-24–US-28
+Traces: FR-060–FR-067, FR-070–FR-080, NFR-030, NFR-032, NFR-041, NFR-050–NFR-056; US-01, US-02, US-22, US-24–US-28; SEC-01–SEC-10, SEC-13–SEC-18
+
+## Decisions (PG3, 2026-11-23)
+- **ADR-P1:** two-tier static headers in `next.config` `headers()`: baseline set on `/:path*`, then the site CSP (`script-src 'self' 'unsafe-inline'`, no nonce, no `proxy.ts`) on `/`, `/privacy`, `/work/:path*`, `/writing/:path*`, `/opengraph-image`, `/sitemap.xml`, `/robots.txt`. `/terminal` gets the baseline only (SQ-04 a). HSTS `max-age=63072000; includeSubDomains`, no preload (SQ-03 a).
+- **ADR-P4:** `.env.example` lists no Groq, service-role or rate-limit vars. Owner console: no `SUPABASE_SERVICE_ROLE_KEY` in Vercel (rotate if found), `GROQ_API_KEY` deleted, preview Deployment Protection on (SQ-06/07 a).
 
 ## Acceptance criteria
 ### Stack
@@ -18,7 +22,7 @@ Traces: FR-060–FR-067, FR-070–FR-080, NFR-030, NFR-032, NFR-041, NFR-050–N
 ### Folder structure and dead code
 - **PLAT-AC-08** — Given the repo root, when top-level dirs are listed, then `features/`, `widgets/`, `shared/`, `stories/` and `.storybook/` do not exist, and app code lives only in `app/`, `components/`, `terminal/`, `content/` and `lib/`. _Traces: FR-070, US-24 · Verify: unit_
 - **PLAT-AC-09** — Given the import graph, when checked, then there are 0 cycles; `components/`, `content/` and `lib/` never import `terminal/`; `terminal/` never imports `components/` or `content/`; `content/` imports types only. _Traces: FR-073, NFR-052, US-24 · Verify: gate_
-- **PLAT-AC-10** — Given the moved terminal files, when `git diff -M` runs against the base commit, then each is reported as a rename with similarity ≥ 90%. _Traces: FR-072, US-24 · Verify: gate_
+- **PLAT-AC-10** — Given the moved terminal files, when `git diff -M` runs against the base commit, then each is reported as a rename with similarity ≥ 90%. Exception (PG3, SQ-01/SQ-05): files later edited by the data-only PII-strip commit or the chat-disable commit are listed in the gate's exception file and are checked at the move commit instead of HEAD. _Traces: FR-072, US-24, CMP-05 · Verify: gate_
 - **PLAT-AC-11** — Given the 58 paths listed as unreachable in `edd-docs/audit/raw/cycles.txt`, when checked, then none exist, and the import graph reports 0 unreachable modules in `components/`, `terminal/` and `lib/`. _Traces: FR-071, US-25 · Verify: gate_
 - **PLAT-AC-12** — Given all test files, when collected, then none imports a deleted module, and every test of a deleted module is gone. _Traces: FR-064, US-25 · Verify: gate_
 - **PLAT-AC-13** — Given `package.json`, when a dependency-usage check runs, then 0 unused dependencies are reported. _Traces: FR-080, US-25 · Verify: gate_
@@ -37,3 +41,12 @@ Traces: FR-060–FR-067, FR-070–FR-080, NFR-030, NFR-032, NFR-041, NFR-050–N
 
 ### Security headers
 - **PLAT-AC-20** — Given `GET /`, when headers are read, then `strict-transport-security`, `x-content-type-options: nosniff`, `referrer-policy`, `permissions-policy` and a frame-ancestors restriction are present, `x-powered-by` is absent, and `/` loads with 0 CSP violations. _Traces: FR-067, US-22 · Verify: e2e_
+- **PLAT-AC-21** — Given `next start`, when `GET /terminal`, `GET /api/analytics` and `GET /does-not-exist` are read, then each has `strict-transport-security: max-age=63072000; includeSubDomains` (no `preload`), `x-content-type-options: nosniff`, `referrer-policy: strict-origin-when-cross-origin`, `permissions-policy`, `x-frame-options: DENY`, `cross-origin-opener-policy: same-origin`, a CSP containing `frame-ancestors 'none'`, and no `x-powered-by`. _Traces: SEC-01–SEC-08, FR-067, US-22 · Verify: e2e_
+- **PLAT-AC-22** — Given a production build, when the CSP of `GET /` and `GET /privacy` is parsed, then `script-src` has no host and no `'unsafe-eval'`, and `object-src 'none'`, `base-uri 'none'`, `form-action 'none'` and `frame-ancestors 'none'` are present. _Traces: SEC-05, FR-067, US-22 · Verify: e2e_
+- **PLAT-AC-23** — Given Oxlint with `react/no-danger` as error, when it runs, then there are 0 errors outside `terminal/`, and the only allowed use is in `lib/json-ld.ts`. _Traces: SEC-10, FR-054 · Verify: gate_
+- **PLAT-AC-24** — Given a production build of `/` with the site CSP, when it loads in Playwright, then a request to `/_vercel/insights/script.js` is issued and 0 `securitypolicyviolation` events fire. _Traces: SEC-05, FR-002, US-22 · Verify: e2e_
+
+### Supply chain and build output
+- **PLAT-AC-25** — Given the gate run, when it finishes, then `sbom.cdx.json` (CycloneDX) is written to the evidence folder, `gitleaks detect` over the full history and working tree reports 0 findings, and `npm audit signatures` exits 0. _Traces: SEC-14, SEC-15, NFR-042 · Verify: gate_
+- **PLAT-AC-26** — Given a production build, when `.next/static` is listed, then there are 0 `*.map` files. _Traces: SEC-08 · Verify: gate_
+- **PLAT-AC-27** — Given `.env.example`, when read, then it has no `GROQ_API_KEY`, `SUPABASE_SERVICE_ROLE_KEY` or `RATE_LIMIT_REQUESTS_PER_MINUTE` entry. _Traces: SEC-18, ADR-P4 · Verify: unit_

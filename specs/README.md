@@ -29,8 +29,10 @@ These files are the canonical, testable requirements for this repo. Rationale, N
 ## Index
 | File | Prefix | Feature |
 |------|--------|---------|
-| `home.md` | HOME | The `/` page: sections, CityMap, a11y, motion, responsive |
-| `content.md` | CONT | Content rules: facts, metric null, `SHOW_PLANNED`, placeholders |
+| `home.md` | HOME | The `/` page: sections, CityMap, a11y, motion, responsive; `/privacy` page |
+| `content.md` | CONT | Content rules: facts, metric null, `SHOW_PLANNED`, placeholders, no contact PII (build scan) |
 | `seo.md` | SEO | Metadata, OG, sitemap, robots, JSON-LD, crawlability, Lighthouse |
-| `terminal-route.md` | TERM | `/terminal`, `/v2` redirect, version selector |
-| `platform.md` | PLAT | Next 16, Oxlint, folder structure, dead code, Storybook removal, test/build config, spec gate |
+| `terminal-route.md` | TERM | `/terminal`, `/v2` redirect, version selector, chat disabled, terminal PII strip |
+| `platform.md` | PLAT | Next 16, Oxlint, folder structure, dead code, Storybook removal, test/build config, spec gate, security headers, supply chain |
+
+Amended after PG3 (2026-11-23): 93 ACs (HOME 28, CONT 15, SEO 11, TERM 12, PLAT 27).

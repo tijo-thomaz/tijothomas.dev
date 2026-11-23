@@ -1,7 +1,7 @@
 # SEO and crawlability
-Status: Approved (PG1 2026-11-23)
+Status: Approved (PG1 2026-11-23; amended after PG3 2026-11-23)
 Prefix: SEO
-Traces: FR-050–FR-057, FR-068, NFR-001–NFR-003, NFR-010, NFR-020, NFR-022, NFR-040; US-16–US-20
+Traces: FR-050–FR-057, FR-068, NFR-001–NFR-003, NFR-010, NFR-020, NFR-022, NFR-040; US-16–US-20; SEC-09, SEC-23
 
 ## Acceptance criteria
 - **SEO-AC-01** — Given the exported `metadata` for `/`, when inspected, then `title.length < 60`, `description.length` is 70–160, `alternates.canonical` is `<siteUrl>/`, OG images are set, `twitter.card === 'summary_large_image'`, and `twitter.creator` is undefined. _Traces: FR-050, US-16 · Verify: unit_
@@ -14,3 +14,4 @@ Traces: FR-050–FR-057, FR-068, NFR-001–NFR-003, NFR-010, NFR-020, NFR-022, N
 - **SEO-AC-08** — Given the `/writing/<placeholder>` page, when its JSON-LD is parsed, then `@type` is `TechArticle` with `headline` and `author.@type === 'Person'`. _Traces: FR-055, US-19 · Verify: unit_
 - **SEO-AC-09** — Given `next start` and `curl /` with no JS, when compared with `content/*.ts`, then 100% of the strings rendered on `/` (respecting `SHOW_PLANNED`) are present in the HTML. The gate names any missing string. _Traces: NFR-020, FR-068, US-20 · Verify: gate_
 - **SEO-AC-10** — Given `next start`, when Lighthouse mobile runs 3 times on `/`, then the median Performance, Accessibility, Best Practices and SEO are each ≥ 95, CLS ≤ 0.05, LCP ≤ 2.5 s and TBT ≤ 150 ms. _Traces: NFR-001–NFR-003, NFR-010, NFR-022, NFR-040, FR-068, US-20 · Verify: gate_
+- **SEO-AC-11** — Given the `Person` JSON-LD and the exported `metadata` of `/`, when inspected, then neither has an `email`, `telephone` or `contactPoint` property, and no string value contains `@`. _Traces: SEC-23, FR-054, US-18 · Verify: unit_

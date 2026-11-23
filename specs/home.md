@@ -1,7 +1,10 @@
 # Home page (`/`)
-Status: Approved (PG1 2026-11-23)
+Status: Approved (PG1 2026-11-23; amended after PG3 2026-11-23)
 Prefix: HOME
-Traces: FR-001, FR-002, FR-007, FR-008, FR-020–FR-032, FR-040–FR-044, NFR-011, NFR-013, NFR-014, NFR-016, NFR-017, NFR-019, NFR-021, NFR-024; US-03–US-06, US-09–US-12, US-14, US-15, US-21
+Traces: FR-001, FR-002, FR-007, FR-008, FR-020–FR-032, FR-040–FR-044, NFR-011, NFR-013, NFR-014, NFR-016, NFR-017, NFR-019, NFR-021, NFR-024, NFR-043; US-03–US-06, US-09–US-12, US-14, US-15, US-21; SEC-20, SEC-23; CMP-01, CMP-03
+
+## Decisions (PG3, 2026-11-23)
+- **ADR-P3:** one privacy notice at `/privacy`: static server route, text from `content/privacy.ts`, linked from the footer of `/` and from the terminal privacy modal. Controller contact channel is LinkedIn; no email (SQ-02 a).
 
 ## Acceptance criteria
 ### Structure and rendering
@@ -25,7 +28,7 @@ Traces: FR-001, FR-002, FR-007, FR-008, FR-020–FR-032, FR-040–FR-044, NFR-01
 - **HOME-AC-14** — Given experience entries in any order, when rendered, then they are sorted by start date descending. Only the `end: null` entry shows "present" and a "Now" badge. A `gap` entry has a dashed tile and no card. An entry with 0 bullets renders no `<ul>`. _Traces: FR-025, US-09 · Verify: unit_
 - **HOME-AC-15** — Given `profile.howIWork`, when rendered, then the `How I work` region has an `h2` and an ordered list of 5 items with a title and description. _Traces: FR-026, US-10 · Verify: unit_
 - **HOME-AC-16** — Given visible posts, when rendered, then each row shows title, subtitle and status badge, and is a link only if the post has a URL. Given 0 visible posts, then `section#writing` still renders its `h2` and the empty-state line. _Traces: FR-027, US-11 · Verify: unit_
-- **HOME-AC-17** — Given contact content, when rendered, then LinkedIn and GitHub are links with `rel` containing `me` and `noopener`. The email and availability lines are absent when null. No "Download CV" control exists anywhere on `/`. _Traces: FR-028, US-12 · Verify: unit_
+- **HOME-AC-17** — Given contact content, when rendered, then LinkedIn and GitHub are the only contact links, each with `rel` containing `me` and `noopener`. No email line exists. The availability line is absent when null. No "Download CV" control exists anywhere on `/`. (Amended after PG3: F-64 superseded.) _Traces: FR-028, SEC-23, US-12 · Verify: unit_
 - **HOME-AC-18** — Given the footer, when rendered, then it shows "© <build year> <name>" and a "Terminal mode" link to `/terminal`. _Traces: FR-008, FR-029, US-03, US-12 · Verify: unit_
 
 ### Micro-interactions (CSS only)
@@ -38,3 +41,8 @@ Traces: FR-001, FR-002, FR-007, FR-008, FR-020–FR-032, FR-040–FR-044, NFR-01
 - **HOME-AC-23** — Given keyboard-only use, when I Tab through `/`, then every focusable element shows an outline ≥ 2px (buildings: lift + highlight), there are 0 traps, and the Tab count equals the number of interactive elements. _Traces: NFR-013, NFR-014, US-21 · Verify: e2e_
 - **HOME-AC-24** — Given axe-core at 360 px and 1440 px, when it runs on `/`, then there are 0 violations. _Traces: NFR-011, NFR-012, US-21 · Verify: e2e_
 - **HOME-AC-25** — Given 360 px width, when I measure each link and button, then each is ≥ 24×24 CSS px or meets the WCAG 2.5.8 spacing exception. _Traces: NFR-017, US-21 · Verify: e2e_
+
+### Privacy
+- **HOME-AC-26** — Given a fresh browser context, when `/` loads, then `document.cookie === ''`, the context has 0 cookies for the origin, and `localStorage.length === 0` and `sessionStorage.length === 0`. _Traces: SEC-20, NFR-043, CMP-01 · Verify: e2e_
+- **HOME-AC-27** — Given the footer, when rendered, then a link with text "Privacy" targets `/privacy`. _Traces: FR-029, CMP-03, ADR-P3 · Verify: unit_
+- **HOME-AC-28** — Given `next start` and `curl /privacy` with no JS, when the HTML is read, then the status is 200, the build marks `/privacy` static, it has exactly 1 `h1`, and it names the controller with a LinkedIn contact link, Vercel request logs and Web Analytics, Supabase visit counters on `/terminal`, the `/terminal` localStorage keys, retention, data subject rights and the right to complain to a supervisory authority; it contains no email address. _Traces: CMP-03, SEC-23, ADR-P3 · Verify: e2e_

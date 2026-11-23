@@ -31,7 +31,7 @@
 | 1.2 Architecture | skipped (feature) | | |
 | 1.3 Security & compliance | approved (PG3) | `inception/threat-model.md`, `inception/compliance.md`, `questions/1.3-security.md` | 2026-11-23 |
 | 1.4 AI/ML design | n/a (no AI) | | |
-| 1.5 Units & plan | in-progress | | |
+| 1.5 Units & plan | awaiting PG4 | `inception/plan.md`, `inception/units/U-00..U-11`, specs amended (93 ACs) | |
 | 2.x Construction (per unit) | todo | | |
 | 3.1 CI/CD & observability | todo | | |
 | 3.2 Release readiness | todo | | |
@@ -39,6 +39,18 @@
 ## Units of work
 | Unit | Flags (hot-path/critical/ai) | Status | Tests | Gates CG1–14 | Self-heal/RCA | NFR verify | Review | PG5 approved |
 |------|------------------------------|--------|-------|--------------|---------------|------------|--------|--------------|
+| U-00 Baseline purge | critical | todo | | | | | | |
+| U-01 Walking skeleton + gates | walking skeleton | todo | | | | | | |
+| U-02 Next 16.4.6 + React 19 | critical | todo | | | | | | |
+| U-03 Route split + terminal move | critical | todo | | | | | | |
+| U-04 Terminal PII strip + chat off | critical | todo | | | | | | |
+| U-05 Content layer | | todo | | | | | | |
+| U-06 Home shell | | todo | | | | | | |
+| U-07 Home lists | | todo | | | | | | |
+| U-08 CityMap, motion, a11y | | todo | | | | | | |
+| U-09 SEO | | todo | | | | | | |
+| U-10 Privacy | | todo | | | | | | |
+| U-11 Security headers + release checks | critical | todo | | | | | | |
 
 ## Spikes / RCAs
 | ID | Question or incident | Result | Linked ADR/CAPA |

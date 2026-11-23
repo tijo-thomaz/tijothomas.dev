@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // CG14 docs gate: the unit's change touches README.md and CHANGELOG.md (both tracked, non-empty).
 // Usage: node scripts/check-docs.mjs [--root <dir>] [--base <ref>]
-//   --base  compare against this ref (default: merge-base of HEAD and main). Uncommitted changes count.
+//   --base  the unit's start commit (default: $EDD_BASE; required). Uncommitted changes count.
+//           Per-unit, so a later unit cannot pass on README/CHANGELOG edits made by an earlier one.
 import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
@@ -12,9 +13,9 @@ const root = path.resolve(opts.get('--root', process.cwd()));
 const git = (...a) => spawnSync('git', a, { cwd: root, encoding: 'utf8' });
 const DOCS = ['README.md', 'CHANGELOG.md'];
 
-const base = opts.get('--base') ?? git('merge-base', 'HEAD', 'main').stdout.trim();
+const base = opts.get('--base') || process.env.EDD_BASE || '';
 if (!base) {
-  console.log('FAIL CG14 no base ref (pass --base <ref>; no merge-base with main)');
+  console.log('FAIL CG14 no base ref: pass --base <unit start commit> or set EDD_BASE');
   process.exit(1);
 }
 const changed = new Set(git('diff', '--name-only', base).stdout.split(/\r?\n/).filter(Boolean));

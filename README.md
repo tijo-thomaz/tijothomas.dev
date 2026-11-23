@@ -37,10 +37,12 @@ npm run dev            # next dev
 `gates.yml` (repo root) lists the gates; `scripts/gates.mjs` runs them:
 
 ```bash
-npm run gates -- --unit U-01                  # all gates
-npm run gates -- --unit U-01 --only CG2_lint,spec
+npm run gates -- --unit U-01                  # all gates; base from edd-docs/construction/U-01/base.txt
+npm run gates -- --unit U-01 --base 35521e2 --only CG2_lint,spec
 ```
 
+- Each unit records its start commit in `edd-docs/construction/<unit>/base.txt` (or pass `--base`).
+  CG5 (diff coverage) and CG14 (docs) diff against it; the run fails if it is missing.
 - Each gate writes `edd-docs/construction/<unit>/gates/<id>.json` (status, exit code, duration,
   output tail) and `<id>.log`. The run exits 0 only if every **enforced** gate passes.
 - Status `blocked` (exit 78) means a required tool is missing, e.g. `gitleaks` for the CG10 secret

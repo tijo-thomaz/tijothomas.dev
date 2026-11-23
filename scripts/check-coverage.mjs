@@ -2,7 +2,7 @@
 // CG5 coverage gate: runs vitest with V8 coverage, then measures coverage of the lines this change
 // added or modified in source files (diff coverage): lines >= 80 %, branches >= 70 %.
 // Usage: node scripts/check-coverage.mjs [--root <dir>] [--base <ref>] [--out <dir>] [--no-run]
-//   --base    diff base (default: merge-base of HEAD and main); uncommitted changes count
+//   --base    the unit's start commit (default: $EDD_BASE; required); uncommitted changes count
 //   --out     where vitest writes coverage (default: coverage/); coverage-diff.json goes there too
 //   --no-run  reuse an existing <out>/coverage-final.json
 // Source files = paths.srcRoots, minus tests. A change with 0 instrumented changed lines passes and
@@ -67,7 +67,7 @@ function branchStats(fileCov, lines) {
 
 const measure = (fileCov, lines) => ({ lines: lineStats(fileCov, lines), branches: branchStats(fileCov, lines) });
 
-const base = opts.get('--base') ?? git('merge-base', 'HEAD', 'main').stdout.trim();
+const base = opts.get('--base') || process.env.EDD_BASE || '';
 const finalFile = path.join(outDir, 'coverage-final.json');
 if (!base || !fs.existsSync(finalFile)) {
   console.log(`FAIL CG5 ${!base ? 'no diff base (pass --base <ref>)' : `${finalFile} not found`}`);

@@ -1,6 +1,8 @@
 # Quality gates (EDD coding gates). One runner: `npm run gates -- --unit U-NN [--only CG2_lint,spec]`.
 # Each entry: id, cmd (shell, cwd = repo root), enforce (true = must pass), evidence (what it proves).
-# Optional: timeout (seconds, default 1800). In cmd, {evidence} = edd-docs/construction/<unit>/gates.
+# Optional: timeout (seconds, default 1800). In cmd, {evidence} = edd-docs/construction/<unit>/gates,
+# {unit} = the unit id, {base} = the unit start commit (--base, EDD_BASE or <unit>/base.txt; required).
+# enforce must be exactly true or false (anything else fails the config load).
 # Status per gate: pass | fail | blocked (exit 78: a required tool such as gitleaks is not installed;
 # blocked never passes). Evidence: <id>.json + <id>.log per gate in the evidence folder.
 # CG1 and the runtime gates (lighthouse, view-source) build into .next/: never run them in a checkout
@@ -25,7 +27,7 @@ gates:
     enforce: true
     evidence: PLAT-AC-05 vitest config + vitest run x3 green; node:test suite in scripts/ green
   - id: CG5_coverage
-    cmd: node scripts/check-coverage.mjs --out {evidence}/coverage
+    cmd: node scripts/check-coverage.mjs --base {base} --out {evidence}/coverage
     enforce: true
     evidence: diff coverage of changed source lines >= 80 % lines, >= 70 % branches (coverage-diff.json)
   - id: CG7_complexity
@@ -57,7 +59,7 @@ gates:
     enforce: true
     evidence: PLAT-AC-25 sbom.cdx.json (CycloneDX) in the evidence folder
   - id: CG14_docs
-    cmd: node scripts/check-docs.mjs
+    cmd: node scripts/check-docs.mjs --base {base}
     enforce: true
     evidence: README.md and CHANGELOG.md updated in this change
   - id: spec

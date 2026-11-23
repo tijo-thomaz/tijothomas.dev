@@ -24,11 +24,9 @@ function fixture({ spec, pending = '', unit = '', e2e = '', gate = '', nodeTest 
   requireScript('spec-check.mjs'); // report the missing feature first, then the missing paths.mjs
   if (pathsError) throw pathsError;
   assert.ok(unitDir, 'paths.srcRoots is empty');
-  const files = { 'specs/fixture.md': spec, 'specs/pending.txt': pending };
-  if (unit) files[`${unitDir}/thing.test.ts`] = unit;
-  if (e2e) files['e2e/thing.spec.ts'] = e2e;
-  if (gate) files['scripts/check-thing.mjs'] = gate;
-  if (nodeTest) files['scripts/thing.test.mjs'] = nodeTest;
+  const optional = { [`${unitDir}/thing.test.ts`]: unit, 'e2e/thing.spec.ts': e2e, 'scripts/check-thing.mjs': gate, 'scripts/thing.test.mjs': nodeTest };
+  const files = { 'specs/fixture.md': spec, 'specs/pending.txt': pending,
+    ...Object.fromEntries(Object.entries(optional).filter(([, content]) => content)) };
   const dir = makeFixture(files);
   fixtures.push(dir);
   return dir;

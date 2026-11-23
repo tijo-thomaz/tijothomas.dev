@@ -52,19 +52,20 @@ for (const d of deps) {
   if (cfg && new RegExp(`["']${cfg[1]}(/[^"']*)?["']`).test(eslintText)) mark(d, 'extended by ESLint config');
   const plug = d.match(/^eslint-plugin-(.+)$/);
   if (plug && new RegExp(`plugin:${plug[1]}/|["']${plug[1]}["']`).test(eslintText)) mark(d, 'ESLint plugin in config');
-  if (/^@vitest\/coverage-/.test(d) && (/--coverage/.test(scripts) || /coverage\s*:/.test(configText))) mark(d, 'vitest coverage provider');
+  if (d.startsWith('@vitest/coverage-') && (/--coverage/.test(scripts) || /coverage\s*:/.test(configText))) mark(d, 'vitest coverage provider');
 }
 
 // 5. + 6. peers and @types, iterate to a fixed point
+function markPeers(u) {
+  const p = readPkg(u);
+  const optional = p.peerDependenciesMeta ?? {};
+  for (const peer of Object.keys(p.peerDependencies ?? {})) if (!optional[peer]?.optional) mark(peer, `peer of ${u}`);
+}
 let changed = true;
 while (changed) {
   changed = false;
   const before = used.size;
-  for (const u of [...used.keys()]) {
-    const p = readPkg(u);
-    const optional = p.peerDependenciesMeta ?? {};
-    for (const peer of Object.keys(p.peerDependencies ?? {})) if (!optional[peer]?.optional) mark(peer, `peer of ${u}`);
-  }
+  for (const u of used.keys()) markPeers(u);
   for (const d of deps.filter((x) => x.startsWith('@types/'))) {
     const base = d.slice(7).replace(/^(.+)__(.+)$/, '@$1/$2');
     if (used.has(base) || (base === 'node' && used.has('typescript'))) mark(d, `types for ${base}`);

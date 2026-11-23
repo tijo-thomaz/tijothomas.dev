@@ -37,36 +37,42 @@ report("vitest config resolves the '@/' alias", hasAlias ? [] : [`${cfgFile} def
 
 // Read the string literals of `test.include` only (not coverage.include or any other text).
 // String-aware bracket matching, because globs contain `{` `}`.
+const QUOTES = new Set(['"', "'", '`']);
+// Index of the closing quote of the string literal that opens at src[i].
+function skipString(src, i) {
+  let j = i + 1;
+  while (j < src.length && src[j] !== src[i]) j += src[j] === '\\' ? 2 : 1;
+  return j;
+}
+// Bracket depth change for one character (0 for anything else).
+const depthStep = (c) => ('{['.includes(c) ? 1 : '}]'.includes(c) ? -1 : 0);
+// Index of the bracket that closes src[openIdx] (`{` or `[`), or -1.
 function matchClose(src, openIdx) {
-  const open = src[openIdx];
-  const close = open === '{' ? '}' : ']';
   let depth = 0;
   for (let i = openIdx; i < src.length; i += 1) {
-    const c = src[i];
-    if (c === '"' || c === "'" || c === '`') {
-      for (i += 1; i < src.length && src[i] !== c; i += 1) if (src[i] === '\\') i += 1;
-    } else if (c === open) depth += 1;
-    else if (c === close && --depth === 0) return i;
+    if (QUOTES.has(src[i])) { i = skipString(src, i); continue; }
+    depth += depthStep(src[i]);
+    if (depth === 0) return i;
   }
   return -1;
+}
+// The body of a top-level `key: {…}` / `key: […]` at body[i], or undefined when there is none.
+function valueAt(body, key, i) {
+  if (i > 0 && !/[\s,{]/.test(body[i - 1])) return undefined;
+  const m = new RegExp(`^\\b${key}\\s*:\\s*([[{])`).exec(body.slice(i));
+  if (!m) return undefined;
+  const start = i + m[0].length - 1;
+  const end = matchClose(body, start);
+  return end > 0 ? body.slice(start + 1, end) : null;
 }
 // Top-level `key: {…}` / `key: […]` inside an object body (skips nested objects/arrays).
 function topLevelValue(body, key) {
   let depth = 0;
   for (let i = 0; i < body.length; i += 1) {
-    const c = body[i];
-    if (c === '"' || c === "'" || c === '`') {
-      for (i += 1; i < body.length && body[i] !== c; i += 1) if (body[i] === '\\') i += 1;
-    } else if (c === '{' || c === '[') depth += 1;
-    else if (c === '}' || c === ']') depth -= 1;
-    else if (depth === 0) {
-      const m = new RegExp(`^\\b${key}\\s*:\\s*([[{])`).exec(body.slice(i));
-      if (m && (i === 0 || /[\s,{]/.test(body[i - 1]))) {
-        const start = i + m[0].length - 1;
-        const end = matchClose(body, start);
-        return end > 0 ? body.slice(start + 1, end) : null;
-      }
-    }
+    if (QUOTES.has(body[i])) { i = skipString(body, i); continue; }
+    const v = depth === 0 ? valueAt(body, key, i) : undefined;
+    if (v !== undefined) return v;
+    depth += depthStep(body[i]);
   }
   return null;
 }
@@ -97,7 +103,7 @@ if (!args.includes('--static')) {
     const problems = [];
     for (let i = 1; i <= runs; i += 1) {
       const r = sh('npm run test');
-      if (r.status !== 0) problems.push(`run ${i}/${runs}: exit ${r.status}`, ...tail(r));
+      problems.push(...(r.status === 0 ? [] : [`run ${i}/${runs}: exit ${r.status}`, ...tail(r)]));
     }
     report(`npm run test passes ${runs} consecutive runs`, problems);
   } else {

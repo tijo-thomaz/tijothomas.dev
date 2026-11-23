@@ -10,7 +10,7 @@ export const paths = {
   srcRoots: ['lib', 'app', 'components', 'features', 'widgets', 'shared'],
   // The legacy terminal: the Oxlint `legacy-terminal` override (warnings allowed) lists exactly these.
   // U-03 replaces them with `src/terminal/**`.
-  terminalGlobs: ['app/page.tsx', 'components/**', 'features/**', 'widgets/**', 'shared/**', 'lib/**'],
+  terminalGlobs: ['app/page.tsx', 'app/api/**', 'components/**', 'features/**', 'widgets/**', 'shared/**', 'lib/**'],
   // vitest `test.include` globs (PLAT-AC-05); check-vitest-config.mjs requires each one in the config.
   testGlobs: [
     '{app,components,terminal,content,lib}/**/*.test.{ts,tsx}',

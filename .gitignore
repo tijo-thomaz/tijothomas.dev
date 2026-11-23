@@ -98,3 +98,4 @@ storybook-static
 # Keep design docs and EDD evidence tracked despite *.md rule above
 !docs/**/*.md
 !edd-docs/**/*.md
+!specs/**/*.md

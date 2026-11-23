@@ -1,0 +1,155 @@
+modules: 185 cycles: 0
+layer violations (FSD: shared<-features<-widgets<-app; lower must not import higher, no cross-feature): 5
+  cross-feature: features/chat-assistant/model/useChatAssistant.ts -> features/prompt-shield/model/usePromptShield.ts
+  cross-feature: features/chat-assistant/ui/PromptShieldStatus.tsx -> features/prompt-shield/ui/ShieldBadge.tsx
+  cross-feature: features/chat-assistant/ui/PromptShieldStatus.tsx -> features/prompt-shield/model/usePromptShield.ts
+  cross-feature: features/chat-assistant/ui/organisms/ConversationArea.tsx -> features/prompt-shield/model/usePromptShield.ts
+  cross-feature: features/terminal/ui/TerminalLayout.tsx -> features/prompt-shield/ui/ShieldBadge.tsx
+reachable from app/page.tsx: 88
+app/page.tsx
+components/ContactActions.tsx
+components/ContactMessage.tsx
+components/SoundControls.tsx
+components/Terminal.tsx
+components/ThemeControls.tsx
+components/ThemeProvider.tsx
+components/ZoomControls.tsx
+components/ui/button.tsx
+components/ui/card.tsx
+components/ui/input.tsx
+features/chat-assistant/index.tsx
+features/chat-assistant/model/useChatAssistant.ts
+features/chat-assistant/model/useFloatingAssistant.ts
+features/chat-assistant/ui/ChatHeader.tsx
+features/chat-assistant/ui/ChatInput.tsx
+features/chat-assistant/ui/ChatMessages.tsx
+features/chat-assistant/ui/ChatSubHeader.tsx
+features/chat-assistant/ui/EnhancedChatAgent.tsx
+features/chat-assistant/ui/FloatingDrawer.tsx
+features/chat-assistant/ui/FloatingTrigger.tsx
+features/chat-assistant/ui/PromptShieldStatus.tsx
+features/chat-assistant/ui/QuickReplies.tsx
+features/chat-assistant/ui/TypingIndicator.tsx
+features/prompt-shield/model/usePromptShield.ts
+features/prompt-shield/ui/ShieldBadge.tsx
+features/world-viewer/index.tsx
+features/world-viewer/model/useWorldNavigation.ts
+features/world-viewer/model/worldData.ts
+features/world-viewer/ui/InteractiveWorldViewer.atomic.tsx
+features/world-viewer/ui/atoms/AnimatedParticle.tsx
+features/world-viewer/ui/atoms/Badge.tsx
+features/world-viewer/ui/atoms/Button.tsx
+features/world-viewer/ui/atoms/Card.tsx
+features/world-viewer/ui/atoms/ProgressBar.tsx
+features/world-viewer/ui/atoms/SectionTitle.tsx
+features/world-viewer/ui/atoms/VinylRecord.tsx
+features/world-viewer/ui/molecules/ClientCard.tsx
+features/world-viewer/ui/molecules/NavigationItem.tsx
+features/world-viewer/ui/molecules/ProjectCard.tsx
+features/world-viewer/ui/molecules/SkillCard.tsx
+features/world-viewer/ui/molecules/SkillCarousel.tsx
+features/world-viewer/ui/molecules/TimelineItem.tsx
+features/world-viewer/ui/organisms/BackgroundEffects.tsx
+features/world-viewer/ui/organisms/ClientGallery.tsx
+features/world-viewer/ui/organisms/ExperienceTimeline.tsx
+features/world-viewer/ui/organisms/NavigationPanel.tsx
+features/world-viewer/ui/organisms/ProjectShowcase.tsx
+features/world-viewer/ui/organisms/SkillsConstellation.tsx
+lib/simple-analytics.ts
+lib/sounds.ts
+lib/tutorial-manager.ts
+lib/utils.ts
+lib/version.ts
+shared/api/http.ts
+shared/lib/utils.ts
+shared/ui/atoms/Icon.tsx
+shared/ui/atoms/Text.tsx
+shared/ui/molecules/Badge.tsx
+widgets/Analytics/SimpleAnalyticsDisplay.tsx
+widgets/Analytics/atoms/AnalyticsButton.tsx
+widgets/Analytics/atoms/PrivacyNotice.tsx
+widgets/Analytics/atoms/StatCard.tsx
+widgets/Analytics/index.tsx
+widgets/Analytics/molecules/StatGrid.tsx
+widgets/Analytics/organisms/AnalyticsModal.tsx
+widgets/Breadcrumbs/Breadcrumbs.tsx
+widgets/Breadcrumbs/atoms/BreadcrumbItem.tsx
+widgets/Breadcrumbs/atoms/ProgressBar.tsx
+widgets/Breadcrumbs/index.tsx
+widgets/Breadcrumbs/molecules/BreadcrumbNavigation.tsx
+widgets/CommandSuggestions/CommandSuggestions.tsx
+widgets/CommandSuggestions/atoms/CommandButton.tsx
+widgets/CommandSuggestions/atoms/ProgressIndicator.tsx
+widgets/CommandSuggestions/index.tsx
+widgets/CommandSuggestions/molecules/WelcomePanel.tsx
+widgets/CommandSuggestions/organisms/TutorialPanel.tsx
+widgets/PrivacyPolicy/PrivacyPolicy.tsx
+widgets/PrivacyPolicy/atoms/CloseButton.tsx
+widgets/PrivacyPolicy/atoms/PolicySection.tsx
+widgets/PrivacyPolicy/index.tsx
+widgets/PrivacyPolicy/molecules/PrivacyModal.tsx
+widgets/VersionSelector/VersionSelector.tsx
+widgets/VersionSelector/atoms/StatusBadge.tsx
+widgets/VersionSelector/atoms/VersionButton.tsx
+widgets/VersionSelector/index.tsx
+widgets/VersionSelector/molecules/VersionOption.tsx
+widgets/VersionSelector/organisms/VersionDropdown.tsx
+UNREACHABLE from any route (dead code candidates):
+  components/Breadcrumbs.tsx
+  components/CircularTimeline.tsx
+  components/CommandSuggestions.tsx
+  components/EnhancedChatAgent.tsx
+  components/FloatingAIAssistant.tsx
+  components/InteractiveWorldViewer.tsx
+  components/PrivacyPolicy.tsx
+  components/SimpleAnalyticsDisplay.tsx
+  components/TimelineCarousel.tsx
+  components/VersionSelector.tsx
+  components/WorldViewer.tsx
+  features/chat-assistant/AtomicIndex.tsx
+  features/chat-assistant/ui/AtomicEnhancedChatAgent.tsx
+  features/chat-assistant/ui/AtomicFloatingDrawer.tsx
+  features/chat-assistant/ui/atoms/AnimatedDots.tsx
+  features/chat-assistant/ui/atoms/BackButton.tsx
+  features/chat-assistant/ui/atoms/BotIcon.tsx
+  features/chat-assistant/ui/atoms/CloseButton.tsx
+  features/chat-assistant/ui/atoms/MessageInput.tsx
+  features/chat-assistant/ui/atoms/QuickReplyButton.tsx
+  features/chat-assistant/ui/atoms/SendButton.tsx
+  features/chat-assistant/ui/atoms/StatusIndicator.tsx
+  features/chat-assistant/ui/atoms/UserIcon.tsx
+  features/chat-assistant/ui/index.ts
+  features/chat-assistant/ui/molecules/HeaderButtons.tsx
+  features/chat-assistant/ui/molecules/HeaderTitle.tsx
+  features/chat-assistant/ui/molecules/InputForm.tsx
+  features/chat-assistant/ui/molecules/MessageBubble.tsx
+  features/chat-assistant/ui/molecules/QuickReplyList.tsx
+  features/chat-assistant/ui/molecules/TypingBubble.tsx
+  features/chat-assistant/ui/organisms/ChatHeader.tsx
+  features/chat-assistant/ui/organisms/ConversationArea.tsx
+  features/chat-assistant/ui/organisms/InputArea.tsx
+  features/chat-assistant/ui/organisms/MessageList.tsx
+  features/prompt-shield/index.tsx
+  features/terminal/index-old.tsx
+  features/terminal/ui/OutputBlock.tsx
+  features/terminal/ui/PromptLine.tsx
+  features/terminal/ui/TerminalLayout.tsx
+  features/world-viewer/ui/ClientsSection.tsx
+  features/world-viewer/ui/ExperienceSection.tsx
+  features/world-viewer/ui/InteractiveWorldViewer.tsx
+  features/world-viewer/ui/Navigation.tsx
+  features/world-viewer/ui/ProjectsSection.tsx
+  features/world-viewer/ui/SkillsSection.tsx
+  features/world-viewer/ui/TimelineCarousel.tsx
+  features/world-viewer/ui/atoms/index.ts
+  features/world-viewer/ui/index.ts
+  features/world-viewer/ui/molecules/index.ts
+  features/world-viewer/ui/organisms/index.ts
+  shared/schemas/api.ts
+  shared/schemas/chat.ts
+  shared/schemas/terminal.ts
+  shared/stores/sessionStore.ts
+  shared/ui/atoms/Button.tsx
+  shared/ui/atoms/Input.tsx
+  shared/ui/molecules/Card.tsx
+  shared/ui/molecules/ScrollArea.tsx

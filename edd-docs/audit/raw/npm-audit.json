@@ -1,0 +1,965 @@
+{
+ "metadata": {
+  "vulnerabilities": {
+   "info": 0,
+   "low": 1,
+   "moderate": 4,
+   "high": 18,
+   "critical": 7,
+   "total": 30
+  },
+  "dependencies": {
+   "prod": 48,
+   "dev": 669,
+   "optional": 89,
+   "peer": 6,
+   "peerOptional": 0,
+   "total": 725
+  }
+ },
+ "vulnerabilities": {
+  "@babel/core": {
+   "severity": "low",
+   "range": "<=7.29.0",
+   "isDirect": false,
+   "fixAvailable": true,
+   "advisories": [
+    {
+     "sev": "low",
+     "range": "<=7.29.0",
+     "title": "@babel/core: Arbitrary File Read via sourceMappingURL Comment",
+     "url": "https://github.com/advisories/GHSA-4x5r-pxfx-6jf8"
+    }
+   ]
+  },
+  "@next/eslint-plugin-next": {
+   "severity": "high",
+   "range": "14.0.5-canary.0 - 15.0.0-rc.1",
+   "isDirect": false,
+   "fixAvailable": true,
+   "advisories": []
+  },
+  "@storybook/addon-vitest": {
+   "severity": "critical",
+   "range": "9.0.0 - 9.1.20",
+   "isDirect": true,
+   "fixAvailable": true,
+   "advisories": [
+    {
+     "sev": "critical",
+     "range": ">=9.0.0 <9.1.21",
+     "title": "Storybook: Missing origin validation in Storybook preview allows code injection from malicious websites",
+     "url": "https://github.com/advisories/GHSA-f2ph-cmg5-wxc8"
+    },
+    {
+     "sev": "high",
+     "range": ">=9.0.0 <9.1.21",
+     "title": "Storybook dev server vulnerable to code injection from the local network",
+     "url": "https://github.com/advisories/GHSA-px85-f4q5-jh77"
+    }
+   ]
+  },
+  "@vitest/browser": {
+   "severity": "critical",
+   "range": "<=4.1.10",
+   "isDirect": true,
+   "fixAvailable": {
+    "name": "@vitest/coverage-v8",
+    "version": "3.2.7",
+    "isSemVerMajor": false
+   },
+   "advisories": [
+    {
+     "sev": "critical",
+     "range": "<3.2.7",
+     "title": "@vitest/browser: Browser Mode provider commands bypass the file-access permission gate",
+     "url": "https://github.com/advisories/GHSA-p63j-vcc4-9vmv"
+    },
+    {
+     "sev": "critical",
+     "range": ">=3.0.0 <=3.2.4",
+     "title": "Vitest Browser: Exposed Browser Mode API Can Proxy CDP and Overwrite Config Files, Leading to RCE",
+     "url": "https://github.com/advisories/GHSA-g8mr-85jm-7xhm"
+    }
+   ]
+  },
+  "@vitest/coverage-v8": {
+   "severity": "critical",
+   "range": "<=3.2.6",
+   "isDirect": true,
+   "fixAvailable": {
+    "name": "@vitest/coverage-v8",
+    "version": "3.2.7",
+    "isSemVerMajor": false
+   },
+   "advisories": []
+  },
+  "@vitest/mocker": {
+   "severity": "moderate",
+   "range": "<=4.1.11",
+   "isDirect": false,
+   "fixAvailable": {
+    "name": "@vitest/coverage-v8",
+    "version": "3.2.7",
+    "isSemVerMajor": false
+   },
+   "advisories": [
+    {
+     "sev": "moderate",
+     "range": ">=2.1.0 <4.1.11",
+     "title": "Vitest: Path Traversal / Arbitrary File Read via @vitest/mocker Redirect Mock",
+     "url": "https://github.com/advisories/GHSA-82fw-gwwq-j7x9"
+    },
+    {
+     "sev": "moderate",
+     "range": ">=2.1.0-beta.7 <4.1.12",
+     "title": "Vitest: Code injection via unauthenticated manual mock registration",
+     "url": "https://github.com/advisories/GHSA-qxg6-89mg-rqv8"
+    }
+   ]
+  },
+  "ajv": {
+   "severity": "moderate",
+   "range": "<6.14.0",
+   "isDirect": false,
+   "fixAvailable": true,
+   "advisories": [
+    {
+     "sev": "moderate",
+     "range": "<6.14.0",
+     "title": "ajv has ReDoS when using `$data` option",
+     "url": "https://github.com/advisories/GHSA-2g4f-4pwh-qvx6"
+    }
+   ]
+  },
+  "brace-expansion": {
+   "severity": "high",
+   "range": "<=1.1.20 || 2.0.0 - 2.1.6",
+   "isDirect": false,
+   "fixAvailable": true,
+   "advisories": [
+    {
+     "sev": "moderate",
+     "range": "<1.1.13",
+     "title": "brace-expansion: Zero-step sequence causes process hang and memory exhaustion",
+     "url": "https://github.com/advisories/GHSA-f886-m6hf-6m8v"
+    },
+    {
+     "sev": "moderate",
+     "range": ">=2.0.0 <2.0.3",
+     "title": "brace-expansion: Zero-step sequence causes process hang and memory exhaustion",
+     "url": "https://github.com/advisories/GHSA-f886-m6hf-6m8v"
+    },
+    {
+     "sev": "high",
+     "range": ">=2.0.0 <2.1.2",
+     "title": "brace-expansion: DoS via exponential-time expansion of consecutive non-expanding {} groups",
+     "url": "https://github.com/advisories/GHSA-3jxr-9vmj-r5cp"
+    },
+    {
+     "sev": "high",
+     "range": "<1.1.16",
+     "title": "brace-expansion: DoS via exponential-time expansion of consecutive non-expanding {} groups",
+     "url": "https://github.com/advisories/GHSA-3jxr-9vmj-r5cp"
+    },
+    {
+     "sev": "high",
+     "range": "<1.1.17",
+     "title": "brace-expansion: DoS via unbounded expansion length causing an out-of-memory process crash",
+     "url": "https://github.com/advisories/GHSA-mh99-v99m-4gvg"
+    },
+    {
+     "sev": "high",
+     "range": ">=2.0.0 <2.1.3",
+     "title": "brace-expansion: DoS via unbounded expansion length causing an out-of-memory process crash",
+     "url": "https://github.com/advisories/GHSA-mh99-v99m-4gvg"
+    },
+    {
+     "sev": "high",
+     "range": ">=2.0.0 <2.1.4",
+     "title": "brace-expansion: DoS via unbounded intermediate arrays, bypassing the CVE-2026-14257 mitigation",
+     "url": "https://github.com/advisories/GHSA-rgw5-rvv9-x895"
+    },
+    {
+     "sev": "high",
+     "range": "<1.1.18",
+     "title": "brace-expansion: DoS via unbounded intermediate arrays, bypassing the CVE-2026-14257 mitigation",
+     "url": "https://github.com/advisories/GHSA-rgw5-rvv9-x895"
+    },
+    {
+     "sev": "moderate",
+     "range": "<1.1.21",
+     "title": "brace-expansion: Quadratic-time expansion of the `{a},b}` rewrite causes CPU denial of service",
+     "url": "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr"
+    },
+    {
+     "sev": "moderate",
+     "range": ">=2.0.0 <2.1.7",
+     "title": "brace-expansion: Quadratic-time expansion of the `{a},b}` rewrite causes CPU denial of service",
+     "url": "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr"
+    },
+    {
+     "sev": "high",
+     "range": "<1.1.20",
+     "title": "brace-expansion: DoS via uncontrolled recursion on nested brace groups causing stack exhaustion",
+     "url": "https://github.com/advisories/GHSA-qhr7-859c-m2p7"
+    },
+    {
+     "sev": "high",
+     "range": ">=2.0.0 <2.1.6",
+     "title": "brace-expansion: DoS via uncontrolled recursion on nested brace groups causing stack exhaustion",
+     "url": "https://github.com/advisories/GHSA-qhr7-859c-m2p7"
+    },
+    {
+     "sev": "high",
+     "range": "<1.1.19",
+     "title": "brace-expansion: DoS via uncontrolled recursion in parseCommaParts causing stack exhaustion",
+     "url": "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p"
+    },
+    {
+     "sev": "high",
+     "range": ">=2.0.0 <2.1.5",
+     "title": "brace-expansion: DoS via uncontrolled recursion in parseCommaParts causing stack exhaustion",
+     "url": "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p"
+    }
+   ]
+  },
+  "browserslist": {
+   "severity": "high",
+   "range": "<=4.28.6",
+   "isDirect": false,
+   "fixAvailable": true,
+   "advisories": [
+    {
+     "sev": "high",
+     "range": "<=4.28.6",
+     "title": "Browserslist: Unbounded memory growth (no cache eviction) via distinct query results, leading to eventual OOM",
+     "url": "https://github.com/advisories/GHSA-c83g-rgw3-j3cx"
+    },
+    {
+     "sev": "high",
+     "range": "<=4.28.6",
+     "title": "Browserslist: Uncaught crash / prototype write via untrusted browserslist-stats.json custom stats (normalizeStats)",
+     "url": "https://github.com/advisories/GHSA-73wf-gq98-2v4g"
+    }
+   ]
+  },
+  "eslint-config-next": {
+   "severity": "high",
+   "range": "14.0.5-canary.0 - 15.0.0-rc.1",
+   "isDirect": true,
+   "fixAvailable": true,
+   "advisories": []
+  },
+  "flatted": {
+   "severity": "high",
+   "range": "<=3.4.1",
+   "isDirect": false,
+   "fixAvailable": true,
+   "advisories": [
+    {
+     "sev": "high",
+     "range": "<3.4.0",
+     "title": "flatted vulnerable to unbounded recursion DoS in parse() revive phase",
+     "url": "https://github.com/advisories/GHSA-25h7-pfq9-p65f"
+    },
+    {
+     "sev": "high",
+     "range": "<=3.4.1",
+     "title": "Prototype Pollution via parse() in NodeJS flatted",
+     "url": "https://github.com/advisories/GHSA-rf6f-7fwh-wjgh"
+    }
+   ]
+  },
+  "glob": {
+   "severity": "high",
+   "range": "9.0.0 - 14.0.1",
+   "isDirect": false,
+   "fixAvailable": true,
+   "advisories": [
+    {
+     "sev": "high",
+     "range": ">=10.2.0 <10.5.0",
+     "title": "glob CLI: Command injection via -c/--cmd executes matches with shell:true",
+     "url": "https://github.com/advisories/GHSA-5j98-mcp5-4vw2"
+    },
+    {
+     "sev": "moderate",
+     "range": ">=9.0.0 <=14.0.1",
+     "title": "Glob: AbortSignal cancellation bypass allows post-timeout filesystem traversal",
+     "url": "https://github.com/advisories/GHSA-3g3m-2fjr-6pw4"
+    }
+   ]
+  },
+  "image-size": {
+   "severity": "high",
+   "range": "0.6.3 - 2.0.2",
+   "isDirect": false,
+   "fixAvailable": true,
+   "advisories": [
+    {
+     "sev": "high",
+     "range": ">=1.2.0 <=2.0.2",
+     "title": "image-size: JXL and HEIF parsers allow denial of service through infinite loops",
+     "url": "https://github.com/advisories/GHSA-5p2g-fcmc-qvqq"
+    },
+    {
+     "sev": "high",
+     "range": ">=0.6.3 <=2.0.2",
+     "title": "image-size: ICNS parser allows denial of service through an infinite loop",
+     "url": "https://github.com/advisories/GHSA-w3rx-r6r6-pgpr"
+    }
+   ]
+  },
+  "js-yaml": {
+   "severity": "high",
+   "range": "4.0.0 - 4.3.1",
+   "isDirect": false,
+   "fixAvailable": true,
+   "advisories": [
+    {
+     "sev": "moderate",
+     "range": ">=4.0.0 <4.1.1",
+     "title": "js-yaml has prototype pollution in merge (<<)",
+     "url": "https://github.com/advisories/GHSA-mh29-5h37-fv8m"
+    },
+    {
+     "sev": "moderate",
+     "range": ">=4.0.0 <=4.1.1",
+     "title": "JS-YAML: Quadratic-complexity DoS in merge key handling via repeated aliases",
+     "url": "https://github.com/advisories/GHSA-h67p-54hq-rp68"
+    },
+    {
+     "sev": "high",
+     "range": ">=4.0.0 <4.3.0",
+     "title": "js-yaml: YAML merge-key chains can force quadratic CPU consumption",
+     "url": "https://github.com/advisories/GHSA-52cp-r559-cp3m"
+    },
+    {
+     "sev": "high",
+     "range": ">=4.0.0 <4.3.1",
+     "title": "JS-YAML: Quadratic CPU consumption in !!omap resolution (3.x and 4.x) — CVE-2026-59870 fix not backported",
+     "url": "https://github.com/advisories/GHSA-5p4m-2wfm-xmqj"
+    },
+    {
+     "sev": "high",
+     "range": ">=4.0.0 <4.3.2",
+     "title": "js-yaml: maxTotalMergeKeys does not limit CPU use for empty merge sources",
+     "url": "https://github.com/advisories/GHSA-2883-xcg3-v3hh"
+    }
+   ]
+  },
+  "minimatch": {
+   "severity": "high",
+   "range": "<=3.1.3 || 7.0.0 - 11.0.0",
+   "isDirect": false,
+   "fixAvailable": true,
+   "advisories": [
+    {
+     "sev": "high",
+     "range": "<3.1.3",
+     "title": "minimatch has a ReDoS via repeated wildcards with non-matching literal in pattern",
+     "url": "https://github.com/advisories/GHSA-3ppc-4f35-3m26"
+    },
+    {
+     "sev": "high",
+     "range": ">=9.0.0 <9.0.6",
+     "title": "minimatch has a ReDoS via repeated wildcards with non-matching literal in pattern",
+     "url": "https://github.com/advisories/GHSA-3ppc-4f35-3m26"
+    },
+    {
+     "sev": "high",
+     "range": "<3.1.3",
+     "title": "minimatch has ReDoS: matchOne() combinatorial backtracking via multiple non-adjacent GLOBSTAR segments",
+     "url": "https://github.com/advisories/GHSA-7r86-cg39-jmmj"
+    },
+    {
+     "sev": "high",
+     "range": ">=9.0.0 <9.0.7",
+     "title": "minimatch has ReDoS: matchOne() combinatorial backtracking via multiple non-adjacent GLOBSTAR segments",
+     "url": "https://github.com/advisories/GHSA-7r86-cg39-jmmj"
+    },
+    {
+     "sev": "high",
+     "range": "<3.1.4",
+     "title": "minimatch ReDoS: nested *() extglobs generate catastrophically backtracking regular expressions",
+     "url": "https://github.com/advisories/GHSA-23c5-xmqv-rm74"
+    },
+    {
+     "sev": "high",
+     "range": ">=9.0.0 <9.0.7",
+     "title": "minimatch ReDoS: nested *() extglobs generate catastrophically backtracking regular expressions",
+     "url": "https://github.com/advisories/GHSA-23c5-xmqv-rm74"
+    },
+    {
+     "sev": "moderate",
+     "range": ">=7.0.0 <11.0.1",
+     "title": "minimatch has potential denial of service via globparts amplification",
+     "url": "https://github.com/advisories/GHSA-g3hv-75wg-m249"
+    }
+   ]
+  },
+  "nanoid": {
+   "severity": "high",
+   "range": "<=3.3.17",
+   "isDirect": false,
+   "fixAvailable": true,
+   "advisories": [
+    {
+     "sev": "high",
+     "range": "<3.3.16",
+     "title": "nanoid: non-secure generators can loop indefinitely with negative size",
+     "url": "https://github.com/advisories/GHSA-28wg-ghj8-5hjv"
+    },
+    {
+     "sev": "high",
+     "range": "<3.3.18",
+     "title": "nanoid: custom generators can loop indefinitely when size is zero",
+     "url": "https://github.com/advisories/GHSA-2v37-7h3g-55p8"
+    },
+    {
+     "sev": "high",
+     "range": "<3.3.12",
+     "title": "nanoid: Integer Overflow or Wraparound",
+     "url": "https://github.com/advisories/GHSA-xwg4-73v4-xw9w"
+    }
+   ]
+  },
+  "next": {
+   "severity": "critical",
+   "range": "<=16.3.0-preview.10",
+   "isDirect": true,
+   "fixAvailable": {
+    "name": "next",
+    "version": "16.4.6",
+    "isSemVerMajor": true
+   },
+   "advisories": [
+    {
+     "sev": "moderate",
+     "range": ">=0.9.9 <14.2.31",
+     "title": "Next.js Affected by Cache Key Confusion for Image Optimization API Routes",
+     "url": "https://github.com/advisories/GHSA-g5qg-72qw-gw5v"
+    },
+    {
+     "sev": "moderate",
+     "range": ">=0.9.9 <14.2.32",
+     "title": "Next.js Improper Middleware Redirect Handling Leads to SSRF",
+     "url": "https://github.com/advisories/GHSA-4342-x723-ch2f"
+    },
+    {
+     "sev": "moderate",
+     "range": ">=0.9.9 <14.2.31",
+     "title": "Next.js Content Injection Vulnerability for Image Optimization",
+     "url": "https://github.com/advisories/GHSA-xv57-4mr9-wg8v"
+    },
+    {
+     "sev": "high",
+     "range": ">=13.3.0 <14.2.34",
+     "title": "Next Vulnerable to Denial of Service with Server Components",
+     "url": "https://github.com/advisories/GHSA-mwv6-3258-q52c"
+    },
+    {
+     "sev": "high",
+     "range": ">=13.3.1-canary.0 <14.2.35",
+     "title": "Next has a Denial of Service with Server Components - Incomplete Fix Follow-Up",
+     "url": "https://github.com/advisories/GHSA-5j59-xgg2-r9c4"
+    },
+    {
+     "sev": "moderate",
+     "range": ">=10.0.0 <15.5.10",
+     "title": "Next.js self-hosted applications vulnerable to DoS via Image Optimizer remotePatterns configuration",
+     "url": "https://github.com/advisories/GHSA-9g9p-9gw9-jx7f"
+    },
+    {
+     "sev": "high",
+     "range": ">=13.0.0 <15.0.8",
+     "title": "Next.js HTTP request deserialization can lead to DoS when using insecure React Server Components",
+     "url": "https://github.com/advisories/GHSA-h25m-26qc-wcjf"
+    },
+    {
+     "sev": "moderate",
+     "range": ">=9.5.0 <15.5.13",
+     "title": "Next.js: HTTP request smuggling in rewrites",
+     "url": "https://github.com/advisories/GHSA-ggv3-7p47-pfv8"
+    },
+    {
+     "sev": "moderate",
+     "range": ">=10.0.0 <15.5.14",
+     "title": "Next.js: Unbounded next/image disk cache growth can exhaust storage",
+     "url": "https://github.com/advisories/GHSA-3x4c-7xq6-9pq8"
+    },
+    {
+     "sev": "high",
+     "range": ">=13.0.0 <15.5.15",
+     "title": "Next.js has a Denial of Service with Server Components",
+     "url": "https://github.com/advisories/GHSA-q4gf-8mx6-v5v3"
+    },
+    {
+     "sev": "high",
+     "range": ">=13.0.0 <15.5.16",
+     "title": "Next.js Vulnerable to Denial of Service with Server Components",
+     "url": "https://github.com/advisories/GHSA-8h8q-6873-q5fj"
+    },
+    {
+     "sev": "low",
+     "range": ">=12.2.0 <15.5.16",
+     "title": "Next.js's Middleware / Proxy redirects can be cache-poisoned",
+     "url": "https://github.com/advisories/GHSA-3g8h-86w9-wvmq"
+    },
+    {
+     "sev": "moderate",
+     "range": ">=13.4.0 <15.5.16",
+     "title": "Next.js vulnerable to cross-site scripting in App Router applications using CSP nonces",
+     "url": "https://github.com/advisories/GHSA-ffhc-5mcf-pf4q"
+    },
+    {
+     "sev": "low",
+     "range": ">=13.4.6 <15.5.16",
+     "title": "Next.js vulnerable to cache poisoning via collisions in React Server Component cache-busting",
+     "url": "https://github.com/advisories/GHSA-vfv6-92ff-j949"
+    },
+    {
+     "sev": "moderate",
+     "range": ">=13.0.0 <15.5.16",
+     "title": "Next.js has cross-site scripting in beforeInteractive scripts with untrusted input",
+     "url": "https://github.com/advisories/GHSA-gx5p-jg67-6x7h"
+    },
+    {
+     "sev": "moderate",
+     "range": ">=10.0.0 <15.5.16",
+     "title": "Next.js has a Denial of Service in the Image Optimization API",
+     "url": "https://github.com/advisories/GHSA-h64f-5h5j-jqjh"
+    },
+    {
+     "sev": "high",
+     "range": ">=13.4.13 <15.5.16",
+     "title": "Next.js vulnerable to server-side request forgery in applications using WebSocket upgrades",
+     "url": "https://github.com/advisories/GHSA-c4j6-fc7j-m34r"
+    },
+    {
+     "sev": "moderate",
+     "range": ">=14.2.0 <15.5.16",
+     "title": "Next.js vulnerable to cache poisoning in React Server Component responses",
+     "url": "https://github.com/advisories/GHSA-wfc6-r584-vfw7"
+    },
+    {
+     "sev": "high",
+     "range": ">=12.2.0 <15.5.16",
+     "title": "Next.js has a Middleware / Proxy bypass in Pages Router applications using i18n",
+     "url": "https://github.com/advisories/GHSA-36qx-fr4f-26g5"
+    },
+    {
+     "sev": "high",
+     "range": ">=13.0.0 <15.5.21",
+     "title": "Next.js: Denial of Service in App Router using Server Actions",
+     "url": "https://github.com/advisories/GHSA-m99w-x7hq-7vfj"
+    },
+    {
+     "sev": "high",
+     "range": ">=14.1.1 <15.5.21",
+     "title": "Next.js: Server-Side Request Forgery in Server Actions on custom servers",
+     "url": "https://github.com/advisories/GHSA-89xv-2m56-2m9x"
+    },
+    {
+     "sev": "moderate",
+     "range": ">=13.0.0 <15.5.21",
+     "title": "Next.js: Cache confusion of response bodies for requests with bodies",
+     "url": "https://github.com/advisories/GHSA-68g3-v927-f742"
+    },
+    {
+     "sev": "moderate",
+     "range": ">=13.0.0 <15.5.21",
+     "title": "Next.js: Cache confusion of response bodies for requests with bodies containing invalid UTF-8 byte sequences",
+     "url": "https://github.com/advisories/GHSA-4633-3j49-mh5q"
+    },
+    {
+     "sev": "moderate",
+     "range": ">=13.0.0 <15.5.21",
+     "title": "Next.js: Unbounded Server Action payload in Edge runtime",
+     "url": "https://github.com/advisories/GHSA-4c39-4ccg-62r3"
+    },
+    {
+     "sev": "high",
+     "range": ">=12.0.0 <15.5.21",
+     "title": "Next.js: Server-Side Request Forgery in rewrites via attacker-controlled destination hostname",
+     "url": "https://github.com/advisories/GHSA-p9j2-gv94-2wf4"
+    },
+    {
+     "sev": "moderate",
+     "range": ">=13.0.0 <15.5.21",
+     "title": "Next.js: Unauthenticated disclosure of internal Server Function endpoints",
+     "url": "https://github.com/advisories/GHSA-955p-x3mx-jcvp"
+    },
+    {
+     "sev": "critical",
+     "range": ">=13.4.0 <15.5.24",
+     "title": "Next.js: Unauthenticated Remote Code Execution on windows-hosted servers",
+     "url": "https://github.com/advisories/GHSA-p293-qw3h-jr36"
+    },
+    {
+     "sev": "critical",
+     "range": ">=10.0.0 <15.5.24",
+     "title": "Next.js: Unauthenticated Remote Code Execution in Image Optimization API when AVIF files are used",
+     "url": "https://github.com/advisories/GHSA-2xp9-vwfh-vxw4"
+    },
+    {
+     "sev": "critical",
+     "range": ">=10.0.0 <=15.5.27",
+     "title": "Next.js: Unauthenticated Remote Code Execution in Image Optimization API when SVG files are used",
+     "url": "https://github.com/advisories/GHSA-2464-fhr4-w9xw"
+    },
+    {
+     "sev": "high",
+     "range": ">=13.0.0 <=15.5.27",
+     "title": "Next.js: Denial of Service in App Router using Server Actions",
+     "url": "https://github.com/advisories/GHSA-p3m5-59mp-jv5r"
+    },
+    {
+     "sev": "moderate",
+     "range": "<=15.5.28",
+     "title": "Next.js: Cross-client response injection and disclosure in self-hosted Next.js applications forwarding fetched responses",
+     "url": "https://github.com/advisories/GHSA-pc58-hwjq-p385"
+    }
+   ]
+  },
+  "picomatch": {
+   "severity": "high",
+   "range": "<=2.3.1 || 4.0.0 - 4.0.3",
+   "isDirect": false,
+   "fixAvailable": true,
+   "advisories": [
+    {
+     "sev": "moderate",
+     "range": "<2.3.2",
+     "title": "Picomatch: Method Injection in POSIX Character Classes causes incorrect Glob Matching",
+     "url": "https://github.com/advisories/GHSA-3v7f-55p6-f55p"
+    },
+    {
+     "sev": "moderate",
+     "range": ">=4.0.0 <4.0.4",
+     "title": "Picomatch: Method Injection in POSIX Character Classes causes incorrect Glob Matching",
+     "url": "https://github.com/advisories/GHSA-3v7f-55p6-f55p"
+    },
+    {
+     "sev": "high",
+     "range": "<2.3.2",
+     "title": "Picomatch has a ReDoS vulnerability via extglob quantifiers",
+     "url": "https://github.com/advisories/GHSA-c2c7-rcm5-vvqj"
+    },
+    {
+     "sev": "high",
+     "range": ">=4.0.0 <4.0.4",
+     "title": "Picomatch has a ReDoS vulnerability via extglob quantifiers",
+     "url": "https://github.com/advisories/GHSA-c2c7-rcm5-vvqj"
+    }
+   ]
+  },
+  "playwright": {
+   "severity": "high",
+   "range": "<1.55.1",
+   "isDirect": true,
+   "fixAvailable": true,
+   "advisories": [
+    {
+     "sev": "high",
+     "range": "<1.55.1",
+     "title": "Playwright downloads and installs browsers without verifying the authenticity of the SSL certificate",
+     "url": "https://github.com/advisories/GHSA-7mvr-c777-76hp"
+    }
+   ]
+  },
+  "postcss": {
+   "severity": "high",
+   "range": "<=8.5.22",
+   "isDirect": true,
+   "fixAvailable": {
+    "name": "next",
+    "version": "16.4.6",
+    "isSemVerMajor": true
+   },
+   "advisories": [
+    {
+     "sev": "moderate",
+     "range": "<8.5.10",
+     "title": "PostCSS has XSS via Unescaped </style> in its CSS Stringify Output",
+     "url": "https://github.com/advisories/GHSA-qx2v-qp2m-jg93"
+    },
+    {
+     "sev": "high",
+     "range": "<=8.5.11",
+     "title": "PostCSS: Arbitrary file read and information disclosure via attacker-controlled sourceMappingURL in CSS comments",
+     "url": "https://github.com/advisories/GHSA-6g55-p6wh-862q"
+    },
+    {
+     "sev": "moderate",
+     "range": "<=8.5.22",
+     "title": "PostCSS: incomplete fix of GHSA-6g55-p6wh-862q — attacker-controlled sourceMappingURL reads arbitrary .map files when `from` is unset",
+     "url": "https://github.com/advisories/GHSA-fxqj-rqcc-2cmp"
+    },
+    {
+     "sev": "high",
+     "range": "<=8.5.17",
+     "title": "PostCSS: Path Traversal in Previous Source Map Auto-Loading (sourceMappingURL) leads to Arbitrary .map File Disclosure",
+     "url": "https://github.com/advisories/GHSA-r28c-9q8g-f849"
+    }
+   ]
+  },
+  "postcss-selector-parser": {
+   "severity": "moderate",
+   "range": "<=6.1.4",
+   "isDirect": false,
+   "fixAvailable": true,
+   "advisories": [
+    {
+     "sev": "low",
+     "range": ">=6.1.0 <6.1.3",
+     "title": "postcss-selector-parser allows denial of service through uncontrolled AST recursion",
+     "url": "https://github.com/advisories/GHSA-w9m9-85wc-3x92"
+    },
+    {
+     "sev": "moderate",
+     "range": "<6.1.5",
+     "title": "PostCSS: Quadratic complexity in flat selector parsing allows CPU exhaustion",
+     "url": "https://github.com/advisories/GHSA-rj75-hqrm-r3gf"
+    }
+   ]
+  },
+  "rollup": {
+   "severity": "high",
+   "range": "4.0.0 - 4.58.0",
+   "isDirect": false,
+   "fixAvailable": true,
+   "advisories": [
+    {
+     "sev": "high",
+     "range": ">=4.0.0 <4.59.0",
+     "title": "Rollup 4 has Arbitrary File Write via Path Traversal",
+     "url": "https://github.com/advisories/GHSA-mw96-cpmx-2vgc"
+    }
+   ]
+  },
+  "source-map-js": {
+   "severity": "high",
+   "range": "1.0.0 - 1.2.1",
+   "isDirect": false,
+   "fixAvailable": true,
+   "advisories": [
+    {
+     "sev": "high",
+     "range": ">=1.0.0 <1.2.2",
+     "title": "source-map-js allows event-loop denial of service through indexed source-map section offsets",
+     "url": "https://github.com/advisories/GHSA-68fv-2mgg-jv7q"
+    }
+   ]
+  },
+  "storybook": {
+   "severity": "critical",
+   "range": "8.7.0-alpha.0 - 10.1.0-beta.6",
+   "isDirect": true,
+   "fixAvailable": true,
+   "advisories": [
+    {
+     "sev": "high",
+     "range": ">=9.0.0 <9.1.17",
+     "title": "Storybook manager bundle may expose environment variables during build",
+     "url": "https://github.com/advisories/GHSA-8452-54wp-rmv6"
+    },
+    {
+     "sev": "high",
+     "range": ">=8.7.0-alpha.0 <9.1.19",
+     "title": "Storybook Dev Server is Vulnerable to WebSocket Hijacking",
+     "url": "https://github.com/advisories/GHSA-mjf5-7g4m-gx5w"
+    },
+    {
+     "sev": "critical",
+     "range": ">=9.0.0 <9.1.21",
+     "title": "Storybook: Missing origin validation in Storybook preview allows code injection from malicious websites",
+     "url": "https://github.com/advisories/GHSA-f2ph-cmg5-wxc8"
+    },
+    {
+     "sev": "high",
+     "range": ">=9.0.0 <9.1.21",
+     "title": "Storybook dev server vulnerable to code injection from the local network",
+     "url": "https://github.com/advisories/GHSA-px85-f4q5-jh77"
+    }
+   ]
+  },
+  "tinypool": {
+   "severity": "critical",
+   "range": "<=2.1.1",
+   "isDirect": false,
+   "fixAvailable": {
+    "name": "@vitest/coverage-v8",
+    "version": "3.2.7",
+    "isSemVerMajor": false
+   },
+   "advisories": [
+    {
+     "sev": "critical",
+     "range": "<=2.1.0",
+     "title": "Tinypool: Prototype Pollution gadget in worker options leads to Remote Code Execution",
+     "url": "https://github.com/advisories/GHSA-5gmw-xhrv-c9v3"
+    },
+    {
+     "sev": "critical",
+     "range": "<2.1.2",
+     "title": "Tinypool: Prototype Pollution Gadget to RCE in run() options",
+     "url": "https://github.com/advisories/GHSA-85c8-ppgw-ccpr"
+    }
+   ]
+  },
+  "vite": {
+   "severity": "high",
+   "range": "7.0.0 - 7.3.6",
+   "isDirect": false,
+   "fixAvailable": true,
+   "advisories": [
+    {
+     "sev": "moderate",
+     "range": ">=7.1.0 <=7.1.10",
+     "title": "vite allows server.fs.deny bypass via backslash on Windows",
+     "url": "https://github.com/advisories/GHSA-93m4-6634-74q7"
+    },
+    {
+     "sev": "moderate",
+     "range": ">=7.0.0 <=7.3.1",
+     "title": "Vite Vulnerable to Path Traversal in Optimized Deps `.map` Handling",
+     "url": "https://github.com/advisories/GHSA-4w7w-66w2-5vf9"
+    },
+    {
+     "sev": "high",
+     "range": ">=7.1.0 <=7.3.1",
+     "title": "Vite: `server.fs.deny` bypassed with queries",
+     "url": "https://github.com/advisories/GHSA-v2wj-q39q-566r"
+    },
+    {
+     "sev": "high",
+     "range": ">=7.0.0 <=7.3.1",
+     "title": "Vite Vulnerable to Arbitrary File Read via Vite Dev Server WebSocket",
+     "url": "https://github.com/advisories/GHSA-p9ff-h696-f583"
+    },
+    {
+     "sev": "moderate",
+     "range": ">=7.0.0 <=7.3.4",
+     "title": "launch-editor: NTLMv2 hash disclosure via UNC path handling on Windows",
+     "url": "https://github.com/advisories/GHSA-v6wh-96g9-6wx3"
+    },
+    {
+     "sev": "moderate",
+     "range": ">=7.0.0 <=7.3.6",
+     "title": "launch-editor: escapeCmdArgs() omits % escaping on Windows",
+     "url": "https://github.com/advisories/GHSA-698v-4r3x-3vcv"
+    },
+    {
+     "sev": "moderate",
+     "range": ">=7.0.0 <=7.3.6",
+     "title": "launch-editor: Editor CLI flag misinterpretation causing arbitrary command execution for some editors",
+     "url": "https://github.com/advisories/GHSA-r825-w8mm-5pxw"
+    },
+    {
+     "sev": "high",
+     "range": ">=7.0.0 <=7.3.6",
+     "title": "launch-editor: `fs.existsSync()` existence check can be bypassed on Windows",
+     "url": "https://github.com/advisories/GHSA-587h-7wmj-h5pm"
+    },
+    {
+     "sev": "low",
+     "range": ">=7.0.0 <=7.3.6",
+     "title": "Vite: Cross origin script execution through Vite custom middleware",
+     "url": "https://github.com/advisories/GHSA-9jrq-w75r-8gcw"
+    },
+    {
+     "sev": "moderate",
+     "range": ">=7.0.0 <=7.3.6",
+     "title": "Vite: Files outside `server.fs.allow` could be served when project paths match system paths on non-Windows machine",
+     "url": "https://github.com/advisories/GHSA-rq7h-c2jc-7f22"
+    },
+    {
+     "sev": "moderate",
+     "range": ">=7.0.0 <=7.3.4",
+     "title": "vite: `server.fs.deny` bypass on Windows alternate paths",
+     "url": "https://github.com/advisories/GHSA-fx2h-pf6j-xcff"
+    }
+   ]
+  },
+  "vitest": {
+   "severity": "critical",
+   "range": "<=4.1.10",
+   "isDirect": true,
+   "fixAvailable": {
+    "name": "@vitest/coverage-v8",
+    "version": "3.2.7",
+    "isSemVerMajor": false
+   },
+   "advisories": [
+    {
+     "sev": "critical",
+     "range": "<3.2.6",
+     "title": "When Vitest UI server is listening, arbitrary file can be read and executed",
+     "url": "https://github.com/advisories/GHSA-5xrq-8626-4rwp"
+    },
+    {
+     "sev": "moderate",
+     "range": ">=2.1.0 <4.1.11",
+     "title": "Vitest: Path Traversal / Arbitrary File Read via @vitest/mocker Redirect Mock",
+     "url": "https://github.com/advisories/GHSA-82fw-gwwq-j7x9"
+    }
+   ]
+  },
+  "ws": {
+   "severity": "high",
+   "range": "7.0.0 - 7.5.10 || 8.0.0 - 8.20.1",
+   "isDirect": false,
+   "fixAvailable": true,
+   "advisories": [
+    {
+     "sev": "moderate",
+     "range": ">=8.0.0 <8.20.1",
+     "title": "ws: Uninitialized memory disclosure",
+     "url": "https://github.com/advisories/GHSA-58qx-3vcg-4xpx"
+    },
+    {
+     "sev": "high",
+     "range": ">=8.0.0 <8.21.0",
+     "title": "ws: Memory exhaustion DoS from tiny fragments and data chunks",
+     "url": "https://github.com/advisories/GHSA-96hv-2xvq-fx4p"
+    },
+    {
+     "sev": "high",
+     "range": ">=7.0.0 <7.5.11",
+     "title": "ws: Memory exhaustion DoS from tiny fragments and data chunks",
+     "url": "https://github.com/advisories/GHSA-96hv-2xvq-fx4p"
+    }
+   ]
+  },
+  "yaml": {
+   "severity": "moderate",
+   "range": "2.0.0 - 2.8.2",
+   "isDirect": false,
+   "fixAvailable": true,
+   "advisories": [
+    {
+     "sev": "moderate",
+     "range": ">=2.0.0 <2.8.3",
+     "title": "yaml is vulnerable to Stack Overflow via deeply nested YAML collections",
+     "url": "https://github.com/advisories/GHSA-48c2-rrv3-qjmp"
+    }
+   ]
+  },
+  "zod": {
+   "severity": "high",
+   "range": "<4.6.6",
+   "isDirect": true,
+   "fixAvailable": true,
+   "advisories": [
+    {
+     "sev": "high",
+     "range": "<4.6.6",
+     "title": "Zod can exhaust memory while validating oversized constrained collections",
+     "url": "https://github.com/advisories/GHSA-mrhx-c7xc-m3w5"
+    }
+   ]
+  }
+ }
+}

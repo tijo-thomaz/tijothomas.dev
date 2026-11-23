@@ -1,0 +1,105 @@
+# eslint complexity probe (complexity>10, max-lines>400, max-lines-per-function>50, max-depth>3, max-params>4) over app components features widgets shared lib
+app/api/chat/route.ts:4  max-lines-per-function  Async function 'POST' has too many lines (106). Maximum allowed is 50.
+app/api/chat/route.ts:34  max-depth  Blocks are nested too deeply (4). Maximum allowed is 3.
+app/api/chat/route.ts:96  max-depth  Blocks are nested too deeply (4). Maximum allowed is 3.
+app/page.tsx:18  max-lines-per-function  Function 'Home' has too many lines (400). Maximum allowed is 50.
+app/page.tsx:469  max-lines  File has too many lines (415). Maximum allowed is 400.
+app/v2/page.tsx:30  max-lines-per-function  Function 'V2Page' has too many lines (352). Maximum allowed is 50.
+components/Breadcrumbs.tsx:20  max-lines-per-function  Arrow function has too many lines (82). Maximum allowed is 50.
+components/Breadcrumbs.tsx:49  complexity  Arrow function has a complexity of 11. Maximum allowed is 10.
+components/CircularTimeline.tsx:23  max-lines-per-function  Function 'CircularTimeline' has too many lines (202). Maximum allowed is 50.
+components/CircularTimeline.tsx:115  max-lines-per-function  Arrow function has too many lines (54). Maximum allowed is 50.
+components/CommandSuggestions.tsx:33  max-lines-per-function  Arrow function has too many lines (305). Maximum allowed is 50.
+components/CommandSuggestions.tsx:33  complexity  Arrow function has a complexity of 13. Maximum allowed is 10.
+components/ContactActions.tsx:10  max-lines-per-function  Function 'ContactActions' has too many lines (76). Maximum allowed is 50.
+components/ContactMessage.tsx:6  max-lines-per-function  Function 'ContactMessage' has too many lines (96). Maximum allowed is 50.
+components/EnhancedChatAgent.tsx:97  max-lines-per-function  Arrow function has too many lines (463). Maximum allowed is 50.
+components/EnhancedChatAgent.tsx:131  max-lines-per-function  Arrow function has too many lines (99). Maximum allowed is 50.
+components/EnhancedChatAgent.tsx:131  complexity  Arrow function has a complexity of 27. Maximum allowed is 10.
+components/EnhancedChatAgent.tsx:406  max-lines-per-function  Arrow function has too many lines (81). Maximum allowed is 50.
+components/EnhancedChatAgent.tsx:464  max-lines  File has too many lines (546). Maximum allowed is 400.
+components/FloatingAIAssistant.tsx:8  max-lines-per-function  Arrow function has too many lines (191). Maximum allowed is 50.
+components/InteractiveWorldViewer.tsx:13  max-lines-per-function  Function 'InteractiveWorldViewer' has too many lines (970). Maximum allowed is 50.
+components/InteractiveWorldViewer.tsx:391  max-lines-per-function  Arrow function has too many lines (162). Maximum allowed is 50.
+components/InteractiveWorldViewer.tsx:429  max-lines  File has too many lines (979). Maximum allowed is 400.
+components/InteractiveWorldViewer.tsx:700  max-lines-per-function  Arrow function has too many lines (72). Maximum allowed is 50.
+components/PrivacyPolicy.tsx:5  max-lines-per-function  Arrow function has too many lines (108). Maximum allowed is 50.
+components/SimpleAnalyticsDisplay.tsx:9  max-lines-per-function  Arrow function has too many lines (329). Maximum allowed is 50.
+components/Terminal.tsx:41  max-lines-per-function  Arrow function has too many lines (835). Maximum allowed is 50.
+components/Terminal.tsx:199  max-lines-per-function  Async arrow function has too many lines (337). Maximum allowed is 50.
+components/Terminal.tsx:199  complexity  Async arrow function has a complexity of 36. Maximum allowed is 10.
+components/Terminal.tsx:423  max-lines  File has too many lines (873). Maximum allowed is 400.
+components/Terminal.tsx:588  max-lines-per-function  Arrow function has too many lines (52). Maximum allowed is 50.
+components/Terminal.tsx:588  complexity  Arrow function has a complexity of 21. Maximum allowed is 10.
+components/Terminal.tsx:674  max-lines-per-function  Arrow function has too many lines (71). Maximum allowed is 50.
+components/ThemeControls.tsx:8  max-lines-per-function  Arrow function has too many lines (69). Maximum allowed is 50.
+components/TimelineCarousel.tsx:24  max-lines-per-function  Function 'TimelineCarousel' has too many lines (178). Maximum allowed is 50.
+components/VersionSelector.tsx:15  max-lines-per-function  Arrow function has too many lines (183). Maximum allowed is 50.
+components/VersionSelector.tsx:112  max-lines-per-function  Arrow function has too many lines (85). Maximum allowed is 50.
+components/WorldViewer.tsx:12  max-lines-per-function  Function 'WorldViewer' has too many lines (53). Maximum allowed is 50.
+components/ZoomControls.tsx:11  max-lines-per-function  Arrow function has too many lines (102). Maximum allowed is 50.
+features/chat-assistant/model/useChatAssistant.ts:100  max-lines-per-function  Function 'useChatAssistant' has too many lines (221). Maximum allowed is 50.
+features/chat-assistant/model/useChatAssistant.ts:135  max-lines-per-function  Arrow function has too many lines (99). Maximum allowed is 50.
+features/chat-assistant/model/useChatAssistant.ts:135  complexity  Arrow function has a complexity of 27. Maximum allowed is 10.
+features/chat-assistant/model/useFloatingAssistant.ts:5  max-lines-per-function  Function 'useFloatingAssistant' has too many lines (88). Maximum allowed is 50.
+features/chat-assistant/ui/AtomicFloatingDrawer.tsx:20  max-lines-per-function  Function 'AtomicFloatingDrawer' has too many lines (66). Maximum allowed is 50.
+features/chat-assistant/ui/ChatInput.tsx:16  max-lines-per-function  Function 'ChatInput' has too many lines (59). Maximum allowed is 50.
+features/chat-assistant/ui/ChatMessages.tsx:12  max-lines-per-function  Function 'ChatMessages' has too many lines (93). Maximum allowed is 50.
+features/chat-assistant/ui/ChatMessages.tsx:20  max-lines-per-function  Arrow function has too many lines (81). Maximum allowed is 50.
+features/chat-assistant/ui/FloatingDrawer.tsx:20  max-lines-per-function  Function 'FloatingDrawer' has too many lines (68). Maximum allowed is 50.
+features/chat-assistant/ui/atoms/SendButton.test.tsx:7  max-lines-per-function  Arrow function has too many lines (105). Maximum allowed is 50.
+features/chat-assistant/ui/molecules/MessageBubble.test.tsx:6  max-lines-per-function  Arrow function has too many lines (110). Maximum allowed is 50.
+features/chat-assistant/ui/molecules/MessageBubble.tsx:12  max-lines-per-function  Function 'MessageBubble' has too many lines (69). Maximum allowed is 50.
+features/chat-assistant/ui/organisms/MessageList.test.tsx:6  max-lines-per-function  Arrow function has too many lines (190). Maximum allowed is 50.
+features/prompt-shield/model/usePromptShield.ts:46  max-lines-per-function  Function 'usePromptShield' has too many lines (97). Maximum allowed is 50.
+features/prompt-shield/model/usePromptShield.ts:56  max-lines-per-function  Async arrow function has too many lines (72). Maximum allowed is 50.
+features/prompt-shield/ui/ShieldBadge.tsx:44  max-lines-per-function  Arrow function has too many lines (57). Maximum allowed is 50.
+features/terminal/index-old.tsx:40  max-lines-per-function  Arrow function has too many lines (213). Maximum allowed is 50.
+features/terminal/index-old.tsx:85  complexity  Arrow function has a complexity of 14. Maximum allowed is 10.
+features/terminal/index.tsx:40  max-lines-per-function  Arrow function has too many lines (145). Maximum allowed is 50.
+features/terminal/index.tsx:85  complexity  Arrow function has a complexity of 14. Maximum allowed is 10.
+features/terminal/model/useTerminal.ts:28  max-lines-per-function  Arrow function has too many lines (85). Maximum allowed is 50.
+features/terminal/model/useTerminal.ts:167  max-lines-per-function  Function 'useTerminal' has too many lines (88). Maximum allowed is 50.
+features/terminal/model/useTerminal.ts:473  max-lines  File has too many lines (711). Maximum allowed is 400.
+features/terminal/model/useTerminal.ts:748  max-lines-per-function  Async function 'processCommand' has too many lines (98). Maximum allowed is 50.
+features/terminal/model/useTerminal.ts:748  complexity  Async function 'processCommand' has a complexity of 12. Maximum allowed is 10.
+features/terminal/ui/OutputBlock.tsx:40  max-lines-per-function  Arrow function has too many lines (58). Maximum allowed is 50.
+features/terminal/ui/PromptLine.tsx:22  max-lines-per-function  Arrow function has too many lines (94). Maximum allowed is 50.
+features/terminal/ui/TerminalLayout.tsx:23  max-lines-per-function  Arrow function has too many lines (99). Maximum allowed is 50.
+features/terminal/ui/atoms/TerminalInput.test.tsx:7  max-lines-per-function  Arrow function has too many lines (61). Maximum allowed is 50.
+features/terminal/ui/atoms/TerminalPrompt.test.tsx:6  max-lines-per-function  Arrow function has too many lines (66). Maximum allowed is 50.
+features/terminal/ui/molecules/CommandOutput.test.tsx:6  max-lines-per-function  Arrow function has too many lines (91). Maximum allowed is 50.
+features/terminal/ui/organisms/TerminalHistory.test.tsx:7  max-lines-per-function  Arrow function has too many lines (176). Maximum allowed is 50.
+features/world-viewer/index.tsx:12  max-lines-per-function  Function 'WorldViewer' has too many lines (53). Maximum allowed is 50.
+features/world-viewer/model/useWorldNavigation.ts:5  max-lines-per-function  Function 'useWorldNavigation' has too many lines (51). Maximum allowed is 50.
+features/world-viewer/ui/ClientsSection.tsx:5  max-lines-per-function  Function 'ClientsSection' has too many lines (56). Maximum allowed is 50.
+features/world-viewer/ui/ExperienceSection.tsx:5  max-lines-per-function  Function 'ExperienceSection' has too many lines (187). Maximum allowed is 50.
+features/world-viewer/ui/ExperienceSection.tsx:26  max-lines-per-function  Arrow function has too many lines (164). Maximum allowed is 50.
+features/world-viewer/ui/InteractiveWorldViewer.atomic.tsx:20  max-lines-per-function  Function 'InteractiveWorldViewer' has too many lines (53). Maximum allowed is 50.
+features/world-viewer/ui/InteractiveWorldViewer.tsx:18  max-lines-per-function  Function 'InteractiveWorldViewer' has too many lines (77). Maximum allowed is 50.
+features/world-viewer/ui/Navigation.tsx:10  max-lines-per-function  Function 'Navigation' has too many lines (174). Maximum allowed is 50.
+features/world-viewer/ui/ProjectsSection.tsx:5  max-lines-per-function  Function 'ProjectsSection' has too many lines (90). Maximum allowed is 50.
+features/world-viewer/ui/ProjectsSection.tsx:18  max-lines-per-function  Arrow function has too many lines (72). Maximum allowed is 50.
+features/world-viewer/ui/SkillsSection.tsx:5  max-lines-per-function  Function 'SkillsSection' has too many lines (121). Maximum allowed is 50.
+features/world-viewer/ui/TimelineCarousel.tsx:24  max-lines-per-function  Function 'TimelineCarousel' has too many lines (178). Maximum allowed is 50.
+features/world-viewer/ui/atoms/VinylRecord.tsx:13  max-lines-per-function  Function 'VinylRecord' has too many lines (73). Maximum allowed is 50.
+features/world-viewer/ui/molecules/ProjectCard.tsx:17  max-lines-per-function  Function 'ProjectCard' has too many lines (81). Maximum allowed is 50.
+features/world-viewer/ui/molecules/SkillCard.tsx:15  max-lines-per-function  Function 'SkillCard' has too many lines (56). Maximum allowed is 50.
+features/world-viewer/ui/molecules/TimelineItem.tsx:24  max-lines-per-function  Function 'TimelineItem' has too many lines (156). Maximum allowed is 50.
+features/world-viewer/ui/organisms/NavigationPanel.tsx:42  max-lines-per-function  Function 'NavigationPanel' has too many lines (131). Maximum allowed is 50.
+lib/supabase.ts:115  max-lines-per-function  Async function 'getSupabaseAnalytics' has too many lines (71). Maximum allowed is 50.
+lib/tutorial-manager.ts:72  max-params  Constructor has too many parameters (6). Maximum allowed is 4.
+shared/ui/atoms/Icon.test.tsx:6  max-lines-per-function  Arrow function has too many lines (99). Maximum allowed is 50.
+shared/ui/atoms/Input.test.tsx:7  max-lines-per-function  Arrow function has too many lines (135). Maximum allowed is 50.
+shared/ui/atoms/Text.test.tsx:6  max-lines-per-function  Arrow function has too many lines (118). Maximum allowed is 50.
+widgets/Analytics/organisms/AnalyticsModal.tsx:26  max-lines-per-function  Arrow function has too many lines (119). Maximum allowed is 50.
+widgets/Breadcrumbs/atoms/BreadcrumbItem.tsx:11  complexity  Arrow function has a complexity of 11. Maximum allowed is 10.
+widgets/CommandSuggestions/CommandSuggestions.tsx:36  max-lines-per-function  Arrow function has too many lines (109). Maximum allowed is 50.
+widgets/CommandSuggestions/molecules/WelcomePanel.tsx:9  max-lines-per-function  Arrow function has too many lines (78). Maximum allowed is 50.
+widgets/CommandSuggestions/organisms/TutorialPanel.tsx:12  max-lines-per-function  Arrow function has too many lines (76). Maximum allowed is 50.
+widgets/PrivacyPolicy/molecules/PrivacyModal.tsx:10  max-lines-per-function  Arrow function has too many lines (57). Maximum allowed is 50.
+widgets/ThemeControls/atoms/ThemeButton.test.tsx:7  max-lines-per-function  Arrow function has too many lines (122). Maximum allowed is 50.
+widgets/VersionSelector/molecules/VersionOption.tsx:14  max-lines-per-function  Arrow function has too many lines (71). Maximum allowed is 50.
+widgets/ZoomControls/atoms/IconButton.stories.tsx:203  max-lines-per-function  Method 'render' has too many lines (60). Maximum allowed is 50.
+widgets/ZoomControls/atoms/IconButton.test.tsx:7  max-lines-per-function  Arrow function has too many lines (134). Maximum allowed is 50.
+widgets/ZoomControls/index.tsx:11  max-lines-per-function  Arrow function has too many lines (52). Maximum allowed is 50.

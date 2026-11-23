@@ -7,6 +7,10 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { makeFixture, removeFixture, runScript } from './lib/test-utils.mjs';
 
+// When this suite runs inside a gate run (CG4), the outer runner exports EDD_BASE/EDD_UNIT; they
+// would override the fixtures' own --base/base.txt, so the child runners must not inherit them.
+delete process.env.EDD_BASE;
+delete process.env.EDD_UNIT;
 const fixtures = [];
 after(() => fixtures.forEach(removeFixture));
 const entry = (id, cmd, enforce) => [`  - id: ${id}`, `    cmd: ${cmd}`, ...(enforce === undefined ? [] : [`    enforce: ${enforce}`]), '    evidence: stdout'];

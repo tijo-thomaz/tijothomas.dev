@@ -99,6 +99,8 @@ storybook-static
 !docs/**/*.md
 !edd-docs/**/*.md
 !specs/**/*.md
+!/README.md
+!/CHANGELOG.md
 
 # U-00 smoke screenshots: local evidence only, not committed
 edd-docs/construction/U-00/smoke/*.png
@@ -107,3 +109,6 @@ edd-docs/construction/U-00/smoke/*.png
 playwright-report/
 test-results/
 blob-report/
+
+# Gate evidence: keep the JSON summaries, not the bulky raw coverage map
+edd-docs/construction/*/gates/coverage/coverage-final.json

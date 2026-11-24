@@ -9,8 +9,8 @@ All notable changes to this project are documented here. Format: [Keep a Changel
   metrics, planned items hidden unless `SHOW_PLANNED=true`), the Experience timeline (newest first,
   gap tile), How I work (5 steps) and Writing ("Coming soon" rows, links only with a URL). Every nav
   link now resolves (U-07).
-- `/`: the arrow cursor over headings, text, badges and tiles instead of the text-selection I-beam.
-  Links and buttons show the hand, and text can still be selected by dragging. The terminal is
+- `/`: the arrow cursor over headings, text, badges and tiles instead of the text-selection I-beam,
+  and no text selection on the site pages. Links and buttons show the hand. The terminal is
   unchanged (owner request, U-07).
 - `src/lib/visible.ts` and `src/lib/format.ts`: the build-time planned filter, month and range
   formatting, and work badges (U-07).

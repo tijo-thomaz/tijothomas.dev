@@ -15,3 +15,11 @@ test('U-07 / shows the arrow over headings, text, badges and tiles, and the hand
     expect(await cursorOf(page, sel), sel).toBe('pointer');
   }
 });
+
+test('U-07 / text cannot be selected (owner request): headings, paragraphs and badges', async ({ page }) => {
+  await page.goto('/');
+  for (const sel of ['h1', '.hero-intro', '.exp-bullets li', '.badge']) {
+    const v = await page.locator(sel).first().evaluate((el) => getComputedStyle(el).userSelect);
+    expect(v, sel).toBe('none');
+  }
+});

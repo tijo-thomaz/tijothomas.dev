@@ -32,9 +32,14 @@ body {
   color: var(--ink);
   background: var(--white);
   line-height: 1.5;
-  /* Owner request (U-07): arrow over titles, text, badges and labels, not the I-beam. Text stays
-     selectable by dragging; only controls change the cursor. */
+  /* Owner request (U-07): arrow over titles, text, badges and labels, not the I-beam, and no text
+     selection anywhere on the site pages. Only controls change the cursor. */
   cursor: default;
+  user-select: none;
+}
+
+:where(input, textarea, [contenteditable='true']) {
+  user-select: text;
 }
 
 :where(a[href], button:not(:disabled), summary, label[for]) {
@@ -45,13 +50,6 @@ body {
   cursor: text;
 }
 
-/* Decorative labels: not meant to be selected as text. */
-.badge,
-.monogram,
-.tile-gap,
-.step-number {
-  user-select: none;
-}
 
 h1,
 h2,

@@ -30,6 +30,8 @@ const ALLOWED_PACKAGES = new Set([
   '@vercel/analytics/react', // the one client package HOME-AC-03 allows
   'next/og', // U-09: opengraph-image, rendered to a PNG at build time (server only, ships no JS)
   'next/navigation', // U-09: notFound() in the placeholder routes (server use; no client hooks)
+  'node:fs/promises', // U-09 owner choice b: opengraph-image reads the committed font at build time
+  'node:path', // same; Node built-ins cannot reach the browser bundle
 ]);
 // The directive prologue: the leading run of string-literal statements. "use client" anywhere in it
 // counts ('use strict'; 'use client'; included).

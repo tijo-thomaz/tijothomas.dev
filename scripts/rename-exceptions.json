@@ -48,6 +48,18 @@
     {
       "path": "src/terminal/api/chat/route.ts",
       "reason": "U-04 commit B (SQ-01 c, ADR-P2): /api/chat and its Groq handler deleted"
+    },
+    {
+      "path": "src/terminal/layout.tsx",
+      "reason": "U-04 carried U-03 review minor: hidden SEO block (owner email and phone) removed, og:url is /terminal"
+    },
+    {
+      "path": "src/terminal/globals.css",
+      "reason": "U-04 carried U-03 review minor: unused .seo-content rule removed"
+    },
+    {
+      "path": "src/terminal/widgets/VersionSelector/organisms/VersionDropdown.tsx",
+      "reason": "U-04 carried U-03 review minor: dead /v1 branch removed"
     }
   ]
 }

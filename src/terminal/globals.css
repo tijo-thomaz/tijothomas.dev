@@ -152,15 +152,6 @@
   background: #00cc00;
 }
 
-/* SEO Hidden Content */
-.seo-content {
-  position: absolute;
-  left: -9999px;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-}
-
 /* Mobile Responsive */
 @media (max-width: 768px) {
   /* Ensure proper scrolling on mobile */

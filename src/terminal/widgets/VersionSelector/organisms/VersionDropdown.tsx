@@ -13,8 +13,7 @@ interface VersionDropdownProps {
 export const VersionDropdown = ({ versions, currentVersion, onVersionSelect, getVersionIcon }: VersionDropdownProps) => {
   const handleVersionSelect = (version: Version) => {
     if (version.status === "stable") {
-      const targetRoute = version.route === "/v1" ? "/" : version.route;
-      onVersionSelect(targetRoute, version.status);
+      onVersionSelect(version.route, version.status);
     }
   };
 

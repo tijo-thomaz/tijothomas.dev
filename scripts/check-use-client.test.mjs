@@ -8,6 +8,7 @@ import { makeFixture, removeFixture, runScript, readText } from './lib/test-util
 import { paths } from './paths.mjs';
 
 const { site: SITE, components: COMP, content: CONTENT, lib: LIB, terminal: TERM } = paths.layers;
+const SRC = COMP.split('/').slice(0, -1).join('/');
 const up = (from) => '../'.repeat(from.split('/').length);
 const base = {
   'tsconfig.json': JSON.stringify({ compilerOptions: { paths: { '@/*': ['./src/*'] } } }),
@@ -44,11 +45,11 @@ test('HOME-AC-03 check-use-client fails and names a component with a "use client
 test('HOME-AC-03 check-use-client follows local imports out of the site layers', () => {
   withFiles({
     [`${COMP}/Hero.tsx`]: "import { w } from '@/widgets/w';\nexport function Hero() { return w; }\n",
-    'src/widgets/w.ts': "// header comment\n'use client';\nexport const w = 1;\n",
+    [`${SRC}/widgets/w.ts`]: "// header comment\n'use client';\nexport const w = 1;\n",
   }, (dir) => {
     const r = check(dir);
     assert.equal(r.status, 1, r.out);
-    assert.match(r.out, /src\/widgets\/w\.ts/);
+    assert.match(r.out, new RegExp(`${SRC}/widgets/w`));
   });
 });
 

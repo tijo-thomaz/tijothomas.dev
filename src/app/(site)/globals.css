@@ -1,4 +1,6 @@
-/* Site styles for the (site) route group. Terminal styles live in src/terminal/globals.css. */
+/* Site styles for the (site) route group. Terminal styles live in src/terminal/globals.css.
+   Tokens follow docs/design/home-reference/Main.dc.html (accent: RQ-06 a). Sizes are rem so the
+   page honours the browser font size; px values from the mockup are divided by 16. */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,14 +8,324 @@
 :root {
   --font-body: var(--font-inter), system-ui, sans-serif;
   --font-display: var(--font-space-grotesk), var(--font-body);
+
+  --ink: #0f1b2d;
+  --text: #2d3a4d;
+  --muted: #4a5568;
+  --green: #1f5c3f;
+  --mint: #e6f5ec;
+  --mint-border: #cfe6d8;
+  --surface: #f4f7fa;
+  --line: #dfe7ef;
+  --white: #ffffff;
+  --on-ink: #c9d4e3;
+  --accent: #ff7a33;
+  --focus: #1d4ed8;
+
+  --gutter: max(4vw, 1rem);
+  --radius: 1rem;
 }
 
 body {
   font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--white);
+  line-height: 1.5;
 }
 
 h1,
 h2,
 h3 {
   font-family: var(--font-display);
+  font-weight: 700; /* the mockup relies on the browser's bold headings; the Tailwind reset removes it */
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* Focus: one visible ring for every interactive element (3px, #1d4ed8, offset). */
+:where(a:any-link, button, [tabindex]):focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+main:focus {
+  outline: none; /* main is only focused by the skip link; it is not a control. */
+}
+
+/* Skip link: off-screen until focused (HOME-AC-11). */
+.skip-link {
+  position: absolute;
+  inset-inline-start: 1rem;
+  inset-block-start: -10rem;
+  z-index: 10;
+  padding: 0.75rem 1rem;
+  border-radius: 0.625rem;
+  background: var(--ink);
+  color: var(--white);
+  font-weight: 600;
+}
+
+.skip-link:focus-visible {
+  inset-block-start: 1rem;
+}
+
+/* Layout */
+.band {
+  padding-inline: var(--gutter);
+}
+
+.band--mint {
+  background: var(--mint);
+}
+
+.band--surface {
+  padding-block: 2rem;
+  background: var(--surface);
+}
+
+.band--ink {
+  background: var(--ink);
+  color: var(--on-ink);
+}
+
+.wrap {
+  max-width: 77.5rem;
+  margin-inline: auto;
+}
+
+/* Header and nav */
+.site-header {
+  padding-block: 1rem;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+}
+
+.nav-brand {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.nav-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav-link {
+  display: inline-block;
+  min-block-size: 2.75rem;
+  padding: 0.625rem 0.75rem;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
+/* Hero */
+.hero {
+  padding-block: 1.5rem 3.5rem;
+}
+
+.hero-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem 3rem;
+}
+
+.hero-copy {
+  flex: 1 1 23.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.hero-line {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--green);
+}
+
+.hero-title {
+  margin: 0;
+  font-size: clamp(2.5rem, 1.75rem + 3vw, 4rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+}
+
+.hero-intro {
+  margin: 0;
+  max-width: 35rem;
+  font-size: 1.125rem;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+.hero-tip {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--text);
+}
+
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.875rem 1.375rem;
+  border: 2px solid transparent;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.btn--accent {
+  background: var(--accent);
+}
+
+.btn--outline {
+  background: var(--white);
+  border-color: var(--ink);
+}
+
+/* Highlights */
+.tiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-block: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tile {
+  flex: 1 1 13.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--white);
+}
+
+.tile-value {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.tile-label {
+  font-size: 0.9375rem;
+  color: var(--muted);
+}
+
+/* Sections */
+.section-title {
+  margin: 0;
+  font-size: clamp(2rem, 1.6rem + 1.5vw, 2.5rem);
+  letter-spacing: -0.02em;
+}
+
+/* Contact */
+#contact {
+  padding-block: 4.5rem;
+}
+
+.contact {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.contact-copy {
+  flex: 1 1 26.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.contact-intro {
+  margin: 0;
+  max-width: 35rem;
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+.contact-availability {
+  margin: 0;
+}
+
+.contact-card {
+  flex: 1 1 18.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  margin: 0;
+  padding: 1.5rem;
+  border: 1px solid var(--mint-border);
+  border-radius: 1.25rem;
+  background: var(--white);
+  list-style: none;
+}
+
+.contact-link {
+  display: inline-block;
+  min-block-size: 1.5rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* Footer */
+.site-footer {
+  padding-block: 1.5rem;
+  font-size: 0.875rem;
+}
+
+.footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.footer-link {
+  color: var(--on-ink);
+}
+
+@media (pointer: coarse) {
+  .contact-link,
+  .footer-link {
+    min-block-size: 2.75rem;
+    display: inline-flex;
+    align-items: center;
+  }
 }

@@ -40,12 +40,11 @@ for (const path of ['/work/does-not-exist', '/writing/does-not-exist', '/work/fd
   });
 }
 
-test('SEO-AC-04 SEO-AC-05 /sitemap.xml lists / and /robots.txt points to it', async ({ request, baseURL }) => {
+test('SEO-AC-04 SEO-AC-05 /sitemap.xml lists / and /robots.txt points to it', async ({ request }) => {
   const sitemap = await (await request.get('/sitemap.xml')).text();
   expect(sitemap).toContain('<loc>https://tijothomas.dev/</loc>');
   expect(sitemap).not.toMatch(/terminal|\/work\/|\/writing\//);
   const robots = await (await request.get('/robots.txt')).text();
   expect(robots).toMatch(/User-Agent: \*/i);
   expect(robots).toContain('Sitemap: https://tijothomas.dev/sitemap.xml');
-  expect(baseURL).toBeTruthy();
 });

@@ -3,8 +3,9 @@ import { createElement } from 'react';
 import type { Post, Profile } from '@/content/types';
 
 // The site's only raw-HTML sink (SEC-09, SEC-10, PLAT-AC-23). JSON-LD is a data block, not executed,
-// but a "</script>" inside the data would end the element early. Every "<" is therefore escaped as
-// <, which JSON parsers read back as "<". Data comes only from src/content.
+// but a "</script>" inside the data would end the element early. Every "<" is therefore written as
+// the JSON unicode escape for U+003C (backslash, "u", "003c"), which JSON parsers read back as "<".
+// Data comes only from src/content.
 
 export function serializeJsonLd(data: Record<string, unknown>): string {
   return JSON.stringify(data).replace(/</g, '\\u003c');

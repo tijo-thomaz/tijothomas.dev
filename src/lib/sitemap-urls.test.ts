@@ -30,6 +30,11 @@ describe('sitemapUrls', () => {
     expect(urls).toEqual([`${SITE}/`]);
   });
 
+  it('SEO-AC-04 CONT-AC-03 never lists a planned work item, even with an on-site case study', () => {
+    const urls = sitemapUrls(SITE, [], [item({ status: 'planned', caseStudyUrl: `${SITE}/work/p` })]);
+    expect(urls).toEqual([`${SITE}/`]);
+  });
+
   it('SEO-AC-04 lists each URL once', () => {
     const urls = sitemapUrls(SITE, [post({ url: `${SITE}/a` }), post({ url: `${SITE}/a` })], []);
     expect(urls).toEqual([`${SITE}/`, `${SITE}/a`]);

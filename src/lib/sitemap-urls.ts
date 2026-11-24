@@ -9,7 +9,8 @@ export function sitemapUrls(siteUrl: string, posts: readonly Post[], work: reado
   const urls = [
     `${siteUrl}/`,
     ...posts.filter((p) => p.status === 'published').flatMap((p) => onSite(p.url)),
-    ...work.flatMap((w) => onSite(w.caseStudyUrl)),
+    // Planned items never reach the sitemap, even with a case-study URL (U-09 review #5).
+    ...work.filter((w) => w.status !== 'planned').flatMap((w) => onSite(w.caseStudyUrl)),
   ];
   return urls.filter((url, i) => urls.indexOf(url) === i);
 }

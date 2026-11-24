@@ -24,6 +24,11 @@ describe('opengraph-image', () => {
     expect(alt).toBe(profile.headline);
   });
 
+  it('SEO-AC-02 the image text is plain ASCII, so the bundled font covers it and the build fetches no font (T-56)', () => {
+    // next/og bundles one Latin font; a glyph outside it would be fetched over the network at build time.
+    expect(`${profile.name}${profile.headline}`).toMatch(/^[\x20-\x7E]+$/);
+  });
+
   it('SEO-AC-02 C-18 renders the confirmed name and headline, and nothing contact-like', () => {
     const res = OpengraphImage() as unknown as { element: ReactElement; init: { width: number; height: number } };
     expect(res.init).toEqual(size);

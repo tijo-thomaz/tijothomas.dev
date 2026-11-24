@@ -29,5 +29,7 @@ test('SEO-AC-10 the Lighthouse gate is enforced: median of 3, mobile, >= 95 x4 w
   assert.match(block, /enforce:\s*true/);
   assert.match(block, /--runs 3/);
   const script = readText('scripts/lighthouse.mjs');
-  for (const budget of [/95/, /0\.05/, /2500/, /150/]) assert.match(script, budget);
+  // Pin the exact constants, so a loosened budget fails (U-09 review #7).
+  assert.match(script, /const MIN_SCORE = 95;/);
+  assert.match(script, /const MAX = \{ cls: 0\.05, lcpMs: 2500, tbtMs: 150 \};/);
 });

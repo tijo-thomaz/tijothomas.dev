@@ -17,7 +17,7 @@ export const privacy: PrivacyNotice = {
     {
       heading: 'Who is responsible', // CMP-03
       paragraphs: [
-        'I run this site myself and I am responsible for the personal data it processes. I am based in Bengaluru, India. The best way to contact me about privacy is a LinkedIn message.', // F-04, CMP-03
+        'I, Tijo Thomas, run this site myself and I am the controller responsible for the personal data it processes. I am based in Bengaluru, India. The best way to contact me about privacy is a LinkedIn message.', // F-01, F-04, CMP-03 (U-10 review #1: name the controller)
       ],
     },
     {
@@ -27,21 +27,21 @@ export const privacy: PrivacyNotice = {
       ],
       items: [
         'Request logs: when you load any page, Vercel, which hosts this site, processes your IP address, browser details, the page address, the referring page and the time.', // CMP-03 (P1)
-        'Web Analytics: Vercel Web Analytics records page views with the page, referrer, country, browser, operating system and device type. It uses no cookies. Visitors are counted with a hash of the request that Vercel discards after 24 hours, so only aggregate statistics remain.', // CMP-03 (P2)
-        'Visit counters on /terminal: the terminal stores a date and a count of visits and commands in a Supabase database. Nothing in it identifies you.', // CMP-03 (P4)
-        'Your browser on /terminal: your theme, zoom and sound settings (tijothomas-theme, tijothomas-zoom, tijothomas-sounds) and local usage counters (portfolio-analytics) are kept in your browser storage. They are never sent to me.', // CMP-03 (P5)
+        'Web Analytics: Vercel Web Analytics records page views with the time, the page and its filtered query, the referrer, your country, region and city, browser, operating system and device type. It uses no cookies. Visitors are counted with a hash of the request that Vercel discards after 24 hours, so only aggregate statistics remain.', // CMP-03 (P2)
+        'Counters on /terminal: the terminal stores a date and daily counts of visits, commands and questions asked in a Supabase database. Nothing in it identifies you.', // CMP-03 (P4; U-10 review #3)
+        'Your browser on /terminal: your theme, zoom and sound settings (tijothomas-theme, tijothomas-zoom, tijothomas-sounds) are kept in your browser storage. So is portfolio-analytics: local usage counters, the last command you typed and when your session started, which the terminal shows back to you. None of it is ever sent to me.', // CMP-03 (P5; U-10 review #2)
       ],
     },
     {
       heading: 'Why, and on what legal basis', // CMP-03
       paragraphs: [
-        'Request logs keep the site running and secure, and Web Analytics shows me how many people visit and from where. Both rely on legitimate interests (GDPR and UK GDPR Article 6(1)(f)). The terminal settings exist only so that the features you choose work.', // CMP-03 (§1.3)
+        'Request logs keep the site running and secure, and Web Analytics shows me how many people visit and from where. Both rely on legitimate interests (GDPR and UK GDPR Article 6(1)(f)). The terminal settings exist so that the features you choose work. The portfolio-analytics key is not needed for the terminal to work: it only feeds the usage figures the terminal shows you, it stays on your device, and you can remove it by clearing this site’s storage in your browser.', // CMP-03 (§1.3, §1.4; U-10 review #5)
       ],
     },
     {
       heading: 'Who processes it, and where', // CMP-03
       paragraphs: [
-        'Vercel Inc. hosts the site, keeps the request logs and runs Web Analytics as my processor, under its data processing terms. Supabase Inc. stores the terminal counters, which are not personal data. Both are based in the United States, so data may be processed there.', // CMP-03 (§1.6)
+        'Vercel Inc. hosts the site, keeps the request logs and runs Web Analytics as my processor, under its data processing terms. Supabase Inc. stores the terminal counters, which are not personal data. Both are based in the United States, so data may be processed there.', // CMP-03 (§1.6; the transfer safeguard is not stated until CMP-07 is verified, U-10 review #4)
       ],
     },
     {

@@ -95,8 +95,16 @@ describe('row references in src/content/*.ts', () => {
   it('CONT-AC-10 every data line carries a // F-xx, C-xx, RQ-xx, CMP-xx or spec AC reference', () => {
     const data = sourceLines.filter((l) => isDataLine(l.code));
     expect(data.length).toBeGreaterThan(80);
-    const missing = data.filter((l) => !/\b([FC]-\d{2}|RQ-\d{2}|CMP-\d{2}|[A-Z]+-AC-\d{2})\b/.test(l.comment));
+    // CMP-xx (compliance requirement) is a valid source only in privacy.ts (U-10 review #7).
+    const ref = (file: string) =>
+      file === 'privacy.ts' ? /\b([FC]-\d{2}|RQ-\d{2}|CMP-\d{2}|[A-Z]+-AC-\d{2})\b/ : /\b([FC]-\d{2}|RQ-\d{2}|[A-Z]+-AC-\d{2})\b/;
+    const missing = data.filter((l) => !ref(l.file).test(l.comment));
     expect(missing.map((l) => `${l.file}:${l.n} ${l.code.trim()}`)).toEqual([]);
+  });
+
+  it('CONT-AC-10 CMP-xx references appear only in privacy.ts, so other facts keep their F/C/RQ trace', () => {
+    const outside = sourceLines.filter((l) => l.file !== 'privacy.ts' && /\bCMP-\d{2}\b/.test(l.comment));
+    expect(outside.map((l) => `${l.file}:${l.n}`)).toEqual([]);
   });
 
   it('CONT-AC-10 every referenced row exists and is publishable (confirm/edit, or resolved and not withheld)', () => {

@@ -453,7 +453,7 @@ export default function Home() {
             </p>
             <div className="flex items-center gap-3 flex-wrap">
               <span className="text-xs" style={{ color: "var(--theme-muted)" }}>
-                🔒 Anonymous Analytics Only
+                🔒 Cookieless Analytics
               </span>
               <span className="text-xs" style={{ color: "var(--theme-muted)" }}>
                 •

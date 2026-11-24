@@ -16,6 +16,11 @@ describe('/privacy', () => {
     expect(screen.getAllByRole('heading', { level: 2 }).map((h) => h.textContent)).toEqual(privacy.sections.map((s) => s.heading));
   });
 
+  it('HOME-AC-28 names the controller inside the notice article (not only in the brand link or footer)', () => {
+    const { container } = render(<PrivacyPage />);
+    expect(container.querySelector('main article')?.textContent).toContain(profile.name);
+  });
+
   it('HOME-AC-28 links the controller contact to LinkedIn and shows the last-updated date', () => {
     render(<PrivacyPage />);
     const links = screen.getAllByRole('link').filter((a) => a.getAttribute('href') === profile.links.linkedin);

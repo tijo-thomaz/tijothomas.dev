@@ -39,6 +39,11 @@ CSS only, and `prefers-reduced-motion` turns all of it off.
 Every fact and line of copy on `/` lives in `src/content/*.ts`, typed by `src/content/types.ts`.
 Components render it and add no facts of their own.
 
+The privacy notice at `/privacy` comes from `src/content/privacy.ts`. Each statement cites the
+compliance requirement it rests on (`// CMP-xx` in `edd-docs/inception/compliance.md`); CMP references
+are allowed only in that file. A test scans the terminal code for every `localStorage` key, so a new
+key fails the build until the notice lists it. The terminal's privacy popup links to `/privacy`.
+
 - Every value cites its row in `edd-docs/questions/1.1-facts.md`: `// F-xx` for a fact, `// C-xx` for
   copy, or `// RQ-xx` for an approved requirement decision. `src/content/facts.test.ts` fails on a
   missing reference, an unknown row, or a row the owner did not confirm (CONT-AC-10).

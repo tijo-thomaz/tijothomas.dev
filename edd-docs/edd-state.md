@@ -59,7 +59,15 @@ Order (amended 2026-11-24): U-00 → U-01 → U-03 → U-02 → U-04 → … →
 | RCA-01 | Escaped U-04 defects: wrong GitHub account (7 copies, 1 missed by the first fix) and CHANGELOG corrupted by a JS `$`` replacement | Fixed; regression tests `scripts/rca-01.test.mjs`; edit rule CA-4; review 2.3 restored | `edd-docs/rca/RCA-01-u04-escaped-defects.md` |
 
 ## Open questions
--
+Legal review of the privacy notice (U-10 DoD; SQ-08 a: after release, by the owner's lawyer or DPO). These are the open items from `compliance.md` §4:
+1. GDPR / UK GDPR territorial applicability (Art. 3(2)) to a non-EU individual's portfolio with cookieless analytics; the Art. 27 representative exemption.
+2. Household-exemption reading for a job-seeking portfolio.
+3. ePrivacy Art. 5(3) / PECR position on (a) Vercel's server-side visitor hash and (b) `portfolio-analytics` in localStorage on `/terminal` (DUAA 2025 statistical-purpose exemption, commencement).
+4. Groq as processor: no longer applies while the chat is off (U-04). Re-open when "Ask Tijo" ships.
+5. Whether LinkedIn messaging alone satisfies Art. 13(1)(a) "contact details" under the no-email decision.
+6. EU AI Act Art. 50(2): no longer applies while the chat is off. Re-open with "Ask Tijo".
+7. India DPDP Act obligations and commencement for this processing.
+8. CMP-07: Vercel DPA on file, and the transfer mechanism (SCCs/DPF) verified. Only after that can the notice name the transfer safeguard (U-10 review #4).
 
 ## Deferred review findings (accepted, owner informed)
 - U-05 #3: `facts.test.ts` checks that a cited row is publishable, not that the row holds the value. Needs value parsing of the facts sheet; values changed under the resolutions. Revisit with the content-cycle tooling.

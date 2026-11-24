@@ -1,5 +1,9 @@
 // U-10 HOME-AC-28 (content half): the privacy notice says what compliance.md §1 says, names the
 // controller with a LinkedIn contact, and has no email. The chat and Groq are not listed (chat is off).
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
 import { describe, expect, it } from 'vitest';
 
 import { privacy } from './privacy';
@@ -22,10 +26,23 @@ describe('privacy notice content', () => {
     expect(text).toMatch(/\/terminal/);
   });
 
-  it('HOME-AC-28 lists every /terminal localStorage key the terminal code writes', () => {
-    for (const key of ['tijothomas-theme', 'tijothomas-zoom', 'tijothomas-sounds', 'portfolio-analytics']) {
-      expect(text).toContain(key);
-    }
+  it('HOME-AC-28 lists every /terminal localStorage key the terminal code writes (scanned, not hard-coded)', () => {
+    // U-10 review #6: scan the terminal source, so a new key without a notice entry fails here.
+    const terminal = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../terminal');
+    const files = (fs.readdirSync(terminal, { recursive: true }) as string[])
+      .filter((f) => /\.(ts|tsx)$/.test(f) && !/\.test\.tsx?$/.test(f))
+      .map((f) => fs.readFileSync(path.join(terminal, f), 'utf8'));
+    const found = files.flatMap((src) => [
+      ...Array.from(src.matchAll(/localStorage\.setItem\(\s*['"]([^'"]+)['"]/g), (m) => m[1]),
+      ...Array.from(src.matchAll(/const\s+\w*KEY\w*\s*=\s*['"]([^'"]+)['"]/g), (m) => m[1]),
+    ]);
+    const keys = found.filter((k, i) => found.indexOf(k) === i).sort();
+    expect(keys).toEqual(['portfolio-analytics', 'tijothomas-sounds', 'tijothomas-theme', 'tijothomas-zoom']);
+    expect(keys.filter((k) => !text.includes(k))).toEqual([]);
+  });
+
+  it('HOME-AC-28 names the controller in the visible text, not only in a data field (U-10 review #1)', () => {
+    expect(privacy.sections[0].paragraphs.join(' ')).toContain(profile.name);
   });
 
   it('HOME-AC-28 covers lawful basis, processors and transfers, retention, rights (Art. 11) and the right to complain', () => {

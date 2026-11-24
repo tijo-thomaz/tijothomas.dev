@@ -3,7 +3,7 @@
   "exceptions": [
     {
       "path": "src/terminal/page.tsx",
-      "reason": "U-10: stale 'Groq AI' credit link removed (chat is off since U-04, so the credit misled visitors)"
+      "reason": "U-10: stale 'Groq AI' credit link removed (chat is off since U-04, so the credit misled visitors); 'Anonymous Analytics Only' reworded to 'Cookieless Analytics' (U-10 review #8: Vercel analytics is pseudonymous for 24 h, not anonymous)"
     },
     {
       "path": "src/terminal/lib/supabase.ts",

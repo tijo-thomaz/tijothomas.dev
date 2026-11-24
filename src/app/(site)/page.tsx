@@ -20,9 +20,9 @@ import { visible } from '@/lib/visible';
 import type { Metadata } from 'next';
 
 const home = `${siteUrl}/`;
-// The OG image comes from opengraph-image.tsx (file convention). It is named here too, so the
-// metadata object is complete on its own (SEO-AC-01).
-const ogImage = { url: '/opengraph-image', width: 1200, height: 630, alt: profile.headline };
+// The OG and Twitter image tags come from opengraph-image.tsx (file convention). Next serves it at a
+// hashed path (/opengraph-image-<hash>), so it must not be named here: an explicit url overrode the
+// generated tag and pointed at a 404 (U-09 gate run).
 
 // SEO-AC-01/11: all head tags for `/` come from profile.seo. No twitter.creator, no email or phone.
 export const metadata: Metadata = {
@@ -35,13 +35,11 @@ export const metadata: Metadata = {
     siteName: profile.name,
     title: profile.seo.title,
     description: profile.seo.description,
-    images: [ogImage],
   },
   twitter: {
     card: 'summary_large_image',
     title: profile.seo.title,
     description: profile.seo.description,
-    images: [ogImage],
   },
 };
 

@@ -28,6 +28,13 @@ describe.each([
     expect(meta.alternates?.canonical).toBe(`${siteUrl}/${route}/${slug}`);
   });
 
+  it(`SEO-AC-07 /${route} with an unknown or planned slug has no metadata and renders notFound (404)`, async () => {
+    for (const bad of ['does-not-exist', 'fde-mcp-gateway']) {
+      expect(await mod.generateMetadata(params(bad))).toEqual({});
+      await expect(mod.default(params(bad))).rejects.toThrow(/NEXT_HTTP_ERROR_FALLBACK;404|NEXT_NOT_FOUND|not.?found/i);
+    }
+  });
+
   it(`SEO-AC-07 /${route}/<placeholder> renders one h1 from content and a link home`, async () => {
     const html = renderToStaticMarkup(await mod.default(params(slug)));
     expect(html.match(/<h1[\s>]/g)).toHaveLength(1);

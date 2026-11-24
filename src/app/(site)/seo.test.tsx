@@ -31,12 +31,14 @@ describe('metadata of /', () => {
     expect(d.length).toBeLessThanOrEqual(160);
     expect(metadata.alternates?.canonical).toBe(`${siteUrl}/`);
     const og = metadata.openGraph as { images?: unknown[]; url?: string; type?: string };
-    expect(og.images?.length).toBeGreaterThan(0);
+    // Images come from the opengraph-image.tsx file convention (hashed URL), never a hand-written
+    // url; the e2e test checks the og:image tag resolves to the 1200x630 PNG.
+    expect(og.images).toBeUndefined();
     expect(og.url).toBe(`${siteUrl}/`);
     const tw = metadata.twitter as { card?: string; creator?: string; images?: unknown };
     expect(tw.card).toBe('summary_large_image');
     expect(tw.creator).toBeUndefined();
-    expect(tw.images).toBeDefined();
+    expect(tw.images).toBeUndefined();
   });
 
   it('SEO-AC-11 the metadata has no email, telephone or contactPoint, and no string contains @', () => {

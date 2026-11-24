@@ -1,8 +1,14 @@
 // U-09: SEO routes against the production build (SEO-AC-02, SEO-AC-07; sitemap and robots served).
 import { expect, test } from '@playwright/test';
 
-test('SEO-AC-02 GET /opengraph-image is a 1200x630 PNG', async ({ request }) => {
-  const res = await request.get('/opengraph-image');
+test('SEO-AC-02 the og:image and twitter:image of / resolve to a 1200x630 PNG', async ({ page, request }) => {
+  await page.goto('/');
+  // Next serves the file-convention image at a hashed path; follow the tags, do not guess the URL.
+  const og = await page.locator('meta[property="og:image"]').first().getAttribute('content');
+  const tw = await page.locator('meta[name="twitter:image"]').first().getAttribute('content');
+  expect(og).toMatch(/\/opengraph-image/);
+  expect(tw).toBe(og);
+  const res = await request.get(new URL(og ?? '').pathname + new URL(og ?? '').search);
   expect(res.status()).toBe(200);
   expect(res.headers()['content-type']).toContain('image/png');
   const png = await res.body();
@@ -13,9 +19,10 @@ test('SEO-AC-02 GET /opengraph-image is a 1200x630 PNG', async ({ request }) => 
 
 test('SEO-AC-01 / has a canonical, a description and an og:image tag in the head', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', /\/$/);
+  // Next normalises the root canonical "<siteUrl>/" to "<siteUrl>" (same URL).
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', /^https:\/\/tijothomas\.dev\/?$/);
   await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /.{70,160}/);
-  await expect(page.locator('meta[property="og:image"]').first()).toHaveAttribute('content', /opengraph-image/);
+  await expect(page.locator('meta[property="og:image"]')).toHaveCount(1);
   await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute('content', 'summary_large_image');
 });
 

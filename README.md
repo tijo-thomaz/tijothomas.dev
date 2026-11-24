@@ -26,6 +26,24 @@ All app code lives under `src/`; the repo root holds only config, docs and these
 - Files moved into `src/terminal/` stay renames (>= 90 % similar) of their old paths
   (PLAT-AC-10, `check-renames`); data-only edits are recorded in `scripts/rename-exceptions.json`.
 
+## Content
+
+Every fact and line of copy on `/` lives in `src/content/*.ts`, typed by `src/content/types.ts`.
+Components render it and add no facts of their own.
+
+- Every value cites its row in `edd-docs/questions/1.1-facts.md`: `// F-xx` for a fact, `// C-xx` for
+  copy, or `// RQ-xx` for an approved requirement decision. `src/content/facts.test.ts` fails on a
+  missing reference, an unknown row, or a row the owner did not confirm (CONT-AC-10).
+- Do not add a value without an owner-confirmed row. Owner details not supplied yet (notice period,
+  Opteamix bullets) stay `null` or absent, and the page omits them.
+- No email address, phone number or WhatsApp link, anywhere (ADR-P5, CONT-AC-15).
+- URL fields are `https://` only (CONT-AC-13).
+
+### `SHOW_PLANNED`
+
+Work items and posts with status `planned` are hidden unless `SHOW_PLANNED` is exactly `true` at build
+time (`isShowPlanned()` in `src/lib/flags.ts`, CONT-AC-05). `TRUE`, `1` or an unset variable hide them.
+
 ## Getting started
 
 ```bash

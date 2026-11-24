@@ -56,10 +56,12 @@ export const PrivacyModal = ({ onClose }: PrivacyModalProps) => {
             <p>
               Contact:{" "}
               <a
-                href="mailto:tijo1293@gmail.com"
+                href="https://linkedin.com/in/tijo-j-thomaz93"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-green-400 hover:text-green-300 underline"
               >
-                tijo1293@gmail.com
+                LinkedIn
               </a>
             </p>
           </PolicySection>

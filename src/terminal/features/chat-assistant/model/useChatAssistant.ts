@@ -28,10 +28,8 @@ export const portfolioContext = {
   role: "Senior Frontend Engineer",
   location: "Manchester, UK",
   experience: "8+ years of frontend development experience",
-  email: "tijo1293@gmail.com",
-  phone: "+44 7818 989060",
-  whatsapp: "https://wa.me/447818989060",
   linkedin: "https://linkedin.com/in/tijo-j-thomaz93",
+  github: "https://github.com/tijo-thomas",
 
   skills: {
     frontend: [
@@ -247,7 +245,7 @@ export function useChatAssistant() {
 
   const generateLLMResponse = useCallback(async (userMessage: string): Promise<string> => {
     if (!isOnline) {
-      return "I'm currently offline. Please check your internet connection and try again, or contact Tijo directly at tijo1293@gmail.com.";
+      return "I'm currently offline. Please check your internet connection and try again, or reach Tijo on LinkedIn.";
     }
 
     try {
@@ -317,7 +315,7 @@ export function useChatAssistant() {
     } catch (error) {
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: "I apologize, but I encountered an error processing your question. Please try asking again, or contact Tijo directly at tijo1293@gmail.com for immediate assistance!",
+        text: "I apologize, but I encountered an error processing your question. Please try asking again, or reach Tijo on LinkedIn.",
         isUser: false,
         timestamp: new Date(),
       };

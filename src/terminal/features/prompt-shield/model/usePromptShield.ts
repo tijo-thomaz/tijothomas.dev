@@ -210,5 +210,5 @@ async function validateContext(
 }
 
 function getFallbackResponse(originalQuery: string): string {
-  return `I understand you're asking about "${originalQuery}". I'm Tijo Thomas, a Senior Frontend Engineer from Manchester, UK. I specialize in React, TypeScript, and modern web technologies. Feel free to ask me about my experience, projects, or how we can work together. You can reach me at tijo1293@gmail.com or connect with me on LinkedIn.`;
+  return `I understand you're asking about "${originalQuery}". I'm Tijo Thomas, a Senior Frontend Engineer from Manchester, UK. I specialize in React, TypeScript, and modern web technologies. Feel free to ask me about my experience, projects, or how we can work together. You can connect with me on LinkedIn.`;
 }

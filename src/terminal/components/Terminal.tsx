@@ -85,7 +85,7 @@ const Terminal = forwardRef<TerminalHandle, TerminalProps>(
         "and the development of enterprise-grade applications for major clients",
         "like Home Depot and eBay.",
         "",
-        "📧 tijo1293@gmail.com | 📱 +44 7818 989060",
+        "💼 linkedin.com/in/tijo-j-thomaz93 | 🐙 github.com/tijo-thomas",
       ],
       skills: [
         "Frontend: Angular, React, TypeScript, JavaScript, HTML5, CSS3, Sass",
@@ -146,28 +146,27 @@ const Terminal = forwardRef<TerminalHandle, TerminalProps>(
         "- Developed Chrome Extension with React and video streaming",
       ],
       contact: [
-        "📧 Email: tijo1293@gmail.com",
-        "📱 Phone: +44 7818 989060",
         "💼 LinkedIn: linkedin.com/in/tijo-j-thomaz93",
+        "🐙 GitHub: github.com/tijo-thomas",
         "📍 Location: Manchester, UK",
         "🎓 Education: MCA & BCA from M.G. University, Kottayam",
         "Available for exciting opportunities and collaborations",
       ],
       "git-log": [
         "commit a1b2c3d (HEAD -> main, origin/main)",
-        "Author: Tijo Thomas <tijo1293@gmail.com>",
+        "Author: Tijo Thomas",
         "Date: Mon Dec 25 2023 14:30:00 +0000",
         "",
         "    feat: Enhanced terminal portfolio with AI chat integration",
         "",
         "commit d4e5f6g",
-        "Author: Tijo Thomas <tijo1293@gmail.com>",
+        "Author: Tijo Thomas",
         "Date: Sun Dec 24 2023 09:15:00 +0000",
         "",
         "    refactor: Migrated legacy components to TypeScript",
         "",
         "commit h7i8j9k",
-        "Author: Tijo Thomas <tijo1293@gmail.com>",
+        "Author: Tijo Thomas",
         "Date: Fri Dec 22 2023 16:45:00 +0000",
         "",
         "    perf: Optimized rendering performance by 40%",
@@ -360,13 +359,12 @@ const Terminal = forwardRef<TerminalHandle, TerminalProps>(
               output = [
                 "📄 Resume downloaded: Tijo_Thomas_Resume.txt",
                 "",
-                "For the latest PDF version, please contact:",
-                "📧 tijo1293@gmail.com",
+                "For the latest version, connect on LinkedIn:",
                 "💼 linkedin.com/in/tijo-j-thomaz93",
               ];
             } catch (error) {
               output = [
-                "❌ Error downloading resume. Please contact tijo1293@gmail.com",
+                "❌ Error downloading resume. Please connect on LinkedIn: linkedin.com/in/tijo-j-thomaz93",
               ];
             }
             break;

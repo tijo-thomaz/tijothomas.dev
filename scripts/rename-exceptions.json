@@ -1,9 +1,49 @@
 {
   "moveCommit": "0e8b4e9eb5d4c9366b559ed856994ba9c58fa190",
   "exceptions": [
-    { "path": "src/terminal/lib/supabase.ts", "reason": "U-02 TERM-AC-06: eager client replaced by lazy getSupabase()" },
-    { "path": "src/terminal/api/analytics/route.ts", "reason": "U-02 TERM-AC-06: route uses getSupabase() and no-ops with no env" },
-    { "path": "src/terminal/features/chat-assistant/ui/ChatMessages.tsx", "reason": "U-02 PLAT-AC-04: React 19 RefObject<T | null> prop type" },
-    { "path": "src/terminal/features/chat-assistant/ui/FloatingDrawer.tsx", "reason": "U-02 PLAT-AC-04: React 19 RefObject<T | null> prop type" }
+    {
+      "path": "src/terminal/lib/supabase.ts",
+      "reason": "U-02 TERM-AC-06: eager client replaced by lazy getSupabase()"
+    },
+    {
+      "path": "src/terminal/api/analytics/route.ts",
+      "reason": "U-02 TERM-AC-06: route uses getSupabase() and no-ops with no env"
+    },
+    {
+      "path": "src/terminal/features/chat-assistant/ui/ChatMessages.tsx",
+      "reason": "U-02 PLAT-AC-04: React 19 RefObject<T | null> prop type"
+    },
+    {
+      "path": "src/terminal/features/chat-assistant/ui/FloatingDrawer.tsx",
+      "reason": "U-02 PLAT-AC-04: React 19 RefObject<T | null> prop type"
+    },
+    {
+      "path": "src/terminal/components/Terminal.tsx",
+      "reason": "U-04 commit A (SQ-05 a): data-only contact PII strip"
+    },
+    {
+      "path": "src/terminal/lib/utils.ts",
+      "reason": "U-04 commit A (SQ-05 a): data-only contact PII strip"
+    },
+    {
+      "path": "src/terminal/features/prompt-shield/model/usePromptShield.ts",
+      "reason": "U-04 commit A (SQ-05 a): data-only contact PII strip"
+    },
+    {
+      "path": "src/terminal/widgets/PrivacyPolicy/molecules/PrivacyModal.tsx",
+      "reason": "U-04 commit A (SQ-05 a): data-only contact PII strip"
+    },
+    {
+      "path": "src/terminal/components/ContactActions.tsx",
+      "reason": "U-04 commit A (SQ-05 a): data-only contact PII strip; email and WhatsApp buttons removed, GitHub button added"
+    },
+    {
+      "path": "src/terminal/components/ContactMessage.tsx",
+      "reason": "U-04 commit A (SQ-05 a): data-only contact PII strip; email and WhatsApp options removed, GitHub option added"
+    },
+    {
+      "path": "src/terminal/features/chat-assistant/model/useChatAssistant.ts",
+      "reason": "U-04 commit A (SQ-05 a): data-only contact PII strip; commit B returns CHAT_UNAVAILABLE_MESSAGE"
+    }
   ]
 }

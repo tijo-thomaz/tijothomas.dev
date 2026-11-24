@@ -36,9 +36,8 @@ Senior Frontend Engineer
 Manchester, UK
 
 CONTACT
-Email: tijo1293@gmail.com
-Phone: +44 7818 989060
 LinkedIn: linkedin.com/in/tijo-j-thomaz93
+GitHub: github.com/tijo-thomas
 
 SUMMARY
 Senior Frontend Engineer with 8+ years of experience in modern web development.

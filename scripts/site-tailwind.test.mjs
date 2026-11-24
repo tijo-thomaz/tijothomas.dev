@@ -9,6 +9,16 @@ import { readText, repoFile } from './lib/test-utils.mjs';
 import { paths } from './paths.mjs';
 
 const require = createRequire(import.meta.url);
+
+test('U-07 the terminal stylesheet names its own Tailwind config (no implicit default next to the site @config)', () => {
+  // An implicit default could resolve to the site context in a shared build process and fail with
+  // "border-border does not exist" (seen in the U-07 gate run at 71fef6a).
+  const css = readText(`${paths.layers.terminal}/globals.css`);
+  const m = css.match(/@config\s+["']([^"']+)["']/);
+  assert.ok(m, 'terminal globals.css has no @config');
+  assert.equal(path.basename(m[1]), 'tailwind.config.js');
+  assert.ok(fs.existsSync(path.resolve(path.dirname(repoFile(`${paths.layers.terminal}/globals.css`)), m[1])));
+});
 const SITE_CSS = `${paths.layers.site}/globals.css`;
 
 test('U-07 the (site) stylesheet points @config at a site-only Tailwind config', () => {

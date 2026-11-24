@@ -1,0 +1,5 @@
+css-diff base=css-base.css head=css-head.css
+base 701 HEAD 702 | removed 6, removed-but-used 0 | added 7
+MISSING-USED: (none)
+ADDED: D88TVW_className D88TVW_variable RNs2Mq_className RNs2Mq_variable _0bjUvq_className _0bjUvq_variable table
+PASS PLAT-AC-06 css-diff 0 missing

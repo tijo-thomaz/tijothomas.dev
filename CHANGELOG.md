@@ -5,6 +5,7 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 ## [Unreleased]
 
 ### Added
+- `scripts/build-no-env.mjs`: CG1 builds with no `NEXT_PUBLIC_*` or Supabase env (PLAT-AC-03, U-02).
 - `/` is a hello-world page served by its own `(site)` root layout (Inter + Space Grotesk,
   `metadataBase` from `src/lib/site.ts`, zoom enabled) (U-03).
 - `/v2` permanently redirects (308) to `/terminal` (TERM-AC-04).
@@ -19,6 +20,13 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 - `scripts/paths.mjs`: the single list of source folders used by every gate script.
 
 ### Changed
+- Upgraded to Next.js 16.4.6 (Turbopack) and React 19.3.1; lucide-react pinned to 0.577.0;
+  vitest 3.2.7 with `tinypool` overridden to 2.2.0 for GHSA-5gmw-xhrv-c9v3 / GHSA-85c8-ppgw-ccpr (U-02).
+- The Supabase client is created lazily by `getSupabase()`; with no env the terminal and
+  `/api/analytics` work and analytics is a no-op instead of a build error or 500 (TERM-AC-06).
+- The terminal now renders in its declared font, JetBrains Mono: Next 16 `next/font` emits the
+  plain family name, which the terminal's CSS font stack already named. Under Next 14 it fell
+  back to Consolas.
 - App code moved under `src/` (U-03): the terminal and every module it uses now live, unchanged,
   in `src/terminal/` and are served at `/terminal` (noindex, follow; canonical `/terminal`).
   `@/*` maps to `./src/*`. The VersionSelector v1 entry points to `/terminal`.
@@ -28,5 +36,6 @@ All notable changes to this project are documented here. Format: [Keep a Changel
   (PLAT-AC-14, PLAT-AC-16). Lint now takes under 1 s.
 
 ### Removed
+- `@next/bundle-analyzer`, the `analyze` script and the unused `images` config (U-02).
 - `.eslintrc.json`, `eslint` and `eslint-config-next` (PLAT-AC-15).
 - Storybook, dead code and `/v2`-only modules (U-00).

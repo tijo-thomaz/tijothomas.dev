@@ -1,6 +1,6 @@
 # tijothomas.dev
 
-Personal site of Tijo Thomas: a Next.js (App Router) app deployed on Vercel. `/` is the new site
+Personal site of Tijo Thomas: a Next.js 16 (App Router, Turbopack) + React 19 app deployed on Vercel. `/` is the new site
 (a placeholder until the home page lands); the interactive terminal lives at `/terminal`, and `/v2`
 redirects there (308). See `edd-docs/inception/plan.md`.
 
@@ -73,6 +73,10 @@ npm run gates -- --unit U-01 --base 35521e2 --only CG2_lint,spec
 - Status `blocked` (exit 78) means a required tool is missing, e.g. `gitleaks` for the CG10 secret
   scans. Install it to run those gates; a blocked gate never counts as a pass.
 - `lighthouse` (mobile, median of 3) and `view-source` are report-only until U-09 / U-07.
+- CG1 runs `node scripts/build-no-env.mjs`: `npm run build` with every `NEXT_PUBLIC_*` and `*SUPABASE*`
+  env var removed (PLAT-AC-03). It refuses (exit 2) if `.env`, `.env.local`, `.env.production` or
+  `.env.production.local` exists, since Next would load it. Supabase is optional: with no env the
+  terminal works and `/api/analytics` is a no-op (TERM-AC-06).
 - CG1 and the runtime gates build into `.next/`. Do not run them in a checkout where `next dev` is
   running; use a separate git worktree.
 - Gate scripts never hard-code source folders: they read them from `scripts/paths.mjs`.

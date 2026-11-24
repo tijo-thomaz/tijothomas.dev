@@ -31,6 +31,7 @@ Out of scope: `/privacy` (U-10), headers/CSP (U-11).
 - ACs pass; `npm run gates` green with **Lighthouse enforced** (≥ 95 ×4, CLS ≤ 0.05, LCP ≤ 2.5 s, TBT ≤ 150 ms).
 - Manual: OG image has no missing glyphs (`·`, `–`), screenshot saved; Rich Results test 0 errors (after owner-approved preview).
 - Review clean; CHANGELOG.
+- The `(site)` layout declares a favicon via `metadata.icons` (U-03 review finding, carried from U-06 by the U-06 review #7; amended 2026-11-24).
 
 ## Patterns used
 - Output encoding for the only raw-HTML sink (JSON-LD helper).

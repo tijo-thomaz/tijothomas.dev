@@ -10,7 +10,7 @@
 | `636522e` | README "Content" and `SHOW_PLANNED` sections. CHANGELOG repaired (second U-04 defect, below). |
 
 ## Defects found in U-04 output
-1. **Wrong GitHub username** in 6 terminal files. Fixed in `f030b11`. No real email or phone was involved.
+1. **Wrong GitHub username.** No real email or phone was involved. **Correction (2026-11-24, U-05 review #1):** `f030b11` fixed 5 source files, but missed the CV text in `src/terminal/lib/utils.ts:40`, which was fixed later in `7f0e31a` (RCA-01). Row `f030b11` above therefore overstates what that commit fixed.
 2. **CHANGELOG corruption:** the U-04 docs commit (`82bd8bb`) used a text replacement whose `$` pattern pasted the file header into the middle of the file. The file was rewritten by hand in `636522e`. README was checked and is unaffected.
 
 ## Decisions for the owner

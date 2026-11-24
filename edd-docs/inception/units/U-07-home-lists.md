@@ -26,6 +26,8 @@ Out of scope: CityMap (U-08), `/work/[slug]`, `/writing/[slug]` pages (U-09).
 - ACs pass, including the spec tests "no work card shows a number when metric is null" and "planned items hidden when flag is false"; `npm run gates` green with view-source enforced.
 - Review clean; CHANGELOG.
 - The U-05 entries in `scripts/check-unreachable.keep.txt` (`experience.ts`, `work.ts`, `posts.ts`, `flags.ts`) are removed; `check-unreachable` passes without them (amended 2026-11-24, U-05).
+- The `(site)` stylesheet uses its own Tailwind config via `@config`, with `content` limited to the site layers, so `/` no longer ships terminal utilities (U-03 review finding, carried from U-06 by the U-06 review #7; amended 2026-11-24). Measure the site CSS size before and after.
+- HOME-AC-09: the nav anchors `#work`, `#experience` and `#writing` resolve. Until U-07 lands, `redesign-home` must not be deployed, because 3 of the 5 nav links have no target (U-06 review #6).
 
 ## Patterns used
 - Empty-state rendering (sections keep their ids so nav and building links never dangle).

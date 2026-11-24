@@ -36,10 +36,20 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 - `scripts/paths.mjs`: the single list of source folders used by every gate script.
 
 ### Fixed
-- The terminal's GitHub links pointed to `github.com/tijo-thomas`; they now point to
-  `github.com/tijo-thomaz` (F-68) (U-05, fixing U-04).
+- The terminal's GitHub links, including the CV text, pointed to `github.com/tijo-thomas`; they now
+  point to `github.com/tijo-thomaz` (F-68) (U-05 and RCA-01, fixing U-04). A test checks every GitHub
+  link in shipped source against F-68.
 - This changelog: a text replacement in the U-04 docs commit had pasted the file header into the
-  middle of the file (U-05).
+  middle of the file (U-05). A test now checks the changelog's structure (RCA-01).
+- `pii-scan` (CONT-AC-14): a phone number followed by a dates line, or written with dots, is no longer
+  missed; `public/` is scanned too (U-04 review).
+- The terminal's LinkedIn and GitHub buttons open with `noopener,noreferrer`; the offline chat reply
+  uses the single "turned off" message (U-04 review).
+- Gate hardening from the U-05 and U-06 reviews:
+  - `check-literals` parses TSX and also scans the `(site)` routes.
+  - `check-use-client` allows exact packages only and fails on unresolved imports.
+  - Stale `check-unreachable` keep entries fail.
+- `/`: the footer focus ring meets 3:1 contrast, and the contact links open in the same tab (U-06 review).
 
 ### Changed
 - `siteUrl` in `src/lib/site.ts` now comes from `profile.siteUrl` (U-05).

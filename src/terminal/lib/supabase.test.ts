@@ -126,3 +126,52 @@ describe('analytics helpers fail soft with no env (U-02, F-07)', () => {
     expect(createClient).not.toHaveBeenCalled();
   });
 });
+
+describe('analytics helpers with a client use the lazy getter (U-02 regression)', () => {
+  // Query builder double: a resolved promise of { data, error } whose chain methods return itself.
+  function builder(result: { data?: unknown; error: unknown }) {
+    const b = Object.assign(Promise.resolve(result), {} as Record<string, unknown>);
+    for (const m of ['insert', 'upsert', 'select', 'eq']) b[m] = vi.fn(() => b);
+    return b;
+  }
+
+  it('TERM-AC-06 with env set, store/delete/update helpers write through the client and resolve true', async () => {
+    setEnv('https://example.supabase.co', 'anon');
+    const { client, createClient } = mockSdk();
+    client.from.mockImplementation(() => builder({ error: null }));
+    client.rpc.mockResolvedValue({ error: null });
+    const mod = await load();
+    const event = { session_id: 's1', event_type: 'command' as const, event_data: { command: 'help' } };
+    const session = {
+      session_id: 's1', start_time: '2026-11-24T00:00:00.000Z', consent_given: true, device_type: 'desktop',
+      commands_count: 0, questions_count: 0, data_retention_hours: 24,
+    };
+    await expect(mod.storeAnalyticsEvent(event)).resolves.toBe(true);
+    await expect(mod.storeSessionData(session)).resolves.toBe(true);
+    await expect(mod.deleteUserSessionData('s1')).resolves.toBe(true);
+    await expect(mod.updateVisitorStats()).resolves.toBe(true);
+    expect(client.from).toHaveBeenCalledWith('analytics_events');
+    expect(client.from).toHaveBeenCalledWith('user_sessions');
+    expect(client.from).toHaveBeenCalledWith('visitor_stats');
+    expect(client.rpc).toHaveBeenCalledWith('delete_user_session_data', { user_session_id: 's1' });
+    expect(createClient).toHaveBeenCalledTimes(1);
+  });
+
+  it('TERM-AC-06 with env set, getSupabaseAnalytics() aggregates sessions and events from the client', async () => {
+    setEnv('https://example.supabase.co', 'anon');
+    const { client } = mockSdk();
+    const sessions = [
+      { session_id: 'a', duration: 10, theme_used: 'dark', device_info: 'desktop' },
+      { session_id: 'b', duration: 30, theme_used: 'dark', device_info: 'mobile' },
+    ];
+    client.from.mockImplementation((table: string) => builder(
+      table === 'user_sessions'
+        ? { data: sessions, error: null }
+        : { data: [{ event_data: { command: 'help' } }], error: null },
+    ));
+    const mod = await load();
+    const stats = await mod.getSupabaseAnalytics();
+    expect(stats).toMatchObject({ totalVisitors: 2, totalSessions: 2, averageSessionDuration: 20, totalCommands: 1 });
+    expect(stats?.themes).toEqual({ dark: 2 });
+  });
+});

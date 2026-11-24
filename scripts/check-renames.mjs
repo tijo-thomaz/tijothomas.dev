@@ -94,8 +94,8 @@ const describe = (cur) => (cur ? `${cur.status}${cur.score ? ` ${cur.score} %` :
 const drift = renames.filter((e) => !excepted.has(e.to)).flatMap((e) => {
   const cur = byFrom.get(e.from);
   if (cur?.status === 'R' && cur.to === e.to && cur.score >= min) return [];
-  // Deleted later (e.g. a removed route): no code is left in which a change could hide.
-  if (cur?.status === 'D' && !atHead(e.to)) return [];
+  // Deleted later (U-04): allowed only when declared in the exceptions, so a removal is a recorded decision.
+  if (cur?.status === 'D' && !atHead(e.to)) return [`${e.to}: deleted after the move; declare it in ${EXCEPTIONS}`];
   return [`${e.to}: ${describe(cur)} from ${e.from} at HEAD`];
 });
 report(`moved files are still renames >= ${min} % at HEAD (${excepted.size} exceptions checked at the move commit only)`, drift);

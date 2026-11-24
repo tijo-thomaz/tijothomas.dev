@@ -14,6 +14,16 @@ gates:
     enforce: true
     evidence: next build exit code and route table (empty-env build from U-02)
     timeout: 900
+  - id: CG10_pii_scan
+    cmd: node scripts/pii-scan.mjs
+    enforce: true
+    evidence: CONT-AC-14 match list over the served build output (runs after CG1_build)
+    timeout: 120
+  - id: CG10_groq
+    cmd: node scripts/check-groq.mjs
+    enforce: true
+    evidence: TERM-AC-10 hits for api.groq.com / Groq SDK in src/ and the build (runs after CG1_build)
+    timeout: 120
   - id: CG2_lint
     cmd: npm run lint && node scripts/lint-report.mjs --out {evidence}
     enforce: true

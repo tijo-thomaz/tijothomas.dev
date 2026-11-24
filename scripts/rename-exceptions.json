@@ -60,6 +60,10 @@
     {
       "path": "src/terminal/widgets/VersionSelector/organisms/VersionDropdown.tsx",
       "reason": "U-04 carried U-03 review minor: dead /v1 branch removed"
+    },
+    {
+      "path": "src/terminal/shared/api/http.ts",
+      "reason": "U-04 commit B follow-up: the http client only served /api/chat; deleted as dead code (PLAT-AC-11)"
     }
   ]
 }

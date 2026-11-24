@@ -5,6 +5,15 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 ## [Unreleased]
 
 ### Added
+- `/` now has every section: Selected work (status badges, "Not yet measured" for unmeasured
+  metrics, planned items hidden unless `SHOW_PLANNED=true`), the Experience timeline (newest first,
+  gap tile), How I work (5 steps) and Writing ("Coming soon" rows, links only with a URL). Every nav
+  link now resolves (U-07).
+- `src/lib/visible.ts` and `src/lib/format.ts`: the build-time planned filter, month and range
+  formatting, and work badges (U-07).
+- The `view-source` gate is enforced, with expected strings taken from `src/content` (SEO-AC-09, U-07).
+- `tailwind.site.config.js`: the site stylesheet no longer includes terminal utilities. The minified
+  site CSS went from 52,241 to 9,683 bytes, measured before the U-07 section styles were added (U-07).
 - `/` is the real home page shell, server-rendered from `src/content/` with no client JS of our own:
   skip link, navigation, hero, highlights, contact (LinkedIn and GitHub only) and footer with a
   "Terminal mode" link. Site CSS tokens follow the mockup (U-06).

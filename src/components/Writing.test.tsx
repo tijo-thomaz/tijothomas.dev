@@ -16,7 +16,7 @@ describe('Writing', () => {
     const { container } = renderIt(posts);
     expect(container.querySelector('section#writing h2')?.textContent).toBe(sections.writing.title);
     expect(container.textContent).toContain(sections.writing.intro);
-    const rows = [...container.querySelectorAll('.post')];
+    const rows = Array.from(container.querySelectorAll('.post'));
     expect(rows).toHaveLength(posts.length);
     rows.forEach((row, i) => {
       expect(row.querySelector('h3')?.textContent).toBe(posts[i].title);

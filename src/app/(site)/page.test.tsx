@@ -52,12 +52,12 @@ describe('(site) home page shell', () => {
 
   it('HOME-AC-02 one h1, every section title an h2, work card names h3, and no heading level skipped', () => {
     const { container } = render(<Page />);
-    const levels = [...container.querySelectorAll('h1, h2, h3, h4, h5, h6')].map((h) => Number(h.tagName[1]));
+    const levels = Array.from(container.querySelectorAll('h1, h2, h3, h4, h5, h6')).map((h) => Number(h.tagName[1]));
     expect(levels.filter((l) => l === 1)).toHaveLength(1);
     expect(levels[0]).toBe(1);
     const skips = levels.filter((l, i) => i > 0 && l > levels[i - 1] + 1);
     expect(skips).toEqual([]);
-    const h2 = [...container.querySelectorAll('h2')].map((h) => h.textContent);
+    const h2 = Array.from(container.querySelectorAll('h2')).map((h) => h.textContent);
     expect(h2).toEqual([
       profile.sections.work.title,
       profile.sections.experience.title,
@@ -65,12 +65,12 @@ describe('(site) home page shell', () => {
       profile.sections.writing.title,
       profile.sections.contact.title,
     ]);
-    expect([...container.querySelectorAll('#work article h3')].map((h) => h.textContent)).toEqual(['PromptShield']);
+    expect(Array.from(container.querySelectorAll('#work article h3')).map((h) => h.textContent)).toEqual(['PromptShield']);
   });
 
   it('HOME-AC-09 every in-page link targets an element id that exists', () => {
     const { container } = render(<Page />);
-    const hrefs = [...container.querySelectorAll('a[href^="#"]')].map((a) => a.getAttribute('href') ?? '');
+    const hrefs = Array.from(container.querySelectorAll('a[href^="#"]')).map((a) => a.getAttribute('href') ?? '');
     expect(hrefs.length).toBeGreaterThanOrEqual(8);
     expect(hrefs.filter((h) => !container.querySelector(h))).toEqual([]);
   });

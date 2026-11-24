@@ -105,5 +105,6 @@ gates:
     timeout: 900
   - id: view-source
     cmd: node scripts/view-source.mjs --out {evidence}
-    enforce: false
-    evidence: server HTML of / holds every rendered content string; enforced from U-07
+    enforce: true
+    evidence: SEO-AC-09 server HTML of / holds every string rendered from src/content (SHOW_PLANNED respected); enforced from U-07
+    timeout: 120

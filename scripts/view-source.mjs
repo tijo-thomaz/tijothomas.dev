@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 // View-source gate: the server HTML of `/` (no JavaScript) contains every expected visible string.
-// Report-only in gates.yml until U-07, which feeds it the strings rendered from the content modules.
+// Enforced from U-07 (SEO-AC-09): the expected strings come from the content modules.
 // Usage: node scripts/view-source.mjs [--url <url>] [--expect <strings.json>] [--out <dir>] [--root <dir>]
 //   no --url: starts `next start` on a free port from the existing build (CG1 must have run).
-//   --expect: JSON array of strings. With none, the gate fails (0 expectations is not a pass).
+//   --expect: JSON array of strings, instead of the content-derived list. 0 expectations is a FAIL.
 // Writes <out>/view-source.json (HTML size, visible-text length, h1 count, missing strings).
 import fs from 'node:fs';
 import path from 'node:path';
 import { cliOptions, startNext, writeJson } from './lib/gate-utils.mjs';
+import { expectedStrings } from './lib/content-strings.mjs';
 
 const opts = cliOptions();
 const root = path.resolve(opts.get('--root', process.cwd()));
@@ -25,7 +26,11 @@ const visibleText = (html) => decode(html
   .replace(/<[^>]+>/g, ' ')).replace(/\s+/g, ' ').trim();
 const norm = (s) => s.replace(/\s+/g, ' ').trim();
 
-const expected = expectFile ? JSON.parse(fs.readFileSync(path.resolve(root, expectFile), 'utf8')) : [];
+// Default (SEO-AC-09, U-07): every string `/` renders, built from src/content with the same
+// SHOW_PLANNED rule the page uses at build time.
+const expected = expectFile
+  ? JSON.parse(fs.readFileSync(path.resolve(root, expectFile), 'utf8'))
+  : await expectedStrings({ showPlanned: process.env.SHOW_PLANNED === 'true' });
 const server = opts.get('--url') ? null : await startNext(root);
 const url = opts.get('--url') ?? server.url;
 try {

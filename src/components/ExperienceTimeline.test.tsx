@@ -21,7 +21,7 @@ describe('ExperienceTimeline', () => {
 
   it('HOME-AC-14 sorts entries by start date descending, whatever the input order', () => {
     const { container } = renderIt([...experience].reverse());
-    const order = [...container.querySelectorAll('[data-entry]')].map((e) => e.getAttribute('data-entry'));
+    const order = Array.from(container.querySelectorAll('[data-entry]')).map((e) => e.getAttribute('data-entry'));
     expect(order).toEqual([...experience].sort((a, b) => b.start.localeCompare(a.start)).map((e) => e.id));
   });
 
@@ -30,7 +30,7 @@ describe('ExperienceTimeline', () => {
     const current = container.querySelector('[data-entry="opteamix"]');
     expect(current?.textContent).toContain('Apr 2026 – present');
     expect(current?.textContent).toContain(labels.now);
-    const others = [...container.querySelectorAll('[data-entry]')].filter((e) => e !== current);
+    const others = Array.from(container.querySelectorAll('[data-entry]')).filter((e) => e !== current);
     expect(others.filter((e) => e.textContent?.includes(labels.present) || e.querySelector('.badge-now'))).toEqual([]);
   });
 
@@ -55,7 +55,7 @@ describe('ExperienceTimeline', () => {
 
   it('HOME-AC-14 the monogram tile is aria-hidden', () => {
     const { container } = renderIt(experience);
-    const tiles = [...container.querySelectorAll('.monogram')];
+    const tiles = Array.from(container.querySelectorAll('.monogram'));
     expect(tiles.length).toBeGreaterThan(0);
     expect(tiles.filter((t) => t.getAttribute('aria-hidden') !== 'true')).toEqual([]);
   });

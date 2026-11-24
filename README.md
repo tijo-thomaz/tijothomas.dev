@@ -90,7 +90,12 @@ npm run gates -- --unit U-01 --base 35521e2 --only CG2_lint,spec
   output tail) and `<id>.log`. The run exits 0 only if every **enforced** gate passes.
 - Status `blocked` (exit 78) means a required tool is missing, e.g. `gitleaks` for the CG10 secret
   scans. Install it to run those gates; a blocked gate never counts as a pass.
-- `lighthouse` (mobile, median of 3) and `view-source` are report-only until U-09 / U-07.
+- `lighthouse` (mobile, median of 3) is report-only until U-09.
+- `view-source` is enforced (SEO-AC-09). It fetches `/` from `next start` with no JavaScript and checks
+  that every string the page renders from `src/content` is in the server HTML
+  (`scripts/lib/content-strings.mjs`, respecting `SHOW_PLANNED`). It names any missing string.
+- The `(site)` stylesheet uses `tailwind.site.config.js` (`@config`), whose content globs exclude the
+  terminal; the terminal keeps `tailwind.config.js`.
 - CG1 runs `node scripts/build-no-env.mjs`: `npm run build` with every `NEXT_PUBLIC_*` and `*SUPABASE*`
   env var removed (PLAT-AC-03). It refuses (exit 2) if `.env`, `.env.local`, `.env.production` or
   `.env.production.local` exists, since Next would load it. Supabase is optional: with no env the

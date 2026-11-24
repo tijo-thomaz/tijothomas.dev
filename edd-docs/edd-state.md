@@ -44,10 +44,10 @@ Order (amended 2026-11-24): U-00 → U-01 → U-03 → U-02 → U-04 → … →
 | U-01 Walking skeleton + gates | walking skeleton | done | 72/72 node, 78/78 vitest | 15/16 PASS; CG10_audit FAIL (W-01); signatures EX-01 | 0 self-heal; 1 review loop | n/a | changes-requested → fixed | 2026-11-24 |
 | U-03 Route split + terminal move | critical | done | 129 node, 187 vitest, 13 e2e | 17/18 PASS; CG10_audit (W-01) | 0 self-heal (CG5 fixed in-unit) | n/a | approve (5 minor carried) | 2026-11-24 |
 | U-02 Next 16.4.6 + React 19 | critical | done | 154 node, 210 vitest, 20 e2e | 17/17 PASS; CG10_audit PASS (W-01 closed); EX-01 | 0 self-heal (CG5 fixed in-unit) | n/a | approved (no independent review; owner waived) | 2026-11-24 |
-| U-04 Terminal PII strip + chat off | critical | done | 186 node, 218 vitest, 23 e2e | 19/19 PASS (new CG10_pii_scan, CG10_groq); EX-01 | 0 self-heal (CG4/CG5/deps fixed in-unit) | n/a | retro review (owner option C): changes-required → 2 majors fixed (`7f0e31a`, `5c84fbe`); commit A **not data-only** (owner ack pending) | 2026-11-24 |
+| U-04 Terminal PII strip + chat off | critical | done | 186 node, 218 vitest, 23 e2e | 19/19 PASS (new CG10_pii_scan, CG10_groq); EX-01 | 0 self-heal (CG4/CG5/deps fixed in-unit) | n/a | retro review (owner option C): changes-required → 2 majors fixed (`7f0e31a`, `5c84fbe`); commit A **not data-only** (owner accepted 2026-11-24) | 2026-11-24 |
 | U-05 Content layer | | done | 189 node, 262 vitest | 19/19 PASS; EX-01 | 0 self-heal (lint, unreachable fixed in-unit) | n/a | retro review: approve-with-minors → minors 1, 2, 4 fixed (`5c84fbe`); #3 deferred; R3 NDA spot check approved | 2026-11-24 |
-| U-06 Home shell | | in-review (fixes applied; gate re-run pending) | 219 node, 284 vitest, 25 e2e | first run: 22/23 (CG14 fixed in `a773f38`) | 0 self-heal | n/a | changes-required → majors 1 (gate record) and 2 fixed; minors 3-5, 9, 10 fixed; 6, 7 carried to U-07/U-09 | owner pre-approved after C |
-| U-07 Home lists | | todo | | | | | | |
+| U-06 Home shell | | done | 219 node, 284 vitest, 23 e2e | 21/21 PASS at `8607725` (new use_client, literals); EX-01 | 0 self-heal (CG14 fixed in `a773f38`) | n/a | changes-required → majors 1, 2 fixed; minors 3-5, 9, 10 fixed; 6, 7 carried to U-07/U-09 | 2026-11-24 ("C, then approve U-06") |
+| U-07 Home lists | | in-progress | | | | | | |
 | U-08 CityMap, motion, a11y | | todo | | | | | | |
 | U-09 SEO | | todo | | | | | | |
 | U-10 Privacy | | todo | | | | | | |
@@ -74,4 +74,3 @@ Order (amended 2026-11-24): U-00 → U-01 → U-03 → U-02 → U-04 → … →
 - SQ-07: confirm no Supabase service-role key is set in Vercel.
 - SQ-09: account MFA and DNS checks.
 - Listen to the terminal's sound output (not testable by the gates).
-- Acknowledge the U-04 commit A deviation. `016d28c` was not data-only: it removed the email and WhatsApp handlers and added a GitHub button. Recorded in `audit.md` and `U-04/review.md`.

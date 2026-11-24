@@ -73,6 +73,17 @@ test('CONT-AC-12 check-literals also scans the (site) route files (page and layo
   });
 });
 
+test('CONT-AC-12 U-08 check-literals does not count SVG path data or coordinates as words, but still counts copy beside numbers', () => {
+  withFiles({ [`${COMP}/geo.ts`]: 'export const d = "M-7.0 -160.8 L0.0 -152.8 L7.0 -160.8 Z";\nexport const p = "1,2 3,4 5,6 7,8";\n' }, (dir) => {
+    assert.equal(check(dir).status, 0);
+  });
+  withFiles({ [`${COMP}/copy.tsx`]: 'export const C = () => <p>9+ years shipping production software</p>;\n' }, (dir) => {
+    const r = check(dir);
+    assert.equal(r.status, 1, r.out);
+    assert.match(r.out, /years shipping production software/);
+  });
+});
+
 test('CONT-AC-12 check-literals skips comments and test files', () => {
   withFiles({
     [`${COMP}/Nav.tsx`]: '// This comment has many words in it\nexport const N = 1;\n',

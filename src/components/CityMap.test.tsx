@@ -11,14 +11,15 @@ import { CityMap } from './CityMap';
 const renderMap = () => render(<CityMap city={profile.city} nav={profile.nav} />);
 
 describe('CityMap', () => {
-  it('HOME-AC-10 the svg keeps the mockup viewBox, is named from content, and scales to its container', () => {
+  it('HOME-AC-10 the svg keeps the mockup viewBox inside a nav named from content', () => {
     const { container } = renderMap();
     const svg = container.querySelector('svg');
     expect(svg?.getAttribute('viewBox')).toBe('-418 -303 837 794');
-    // group, not img: an img role would make the building links presentational (hidden from AT).
-    expect(svg?.getAttribute('role')).toBe('group');
-    expect(svg?.getAttribute('aria-label')).toBe(profile.city.label);
     expect(svg?.getAttribute('class')).toContain('city-map');
+    // No img role: it would make the building links presentational (hidden from AT).
+    expect(svg?.getAttribute('role')).toBeNull();
+    const nav = screen.getByRole('navigation', { name: profile.city.label });
+    expect(nav.contains(svg)).toBe(true);
   });
 
   it('HOME-AC-08 exactly 4 building links, named Experience, Work, Writing and Contact, each to its section', () => {

@@ -26,6 +26,14 @@ All app code lives under `src/`; the repo root holds only config, docs and these
 - Files moved into `src/terminal/` stay renames (>= 90 % similar) of their old paths
   (PLAT-AC-10, `check-renames`); data-only edits are recorded in `scripts/rename-exceptions.json`.
 
+## CityMap
+
+`src/components/CityMap.tsx` renders the hero's isometric city from `src/components/cityGeometry.ts`.
+That file holds shapes only, in paint order, and was generated once from
+`docs/design/home-reference/Main.dc.html`. Building names come from the nav labels and the sign
+boards from `profile.city.signposts`, so editing content never means editing geometry. Motion is
+CSS only, and `prefers-reduced-motion` turns all of it off.
+
 ## Content
 
 Every fact and line of copy on `/` lives in `src/content/*.ts`, typed by `src/content/types.ts`.

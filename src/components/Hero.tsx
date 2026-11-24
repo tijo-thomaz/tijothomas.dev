@@ -1,8 +1,10 @@
 import type { Profile } from '@/content/types';
 
-type HeroProfile = Pick<Profile, 'location' | 'relocation' | 'headline' | 'hero'>;
+import { CityMap } from './CityMap';
 
-// HOME-AC-01: the page's only h1. The CityMap slot (right column) arrives in U-08.
+type HeroProfile = Pick<Profile, 'location' | 'relocation' | 'headline' | 'hero' | 'city' | 'nav'>;
+
+// HOME-AC-01: the page's only h1, with the CityMap in the right column (U-08).
 export function Hero({ profile }: { profile: HeroProfile }) {
   const { location, relocation, headline, hero } = profile;
   const line = [location, relocation.summary, relocation.visaSponsorshipRequired ? relocation.visaLabel : null]
@@ -25,6 +27,9 @@ export function Hero({ profile }: { profile: HeroProfile }) {
             </a>
           </div>
           <p className="hero-tip">{hero.tip}</p>
+        </div>
+        <div className="hero-map">
+          <CityMap city={profile.city} nav={profile.nav} />
         </div>
       </div>
     </section>

@@ -611,6 +611,77 @@ main:focus {
   color: var(--muted);
 }
 
+/* CityMap (U-08). The svg keeps the mockup's aspect ratio, so its space is reserved before paint. */
+.hero-map {
+  flex: 1 1 30rem;
+  max-width: 42.5rem;
+}
+
+.city-map {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 837 / 794;
+}
+
+.city-map .accent {
+  fill: var(--accent);
+}
+
+.city-building {
+  cursor: pointer;
+  transition: transform 150ms ease-out;
+}
+
+.city-label-bg {
+  fill: var(--ink);
+  transition: fill 150ms ease-out;
+}
+
+/* HOME-AC-19: lift and highlight on hover and keyboard focus. */
+.city-building:hover,
+.city-building:focus-visible {
+  transform: translateY(-4px);
+}
+
+.city-building:hover .city-label-bg,
+.city-building:focus-visible .city-label-bg {
+  fill: var(--focus);
+}
+
+.city-building:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.city-board {
+  fill: var(--white);
+  stroke: var(--ink);
+  stroke-width: 2;
+}
+
+.city-board-text {
+  fill: var(--ink);
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* HOME-AC-20: the car drives in along its road once. */
+.city-car {
+  animation: city-drive 12s ease-out 1 both;
+}
+
+@keyframes city-drive {
+  from {
+    transform: translate(-180px, -104px);
+  }
+
+  to {
+    transform: translate(0, 0);
+  }
+}
+
 /* Narrow screens: a smaller timeline tile leaves the experience card more room. */
 @media (max-width: 30rem) {
   .exp-row {
@@ -633,9 +704,14 @@ main:focus {
   }
 }
 
+/* HOME-AC-21: reduced motion is a hard switch. No animation and no transition anywhere on the site;
+   the hover and focus states (label highlight, focus ring) still apply, instantly. */
 @media (prefers-reduced-motion: reduce) {
-  .work-card {
-    transition: none;
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
   }
 }
 

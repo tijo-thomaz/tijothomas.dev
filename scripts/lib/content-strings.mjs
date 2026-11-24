@@ -37,6 +37,7 @@ function profileStrings(profile) {
     sections.contact.title, sections.contact.intro, labels.linkedin, labels.github,
     ...when(profile.availability, labels.availability, profile.availability),
     labels.terminalMode, profile.name,
+    ...profile.city.signposts, // CityMap sign boards (U-08)
   ];
 }
 

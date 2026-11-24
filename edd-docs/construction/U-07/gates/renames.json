@@ -6,8 +6,8 @@
   "cmd": "node scripts/check-renames.mjs",
   "evidence": "PLAT-AC-10 the U-03 move commit is renames only (>= 90 %) and moved files stay >= 90 % at HEAD, exceptions in scripts/rename-exceptions.json",
   "base": "8705b16",
-  "startedAt": "2026-11-24T16:26:32.275Z",
-  "durationMs": 311,
+  "startedAt": "2026-11-24T16:37:25.345Z",
+  "durationMs": 353,
   "outputTail": [
     "PASS PLAT-AC-10 move commit 0e8b4e9eb5d4 is renames only, each >= 90 % similar",
     "PASS PLAT-AC-10 scripts/rename-exceptions.json entries name a moved file and give a reason",

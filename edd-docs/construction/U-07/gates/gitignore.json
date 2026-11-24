@@ -6,8 +6,8 @@
   "cmd": "node scripts/check-gitignore.mjs",
   "evidence": "PLAT-AC-18 specs/home.md tracked and not ignored",
   "base": "8705b16",
-  "startedAt": "2026-11-24T16:26:52.952Z",
-  "durationMs": 141,
+  "startedAt": "2026-11-24T16:37:43.828Z",
+  "durationMs": 149,
   "outputTail": [
     "PASS PLAT-AC-18 specs/home.md is tracked and not git-ignored"
   ],

@@ -6,8 +6,8 @@
   "cmd": "node scripts/check-groq.mjs",
   "evidence": "TERM-AC-10 hits for api.groq.com / Groq SDK in src/ and the build (runs after CG1_build)",
   "base": "8705b16",
-  "startedAt": "2026-11-24T16:24:37.652Z",
-  "durationMs": 186,
+  "startedAt": "2026-11-24T16:35:52.710Z",
+  "durationMs": 179,
   "outputTail": [
     "PASS TERM-AC-10 no api.groq.com and no Groq SDK import in src/ or the build (343 files)"
   ],

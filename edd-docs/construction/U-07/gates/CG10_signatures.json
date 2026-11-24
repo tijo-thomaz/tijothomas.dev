@@ -6,8 +6,8 @@
   "cmd": "node scripts/audit-signatures.mjs -- npm audit signatures",
   "evidence": "PLAT-AC-25 registry signatures and attestations verify",
   "base": "8705b16",
-  "startedAt": "2026-11-24T16:26:34.389Z",
-  "durationMs": 13647,
+  "startedAt": "2026-11-24T16:37:27.292Z",
+  "durationMs": 11872,
   "outputTail": [
     "PASS PLAT-AC-25 npm audit signatures with 1 exception: @oxlint/binding-win32-x64-msvc@1.95.0",
     "  - attestation fetch skipped (registry fault: GET /-/npm/v1/attestations/<spec> answers 200 text/plain \"OK\" instead of JSON, so npm audit signatures aborts with FETCH_ERROR. Other oxlint 1.95.0 packages and binding 1.94.0 return valid attestations.); since 2026-11-24, re-check by U-11",

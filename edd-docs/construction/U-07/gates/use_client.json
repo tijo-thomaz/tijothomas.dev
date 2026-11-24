@@ -6,8 +6,8 @@
   "cmd": "node scripts/check-use-client.mjs",
   "evidence": "HOME-AC-03 no \"use client\" module in the site layers or their imports; / is static in the build (runs after CG1_build)",
   "base": "8705b16",
-  "startedAt": "2026-11-24T16:24:37.839Z",
-  "durationMs": 131,
+  "startedAt": "2026-11-24T16:35:52.891Z",
+  "durationMs": 126,
   "outputTail": [
     "PASS HOME-AC-03 site modules and their local imports have no \"use client\" directive (25 modules)",
     "PASS HOME-AC-03 site modules import only allowed packages and resolve every local import",

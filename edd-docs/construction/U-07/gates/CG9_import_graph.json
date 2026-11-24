@@ -6,8 +6,8 @@
   "cmd": "node scripts/check-unreachable.mjs && node scripts/check-imports.mjs",
   "evidence": "PLAT-AC-11/12 0 unreachable modules from route entries; PLAT-AC-09 0 cycles and layer direction rules; HOME-AC-04 (site) graph reaches no terminal or Supabase module",
   "base": "8705b16",
-  "startedAt": "2026-11-24T16:26:31.896Z",
-  "durationMs": 378,
+  "startedAt": "2026-11-24T16:37:24.940Z",
+  "durationMs": 403,
   "outputTail": [
     "PASS PLAT-AC-11 import graph is non-empty (entry points and modules found)",
     "PASS PLAT-AC-11 every check-unreachable.keep.txt entry gives a # reason",

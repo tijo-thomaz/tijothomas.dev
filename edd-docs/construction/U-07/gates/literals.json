@@ -6,8 +6,8 @@
   "cmd": "node scripts/check-literals.mjs",
   "evidence": "CONT-AC-12 no literal of more than 3 words in src/components (allow-list scripts/literals-allowlist.json)",
   "base": "8705b16",
-  "startedAt": "2026-11-24T16:24:37.972Z",
-  "durationMs": 396,
+  "startedAt": "2026-11-24T16:35:53.019Z",
+  "durationMs": 403,
   "outputTail": [
     "PASS CONT-AC-12 no literal of more than 3 words in src/components, src/app/(site) (15 files)"
   ],

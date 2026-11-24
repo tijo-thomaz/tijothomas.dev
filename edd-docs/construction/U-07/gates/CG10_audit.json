@@ -6,8 +6,8 @@
   "cmd": "npm audit --audit-level=high",
   "evidence": "0 high or critical advisories in the installed tree",
   "base": "8705b16",
-  "startedAt": "2026-11-24T16:26:32.588Z",
-  "durationMs": 1800,
+  "startedAt": "2026-11-24T16:37:25.699Z",
+  "durationMs": 1591,
   "outputTail": [
     "Will install vitest@5.1.1, which is a breaking change",
     "node_modules/@vitest/mocker",

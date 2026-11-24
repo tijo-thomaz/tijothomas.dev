@@ -1,3 +1,6 @@
+/* Explicit config (U-07): with the site stylesheet on its own @config, an implicit default here can
+   resolve to the wrong Tailwind context in a shared build process (border-border build failure). */
+@config "../../tailwind.config.js";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

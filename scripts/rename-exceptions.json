@@ -55,7 +55,7 @@
     },
     {
       "path": "src/terminal/globals.css",
-      "reason": "U-04 carried U-03 review minor: unused .seo-content rule removed"
+      "reason": "U-04 carried U-03 review minor: unused .seo-content rule removed; U-07: explicit @config for the terminal Tailwind config (build race with the site @config)"
     },
     {
       "path": "src/terminal/widgets/VersionSelector/organisms/VersionDropdown.tsx",

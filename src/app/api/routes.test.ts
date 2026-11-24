@@ -15,11 +15,4 @@ describe('/api route entries', () => {
     expect(entry.GET).toBe(impl.GET);
     expect(entry.POST).toBe(impl.POST);
   });
-
-  it('U-03 /api/chat exports the terminal GET and POST handlers', async () => {
-    const entry = await import('./chat/route');
-    const impl = await import('../../terminal/api/chat/route');
-    expect(entry.GET).toBe(impl.GET);
-    expect(entry.POST).toBe(impl.POST);
-  });
 });

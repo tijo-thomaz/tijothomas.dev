@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { http } from '../../../shared/api/http';
+import { CHAT_UNAVAILABLE_MESSAGE } from '../../chat-assistant/model/chatUnavailable';
 
 export interface PromptShieldConfig {
   enableToxicityFilter: boolean;
@@ -49,100 +49,31 @@ export function usePromptShield(initialConfig?: Partial<PromptShieldConfig>) {
     ...initialConfig,
   });
   
-  const [isLoading, setIsLoading] = useState(false);
+  // U-04 (SQ-01 c): chat is off, so no request is ever in flight.
+  const isLoading = false;
   const [error, setError] = useState<string | null>(null);
   const [lastResponse, setLastResponse] = useState<PromptShieldResponse | null>(null);
 
+  // U-04 (SQ-01 c, ADR-P2): /api/chat is removed. No request is sent; the reply is the fixed
+  // CHAT_UNAVAILABLE_MESSAGE, marked as passing so callers show it as is.
   const generateResponse = useCallback(async (
-    request: PromptShieldRequest
+    _request: PromptShieldRequest
   ): Promise<PromptShieldResponse> => {
-    setIsLoading(true);
+    const unavailable: PromptShieldResponse = {
+      response: CHAT_UNAVAILABLE_MESSAGE,
+      model: 'chat-disabled',
+      responseTime: 0,
+      shieldChecks: {
+        toxicity: { passed: true, confidence: 1 },
+        hallucination: { passed: true, confidence: 1 },
+        context: { passed: true, confidence: 1 },
+      },
+      flagged: false,
+    };
     setError(null);
-
-    try {
-      const startTime = Date.now();
-      
-      // Make the API call with PromptShield configuration
-      const response = await http.post<PromptShieldResponse>('/api/chat', {
-        ...request,
-        promptShield: {
-          enabled: true,
-          config,
-          version: '2.1.0', // PromptShield version
-        },
-      });
-
-      const endTime = Date.now();
-      const responseTime = endTime - startTime;
-
-      // Enhance response with additional metadata
-      const enhancedResponse: PromptShieldResponse = {
-        ...response,
-        responseTime,
-        shieldChecks: response.shieldChecks || {
-          toxicity: { passed: true, confidence: 1 },
-          hallucination: { passed: true, confidence: 1 },
-          context: { passed: true, confidence: 1 },
-        },
-        flagged: false,
-      };
-
-      // Post-process checks (client-side validation)
-      if (config.enableToxicityFilter) {
-        enhancedResponse.shieldChecks.toxicity = await checkToxicity(response.response);
-      }
-
-      if (config.enableHallucinationDetection) {
-        enhancedResponse.shieldChecks.hallucination = await checkHallucination(
-          response.response,
-          request.portfolioContext
-        );
-      }
-
-      if (config.enableContextValidation) {
-        enhancedResponse.shieldChecks.context = await validateContext(
-          response.response,
-          request.message,
-          request.portfolioContext
-        );
-      }
-
-      // Determine if response should be flagged
-      enhancedResponse.flagged = Object.values(enhancedResponse.shieldChecks).some(
-        check => !check.passed || check.confidence < config.confidenceThreshold
-      );
-
-      // If flagged, provide fallback response
-      if (enhancedResponse.flagged) {
-        enhancedResponse.originalResponse = response.response;
-        enhancedResponse.response = getFallbackResponse(request.message);
-      }
-
-      setLastResponse(enhancedResponse);
-      return enhancedResponse;
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
-      setError(errorMessage);
-      
-      // Provide safe fallback response
-      const fallbackResponse: PromptShieldResponse = {
-        response: getFallbackResponse(request.message),
-        model: 'promptshield-fallback',
-        responseTime: Date.now() - Date.now(),
-        shieldChecks: {
-          toxicity: { passed: true, confidence: 1 },
-          hallucination: { passed: true, confidence: 1 },
-          context: { passed: true, confidence: 1 },
-        },
-        flagged: true,
-      };
-      
-      setLastResponse(fallbackResponse);
-      return fallbackResponse;
-    } finally {
-      setIsLoading(false);
-    }
-  }, [config]);
+    setLastResponse(unavailable);
+    return unavailable;
+  }, []);
 
   const updateConfig = useCallback((newConfig: Partial<PromptShieldConfig>) => {
     setConfig(prev => ({ ...prev, ...newConfig }));
@@ -162,53 +93,4 @@ export function usePromptShield(initialConfig?: Partial<PromptShieldConfig>) {
     lastResponse,
     version: '2.1.0',
   };
-}
-
-// Helper functions for safety checks
-async function checkToxicity(text: string): Promise<{ passed: boolean; confidence: number }> {
-  // Implement client-side toxicity detection
-  // This could use a lightweight ML model or API
-  const toxicPatterns = ['hate', 'toxic', 'abuse', 'harmful'];
-  const hasToxicContent = toxicPatterns.some(pattern => 
-    text.toLowerCase().includes(pattern)
-  );
-  
-  return {
-    passed: !hasToxicContent,
-    confidence: hasToxicContent ? 0.2 : 0.95,
-  };
-}
-
-async function checkHallucination(
-  response: string, 
-  context?: Record<string, any>
-): Promise<{ passed: boolean; confidence: number }> {
-  // Implement hallucination detection by checking response against known facts
-  if (!context) return { passed: true, confidence: 0.8 };
-  
-  // Simple heuristic: check if response contains verifiable information
-  const hasVerifiableInfo = context.name && response.includes(context.name);
-  
-  return {
-    passed: true, // Simplified for now
-    confidence: hasVerifiableInfo ? 0.9 : 0.7,
-  };
-}
-
-async function validateContext(
-  response: string,
-  query: string,
-  context?: Record<string, any>
-): Promise<{ passed: boolean; confidence: number }> {
-  // Validate if response is relevant to the context
-  const isRelevant = response.length > 10 && query.length > 0;
-  
-  return {
-    passed: isRelevant,
-    confidence: isRelevant ? 0.85 : 0.3,
-  };
-}
-
-function getFallbackResponse(originalQuery: string): string {
-  return `I understand you're asking about "${originalQuery}". I'm Tijo Thomas, a Senior Frontend Engineer from Manchester, UK. I specialize in React, TypeScript, and modern web technologies. Feel free to ask me about my experience, projects, or how we can work together. You can connect with me on LinkedIn.`;
 }

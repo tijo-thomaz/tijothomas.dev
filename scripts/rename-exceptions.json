@@ -44,6 +44,10 @@
     {
       "path": "src/terminal/features/chat-assistant/model/useChatAssistant.ts",
       "reason": "U-04 commit A (SQ-05 a): data-only contact PII strip; commit B returns CHAT_UNAVAILABLE_MESSAGE"
+    },
+    {
+      "path": "src/terminal/api/chat/route.ts",
+      "reason": "U-04 commit B (SQ-01 c, ADR-P2): /api/chat and its Groq handler deleted"
     }
   ]
 }

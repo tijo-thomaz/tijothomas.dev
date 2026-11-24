@@ -5,6 +5,8 @@ import { usePromptShield } from "../../prompt-shield/model/usePromptShield";
 import { soundManager } from "../../../lib/sounds";
 import { trackQuestion } from "../../../lib/simple-analytics";
 
+export { CHAT_UNAVAILABLE_MESSAGE } from "./chatUnavailable";
+
 export interface Message {
   id: string;
   text: string;

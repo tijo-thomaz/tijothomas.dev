@@ -38,3 +38,10 @@
   CG3 fails if any guard stops erroring.
 - **Null fields:** `availability` and `noticePeriod` are `null` (RQ-02 a), and the Opteamix entry carries only the F-34 bullet. No item has `caseStudyUrl` or `url` (F-71, RQ-04).
 - **Reachability:** `profile.ts` is reachable through `src/lib/site.ts`. `experience`, `work`, `posts` and `flags` stay keep-listed, with reasons, until U-07 imports them. The U-07 DoD should remove those entries.
+
+## PG5 outcome (2026-11-24)
+Approved. Decisions 1-4 and the NDA spot check (8) were accepted. Owner edits:
+- City signposts (C-04) are now the timeline locations: Bengaluru, Manchester, Trivandrum, Mumbai.
+- The Speridian location (F-55) is now Mumbai, India.
+
+Both are recorded in `1.1-facts-resolved.md` and pinned by tests in `facts.test.ts`.

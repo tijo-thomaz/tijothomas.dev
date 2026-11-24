@@ -55,7 +55,7 @@ export const profile: Profile = {
   },
   city: {
     label: 'Isometric toy city map: select a building to jump to that section', // C-04
-    signposts: ['Germany →', 'Manchester →'], // C-04
+    signposts: ['Bengaluru', 'Manchester', 'Trivandrum', 'Mumbai'], // C-04 (owner edit 2026-11-24: timeline locations)
   },
   highlights: [
     { value: '9+ years', label: 'shipping production software since 2016' }, // F-11

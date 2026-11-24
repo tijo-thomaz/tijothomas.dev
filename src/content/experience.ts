@@ -90,7 +90,7 @@ export const experience: readonly ExperienceEntry[] = [
     title: 'Associate', // F-55
     start: '2016-11', // F-55
     end: '2018-07', // F-55
-    location: 'Cochin, India', // F-55
+    location: 'Mumbai, India', // F-55 (owner edit 2026-11-24)
     bullets: [
       'Built a Chrome extension for in-flight Wi-Fi diagnostics and insurance claims UI.', // F-56
     ],

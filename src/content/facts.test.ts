@@ -183,3 +183,15 @@ describe('owner resolutions (1.1-facts-resolved.md)', () => {
     expect(posts.map((p) => p.status)).toEqual(['coming-soon', 'coming-soon', 'coming-soon']);
   });
 });
+
+describe('owner edits at PG5 U-05 (2026-11-24)', () => {
+  it('CONT-AC-10 C-04: the city signposts are the timeline locations, newest first', () => {
+    expect(profile.city.signposts).toEqual(['Bengaluru', 'Manchester', 'Trivandrum', 'Mumbai']);
+    const cities = experience.flatMap((e) => (e.kind === 'job' ? [e.location.split(',')[0]] : []));
+    expect(cities.filter((c, i) => cities.indexOf(c) === i)).toEqual([...profile.city.signposts]);
+  });
+
+  it('CONT-AC-10 F-55: Speridian is in Mumbai, India', () => {
+    expect(experience.find((e) => e.id === 'speridian')).toMatchObject({ location: 'Mumbai, India' });
+  });
+});

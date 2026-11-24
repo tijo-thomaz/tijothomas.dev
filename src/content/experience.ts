@@ -15,6 +15,8 @@ export const experience: readonly ExperienceEntry[] = [
     location: 'Bengaluru, India', // F-33
     bullets: [
       'Joined as a contractor; converted to full-time in October 2026.', // F-34
+      'Worked on an offline field-inspection app for Dell rugged tablets: photo capture and offline sync as a PWA, hosted in .NET WebView2.', // F-35 (owner-supplied 2026-11-25)
+      'Used Capacitor for native Android and iOS features, with a SQLite database for time and attendance: site check-in and check-out, clock-in and clock-out.', // F-35 (owner-supplied 2026-11-25)
     ],
   },
   {

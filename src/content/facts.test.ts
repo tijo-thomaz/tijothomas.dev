@@ -50,7 +50,6 @@ const resolved = new Set(
 // Rows the resolutions say NOT to publish (each must be named in 1.1-facts-resolved.md).
 const WITHHELD: Record<string, string> = {
   'F-18': 'PromptShield metric row removed',
-  'F-35': 'Opteamix delivery bullet omitted until supplied (RQ-02)',
   'F-63': 'notice period omitted',
   'F-64': 'superseded: no email anywhere on the site',
   'F-66': 'footer tagline removed',
@@ -165,9 +164,13 @@ describe('owner resolutions (1.1-facts-resolved.md)', () => {
     }
   });
 
-  it('CONT-AC-10 F-35: the Opteamix entry has only the confirmed bullet', () => {
+  it('CONT-AC-10 F-34/F-35: the Opteamix entry has the confirmed bullet and the two owner-supplied bullets (2026-11-25)', () => {
     const op = experience.find((e) => e.id === 'opteamix');
-    expect(op?.kind === 'job' && op.bullets).toEqual(['Joined as a contractor; converted to full-time in October 2026.']);
+    expect(op?.kind === 'job' && op.bullets).toEqual([
+      'Joined as a contractor; converted to full-time in October 2026.',
+      'Worked on an offline field-inspection app for Dell rugged tablets: photo capture and offline sync as a PWA, hosted in .NET WebView2.',
+      'Used Capacitor for native Android and iOS features, with a SQLite database for time and attendance: site check-in and check-out, clock-in and clock-out.',
+    ]);
   });
 
   it('CONT-AC-10 F-38: the bet365 title is Software Developer', () => {

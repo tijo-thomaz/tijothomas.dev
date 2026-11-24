@@ -59,12 +59,10 @@ test('U-01 gates.yml lists CG1-CG5, CG7, CG9, CG10, CG14, spec, deps, gitignore,
   assert.deepEqual(missing, []);
 });
 
-// view-source has been enforced since U-07 (SEO-AC-09); Lighthouse stays report-only until U-09.
-test('U-01 U-07 only lighthouse is report-only; every other gate (view-source included) is enforced', () => {
+// view-source has been enforced since U-07 (SEO-AC-09) and Lighthouse since U-09 (SEO-AC-10).
+test('U-01 U-09 every gate is enforced (no report-only gates remain)', () => {
   const gates = loadGates();
-  const reportOnly = /lighthouse/i;
-  const wrong = gates.filter((g) => (reportOnly.test(g.id) ? g.enforce !== 'false' : g.enforce !== 'true'))
-    .map((g) => `${g.id}: enforce ${g.enforce}`);
+  const wrong = gates.filter((g) => g.enforce !== 'true').map((g) => `${g.id}: enforce ${g.enforce}`);
   assert.deepEqual(wrong, []);
 });
 

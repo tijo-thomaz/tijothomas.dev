@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 // TERM-AC-10 (U-04, ADR-P2): no route talks to Groq.
 // Usage: node scripts/check-groq.mjs [--root <dir>] [--no-build]
-// Searches src/ and, unless --no-build, the production build (.next/server, .next/static) for
+// Searches the app source (scripts/paths.mjs siteRoots) and, unless --no-build, the production build (.next/server, .next/static) for
 // `api.groq.com` and Groq SDK imports (`groq-sdk`, `@ai-sdk/groq`). Prints `<file> <what>` per hit.
-// Exit 0 clean, 1 hits, 2 when src/ or (without --no-build) the build is missing.
+// Exit 0 clean, 1 hits, 2 when a source root or (without --no-build) the build is missing.
 import fs from 'node:fs';
 import path from 'node:path';
+import { paths } from './paths.mjs';
 
 const args = process.argv.slice(2);
 const i = args.indexOf('--root');
@@ -23,7 +24,7 @@ function walk(dir, out = []) {
   return out;
 }
 
-const dirs = ['src', ...(withBuild ? ['.next/server', '.next/static'] : [])];
+const dirs = [...paths.siteRoots, ...(withBuild ? ['.next/server', '.next/static'] : [])];
 const missing = dirs.filter((d) => !fs.existsSync(path.join(root, d)));
 if (missing.length) {
   console.log(`FAIL ${TAG}: missing ${missing.join(', ')}${withBuild ? ' (build first, or pass --no-build)' : ''} exit 2`);

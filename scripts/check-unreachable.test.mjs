@@ -4,10 +4,14 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { makeFixture, removeFixture, runScript } from './lib/test-utils.mjs';
+import { paths } from './paths.mjs';
 
+// Folder names come from scripts/paths.mjs (U-01 DoD). The app entry imports the lib module.
+const APP = paths.entries[0];
+const LIB = paths.layers.lib;
 const base = {
-  'src/app/page.tsx': "import { x } from '../lib/x';\nexport default function P() { return x; }\n",
-  'src/lib/x.ts': 'export const x = 1;\n',
+  [`${APP}/page.tsx`]: `import { x } from '${'../'.repeat(APP.split('/').length)}${LIB}/x';\nexport default function P() { return x; }\n`,
+  [`${LIB}/x.ts`]: 'export const x = 1;\n',
   'edd-docs/audit/raw/cycles.txt': 'gone/a.ts\n',
   'edd-docs/construction/U-00/unreachable.txt': 'gone/b.ts\n',
 };

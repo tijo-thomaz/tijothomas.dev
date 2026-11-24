@@ -48,7 +48,7 @@ Order (amended 2026-11-24): U-00 → U-01 → U-03 → U-02 → U-04 → … →
 | U-05 Content layer | | done | 189 node, 262 vitest | 19/19 PASS; EX-01 | 0 self-heal (lint, unreachable fixed in-unit) | n/a | retro review: approve-with-minors → minors 1, 2, 4 fixed (`5c84fbe`); #3 deferred; R3 NDA spot check approved | 2026-11-24 |
 | U-06 Home shell | | done | 219 node, 284 vitest, 23 e2e | 21/21 PASS at `8607725` (new use_client, literals); EX-01 | 0 self-heal (CG14 fixed in `a773f38`) | n/a | changes-required → majors 1, 2 fixed; minors 3-5, 9, 10 fixed; 6, 7 carried to U-07/U-09 | 2026-11-24 ("C, then approve U-06") |
 | U-07 Home lists | | done | 229 node, 317 vitest, 25 e2e (+2 cursor specs, run in U-08 gates) | 22/22 PASS at `2f2507d` (view-source now enforced); EX-01. Cursor/selection CSS changed after (`30cfda9`, `f2bb71a`), so U-08's gate run covers it | 1 self-heal (CG1 Tailwind @config build race, fixed in-unit) | n/a | approve-with-minors → all 7 minors and 5 nits fixed | 2026-11-24 |
-| U-08 CityMap, motion, a11y | | in-progress | | | | | | |
+| U-08 CityMap, motion, a11y | | in-review (awaiting PG5) | 231 node, 327 vitest, 39 e2e | 22/22 PASS at `6dd449a`; EX-01 | 1 self-heal (pii-scan viewBox false positive, e2e strict locator) | n/a | approve-with-minors → 6 of 7 minors fixed; #3 (360 px label size) owner decision | |
 | U-09 SEO | | todo | | | | | | |
 | U-10 Privacy | | todo | | | | | | |
 | U-11 Security headers + release checks | critical | todo | | | | | | |

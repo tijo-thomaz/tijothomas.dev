@@ -1,0 +1,18 @@
+{
+  "id": "CG10_gitleaks_history",
+  "enforce": true,
+  "status": "pass",
+  "exitCode": 0,
+  "cmd": "node scripts/require-tool.mjs gitleaks git --redact --no-banner --report-format json --report-path edd-docs/construction/U-08/gates/gitleaks-history.json",
+  "evidence": "PLAT-AC-25 0 secrets in the full git history (RR-8)",
+  "base": "ccfa635",
+  "startedAt": "2026-11-24T18:32:53.879Z",
+  "durationMs": 2375,
+  "outputTail": [
+    "using gitleaks: ~\\AppData\\Local\\Microsoft\\WinGet\\Packages\\Gitleaks.Gitleaks_Microsoft.Winget.Source_8wekyb3d8bbwe\\gitleaks.exe",
+    "12:02AM INF 156 commits scanned.",
+    "12:02AM INF scanned ~16346934 bytes (16.35 MB) in 1.86s",
+    "12:02AM INF no leaks found"
+  ],
+  "log": "edd-docs/construction/U-08/gates/CG10_gitleaks_history.log"
+}

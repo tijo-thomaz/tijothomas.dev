@@ -1,0 +1,17 @@
+{
+  "id": "CG3_types",
+  "enforce": true,
+  "status": "pass",
+  "exitCode": 0,
+  "cmd": "npm run type-check",
+  "evidence": "tsc --noEmit exit 0",
+  "base": "b22401b",
+  "startedAt": "2026-11-24T12:41:46.690Z",
+  "durationMs": 4177,
+  "outputTail": [
+    "",
+    "> tijothomas.dev@1.0.0 type-check",
+    "> tsc --noEmit"
+  ],
+  "log": "edd-docs/construction/U-02/gates/CG3_types.log"
+}

@@ -2,9 +2,11 @@
 //
 // Contract (U-04 unit interfaces):
 //   node scripts/pii-scan.mjs [--root <dir>] [--allow <file>]
-//   - Scans what the site serves from a production build: every file under <root>/.next/server/app
-//     (prerendered .html, .rsc, .body, .meta) and every .js/.css/.html/.json/.txt/.rsc/.body/.xml file under <root>/.next/static.
-//     Server-only chunks (.next/server/chunks) and .next/cache are not served, so they are not scanned.
+//   - Scans what the site serves from a production build: .html/.rsc/.body under <root>/.next/server/app
+//     and every .js/.css/.html/.json/.txt/.rsc/.body/.xml file under <root>/.next/static.
+//     Server code, .nft.json trace manifests, .next/server/chunks and .next/cache are not served.
+//   - Built-in non-contact rules for phone-like runs: part of a longer token (hex, identifier,
+//     decimal); < 10 or > 15 digits; a decimal fraction; two or more single-digit groups (SVG data).
 //   - Patterns: email /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i, `mailto:`, `tel:`, `wa.me`,
 //     phone-like run /\+?\d[\d\s().-]{8,}\d/.
 //   - Allow-list: <root>/scripts/pii-allowlist.json (or --allow): { "allow": [{ "match": "<exact text>",
@@ -49,7 +51,7 @@ test('CONT-AC-14 pii-scan fails on an email address in prerendered HTML and name
 
 for (const [name, text, pattern] of [
   ['mailto: link', 'href="mailto:x"', 'mailto'],
-  ['tel: link', 'href="tel:x"', 'tel'],
+  ['tel: link', 'href="tel:+447000000000"', 'tel'],
   ['wa.me link', '"https://wa.me/1"', 'wa.me'],
   ['UK phone number', '"Phone: +44 7000 000000"', 'phone'],
 ]) {
@@ -98,6 +100,21 @@ test('CONT-AC-14 pii-scan does not scan server-only chunks or the build cache', 
     const r = scan(dir);
     assert.equal(r.status, 0, r.out);
   } finally { removeFixture(dir); }
+});
+
+test('CONT-AC-14 pii-scan skips SVG path data, coordinates, hex hashes and trace manifests but flags an unspaced UK mobile', () => {
+  const svg = build({
+    '.next/static/chunks/icons.js': 'var a=["path",{d:"M12 2a10 10 0 0 1 0 20 10 10 0 0 1 0-20"}],b="18.0839 0.000116771 19.1334 0.658832",c="50bb01754878225cf6730e";',
+    '.next/server/app/page.js.nft.json': '{"files":["01754878225"]}',
+  });
+  const mobile = build({ '.next/static/chunks/c.js': 'var p="07000000000",types={email:!0,tel:!0,text:!0};' });
+  try {
+    const a = scan(svg);
+    assert.equal(a.status, 0, a.out);
+    const b = scan(mobile);
+    assert.equal(b.status, 1, b.out);
+    assert.match(b.out, /c\.js:\d+ phone 07000000000/);
+  } finally { removeFixture(svg); removeFixture(mobile); }
 });
 
 test('CONT-AC-14 pii-scan exits 2 when there is no build output (no vacuous pass)', () => {

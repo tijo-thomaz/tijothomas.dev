@@ -1,9 +1,15 @@
 #!/usr/bin/env node
 // CONT-AC-14 (U-04): no contact PII in anything the site serves.
 // Usage: node scripts/pii-scan.mjs [--root <dir>] [--allow <file>]
-// Scans a production build: every file under .next/server/app (prerendered HTML, RSC payloads,
-// route bodies) and the served text files under .next/static. Server-only chunks and the build
-// cache are not served, so they are not scanned. Patterns: email, mailto:, tel:, wa.me, phone-like run.
+// Scans what a production build serves: prerendered HTML, RSC payloads and route bodies under
+// .next/server/app (.html, .rsc, .body) and the text assets under .next/static. Server code, trace
+// manifests (.nft.json), metadata and the build cache are not served, so they are not scanned.
+// Patterns: email, mailto:, tel:, wa.me, phone-like run /\+?\d[\d\s().-]{8,}\d/ (CONT-AC-14).
+// Built-in non-contact rules for phone-like runs (number shapes no phone number has):
+//   R1 part of a longer token (hex hash, identifier, decimal): touches [A-Za-z0-9_.$]
+//   R2 fewer than 10 or more than 15 digits (E.164 and UK numbers have 10-15)
+//   R3 a decimal fraction such as 1.966 (SVG/CSS coordinates)
+//   R4 two or more single-digit groups such as "1 1 0 0 1" (SVG arc flags, number lists)
 // Allow-list: scripts/pii-allowlist.json { "allow": [{ "match": "<exact text>", "reason": "…" }] }.
 // Prints `<file>:<offset> <pattern> <text>` per match. Exit 0 clean, 1 matches or a bad allow-list,
 // 2 no build output (no vacuous pass).
@@ -19,13 +25,22 @@ const TAG = 'CONT-AC-14 served build output has no email, mailto:, tel:, wa.me o
 const PATTERNS = [
   ['email', /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi],
   ['mailto', /mailto:/gi],
-  ['tel', /\btel:/gi],
+  ['tel', /\btel:\s*[+\d(]/gi], // a tel: link always carries a number; React's `tel:!0` input-type map does not
   ['wa.me', /wa\.me/gi],
-  ['phone', /\+?\d[\d\s().-]{8,}\d/g],
+  ['phone', /(?<![\w.$])\+?\d[\d\s().-]{8,}\d(?![\w$]|\.\d)/g], // R1 via the lookarounds
 ];
 const SERVER_APP = '.next/server/app';
 const STATIC = '.next/static';
+const SERVER_APP_EXT = new Set(['.html', '.rsc', '.body']);
 const STATIC_EXT = new Set(['.js', '.css', '.html', '.json', '.txt', '.rsc', '.body', '.xml']);
+
+// R2-R4 (see header): true when a phone-like run cannot be a phone number.
+function nonContactNumber(text) {
+  const digits = text.replace(/\D/g, '').length;
+  if (digits < 10 || digits > 15) return true;
+  if (/\d\.\d/.test(text)) return true;
+  return text.split(/[\s().+-]+/).filter((g) => /^\d$/.test(g)).length >= 2;
+}
 
 function walk(dir, out = []) {
   if (!fs.existsSync(dir)) return out;
@@ -50,7 +65,7 @@ function readAllow() {
 }
 
 const files = [
-  ...walk(path.join(root, SERVER_APP)),
+  ...walk(path.join(root, SERVER_APP)).filter((f) => SERVER_APP_EXT.has(path.extname(f))),
   ...walk(path.join(root, STATIC)).filter((f) => STATIC_EXT.has(path.extname(f))),
 ];
 if (files.length === 0) {
@@ -67,7 +82,7 @@ for (const f of files) {
   const text = fs.readFileSync(f, 'utf8');
   for (const [name, re] of PATTERNS) {
     for (const m of text.matchAll(re)) {
-      if (allow.has(m[0])) continue;
+      if (allow.has(m[0]) || (name === 'phone' && nonContactNumber(m[0]))) continue;
       hits.push(`${rel(f)}:${m.index} ${name} ${m[0]}`);
     }
   }

@@ -1,3 +1,7 @@
 {
-  "allow": []
+  "allow": [
+    { "match": "4294967295", "reason": "2^32 - 1 (uint32 max) in a bundled polyfill; a numeric constant, not a phone number" },
+    { "match": "2147483647", "reason": "2^31 - 1 (int32 max) in a bundled polyfill; a numeric constant, not a phone number" },
+    { "match": "0123456789", "reason": "the decimal digit alphabet in a bundled polyfill's Object.assign check; not a phone number" }
+  ]
 }

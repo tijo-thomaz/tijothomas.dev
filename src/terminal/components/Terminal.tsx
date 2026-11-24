@@ -797,7 +797,7 @@ const Terminal = forwardRef<TerminalHandle, TerminalProps>(
               className="font-mono zoom-text-xs ml-2 truncate"
               style={{ color: "var(--theme-accent)" }}
             >
-              tijo@tijothomas.dev:{currentDirectory}$
+              tijo@tijothomas:{currentDirectory}$
             </span>
           </div>
         </CardHeader>

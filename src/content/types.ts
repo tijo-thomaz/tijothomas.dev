@@ -69,6 +69,12 @@ export interface Profile {
     contact: { title: string; intro: string };
   };
   labels: {
+    skipLink: string;
+    highlights: string;
+    availability: string;
+    linkedin: string;
+    github: string;
+    terminalMode: string;
     now: string;
     present: string;
     notMeasured: string;

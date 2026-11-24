@@ -94,7 +94,7 @@ describe('content shape', () => {
 
 describe('content safety', () => {
   it('CONT-AC-13 every URL-typed field starts with https://', () => {
-    const urlLeaves = strings.filter((l) => /url$/i.test(l.key) || ['linkedin', 'github'].includes(l.key));
+    const urlLeaves = strings.filter((l) => /url$/i.test(l.key) || l.path.startsWith('profile.links.'));
     expect(urlLeaves.length).toBeGreaterThanOrEqual(3);
     const bad = urlLeaves.filter((l) => !/^https:\/\/[a-z0-9.-]+\.[a-z]{2,}(\/|$)/i.test(l.value));
     expect(bad.map((l) => `${l.path}: ${l.value}`)).toEqual([]);

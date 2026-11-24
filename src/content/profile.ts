@@ -96,6 +96,12 @@ export const profile: Profile = {
     },
   },
   labels: {
+    skipLink: 'Skip to content', // HOME-AC-11
+    highlights: 'Highlights', // HOME-AC-12 (mockup region label)
+    availability: 'Availability', // RQ-02 (label of the line shown only when set)
+    linkedin: 'LinkedIn', // F-67
+    github: 'GitHub', // F-68
+    terminalMode: 'Terminal mode', // HOME-AC-18
     now: 'Now', // F-32
     present: 'present', // F-32
     notMeasured: 'Not yet measured', // F-23 (PH rendering), RQ-05

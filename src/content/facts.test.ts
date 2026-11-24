@@ -90,10 +90,10 @@ describe('facts sheet fixtures', () => {
 });
 
 describe('row references in src/content/*.ts', () => {
-  it('CONT-AC-10 every data line carries a // F-xx, C-xx or RQ-xx reference', () => {
+  it('CONT-AC-10 every data line carries a // F-xx, C-xx, RQ-xx or spec AC reference', () => {
     const data = sourceLines.filter((l) => isDataLine(l.code));
     expect(data.length).toBeGreaterThan(80);
-    const missing = data.filter((l) => !/\b([FC]-\d{2}|RQ-\d{2})\b/.test(l.comment));
+    const missing = data.filter((l) => !/\b([FC]-\d{2}|RQ-\d{2}|[A-Z]+-AC-\d{2})\b/.test(l.comment));
     expect(missing.map((l) => `${l.file}:${l.n} ${l.code.trim()}`)).toEqual([]);
   });
 
@@ -108,6 +108,12 @@ describe('row references in src/content/*.ts', () => {
     const rqs = sourceLines.flatMap((l) => l.comment.match(/\bRQ-\d{2}\b/g) ?? []);
     expect(rqs.length).toBeGreaterThan(0);
     expect(rqs.filter((rq) => !REQUIREMENTS.includes(`**${rq} `))).toEqual([]);
+  });
+
+  it('CONT-AC-10 every referenced spec AC exists in specs/*.md (UI copy the spec fixes verbatim)', () => {
+    const specs = fs.readdirSync(path.join(repo, 'specs')).filter((f) => f.endsWith('.md')).map((f) => read(`specs/${f}`)).join('\n');
+    const acs = sourceLines.flatMap((l) => l.comment.match(/\b[A-Z]+-AC-\d{2}\b/g) ?? []);
+    expect(acs.filter((ac) => !specs.includes(`**${ac}**`))).toEqual([]);
   });
 });
 

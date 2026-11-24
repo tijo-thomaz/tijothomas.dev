@@ -5,6 +5,9 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 ## [Unreleased]
 
 ### Added
+- Gates `CG10_pii_scan` (`scripts/pii-scan.mjs`, CONT-AC-14: no email, `mailto:`, `tel:`, `wa.me` or phone
+  number in any served build file; allow-list `scripts/pii-allowlist.json`) and `CG10_groq`
+  (`scripts/check-groq.mjs`, TERM-AC-10) (U-04).
 - `scripts/build-no-env.mjs`: CG1 builds with no `NEXT_PUBLIC_*` or Supabase env (PLAT-AC-03, U-02).
 - `/` is a hello-world page served by its own `(site)` root layout (Inter + Space Grotesk,
   `metadataBase` from `src/lib/site.ts`, zoom enabled) (U-03).
@@ -20,6 +23,37 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 - `scripts/paths.mjs`: the single list of source folders used by every gate script.
 
 ### Changed
+- The terminal no longer shows an email address, phone number or WhatsApp link: `contact`, the resume
+  text, `git log` and the chat contact buttons point to LinkedIn and GitHub (U-04, SQ-05). The prompt
+  reads `tijo@tijothomas:~# Changelog
+
+All notable changes to this project are documented here. Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+
+## [Unreleased]
+
+### Added
+- Gates `CG10_pii_scan` (`scripts/pii-scan.mjs`, CONT-AC-14: no email, `mailto:`, `tel:`, `wa.me` or phone
+  number in any served build file; allow-list `scripts/pii-allowlist.json`) and `CG10_groq`
+  (`scripts/check-groq.mjs`, TERM-AC-10) (U-04).
+- `scripts/build-no-env.mjs`: CG1 builds with no `NEXT_PUBLIC_*` or Supabase env (PLAT-AC-03, U-02).
+- `/` is a hello-world page served by its own `(site)` root layout (Inter + Space Grotesk,
+  `metadataBase` from `src/lib/site.ts`, zoom enabled) (U-03).
+- `/v2` permanently redirects (308) to `/terminal` (TERM-AC-04).
+- Gates: `check-imports` in CG9 (PLAT-AC-09, HOME-AC-04), `check-renames` (PLAT-AC-10, exceptions
+  in `scripts/rename-exceptions.json`) and `scripts/css-diff.mjs` (R17).
+- Quality gate pipeline: `gates.yml` and `npm run gates` (`scripts/gates.mjs`), with per-gate JSON
+  evidence under `edd-docs/construction/<unit>/gates/` (U-01).
+- `npm run spec:check`: fails on uncited, unknown or stale-pending acceptance criteria (PLAT-AC-19).
+- Gate scripts: `check-gitignore` (PLAT-AC-18), CycloneDX SBOM (PLAT-AC-25), lint report, diff
+  coverage, docs check, Lighthouse (mobile, median of 3) and view-source (both report-only for now).
+- Playwright harness (`npm run test:e2e`) with a smoke test of `/` against a production build.
+- `scripts/paths.mjs`: the single list of source folders used by every gate script.
+
+.
+- The chat assistant is turned off: it answers with a fixed "turned off" message and sends no request
+  (U-04, SQ-01, ADR-P2).
+- `check-renames` requires a later deletion of a moved file to be declared; `check-unreachable` also
+  checks imports in `e2e/` specs and `scripts/*.test.mjs` (U-04).
 - Upgraded to Next.js 16.4.6 (Turbopack) and React 19.3.1; lucide-react pinned to 0.577.0;
   vitest 3.2.7 with `tinypool` overridden to 2.2.0 for GHSA-5gmw-xhrv-c9v3 / GHSA-85c8-ppgw-ccpr (U-02).
 - The Supabase client is created lazily by `getSupabase()`; with no env the terminal and
@@ -36,6 +70,8 @@ All notable changes to this project are documented here. Format: [Keep a Changel
   (PLAT-AC-14, PLAT-AC-16). Lint now takes under 1 s.
 
 ### Removed
+- `/api/chat` and its Groq handler, the terminal `http` client, the hidden SEO block in the terminal
+  layout and the Groq, service-role and rate-limit entries in `.env.example` (U-04).
 - `@next/bundle-analyzer`, the `analyze` script and the unused `images` config (U-02).
 - `.eslintrc.json`, `eslint` and `eslint-config-next` (PLAT-AC-15).
 - Storybook, dead code and `/v2`-only modules (U-00).

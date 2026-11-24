@@ -77,6 +77,9 @@ npm run gates -- --unit U-01 --base 35521e2 --only CG2_lint,spec
   env var removed (PLAT-AC-03). It refuses (exit 2) if `.env`, `.env.local`, `.env.production` or
   `.env.production.local` exists, since Next would load it. Supabase is optional: with no env the
   terminal works and `/api/analytics` is a no-op (TERM-AC-06).
+- `CG10_pii_scan` and `CG10_groq` read the build that CG1 just made, so they run after it. A pii-scan
+  match is fixed at the source; `scripts/pii-allowlist.json` only lists non-contact numbers, each
+  with a reason.
 - CG1 and the runtime gates build into `.next/`. Do not run them in a checkout where `next dev` is
   running; use a separate git worktree.
 - Gate scripts never hard-code source folders: they read them from `scripts/paths.mjs`.

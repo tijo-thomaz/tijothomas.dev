@@ -15,6 +15,15 @@ for (const vp of [
   });
 }
 
+test('HOME-AC-11 the brand link (#top) returns to the very top with the header and name visible', async ({ page }) => {
+  await page.goto('/');
+  await page.locator('#contact').scrollIntoViewIfNeeded();
+  const brand = page.getByRole('navigation', { name: 'Main' }).locator('a[href="#top"]');
+  await brand.click();
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
+  await expect(brand).toBeInViewport();
+});
+
 test('HOME-AC-22 at 360x740, scrolled to the end, the page is no wider than the viewport', async ({ page }) => {
   await page.setViewportSize({ width: 360, height: 740 });
   await page.goto('/');

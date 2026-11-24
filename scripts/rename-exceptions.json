@@ -2,6 +2,10 @@
   "moveCommit": "0e8b4e9eb5d4c9366b559ed856994ba9c58fa190",
   "exceptions": [
     {
+      "path": "src/terminal/page.tsx",
+      "reason": "U-10: stale 'Groq AI' credit link removed (chat is off since U-04, so the credit misled visitors)"
+    },
+    {
       "path": "src/terminal/lib/supabase.ts",
       "reason": "U-02 TERM-AC-06: eager client replaced by lazy getSupabase()"
     },

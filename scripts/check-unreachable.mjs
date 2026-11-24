@@ -72,7 +72,7 @@ const testProblems = [];
 // App tests (paths.srcRoots) and e2e specs: every import. scripts/*.test.mjs (U-04, U-03 review minor):
 // only real top-level import statements, because node:test gate tests embed fixture source as string
 // literals whose `import … from './x'` text is not an import of the repo.
-const TOP_LEVEL_IMPORT = /^imports[^'"`]*?['"]([^'"]+)['"]/gm;
+const TOP_LEVEL_IMPORT = /^import\s[^'"`]*?['"]([^'"]+)['"]/gm;
 const scriptImports = (src) => [...src.matchAll(TOP_LEVEL_IMPORT)].map((m) => m[1]);
 const testSets = [
   [graph.files.filter((f) => isTest(f) && isCode(f) && (inRoots(f, AC11_DIRS) || inRoots(f, ['e2e']))), specifiers],

@@ -77,16 +77,13 @@ const { allow, problems } = readAllow();
 for (const p of problems) console.log(`allow-list: ${p}`);
 
 const rel = (f) => path.relative(root, f).split(path.sep).join('/');
-const hits = [];
-for (const f of files) {
+const skip = (name, text) => allow.has(text) || (name === 'phone' && nonContactNumber(text));
+const hits = files.flatMap((f) => {
   const text = fs.readFileSync(f, 'utf8');
-  for (const [name, re] of PATTERNS) {
-    for (const m of text.matchAll(re)) {
-      if (allow.has(m[0]) || (name === 'phone' && nonContactNumber(m[0]))) continue;
-      hits.push(`${rel(f)}:${m.index} ${name} ${m[0]}`);
-    }
-  }
-}
+  return PATTERNS.flatMap(([name, re]) => [...text.matchAll(re)]
+    .filter((m) => !skip(name, m[0]))
+    .map((m) => `${rel(f)}:${m.index} ${name} ${m[0]}`));
+});
 for (const h of hits) console.log(h);
 const ok = hits.length === 0 && problems.length === 0;
 console.log(ok

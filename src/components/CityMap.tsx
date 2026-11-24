@@ -23,20 +23,25 @@ const draw = ([tag, attrs]: Shape, key: number, label?: string) => {
 };
 
 function Building({ seg, label }: { seg: Extract<Segment, { k: 'building' }>; label: string }) {
-  const text = seg.shapes.find(([tag]) => tag === 'text');
+  const isPill = ([tag, a]: Shape) => tag === 'text' || a.className === 'city-label-bg';
+  const body = seg.shapes.filter((s) => !isPill(s));
+  const pill = seg.shapes.filter(isPill);
+  const text = pill.find(([tag]) => tag === 'text');
   const cx = Number(text?.[1].x ?? 0);
   const width = pillWidth(label);
   return (
     <a href={seg.href} aria-label={label} className="city-building">
       {/* The lift moves this group, not the link's hit area, so the hover edge cannot flicker. */}
       <g className="city-building-body">
-        {seg.shapes.map((s, j) => {
-          const [tag, a] = s;
-          if (tag === 'rect' && a.className === 'city-label-bg') {
-            return draw([tag, { ...a, x: (cx - width / 2).toFixed(1), width: width.toFixed(1) }], j);
-          }
-          return draw(s, j, label);
-        })}
+        {body.map((s, j) => draw(s, j))}
+        {/* The label (bubble, pointer, text) is its own group so narrow screens can enlarge it. */}
+        <g className="city-label">
+          {pill.map((s, j) => {
+            const [tag, a] = s;
+            if (tag === 'rect') return draw([tag, { ...a, x: (cx - width / 2).toFixed(1), width: width.toFixed(1) }], j);
+            return draw(s, j, label);
+          })}
+        </g>
       </g>
     </a>
   );
@@ -54,17 +59,20 @@ function Sign({ seg, labels }: { seg: Extract<Segment, { k: 'sign' }>; labels: r
   return (
     <g className="city-sign">
       {seg.post.map((s, i) => draw(s, i))}
-      {labels.map((text, i) => {
-        const top = y - (labels.length - 1 - i) * (BOARD_H + BOARD_GAP);
-        return (
-          <Fragment key={i}>
-            <rect x={x} y={top} width={boardWidth(text)} height={BOARD_H} rx="5" className="city-board" />
-            <text x={x + 11} y={top + 18} className="city-board-text">
-              {text}
-            </text>
-          </Fragment>
-        );
-      })}
+      {/* Boards are one group, scaled from the post's top on narrow screens (owner choice c, U-08). */}
+      <g className="city-boards">
+        {labels.map((text, i) => {
+          const top = y - (labels.length - 1 - i) * (BOARD_H + BOARD_GAP);
+          return (
+            <Fragment key={i}>
+              <rect x={x} y={top} width={boardWidth(text)} height={BOARD_H} rx="5" className="city-board" />
+              <text x={x + 11} y={top + 18} className="city-board-text">
+                {text}
+              </text>
+            </Fragment>
+          );
+        })}
+      </g>
     </g>
   );
 }

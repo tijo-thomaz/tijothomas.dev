@@ -675,6 +675,23 @@ main:focus {
   font-weight: 700;
 }
 
+/* Owner choice (c) at U-08 PG5: on narrow screens the whole map scales down to about 0.4, so the
+   building labels and sign boards are enlarged around their own anchor point to stay readable
+   (about 11 px text at 360 px). The geometry and viewBox are unchanged. */
+@media (max-width: 40rem) {
+  .city-label {
+    transform: scale(2);
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+  }
+
+  .city-boards {
+    transform: scale(1.9);
+    transform-box: fill-box;
+    transform-origin: 0 100%;
+  }
+}
+
 /* HOME-AC-20: the car drives in along its road once. */
 .city-car {
   animation: city-drive 12s ease-out 1 both;

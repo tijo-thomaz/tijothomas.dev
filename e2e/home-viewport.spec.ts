@@ -22,6 +22,27 @@ test('HOME-AC-22 at 360x740, scrolled to the end, the page is no wider than the 
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(360);
 });
 
+test('HOME-AC-10 U-08 owner choice c: at 360px the map labels and sign boards render at a readable size', async ({ page }) => {
+  await page.setViewportSize({ width: 360, height: 740 });
+  await page.goto('/');
+  const heights = await page.evaluate(() => ({
+    labels: Array.from(document.querySelectorAll('.city-label text')).map((t) => t.getBoundingClientRect().height),
+    boards: Array.from(document.querySelectorAll('.city-board-text')).map((t) => t.getBoundingClientRect().height),
+  }));
+  expect(heights.labels).toHaveLength(4);
+  expect(heights.boards).toHaveLength(4);
+  // About 5.6 px (labels) and 4.8 px (boards) before choice c; now at least 10 px and 8 px tall.
+  expect(Math.min(...heights.labels)).toBeGreaterThanOrEqual(10);
+  expect(Math.min(...heights.boards)).toBeGreaterThanOrEqual(8);
+});
+
+test('HOME-AC-10 U-08 the labels keep the mockup size on wide screens', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/');
+  const t = await page.locator('svg.city-map a[aria-label="Work"] .city-label').evaluate((el) => getComputedStyle(el).transform);
+  expect(t).toBe('none');
+});
+
 test('HOME-AC-10 the CityMap reserves its space before paint (no layout shift from the svg)', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/');

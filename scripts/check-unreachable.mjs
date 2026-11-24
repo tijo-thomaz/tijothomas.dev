@@ -17,9 +17,11 @@ const excludeEntries = opt('--exclude-entry');
 const AC11_DIRS = paths.srcRoots;
 
 const keepFile = path.join(root, 'scripts/check-unreachable.keep.txt');
-const keep = new Set(fs.existsSync(keepFile)
-  ? fs.readFileSync(keepFile, 'utf8').split(/\r?\n/).map((l) => l.replace(/#.*$/, '').trim()).filter(Boolean)
-  : []);
+const keepLines = (fs.existsSync(keepFile) ? fs.readFileSync(keepFile, 'utf8').split(/\r?\n/) : [])
+  .filter((l) => l.trim() && !l.trim().startsWith('#'));
+const keep = new Set(keepLines.map((l) => l.replace(/#.*$/, '').trim()));
+// A keep entry without a `# reason` is an unexplained exception.
+const keepWithoutReason = keepLines.filter((l) => !/\S\s+#\s*\S/.test(l)).map((l) => `no # reason: ${l.trim()}`);
 
 const graph = buildGraph(root, { excludeEntries });
 const unreachable = graph.unreachable.filter((m) => inRoots(m, AC11_DIRS) && !keep.has(m));
@@ -47,6 +49,7 @@ const report = (id, name, problems) => {
 };
 
 report('PLAT-AC-11', 'import graph is non-empty (entry points and modules found)', emptyGraph);
+report('PLAT-AC-11', 'every check-unreachable.keep.txt entry gives a # reason', keepWithoutReason);
 
 // PLAT-AC-11 (a): the audited 58 paths, plus the U-00 final list if it exists, are deleted.
 const AUDIT_LIST = 'edd-docs/audit/raw/cycles.txt';
@@ -67,7 +70,8 @@ report('PLAT-AC-11', `import graph has 0 unreachable modules in ${AC11_DIRS.join
   unreachable.map((m) => `unreachable: ${m}`));
 
 // PLAT-AC-12: no test imports a missing or dead module; no test of a dead module remains.
-const dead = new Set([...graph.unreachable, ...stillThere]);
+// Keep-listed modules are kept on purpose, so their tests are not tests of dead code.
+const dead = new Set([...graph.unreachable.filter((m) => !keep.has(m)), ...stillThere]);
 const testProblems = [];
 // App tests (paths.srcRoots) and e2e specs: every import. scripts/*.test.mjs (U-04, U-03 review minor):
 // only real top-level import statements, because node:test gate tests embed fixture source as string

@@ -1,0 +1,6 @@
+# Modules kept although no route imports them yet. One path per line, then "# reason". Remove an entry
+# as soon as a route imports the module (check-unreachable then sees it as reachable).
+src/content/experience.ts  # U-05 content; rendered by the Experience section in U-07
+src/content/work.ts        # U-05 content; rendered by the Work section in U-07
+src/content/posts.ts       # U-05 content; rendered by the Writing section in U-07
+src/lib/flags.ts           # U-05 SHOW_PLANNED parser; used by the Work and Writing sections in U-07

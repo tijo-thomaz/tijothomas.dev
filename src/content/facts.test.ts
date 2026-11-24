@@ -85,7 +85,7 @@ describe('facts sheet fixtures', () => {
   it('CONT-AC-10 the facts sheet has 90 rows and the resolutions cover every ambiguous one', () => {
     expect(answers.size).toBe(90);
     expect(RESOLVED).toMatch(/All 90 rows resolved/);
-    for (const id of Object.keys(WITHHELD)) expect(resolved.has(id), `${id} not in the resolutions`).toBe(true);
+    expect(Object.keys(WITHHELD).filter((id) => !resolved.has(id))).toEqual([]);
   });
 });
 
@@ -106,7 +106,8 @@ describe('row references in src/content/*.ts', () => {
 
   it('CONT-AC-10 every referenced RQ-xx decision exists in 1.1-requirements.md', () => {
     const rqs = sourceLines.flatMap((l) => l.comment.match(/\bRQ-\d{2}\b/g) ?? []);
-    for (const rq of rqs) expect(REQUIREMENTS, rq).toContain(`**${rq} `);
+    expect(rqs.length).toBeGreaterThan(0);
+    expect(rqs.filter((rq) => !REQUIREMENTS.includes(`**${rq} `))).toEqual([]);
   });
 });
 
@@ -174,8 +175,8 @@ describe('owner resolutions (1.1-facts-resolved.md)', () => {
   });
 
   it('CONT-AC-10 F-71/RQ-04: no work item or post has a link yet', () => {
-    for (const w of work) expect(w.caseStudyUrl, w.slug).toBeUndefined();
-    for (const p of posts) expect(p.url, p.slug).toBeUndefined();
+    const linked = [...work.filter((w) => w.caseStudyUrl).map((w) => w.slug), ...posts.filter((p) => p.url).map((p) => p.slug)];
+    expect(linked).toEqual([]);
   });
 
   it('CONT-AC-10 F-58..F-60/RQ-01: the three posts are "coming-soon"', () => {

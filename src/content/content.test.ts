@@ -35,13 +35,12 @@ describe('content shape', () => {
   });
 
   it('CONT-AC-11 every experience date is YYYY-MM and start <= end', () => {
-    for (const e of experience) {
-      expect(e.start, e.id).toMatch(YEAR_MONTH);
-      if (e.end !== null) {
-        expect(e.end, e.id).toMatch(YEAR_MONTH);
-        expect(e.start <= e.end, `${e.id}: ${e.start} > ${e.end}`).toBe(true);
-      }
-    }
+    const problems = experience.flatMap((e) => [
+      ...(YEAR_MONTH.test(e.start) ? [] : [`${e.id}: start ${e.start}`]),
+      ...(e.end === null || YEAR_MONTH.test(e.end) ? [] : [`${e.id}: end ${e.end}`]),
+      ...(e.end === null || e.start <= e.end ? [] : [`${e.id}: ${e.start} > ${e.end}`]),
+    ]);
+    expect(problems).toEqual([]);
   });
 
   it('CONT-AC-11 experience is newest first and only the first entry is open-ended', () => {
@@ -51,19 +50,18 @@ describe('content shape', () => {
   });
 
   it('CONT-AC-11 every experience entry is a job or a gap, and jobs have a company, title and monogram', () => {
-    for (const e of experience) {
-      expect(['job', 'gap']).toContain(e.kind);
-      if (e.kind === 'job') {
-        expect(e.company && e.title && e.monogram, e.id).toBeTruthy();
-      } else {
-        expect(e.label, e.id).toBeTruthy();
-      }
-    }
+    const problems = experience.filter((e) =>
+      e.kind === 'job' ? !(e.company && e.title && e.monogram) : e.kind !== 'gap' || !e.label,
+    );
+    expect(problems.map((e) => e.id)).toEqual([]);
   });
 
   it('CONT-AC-11 every work and post status is one of the allowed values', () => {
-    for (const w of work) expect(WORK_STATUSES, w.slug).toContain(w.status);
-    for (const p of posts) expect(POST_STATUSES, p.slug).toContain(p.status);
+    const bad = [
+      ...work.filter((w) => !(WORK_STATUSES as readonly string[]).includes(w.status)).map((w) => w.slug),
+      ...posts.filter((p) => !(POST_STATUSES as readonly string[]).includes(p.status)).map((p) => p.slug),
+    ];
+    expect(bad).toEqual([]);
   });
 
   it('CONT-AC-11 work and post slugs are unique and URL-safe', () => {
@@ -74,11 +72,10 @@ describe('content shape', () => {
   });
 
   it('CONT-AC-11 a work metric is null or has a label, and its value is a string or null', () => {
-    for (const w of work) {
-      if (w.metric === null) continue;
-      expect(w.metric.label.trim(), w.slug).not.toBe('');
-      expect(w.metric.value === null || typeof w.metric.value === 'string').toBe(true);
-    }
+    const bad = work.filter(
+      (w) => w.metric !== null && (!w.metric.label.trim() || !(w.metric.value === null || typeof w.metric.value === 'string')),
+    );
+    expect(bad.map((w) => w.slug)).toEqual([]);
   });
 
   it('CONT-AC-11 the type system rejects unknown status values and a sixth how-I-work step', () => {
@@ -99,13 +96,15 @@ describe('content safety', () => {
   it('CONT-AC-13 every URL-typed field starts with https://', () => {
     const urlLeaves = strings.filter((l) => /url$/i.test(l.key) || ['linkedin', 'github'].includes(l.key));
     expect(urlLeaves.length).toBeGreaterThanOrEqual(3);
-    for (const l of urlLeaves) expect(l.value, l.path).toMatch(/^https:\/\/[a-z0-9.-]+\.[a-z]{2,}(\/|$)/i);
+    const bad = urlLeaves.filter((l) => !/^https:\/\/[a-z0-9.-]+\.[a-z]{2,}(\/|$)/i.test(l.value));
+    expect(bad.map((l) => `${l.path}: ${l.value}`)).toEqual([]);
   });
 
   it('CONT-AC-13 every href is an in-page anchor, a site path or an https:// URL', () => {
     const hrefs = strings.filter((l) => l.key === 'href');
     expect(hrefs.length).toBeGreaterThan(0);
-    for (const l of hrefs) expect(l.value, l.path).toMatch(/^(#[a-z][a-z-]*|\/[a-z0-9/-]*|https:\/\/\S+)$/);
+    const bad = hrefs.filter((l) => !/^(#[a-z][a-z-]*|\/[a-z0-9/-]*|https:\/\/\S+)$/.test(l.value));
+    expect(bad.map((l) => `${l.path}: ${l.value}`)).toEqual([]);
   });
 
   it('CONT-AC-13 no content string starts with mailto:, tel:, javascript: or data:', () => {

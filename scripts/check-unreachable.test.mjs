@@ -46,3 +46,33 @@ test('PLAT-AC-12 U-04 check-unreachable fails and names a scripts test whose imp
     assert.match(r.out, /scripts\/b\.test\.mjs imports missing module/);
   } finally { removeFixture(dir); }
 });
+
+const KEEP = 'scripts/check-unreachable.keep.txt';
+const orphan = { [`${LIB}/later.ts`]: 'export const later = 1;\n', [`${LIB}/later.test.ts`]: "import { later } from './later';\n" };
+
+test('PLAT-AC-11 PLAT-AC-12 U-05 an unimported module and its test fail the check when not keep-listed', () => {
+  const dir = makeFixture({ ...base, ...orphan });
+  try {
+    const r = check(dir);
+    assert.equal(r.status, 1, r.out);
+    assert.match(r.out, new RegExp(`unreachable: ${LIB}/later\\.ts`));
+    assert.match(r.out, new RegExp(`${LIB}/later\\.test\\.ts imports dead module`));
+  } finally { removeFixture(dir); }
+});
+
+test('PLAT-AC-11 PLAT-AC-12 U-05 a keep-listed module with a reason is neither unreachable nor dead for its test', () => {
+  const dir = makeFixture({ ...base, ...orphan, [KEEP]: `# header comment\n${LIB}/later.ts  # used from U-07\n` });
+  try {
+    const r = check(dir);
+    assert.equal(r.status, 0, r.out);
+  } finally { removeFixture(dir); }
+});
+
+test('PLAT-AC-11 U-05 a keep-list entry without a # reason fails and is named', () => {
+  const dir = makeFixture({ ...base, ...orphan, [KEEP]: `${LIB}/later.ts\n` });
+  try {
+    const r = check(dir);
+    assert.equal(r.status, 1, r.out);
+    assert.match(r.out, new RegExp(`no # reason: ${LIB}/later\\.ts`));
+  } finally { removeFixture(dir); }
+});

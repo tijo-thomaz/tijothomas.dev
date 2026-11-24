@@ -18,7 +18,10 @@ const read = (rel: string) => fs.readFileSync(path.join(repo, rel), 'utf8');
 const FACTS = read('edd-docs/questions/1.1-facts.md');
 const RESOLVED = read('edd-docs/questions/1.1-facts-resolved.md');
 const REQUIREMENTS = read('edd-docs/questions/1.1-requirements.md');
-const DATA_FILES = ['profile.ts', 'experience.ts', 'work.ts', 'posts.ts'];
+const COMPLIANCE = read('edd-docs/inception/compliance.md');
+// privacy.ts (U-10) states processing facts from the approved compliance assessment; its lines cite
+// CMP-xx requirements, which must exist in compliance.md.
+const DATA_FILES = ['profile.ts', 'experience.ts', 'work.ts', 'posts.ts', 'privacy.ts'];
 
 const ROW_ID = /\b[FC]-\d{2}\b/g;
 
@@ -89,10 +92,10 @@ describe('facts sheet fixtures', () => {
 });
 
 describe('row references in src/content/*.ts', () => {
-  it('CONT-AC-10 every data line carries a // F-xx, C-xx, RQ-xx or spec AC reference', () => {
+  it('CONT-AC-10 every data line carries a // F-xx, C-xx, RQ-xx, CMP-xx or spec AC reference', () => {
     const data = sourceLines.filter((l) => isDataLine(l.code));
     expect(data.length).toBeGreaterThan(80);
-    const missing = data.filter((l) => !/\b([FC]-\d{2}|RQ-\d{2}|[A-Z]+-AC-\d{2})\b/.test(l.comment));
+    const missing = data.filter((l) => !/\b([FC]-\d{2}|RQ-\d{2}|CMP-\d{2}|[A-Z]+-AC-\d{2})\b/.test(l.comment));
     expect(missing.map((l) => `${l.file}:${l.n} ${l.code.trim()}`)).toEqual([]);
   });
 
@@ -109,6 +112,12 @@ describe('row references in src/content/*.ts', () => {
     expect(rqs.filter((rq) => !REQUIREMENTS.includes(`**${rq} `))).toEqual([]);
   });
 
+  it('CONT-AC-10 HOME-AC-28 every referenced CMP-xx requirement exists in compliance.md', () => {
+    const cmps = sourceLines.flatMap((l) => l.comment.match(/\bCMP-\d{2}\b/g) ?? []);
+    expect(cmps.length).toBeGreaterThan(0);
+    expect(cmps.filter((c) => !COMPLIANCE.includes(`| ${c} |`))).toEqual([]);
+  });
+
   it('CONT-AC-10 every referenced spec AC exists in specs/*.md (UI copy the spec fixes verbatim)', () => {
     const specs = fs.readdirSync(path.join(repo, 'specs')).filter((f) => f.endsWith('.md')).map((f) => read(`specs/${f}`)).join('\n');
     const acs = sourceLines.flatMap((l) => l.comment.match(/\b[A-Z]+-AC-\d{2}\b/g) ?? []);
@@ -118,7 +127,7 @@ describe('row references in src/content/*.ts', () => {
   it('CONT-AC-10 a value backed only by a spec AC appears verbatim in that AC (U-06 review #4)', () => {
     const specs = fs.readdirSync(path.join(repo, 'specs')).filter((f) => f.endsWith('.md')).map((f) => read(`specs/${f}`)).join('\n');
     const acText = (ac: string) => specs.split('\n').find((l) => l.includes(`**${ac}**`)) ?? '';
-    const acOnly = sourceLines.filter((l) => /\b[A-Z]+-AC-\d{2}\b/.test(l.comment) && !/\b([FC]-\d{2}|RQ-\d{2})\b/.test(l.comment));
+    const acOnly = sourceLines.filter((l) => /\b[A-Z]+-AC-\d{2}\b/.test(l.comment) && !/\b([FC]-\d{2}|RQ-\d{2}|CMP-\d{2})\b/.test(l.comment));
     expect(acOnly.length).toBeGreaterThan(0);
     const bad = acOnly.flatMap((l) => {
       const value = l.code.match(/['"`]([^'"`]+)['"`]/)?.[1] ?? '';

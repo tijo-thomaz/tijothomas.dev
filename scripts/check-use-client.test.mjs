@@ -18,7 +18,7 @@ const base = {
   [`${CONTENT}/profile.ts`]: "export const profile = { name: 'x' };\n",
   [`${LIB}/flags.ts`]: 'export const f = 1;\n',
   [`${TERM}/Client.tsx`]: "'use client';\nexport const C = 1;\n",
-  '.next/prerender-manifest.json': JSON.stringify({ routes: { '/': {}, '/terminal': {} } }),
+  '.next/prerender-manifest.json': JSON.stringify({ routes: { '/': {}, '/privacy': {}, '/terminal': {} } }),
 };
 const check = (dir, args = []) => runScript('check-use-client.mjs', ['--root', dir, ...args]);
 const withFiles = (files, fn) => {
@@ -95,6 +95,14 @@ test('HOME-AC-03 check-use-client ignores "use client" inside a string or a test
   }, (dir) => {
     const r = check(dir);
     assert.equal(r.status, 0, r.out);
+  });
+});
+
+test('HOME-AC-28 U-10 check-use-client fails when the build does not prerender /privacy as static', () => {
+  withFiles({ '.next/prerender-manifest.json': JSON.stringify({ routes: { '/': {}, '/terminal': {} } }) }, (dir) => {
+    const r = check(dir);
+    assert.equal(r.status, 1, r.out);
+    assert.match(r.out, /\/privacy is not prerendered/);
   });
 });
 

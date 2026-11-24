@@ -1,0 +1,17 @@
+{
+  "id": "view-source",
+  "enforce": false,
+  "status": "fail",
+  "exitCode": 1,
+  "cmd": "node scripts/view-source.mjs --out edd-docs/construction/U-05/gates",
+  "evidence": "server HTML of / holds every rendered content string; enforced from U-07",
+  "base": "0d75cb8",
+  "startedAt": "2026-11-24T14:48:50.091Z",
+  "durationMs": 1073,
+  "outputTail": [
+    "PASS view-source GET / returns 200 (got 200)",
+    "FAIL view-source expected strings configured (0)",
+    "PASS view-source all expected strings in the server HTML (0/0)"
+  ],
+  "log": "edd-docs/construction/U-05/gates/view-source.log"
+}

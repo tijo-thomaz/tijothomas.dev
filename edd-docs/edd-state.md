@@ -45,7 +45,7 @@ Order (amended 2026-11-24): U-00 → U-01 → U-03 → U-02 → U-04 → … →
 | U-03 Route split + terminal move | critical | done | 129 node, 187 vitest, 13 e2e | 17/18 PASS; CG10_audit (W-01) | 0 self-heal (CG5 fixed in-unit) | n/a | approve (5 minor carried) | 2026-11-24 |
 | U-02 Next 16.4.6 + React 19 | critical | done | 154 node, 210 vitest, 20 e2e | 17/17 PASS; CG10_audit PASS (W-01 closed); EX-01 | 0 self-heal (CG5 fixed in-unit) | n/a | approved (no independent review; owner waived) | 2026-11-24 |
 | U-04 Terminal PII strip + chat off | critical | done | 186 node, 218 vitest, 23 e2e | 19/19 PASS (new CG10_pii_scan, CG10_groq); EX-01 | 0 self-heal (CG4/CG5/deps fixed in-unit) | n/a | approved (no independent review; owner waived) | 2026-11-24 |
-| U-05 Content layer | | in-progress | | | | | | |
+| U-05 Content layer | | in-review (awaiting PG5) | 189 node, 260 vitest | 19/19 PASS; EX-01 | 0 self-heal (lint, unreachable fixed in-unit) | n/a | pending (owner NDA spot check R3) | |
 | U-06 Home shell | | todo | | | | | | |
 | U-07 Home lists | | todo | | | | | | |
 | U-08 CityMap, motion, a11y | | todo | | | | | | |

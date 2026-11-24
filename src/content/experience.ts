@@ -17,6 +17,9 @@ export const experience: readonly ExperienceEntry[] = [
       'Joined as a contractor; converted to full-time in October 2026.', // F-34
       'Worked on an offline field-inspection app for Dell rugged tablets: photo capture and offline sync as a PWA, hosted in .NET WebView2.', // F-35 (owner-supplied 2026-11-25)
       'Used Capacitor for native Android and iOS features, with a SQLite database for time and attendance: site check-in and check-out, clock-in and clock-out.', // F-35 (owner-supplied 2026-11-25)
+      'Managed the team and developed an AI-assisted SDLC; coached developers to become proficient in spec-based development.', // F-35 (owner-supplied 2026-11-25)
+      'Introduced Jira hygiene, RCA tracking and estimation for a new module.', // F-35 (owner-supplied 2026-11-25)
+      'Received an Innovator Award from the CEO.', // F-35 (owner-supplied 2026-11-25)
     ],
   },
   {

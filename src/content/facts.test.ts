@@ -170,6 +170,9 @@ describe('owner resolutions (1.1-facts-resolved.md)', () => {
       'Joined as a contractor; converted to full-time in October 2026.',
       'Worked on an offline field-inspection app for Dell rugged tablets: photo capture and offline sync as a PWA, hosted in .NET WebView2.',
       'Used Capacitor for native Android and iOS features, with a SQLite database for time and attendance: site check-in and check-out, clock-in and clock-out.',
+      'Managed the team and developed an AI-assisted SDLC; coached developers to become proficient in spec-based development.',
+      'Introduced Jira hygiene, RCA tracking and estimation for a new module.',
+      'Received an Innovator Award from the CEO.',
     ]);
   });
 

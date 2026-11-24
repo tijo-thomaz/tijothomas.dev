@@ -1,4 +1,4 @@
-// `/` after U-03: a hello-world page rendered by the (site) root layout. The terminal, its toolbar
+// `/` (U-03, U-06): the site page rendered by the (site) root layout. The terminal, its toolbar
 // and its widgets live only under /terminal (route-group bulkhead).
 import { expect, test } from '@playwright/test';
 
@@ -11,7 +11,7 @@ test('HOME-AC-05 with localStorage tijothomas-theme=cyber, / renders <html> with
   expect(cls).not.toMatch(/\btheme-/);
 });
 
-test('U-03 / is the hello-world site page: 200, lang en, exactly one main, 0 uncaught errors', async ({ page }) => {
+test('U-03 U-06 / is the site page: 200, lang en, exactly one main, 0 uncaught errors', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   const res = await page.goto('/');

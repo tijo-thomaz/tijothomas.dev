@@ -5,7 +5,7 @@ import { Github, Linkedin, ExternalLink } from "lucide-react";
 // U-04 (SQ-05 a): email and WhatsApp options removed; contact goes through LinkedIn and GitHub only.
 const contactInfo = {
   linkedin: "https://linkedin.com/in/tijo-j-thomaz93",
-  github: "https://github.com/tijo-thomas",
+  github: "https://github.com/tijo-thomaz",
 };
 
 export default function ContactMessage() {

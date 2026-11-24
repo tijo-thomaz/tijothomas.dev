@@ -31,7 +31,7 @@ export const portfolioContext = {
   location: "Manchester, UK",
   experience: "8+ years of frontend development experience",
   linkedin: "https://linkedin.com/in/tijo-j-thomaz93",
-  github: "https://github.com/tijo-thomas",
+  github: "https://github.com/tijo-thomaz",
 
   skills: {
     frontend: [

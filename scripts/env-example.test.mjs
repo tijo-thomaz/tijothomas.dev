@@ -50,7 +50,8 @@ test('TERM-AC-11 the terminal contact data points to LinkedIn and GitHub', () =>
   const terminal = readText(`${T}/components/Terminal.tsx`);
   const contact = terminal.slice(terminal.indexOf('contact: ['), terminal.indexOf('],', terminal.indexOf('contact: [')));
   assert.match(contact, /linkedin\.com\/in\/tijo-j-thomaz93/);
-  assert.match(contact, /github\.com\/tijo-thomas/);
+  assert.match(contact, /github\.com\/tijo-thomaz\b/);
+  assert.doesNotMatch(contact, /github\.com\/tijo-thomas\b/, 'F-68: the GitHub account is tijo-thomaz');
 });
 
 test('CONT-AC-14 gates.yml has an enforced pii-scan gate', () => {

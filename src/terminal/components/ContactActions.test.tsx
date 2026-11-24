@@ -28,6 +28,6 @@ describe.each([
     fireEvent.click(screen.getByRole('button', { name: /LinkedIn/ }));
     fireEvent.click(screen.getByRole('button', { name: /GitHub/ }));
     expect(open).toHaveBeenNthCalledWith(1, 'https://linkedin.com/in/tijo-j-thomaz93', '_blank');
-    expect(open).toHaveBeenNthCalledWith(2, 'https://github.com/tijo-thomas', '_blank');
+    expect(open).toHaveBeenNthCalledWith(2, 'https://github.com/tijo-thomaz', '_blank');
   });
 });

@@ -9,7 +9,7 @@ interface ContactActionsProps {
 // U-04 (SQ-05 a): email and WhatsApp buttons removed; contact goes through LinkedIn and GitHub only.
 const contactInfo = {
   linkedin: "https://linkedin.com/in/tijo-j-thomaz93",
-  github: "https://github.com/tijo-thomas",
+  github: "https://github.com/tijo-thomaz",
 };
 
 const buttonStyle = {

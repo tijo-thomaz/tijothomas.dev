@@ -12,7 +12,7 @@ test('TERM-AC-11 contact lists the LinkedIn and GitHub URLs and the page has no 
   await input.fill('contact');
   await input.press('Enter');
   await expect(page.getByText(/linkedin\.com\/in\/tijo-j-thomaz93/).first()).toBeVisible();
-  await expect(page.getByText(/github\.com\/tijo-thomas/).first()).toBeVisible();
+  await expect(page.getByText(/github\.com\/tijo-thomaz\b/).first()).toBeVisible();
 
   const html = await page.content();
   expect(html.match(EMAIL)?.[0] ?? null).toBeNull();

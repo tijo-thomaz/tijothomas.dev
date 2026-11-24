@@ -85,7 +85,7 @@ const Terminal = forwardRef<TerminalHandle, TerminalProps>(
         "and the development of enterprise-grade applications for major clients",
         "like Home Depot and eBay.",
         "",
-        "💼 linkedin.com/in/tijo-j-thomaz93 | 🐙 github.com/tijo-thomas",
+        "💼 linkedin.com/in/tijo-j-thomaz93 | 🐙 github.com/tijo-thomaz",
       ],
       skills: [
         "Frontend: Angular, React, TypeScript, JavaScript, HTML5, CSS3, Sass",
@@ -147,7 +147,7 @@ const Terminal = forwardRef<TerminalHandle, TerminalProps>(
       ],
       contact: [
         "💼 LinkedIn: linkedin.com/in/tijo-j-thomaz93",
-        "🐙 GitHub: github.com/tijo-thomas",
+        "🐙 GitHub: github.com/tijo-thomaz",
         "📍 Location: Manchester, UK",
         "🎓 Education: MCA & BCA from M.G. University, Kottayam",
         "Available for exciting opportunities and collaborations",

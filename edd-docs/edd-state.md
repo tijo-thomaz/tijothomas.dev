@@ -44,8 +44,8 @@ Order (amended 2026-11-24): U-00 → U-01 → U-03 → U-02 → U-04 → … →
 | U-01 Walking skeleton + gates | walking skeleton | done | 72/72 node, 78/78 vitest | 15/16 PASS; CG10_audit FAIL (W-01); signatures EX-01 | 0 self-heal; 1 review loop | n/a | changes-requested → fixed | 2026-11-24 |
 | U-03 Route split + terminal move | critical | done | 129 node, 187 vitest, 13 e2e | 17/18 PASS; CG10_audit (W-01) | 0 self-heal (CG5 fixed in-unit) | n/a | approve (5 minor carried) | 2026-11-24 |
 | U-02 Next 16.4.6 + React 19 | critical | done | 154 node, 210 vitest, 20 e2e | 17/17 PASS; CG10_audit PASS (W-01 closed); EX-01 | 0 self-heal (CG5 fixed in-unit) | n/a | approved (no independent review; owner waived) | 2026-11-24 |
-| U-04 Terminal PII strip + chat off | critical | in-review (awaiting PG5) | 186 node, 218 vitest, 23 e2e | 19/19 PASS (new CG10_pii_scan, CG10_groq); EX-01 | 0 self-heal (CG4/CG5/deps fixed in-unit) | n/a | pending | 2026-11-24 |
-| U-05 Content layer | | todo | | | | | | |
+| U-04 Terminal PII strip + chat off | critical | done | 186 node, 218 vitest, 23 e2e | 19/19 PASS (new CG10_pii_scan, CG10_groq); EX-01 | 0 self-heal (CG4/CG5/deps fixed in-unit) | n/a | approved (no independent review; owner waived) | 2026-11-24 |
+| U-05 Content layer | | in-progress | | | | | | |
 | U-06 Home shell | | todo | | | | | | |
 | U-07 Home lists | | todo | | | | | | |
 | U-08 CityMap, motion, a11y | | todo | | | | | | |
@@ -65,4 +65,3 @@ Order (amended 2026-11-24): U-00 → U-01 → U-03 → U-02 → U-04 → … →
 - SQ-07: confirm no Supabase service-role key is set in Vercel.
 - SQ-09: account MFA and DNS checks.
 - Listen to the terminal's sound output (not testable by the gates).
-- U-04 PG5: confirm the chat-unavailable message text and the prompt change to `tijo@tijothomas:~$`.

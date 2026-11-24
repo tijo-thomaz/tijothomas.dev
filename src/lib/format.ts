@@ -1,11 +1,13 @@
 import type { WorkItem, WorkStatus, YearMonth } from '@/content/types';
 
-const MONTH = new Intl.DateTimeFormat('en-GB', { month: 'short', year: 'numeric', timeZone: 'UTC' });
+// Fixed three-letter months. Intl's en-GB short month gives "Sept", and its output depends on the
+// ICU data of the build machine (U-07 review #6). No Date object, so no time zone can shift a month.
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-/** `2026-04` -> `Apr 2026`. UTC, so the build machine's time zone cannot shift the month. */
+/** `2026-04` -> `Apr 2026`. */
 export function formatMonth(ym: YearMonth | string): string {
-  const [year, month] = ym.split('-').map(Number);
-  return MONTH.format(new Date(Date.UTC(year, month - 1, 1)));
+  const [year, month] = ym.split('-');
+  return `${MONTHS[Number(month) - 1]} ${year}`;
 }
 
 /** `Apr 2026 – present` when `end` is null (the current role), else `Feb 2023 – Nov 2025`. */

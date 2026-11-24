@@ -14,6 +14,11 @@ describe('formatMonth / formatRange', () => {
     expect(formatMonth('2023-01')).toBe('Jan 2023');
   });
 
+  it('HOME-AC-14 every month is a three-letter abbreviation (September is "Sep", not "Sept")', () => {
+    const months = Array.from({ length: 12 }, (_, i) => formatMonth(`2026-${String(i + 1).padStart(2, '0')}`));
+    expect(months).toEqual(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].map((m) => `${m} 2026`));
+  });
+
   it('HOME-AC-14 a range ends with the "present" label only when end is null', () => {
     expect(formatRange('2026-04', null, labels.present)).toBe('Apr 2026 – present');
     expect(formatRange('2023-02', '2025-11', labels.present)).toBe('Feb 2023 – Nov 2025');

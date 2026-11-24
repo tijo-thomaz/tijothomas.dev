@@ -67,7 +67,8 @@ Order (amended 2026-11-24): U-00 → U-01 → U-03 → U-02 → U-04 → … →
 - U-04 #3 (second half): pii-scan does not assert that each site route is prerendered. `use_client` asserts that `/` is static; U-09/U-10 add `/privacy` and others.
 
 ## Deployment hold
-- Do not deploy `redesign-home` until U-07: 3 of the 5 nav anchors on `/` have no target yet (U-06 review #6).
+- ~~Do not deploy `redesign-home` until U-07: 3 of the 5 nav anchors on `/` have no target yet (U-06 review #6).~~ Resolved by U-07 (HOME-AC-09 green).
+- Still hold until U-08: the hero tip (C-03) says "the city is a map", and the CityMap arrives in U-08 (U-07 review nit). The owner may hide the tip instead.
 
 ## Open owner actions (before any release)
 - Vercel: delete `GROQ_API_KEY` (chat is off since U-04; no code reads it).

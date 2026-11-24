@@ -31,6 +31,7 @@ describe('(site) home page shell', () => {
 
   afterEach(() => {
     vi.useRealTimers();
+    vi.unstubAllEnvs(); // a failing flag test must not leak SHOW_PLANNED into later tests
   });
 
   it('HOME-AC-18 the footer shows the year the page is rendered (built) in, and the name', () => {

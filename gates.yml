@@ -104,7 +104,7 @@ gates:
     evidence: mobile median of 3 on / (next start); scores >= 95, CLS, LCP, TBT; enforced from U-09
     timeout: 900
   - id: view-source
-    cmd: node scripts/view-source.mjs --out {evidence}
+    cmd: node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/view-source.mjs --out {evidence}
     enforce: true
     evidence: SEO-AC-09 server HTML of / holds every string rendered from src/content (SHOW_PLANNED respected); enforced from U-07
     timeout: 120

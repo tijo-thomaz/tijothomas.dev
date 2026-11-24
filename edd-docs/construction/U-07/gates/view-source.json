@@ -1,0 +1,21 @@
+{
+  "id": "view-source",
+  "enforce": true,
+  "status": "pass",
+  "exitCode": 0,
+  "cmd": "node scripts/view-source.mjs --out edd-docs/construction/U-07/gates",
+  "evidence": "SEO-AC-09 server HTML of / holds every string rendered from src/content (SHOW_PLANNED respected); enforced from U-07",
+  "base": "8705b16",
+  "startedAt": "2026-11-24T16:27:39.335Z",
+  "durationMs": 1029,
+  "outputTail": [
+    "PASS view-source GET / returns 200 (got 200)",
+    "PASS view-source expected strings configured (88)",
+    "PASS view-source all expected strings in the server HTML (88/88)",
+    "(node:20992) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///./src/content/profile.ts is not specified and it doesn't parse as CommonJS.",
+    "Reparsing as ES module because module syntax was detected. This incurs a performance overhead.",
+    "To eliminate this warning, add \"type\": \"module\" to .\\package.json.",
+    "(Use `node --trace-warnings ...` to show where the warning was created)"
+  ],
+  "log": "edd-docs/construction/U-07/gates/view-source.log"
+}

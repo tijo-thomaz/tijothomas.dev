@@ -22,7 +22,8 @@ describe('ExperienceTimeline', () => {
   it('HOME-AC-14 sorts entries by start date descending, whatever the input order', () => {
     const { container } = renderIt([...experience].reverse());
     const order = Array.from(container.querySelectorAll('[data-entry]')).map((e) => e.getAttribute('data-entry'));
-    expect(order).toEqual([...experience].sort((a, b) => b.start.localeCompare(a.start)).map((e) => e.id));
+    // Hard-coded expected order, so the test does not reuse the implementation's comparator.
+    expect(order).toEqual(['opteamix', 'relocation', 'bet365', 'infosys', 'netobjex', 'qburst', 'speridian']);
   });
 
   it('HOME-AC-14 only the end: null entry shows "present" and the "Now" badge', () => {

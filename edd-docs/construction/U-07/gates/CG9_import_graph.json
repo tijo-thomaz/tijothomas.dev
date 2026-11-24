@@ -1,0 +1,33 @@
+{
+  "id": "CG9_import_graph",
+  "enforce": true,
+  "status": "pass",
+  "exitCode": 0,
+  "cmd": "node scripts/check-unreachable.mjs && node scripts/check-imports.mjs",
+  "evidence": "PLAT-AC-11/12 0 unreachable modules from route entries; PLAT-AC-09 0 cycles and layer direction rules; HOME-AC-04 (site) graph reaches no terminal or Supabase module",
+  "base": "8705b16",
+  "startedAt": "2026-11-24T16:26:31.896Z",
+  "durationMs": 378,
+  "outputTail": [
+    "PASS PLAT-AC-11 import graph is non-empty (entry points and modules found)",
+    "PASS PLAT-AC-11 every check-unreachable.keep.txt entry gives a # reason",
+    "PASS PLAT-AC-11 unreachable path lists are readable and non-empty",
+    "PASS PLAT-AC-11 listed unreachable paths do not exist",
+    "PASS PLAT-AC-11 every keep entry names an existing, still-unreachable module",
+    "PASS PLAT-AC-11 import graph has 0 unreachable modules in src/lib, src/app, src/components, src/content, src/terminal/",
+    "PASS PLAT-AC-12 no test imports or tests a deleted/unreachable module",
+    "listed paths: 140 (edd-docs/audit/raw/cycles.txt: 58, edd-docs/construction/U-00/unreachable.txt: 82)",
+    "entries: src/app/(site)/layout.tsx, src/app/(site)/page.tsx, src/app/(terminal)/layout.tsx, src/app/(terminal)/terminal/page.tsx, src/app/api/analytics/route.ts",
+    "modules: 118, reachable: 118, unreachable: 0",
+    "PASS PLAT-AC-09 import graph is non-empty",
+    "PASS PLAT-AC-09 import graph has 0 cycles",
+    "PASS PLAT-AC-09 src/components, src/content, src/lib never import src/terminal",
+    "PASS PLAT-AC-09 src/terminal never imports src/components or src/content",
+    "PASS PLAT-AC-09 src/content has type-only imports",
+    "PASS HOME-AC-04 (site) route files found under src/app/(site)",
+    "PASS HOME-AC-04 the (site) graph reaches nothing under src/terminal",
+    "PASS HOME-AC-04 the (site) graph reaches no Supabase import",
+    "modules: 118, site routes: 2, site closure: 25"
+  ],
+  "log": "edd-docs/construction/U-07/gates/CG9_import_graph.log"
+}

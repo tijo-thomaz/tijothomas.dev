@@ -5,10 +5,10 @@ import { StatusBadge } from './StatusBadge';
 function Row({ post, labels }: { post: Post; labels: Profile['labels'] }) {
   const body = (
     <>
-      <span className="post-text">
+      <div className="post-text">
         <h3 className="post-title">{post.title}</h3>
         <span className="post-subtitle">{post.subtitle}</span>
-      </span>
+      </div>
       {post.status === 'published' ? null : (
         <StatusBadge text={labels.postStatus[post.status]} tone={post.status} />
       )}

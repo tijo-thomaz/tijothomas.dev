@@ -62,7 +62,7 @@ export function ExperienceTimeline({
           {section.title}
         </h2>
         <p className="section-intro">{section.intro}</p>
-        {/* Safari drops list semantics from a styled <ul> outside <nav>; role="list" restores them. */}
+        {/* Safari drops list semantics from a styled <ol> outside <nav>; role="list" restores them. */}
         {/* oxlint-disable-next-line jsx-a11y/no-redundant-roles */}
         <ol className="timeline" role="list">
           {sorted.map((e) =>

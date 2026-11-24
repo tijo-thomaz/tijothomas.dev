@@ -34,7 +34,12 @@ describe('Writing', () => {
     renderIt([{ slug: 'p', title: 'A published post', subtitle: 'Sub', status: 'published', url: 'https://example.com/p' }]);
     const link = screen.getByRole('link', { name: /A published post/ });
     expect(link.getAttribute('href')).toBe('https://example.com/p');
-    expect(link.textContent).not.toContain(labels.postStatus['coming-soon']);
+    expect(link.querySelector('.badge')).toBeNull();
+  });
+
+  it('HOME-AC-16 a post row keeps the h3 in a block container (valid HTML: no heading inside a span)', () => {
+    const { container } = renderIt(posts);
+    expect(Array.from(container.querySelectorAll('span h3'))).toEqual([]);
   });
 
   it('HOME-AC-16 with 0 visible posts, section#writing keeps its h2 and shows the empty-state line', () => {

@@ -25,7 +25,7 @@ describe('sitemapUrls', () => {
     const urls = sitemapUrls(
       SITE,
       [post({ status: 'coming-soon', url: `${SITE}/writing/c` }), post({ url: undefined }), post({ url: 'https://medium.com/x' })],
-      [item({ caseStudyUrl: 'https://github.com/x' }), item({})],
+      [item({ caseStudyUrl: 'https://external.example/case' }), item({})],
     );
     expect(urls).toEqual([`${SITE}/`]);
   });

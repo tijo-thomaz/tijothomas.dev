@@ -1,0 +1,44 @@
+// PLAT-AC-12 (U-03 review minor carried to U-04): check-unreachable also scans e2e/ specs and the
+// real import statements of scripts/*.test.mjs for imports of missing modules. Fixture source
+// embedded in string literals of node:test files is not an import and must not be flagged.
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { makeFixture, removeFixture, runScript } from './lib/test-utils.mjs';
+
+const base = {
+  'src/app/page.tsx': "import { x } from '../lib/x';\nexport default function P() { return x; }\n",
+  'src/lib/x.ts': 'export const x = 1;\n',
+  'edd-docs/audit/raw/cycles.txt': 'gone/a.ts\n',
+  'edd-docs/construction/U-00/unreachable.txt': 'gone/b.ts\n',
+};
+const check = (dir) => runScript('check-unreachable.mjs', ['--root', dir]);
+
+test('PLAT-AC-12 U-04 check-unreachable passes on a clean fixture with e2e and scripts tests', () => {
+  const dir = makeFixture({
+    ...base,
+    'e2e/home.spec.ts': "import { x } from '../src/lib/x';\n",
+    'scripts/a.test.mjs': "import fs from 'node:fs';\nconst fixture = `import y from './nope';`;\n",
+  });
+  try {
+    const r = check(dir);
+    assert.equal(r.status, 0, r.out);
+  } finally { removeFixture(dir); }
+});
+
+test('PLAT-AC-12 U-04 check-unreachable fails and names an e2e spec that imports a missing module', () => {
+  const dir = makeFixture({ ...base, 'e2e/chat.spec.ts': "import { M } from '../src/terminal/gone';\n" });
+  try {
+    const r = check(dir);
+    assert.equal(r.status, 1, r.out);
+    assert.match(r.out, /e2e\/chat\.spec\.ts imports missing module/);
+  } finally { removeFixture(dir); }
+});
+
+test('PLAT-AC-12 U-04 check-unreachable fails and names a scripts test whose import statement points to a missing module', () => {
+  const dir = makeFixture({ ...base, 'scripts/b.test.mjs': "import { h } from './lib/gone.mjs';\n" });
+  try {
+    const r = check(dir);
+    assert.equal(r.status, 1, r.out);
+    assert.match(r.out, /scripts\/b\.test\.mjs imports missing module/);
+  } finally { removeFixture(dir); }
+});

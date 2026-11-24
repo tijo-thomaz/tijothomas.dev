@@ -161,3 +161,27 @@ test('PLAT-AC-10 gates.yml has an enforced gate that runs scripts/check-renames.
   assert.ok(block, 'no gate runs scripts/check-renames.mjs');
   assert.match(block, /enforce:\s*true/);
 });
+
+// U-03 review minor carried to U-04: a moved file deleted later must be declared, so a deletion
+// cannot hide a rewrite (delete + re-add under another name) or silently drop terminal code.
+test('PLAT-AC-10 U-04 check-renames fails and names a moved file deleted later without an exception', () => {
+  const { dir, move } = movedRepo();
+  try {
+    git(dir, 'rm', '-q', 'new/b.ts');
+    commit(dir, 'delete moved file');
+    const r = check(dir, ['--commit', move]);
+    assert.equal(r.status, 1, r.out);
+    assert.ok(r.out.includes('new/b.ts'), r.out);
+  } finally { removeFixture(dir); }
+});
+
+test('PLAT-AC-10 U-04 check-renames accepts a later deletion of a moved file listed in the exceptions', () => {
+  const { dir, move } = movedRepo();
+  try {
+    git(dir, 'rm', '-q', 'new/b.ts');
+    exceptions(dir, { moveCommit: move, exceptions: [{ path: 'new/b.ts', reason: 'SQ-01 chat route removed' }] });
+    commit(dir, 'delete moved file');
+    const r = check(dir);
+    assert.equal(r.status, 0, r.out);
+  } finally { removeFixture(dir); }
+});

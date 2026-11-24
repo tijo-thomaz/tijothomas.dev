@@ -75,6 +75,7 @@ export interface Profile {
     linkedin: string;
     github: string;
     terminalMode: string;
+    privacy: string;
     caseStudy: string;
     now: string;
     present: string;
@@ -131,6 +132,16 @@ export interface WorkItem {
   metric: { label: string; value: string | null } | null;
   stack: readonly string[];
   caseStudyUrl?: HttpsUrl;
+}
+
+/** The privacy notice at /privacy (U-10, ADR-P3). One source for the page and the terminal link. */
+export interface PrivacyNotice {
+  title: string;
+  description: string;
+  updated: YearMonth | `${number}-${number}${number}-${number}${number}`;
+  updatedLabel: string;
+  controller: { name: string; contactUrl: HttpsUrl; contactLabel: string };
+  sections: readonly { heading: string; paragraphs: readonly string[]; items?: readonly string[] }[];
 }
 
 export type PostStatus = 'published' | 'coming-soon' | 'planned';

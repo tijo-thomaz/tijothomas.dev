@@ -31,7 +31,7 @@
     },
     {
       "path": "src/terminal/widgets/PrivacyPolicy/molecules/PrivacyModal.tsx",
-      "reason": "U-04 commit A (SQ-05 a): data-only contact PII strip"
+      "reason": "U-04 commit A (SQ-05 a): contact PII strip (email to LinkedIn); U-10 TERM-AC-12: text-only rewrite (inaccurate claims removed, link to /privacy)"
     },
     {
       "path": "src/terminal/components/ContactActions.tsx",

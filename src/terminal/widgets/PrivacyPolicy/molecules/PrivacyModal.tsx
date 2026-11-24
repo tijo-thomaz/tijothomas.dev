@@ -19,36 +19,35 @@ export const PrivacyModal = ({ onClose }: PrivacyModalProps) => {
         </div>
 
         <div className="space-y-6 text-gray-300 font-mono text-sm leading-relaxed">
-          <PolicySection title="✅ What We Do">
+          <PolicySection title="✅ What This Terminal Stores">
             <ul className="space-y-2 ml-4">
-              <li>• <strong>Truly Anonymous Analytics:</strong> Basic usage patterns only</li>
-              <li>• <strong>No Personal Data:</strong> Zero collection of identifiable information</li>
-              <li>• <strong>No Tracking:</strong> No cross-site tracking or behavioral profiling</li>
-              <li>• <strong>Local Storage Only:</strong> Data stays in your browser</li>
+              <li>• <strong>Your settings:</strong> theme, zoom and sound, saved in your browser storage</li>
+              <li>• <strong>Local usage counters:</strong> kept in your browser and never sent anywhere</li>
+              <li>• <strong>Daily counts:</strong> a date and a number of visits and commands, with nothing that identifies you</li>
+            </ul>
+          </PolicySection>
+
+          <PolicySection title="🌐 What the Host Sees">
+            <ul className="space-y-2 ml-4">
+              <li>• <strong>Request logs:</strong> Vercel, which hosts this site, processes your IP address and browser details</li>
+              <li>• <strong>Web Analytics:</strong> page views counted without cookies; the visitor hash is discarded after 24 hours</li>
             </ul>
           </PolicySection>
 
           <PolicySection title="❌ What We DON'T Do">
             <ul className="space-y-2 ml-4">
-              <li>• <strong>No Cookies:</strong> Zero tracking cookies</li>
-              <li>• <strong>No IP Tracking:</strong> Your location stays private</li>
-              <li>• <strong>No Fingerprinting:</strong> No device identification</li>
-              <li>• <strong>No Data Selling:</strong> Your data is never monetized</li>
-              <li>• <strong>No Cross-Site Tracking:</strong> This site only</li>
+              <li>• <strong>No Cookies:</strong> this site sets none</li>
+              <li>• <strong>No Profiling:</strong> no cross-site tracking or behavioural profiling</li>
+              <li>• <strong>No Data Selling:</strong> your data is never sold</li>
             </ul>
           </PolicySection>
 
-          <PolicySection title="🎯Analytics">
-            <p className="text-green-300">
-              We only track basic usage patterns to improve the portfolio experience:
-            </p>
-            <ul className="space-y-1 ml-4 mt-2 text-sm">
-              <li>• Terminal commands used</li>
-              <li>• Pages visited</li>
-              <li>• Time spent on site</li>
-            </ul>
-            <p className="text-green-400 font-bold mt-3">
-              Your privacy is protected. Period.
+          <PolicySection title="📄 Full Details">
+            <p>
+              Lawful basis, processors, retention and your rights:{" "}
+              <a href="/privacy" className="text-green-400 hover:text-green-300 underline">
+                Read the full privacy notice
+              </a>
             </p>
           </PolicySection>
 

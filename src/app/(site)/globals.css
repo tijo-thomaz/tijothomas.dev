@@ -857,6 +857,39 @@ main:focus {
   color: var(--on-ink);
 }
 
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+/* Privacy notice (U-10) */
+.privacy {
+  padding-block: 1.5rem;
+}
+
+.privacy-heading {
+  margin: 0;
+  font-size: 1.375rem;
+}
+
+.privacy-section p,
+.privacy-list {
+  margin: 0;
+  max-width: 70ch;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.privacy-list {
+  padding-inline-start: 1.25rem;
+  list-style: disc;
+}
+
+.privacy-list li + li {
+  margin-block-start: 0.5rem;
+}
+
 @media (pointer: coarse) {
   .contact-link,
   .footer-link {

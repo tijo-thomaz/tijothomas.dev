@@ -5,6 +5,12 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 ## [Unreleased]
 
 ### Added
+- `/privacy`: a static privacy notice from `src/content/privacy.ts`. It covers the controller (contact
+  through LinkedIn, no email), Vercel request logs and Web Analytics, Supabase counters and browser
+  storage on `/terminal`, the legal basis, processors, retention, rights and complaints. There is a
+  "Privacy" link in the site footer. The terminal's privacy modal now drops its inaccurate claims
+  ("No IP Tracking", "Data stays in your browser") and links to `/privacy`. The stale "Groq AI" credit
+  is removed from the terminal (U-10).
 - SEO for `/` (U-09):
   - meta title and description, canonical URL, Open Graph and Twitter card (`summary_large_image`);
   - a 1200×630 share image (`/opengraph-image`);

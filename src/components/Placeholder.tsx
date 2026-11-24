@@ -29,7 +29,12 @@ export function Placeholder({ title, subtitle, badge, profile }: Props) {
           ) : null}
         </article>
       </main>
-      <Footer name={profile.name} year={new Date().getFullYear()} terminalLabel={profile.labels.terminalMode} />
+      <Footer
+        name={profile.name}
+        year={new Date().getFullYear()}
+        terminalLabel={profile.labels.terminalMode}
+        privacyLabel={profile.labels.privacy}
+      />
     </>
   );
 }

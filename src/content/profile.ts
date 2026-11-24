@@ -102,6 +102,7 @@ export const profile: Profile = {
     linkedin: 'LinkedIn', // F-67
     github: 'GitHub', // F-68
     terminalMode: 'Terminal mode', // HOME-AC-18
+    privacy: 'Privacy', // HOME-AC-27
     caseStudy: 'Read the case study', // HOME-AC-13 (shown only when caseStudyUrl is set)
     now: 'Now', // F-32
     present: 'present', // F-32

@@ -61,7 +61,12 @@ export default function HomePage() {
         <Writing posts={visible(posts, showPlanned)} section={sections.writing} labels={labels} />
         <Contact profile={profile} />
       </main>
-      <Footer name={profile.name} year={new Date().getFullYear()} terminalLabel={labels.terminalMode} />
+      <Footer
+        name={profile.name}
+        year={new Date().getFullYear()}
+        terminalLabel={labels.terminalMode}
+        privacyLabel={labels.privacy}
+      />
       <JsonLd data={personJsonLd(profile)} />
     </>
   );

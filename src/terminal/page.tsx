@@ -417,19 +417,6 @@ export default function Home() {
                 Tailwind CSS
               </a>
               <a
-                href="https://groq.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-1 py-0.5 md:px-2 md:py-1 rounded border transition-all duration-200 hover:scale-105 hover:opacity-80 text-xs"
-                style={{
-                  backgroundColor: "var(--theme-surface)",
-                  borderColor: "var(--theme-border)",
-                  color: "var(--theme-accent)",
-                }}
-              >
-                Groq AI
-              </a>
-              <a
                 href="https://supabase.com"
                 target="_blank"
                 rel="noopener noreferrer"

@@ -74,6 +74,9 @@ report(`site modules and their local imports have no "use client" directive (${s
 report("site modules import only allowed packages and resolve every local import", [...new Set(badPackages)].sort());
 if (withBuild) {
   const routes = JSON.parse(fs.readFileSync(manifest, 'utf8')).routes ?? {};
-  report('the build marks / as static (prerender-manifest.json)', '/' in routes ? [] : ['/ is not prerendered']);
+  // HOME-AC-03 (/) and HOME-AC-28 (/privacy, U-10) must be static pages.
+  const STATIC_ROUTES = ['/', '/privacy'];
+  report(`the build marks ${STATIC_ROUTES.join(' and ')} as static (prerender-manifest.json)`,
+    STATIC_ROUTES.filter((r) => !(r in routes)).map((r) => `${r} is not prerendered`));
 }
 process.exit(failed ? 1 : 0);

@@ -73,7 +73,8 @@ test.describe('reduced motion', () => {
   test('HOME-AC-21 with prefers-reduced-motion there are 0 animations, transitions are <= 0.01s, and focus still highlights', async ({ page }) => {
     await page.goto('/');
     const work = building(page, 'Work');
-    const restFill = await work.locator('.city-label-bg').evaluate((el) => getComputedStyle(el).fill);
+    const label = work.locator('rect.city-label-bg'); // the bubble; its pointer path shares the class
+    const restFill = await label.evaluate((el) => getComputedStyle(el).fill);
     await work.hover();
     expect(await page.evaluate(() => document.getAnimations().length)).toBe(0);
     const durations = await page.evaluate(() =>
@@ -86,7 +87,7 @@ test.describe('reduced motion', () => {
     await work.focus();
     await page.keyboard.press('Shift+Tab');
     await page.keyboard.press('Tab');
-    const focusFill = await work.locator('.city-label-bg').evaluate((el) => getComputedStyle(el).fill);
+    const focusFill = await label.evaluate((el) => getComputedStyle(el).fill);
     expect(focusFill).not.toBe(restFill);
   });
 });

@@ -78,6 +78,16 @@ for (const [label, files, expected] of [
   });
 }
 
+test('HOME-AC-03 U-09 check-use-client allows next/og and next/navigation (server-only uses)', () => {
+  withFiles({
+    [`${SITE}/opengraph-image.tsx`]: "import { ImageResponse } from 'next/og';\nexport default () => new ImageResponse(null);\n",
+    [`${SITE}/work/page.tsx`]: "import { notFound } from 'next/navigation';\nexport default () => notFound();\n",
+  }, (dir) => {
+    const r = check(dir);
+    assert.equal(r.status, 0, r.out);
+  });
+});
+
 test('HOME-AC-03 check-use-client ignores "use client" inside a string or a test file', () => {
   withFiles({
     [`${LIB}/doc.ts`]: "export const doc = 'add \"use client\" only in the terminal';\n",

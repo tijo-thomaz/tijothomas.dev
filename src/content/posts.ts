@@ -3,6 +3,9 @@
 // "Coming soon" posts are shown (RQ-01 a); no post has a URL yet (RQ-04), so `url` is left out.
 import type { Post } from './types';
 
+/** The one /writing/[slug] placeholder page (noindex, not linked from `/` until it is published). */
+export const placeholderPostSlug = 'queues-double-charge'; // RQ-04 (a)
+
 export const posts: readonly Post[] = [
   {
     slug: 'queues-double-charge', // F-58

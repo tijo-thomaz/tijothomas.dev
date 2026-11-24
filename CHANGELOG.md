@@ -5,6 +5,15 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 ## [Unreleased]
 
 ### Added
+- SEO for `/` (U-09):
+  - meta title and description, canonical URL, Open Graph and Twitter card (`summary_large_image`);
+  - a 1200×630 share image (`/opengraph-image`);
+  - `sitemap.xml` and `robots.txt`;
+  - `Person` structured data (LinkedIn and GitHub only; no email or phone);
+  - the site favicon.
+- `/work/<slug>` and `/writing/<slug>`: one noindex placeholder each, with `TechArticle` JSON-LD on
+  writing. Other slugs are 404s (U-09).
+- The Lighthouse gate is enforced: ≥ 95 in all four categories (U-09).
 - `/`: the isometric CityMap in the hero, ported from the mockup. Its four buildings link to Work,
   Experience, Writing and Contact. Buildings lift and highlight on hover and keyboard focus (150 ms),
   and the car drives in once over 5 s (12 s before the modern-web-guidance pass: WCAG 2.2.2).

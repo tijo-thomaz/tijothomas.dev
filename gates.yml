@@ -100,8 +100,8 @@ gates:
     evidence: PLAT-AC-18 specs/home.md tracked and not ignored
   - id: lighthouse
     cmd: node scripts/lighthouse.mjs --runs 3 --out {evidence}/lighthouse
-    enforce: false
-    evidence: mobile median of 3 on / (next start); scores >= 95, CLS, LCP, TBT; enforced from U-09
+    enforce: true
+    evidence: SEO-AC-10 mobile median of 3 on / (next start); performance, accessibility, best practices and SEO >= 95; CLS <= 0.05, LCP <= 2.5 s, TBT <= 150 ms; enforced from U-09
     timeout: 900
   - id: view-source
     cmd: node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/view-source.mjs --out {evidence}

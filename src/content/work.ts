@@ -3,6 +3,9 @@
 // No item has a public link yet (F-71, RQ-04), so caseStudyUrl is left out.
 import type { WorkItem } from './types';
 
+/** The one /work/[slug] placeholder page (noindex, not linked from `/` until it has content). */
+export const placeholderWorkSlug = 'promptshield'; // RQ-04 (a)
+
 export const work: readonly WorkItem[] = [
   {
     slug: 'promptshield', // F-15

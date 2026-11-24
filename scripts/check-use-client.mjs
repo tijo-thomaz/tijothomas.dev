@@ -28,6 +28,8 @@ const ALLOWED_PACKAGES = new Set([
   'react', // types and server components
   'react-dom',
   '@vercel/analytics/react', // the one client package HOME-AC-03 allows
+  'next/og', // U-09: opengraph-image, rendered to a PNG at build time (server only, ships no JS)
+  'next/navigation', // U-09: notFound() in the placeholder routes (server use; no client hooks)
 ]);
 // The directive prologue: the leading run of string-literal statements. "use client" anywhere in it
 // counts ('use strict'; 'use client'; included).

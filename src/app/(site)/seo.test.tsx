@@ -21,8 +21,10 @@ const keys = (v: unknown): string[] =>
 
 describe('metadata of /', () => {
   it('SEO-AC-01 title < 60, description 70-160, canonical <siteUrl>/, OG images, summary_large_image, no twitter.creator', () => {
-    expect(metadata.title).toBe(profile.seo.title);
-    expect(String(metadata.title).length).toBeLessThan(60);
+    // `absolute`, so the layout's "%s · <name>" template does not apply to the home page.
+    const title = (metadata.title as { absolute: string }).absolute;
+    expect(title).toBe(profile.seo.title);
+    expect(title.length).toBeLessThan(60);
     const d = String(metadata.description);
     expect(d).toBe(profile.seo.description);
     expect(d.length).toBeGreaterThanOrEqual(70);

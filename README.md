@@ -98,7 +98,13 @@ npm run gates -- --unit U-01 --base 35521e2 --only CG2_lint,spec
   output tail) and `<id>.log`. The run exits 0 only if every **enforced** gate passes.
 - Status `blocked` (exit 78) means a required tool is missing, e.g. `gitleaks` for the CG10 secret
   scans. Install it to run those gates; a blocked gate never counts as a pass.
-- `lighthouse` (mobile, median of 3) is report-only until U-09.
+- `lighthouse` is enforced (SEO-AC-10): mobile, median of 3 runs on `/`, with Performance,
+  Accessibility, Best Practices and SEO each ≥ 95, CLS ≤ 0.05, LCP ≤ 2.5 s and TBT ≤ 150 ms.
+- SEO: head tags for `/` come from `profile.seo` (`src/app/(site)/page.tsx` metadata). Also from
+  content: `opengraph-image.tsx` (1200×630, bundled font, no network fetch), `src/app/sitemap.ts` and
+  `robots.ts`, and the `Person` JSON-LD. JSON-LD is written only through `src/lib/json-ld.ts`, which
+  escapes `<`; it is the one file allowed `dangerouslySetInnerHTML` (PLAT-AC-23).
+  `/work/<slug>` and `/writing/<slug>` serve one noindex placeholder each, and any other slug is a 404.
 - `view-source` is enforced (SEO-AC-09). It fetches `/` from `next start` with no JavaScript and checks
   that every string the page renders from `src/content` is in the server HTML
   (`scripts/lib/content-strings.mjs`, respecting `SHOW_PLANNED`). It names any missing string.

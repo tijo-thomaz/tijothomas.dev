@@ -13,10 +13,40 @@ import { posts } from '@/content/posts';
 import { profile } from '@/content/profile';
 import { work } from '@/content/work';
 import { isShowPlanned } from '@/lib/flags';
+import { JsonLd, personJsonLd } from '@/lib/json-ld';
+import { siteUrl } from '@/lib/site';
 import { visible } from '@/lib/visible';
 
+import type { Metadata } from 'next';
+
+const home = `${siteUrl}/`;
+// The OG image comes from opengraph-image.tsx (file convention). It is named here too, so the
+// metadata object is complete on its own (SEO-AC-01).
+const ogImage = { url: '/opengraph-image', width: 1200, height: 630, alt: profile.headline };
+
+// SEO-AC-01/11: all head tags for `/` come from profile.seo. No twitter.creator, no email or phone.
+export const metadata: Metadata = {
+  title: { absolute: profile.seo.title },
+  description: profile.seo.description,
+  alternates: { canonical: home },
+  openGraph: {
+    type: 'profile',
+    url: home,
+    siteName: profile.name,
+    title: profile.seo.title,
+    description: profile.seo.description,
+    images: [ogImage],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: profile.seo.title,
+    description: profile.seo.description,
+    images: [ogImage],
+  },
+};
+
 // `/`: a static server page composed from src/content. SHOW_PLANNED and the footer year are read at
-// build time (the page is prerendered). The CityMap arrives in U-08.
+// build time (the page is prerendered).
 export default function HomePage() {
   const showPlanned = isShowPlanned(process.env.SHOW_PLANNED);
   const { labels, sections } = profile;
@@ -34,6 +64,7 @@ export default function HomePage() {
         <Contact profile={profile} />
       </main>
       <Footer name={profile.name} year={new Date().getFullYear()} terminalLabel={labels.terminalMode} />
+      <JsonLd data={personJsonLd(profile)} />
     </>
   );
 }

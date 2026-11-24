@@ -13,6 +13,14 @@ test('HOME-AC-06 with JS disabled every section is visible and no "Loading" text
   await expect(page.getByText(/Loading/i)).toHaveCount(0);
 });
 
+test('HOME-AC-11 the brand link (#top) returns to the very top with the header and name visible', async ({ page }) => {
+  await page.goto('/');
+  await page.locator('#contact').scrollIntoViewIfNeeded();
+  await page.getByRole('navigation', { name: 'Main' }).locator('a[href="#top"]').evaluate((a) => (a as HTMLElement).click());
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
+  await expect(page.getByRole('navigation', { name: 'Main' }).locator('a[href="#top"]')).toBeInViewport();
+});
+
 test('HOME-AC-06 HOME-AC-09 with JS disabled each nav anchor scrolls its target into view', async ({ page }) => {
   await page.goto('/');
   const nav = page.getByRole('navigation', { name: 'Main' });

@@ -73,6 +73,19 @@ main:focus {
   outline: none; /* main is only focused by the skip link; it is not a control. */
 }
 
+/* In-page navigation. The brand link targets #top (the hero, HOME-AC-11), which sits below the
+   header. Without a margin, jumping there scrolls the header and the name out of view, so #top
+   scrolls to the very top of the page instead. Smooth scrolling only when motion is welcome. */
+#top {
+  scroll-margin-top: 100vh;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 /* Skip link: off-screen until focused (HOME-AC-11). */
 .skip-link {
   position: absolute;

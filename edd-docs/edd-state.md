@@ -56,6 +56,7 @@ Order (amended 2026-11-24): U-00 → U-01 → U-03 → U-02 → U-04 → … →
 ## Spikes / RCAs
 | ID | Question or incident | Result | Linked ADR/CAPA |
 |----|----------------------|--------|-----------------|
+| RCA-01 | Escaped U-04 defects: wrong GitHub account (7 copies, 1 missed by the first fix) and CHANGELOG corrupted by a JS `$`` replacement | Fixed; regression tests `scripts/rca-01.test.mjs`; edit rule CA-4; review 2.3 restored | `edd-docs/rca/RCA-01-u04-escaped-defects.md` |
 
 ## Open questions
 -

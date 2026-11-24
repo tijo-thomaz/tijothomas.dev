@@ -37,7 +37,7 @@ Manchester, UK
 
 CONTACT
 LinkedIn: linkedin.com/in/tijo-j-thomaz93
-GitHub: github.com/tijo-thomas
+GitHub: github.com/tijo-thomaz
 
 SUMMARY
 Senior Frontend Engineer with 8+ years of experience in modern web development.

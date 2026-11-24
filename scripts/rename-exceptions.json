@@ -1,4 +1,9 @@
 {
   "moveCommit": "0e8b4e9eb5d4c9366b559ed856994ba9c58fa190",
-  "exceptions": []
+  "exceptions": [
+    { "path": "src/terminal/lib/supabase.ts", "reason": "U-02 TERM-AC-06: eager client replaced by lazy getSupabase()" },
+    { "path": "src/terminal/api/analytics/route.ts", "reason": "U-02 TERM-AC-06: route uses getSupabase() and no-ops with no env" },
+    { "path": "src/terminal/features/chat-assistant/ui/ChatMessages.tsx", "reason": "U-02 PLAT-AC-04: React 19 RefObject<T | null> prop type" },
+    { "path": "src/terminal/features/chat-assistant/ui/FloatingDrawer.tsx", "reason": "U-02 PLAT-AC-04: React 19 RefObject<T | null> prop type" }
+  ]
 }

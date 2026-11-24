@@ -6,7 +6,7 @@ import ContactMessage from "../../../components/ContactMessage";
 
 interface ChatMessagesProps {
   messages: Message[];
-  messagesEndRef: React.RefObject<HTMLDivElement>;
+  messagesEndRef: React.RefObject<HTMLDivElement | null>;
 }
 
 export function ChatMessages({ messages, messagesEndRef }: ChatMessagesProps) {

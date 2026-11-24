@@ -75,7 +75,7 @@ test('PLAT-AC-14 PLAT-AC-16 CG2 and CG7 run npm run lint (Oxlint)', () => {
 
 test('U-01 CG1 builds, CG3 type-checks, CG4 runs vitest and the scripts node:test suite, CG5 measures coverage', () => {
   const gates = loadGates();
-  assert.match(cmdsOf(gates, /^CG1(_|$)/), /npm run build|next build/);
+  assert.match(cmdsOf(gates, /^CG1(_|$)/), /npm run build|next build|node scripts\/build-no-env\.mjs/); // U-02: CG1 builds via build-no-env (runs npm run build)
   assert.match(cmdsOf(gates, /^CG3(_|$)/), /tsc --noEmit|npm run type-check/);
   const cg4 = cmdsOf(gates, /^CG4(_|$)/);
   assert.match(cg4, /vitest|check-vitest-config|npm (run )?test(\s|$|&)/);

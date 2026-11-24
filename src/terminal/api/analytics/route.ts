@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabase } from '@/terminal/lib/supabase';
+import { getSupabase } from '@/terminal/lib/supabase';
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
+    const supabase = getSupabase();
+    // TERM-AC-06: no Supabase env means analytics is a no-op, never a 500.
+    if (!supabase) return NextResponse.json({ success: false });
     const { type } = body; // 'visit', 'command', or 'question'
     
     const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
@@ -57,6 +60,10 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   try {
+    const supabase = getSupabase();
+    // TERM-AC-06: no Supabase env returns empty data, never a 500.
+    if (!supabase) return NextResponse.json({ visits: [], usage: [] });
+
     // Get daily visits
     const { data: visitsData, error: visitsError } = await supabase
       .from('daily_visits')

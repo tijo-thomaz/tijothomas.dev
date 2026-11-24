@@ -7,7 +7,7 @@ interface FloatingDrawerProps {
   isOpen: boolean;
   onClose: () => void;
   isDragging: boolean;
-  drawerRef: React.RefObject<HTMLDivElement>;
+  drawerRef: React.RefObject<HTMLDivElement | null>;
   onTouchStart: (e: React.TouchEvent) => void;
   onTouchMove: (e: React.TouchEvent) => void;
   onTouchEnd: () => void;

@@ -10,7 +10,7 @@
 # Folders are never named here: scripts read them from scripts/paths.mjs.
 gates:
   - id: CG1_build
-    cmd: npm run build
+    cmd: node scripts/build-no-env.mjs
     enforce: true
     evidence: next build exit code and route table (empty-env build from U-02)
     timeout: 900

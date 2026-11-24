@@ -2,12 +2,23 @@
  * Supabase client configuration for analytics
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+let client: SupabaseClient | null = null;
 
-export const supabase = createClient(supabaseUrl, supabaseKey);
+/**
+ * Lazy, memoised Supabase client (U-02, TERM-AC-06, PLAT-AC-03).
+ * Reads env on first call, not at import, so the build and the terminal work with no Supabase env.
+ * Returns null when either env var is missing or empty.
+ */
+export function getSupabase(): SupabaseClient | null {
+  if (client) return client;
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !key) return null;
+  client = createClient(url, key);
+  return client;
+}
 
 // Privacy-first analytics data structure
 export interface AnalyticsEvent {
@@ -48,10 +59,8 @@ export interface VisitorStats {
  */
 export async function storeAnalyticsEvent(event: AnalyticsEvent): Promise<boolean> {
   try {
-    // Check if Supabase is properly configured
-    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-      return false; // Silently fail if not configured
-    }
+    const supabase = getSupabase();
+    if (!supabase) return false;
 
     const { error } = await supabase
       .from('analytics_events')
@@ -79,10 +88,8 @@ export async function storeAnalyticsEvent(event: AnalyticsEvent): Promise<boolea
  */
 export async function storeSessionData(session: SessionData): Promise<boolean> {
   try {
-    // Check if Supabase is properly configured
-    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-      return false; // Silently fail if not configured
-    }
+    const supabase = getSupabase();
+    if (!supabase) return false;
 
     const { error } = await supabase
       .from('user_sessions')
@@ -114,6 +121,9 @@ export async function storeSessionData(session: SessionData): Promise<boolean> {
  */
 export async function getSupabaseAnalytics() {
   try {
+    const supabase = getSupabase();
+    if (!supabase) return null;
+
     // Get unique session count (total visitors)
     const { data: sessions, error: sessionsError } = await supabase
       .from('user_sessions')
@@ -210,10 +220,8 @@ export async function getSupabaseAnalytics() {
  */
 export async function deleteUserSessionData(sessionId: string): Promise<boolean> {
   try {
-    // Check if Supabase is properly configured
-    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-      return false;
-    }
+    const supabase = getSupabase();
+    if (!supabase) return false;
 
     // Call the database function to delete user data
     const { error } = await supabase.rpc('delete_user_session_data', {
@@ -240,9 +248,8 @@ export async function deleteUserSessionData(sessionId: string): Promise<boolean>
  */
 export async function updateVisitorStats(): Promise<boolean> {
   try {
-    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-      return false;
-    }
+    const supabase = getSupabase();
+    if (!supabase) return false;
 
     const today = new Date().toISOString().split('T')[0];
     

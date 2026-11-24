@@ -33,7 +33,7 @@ Traces: FR-001, FR-002, FR-007, FR-008, FR-020–FR-032, FR-040–FR-044, NFR-01
 
 ### Micro-interactions (CSS only)
 - **HOME-AC-19** — Given a building is hovered or has `:focus-visible`, when styles compute, then its transform is `translateY(-4px)`, its label is highlighted, and the transition is `150ms ease-out`. _Traces: FR-040, US-15 · Verify: e2e_
-- **HOME-AC-20** — Given page load, when animations are listed, then the car animation lasts 12000 ms with 1 iteration. Given a card is hovered, then only `border-color` changes. _Traces: FR-041, FR-042, US-15 · Verify: e2e_
+- **HOME-AC-20** — Given page load, when animations are listed, then the car animation lasts 5000 ms with 1 iteration (amended 2026-11-25, owner decision D1: was 12000 ms; WCAG 2.2.2 needs a pause control for automatic motion over 5 s). Given a card is hovered, then only `border-color` changes. _Traces: FR-041, FR-042, US-15 · Verify: e2e_
 - **HOME-AC-21** — Given `prefers-reduced-motion: reduce`, when `/` loads and a building is hovered, then `document.getAnimations().length === 0`, every transition is ≤ 0.01 s, and the focus highlight colour still applies. _Traces: FR-043, NFR-015, US-15 · Verify: e2e_
 
 ### Accessibility and responsive

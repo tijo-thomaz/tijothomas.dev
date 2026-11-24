@@ -7,7 +7,8 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 ### Added
 - `/`: the isometric CityMap in the hero, ported from the mockup. Its four buildings link to Work,
   Experience, Writing and Contact. Buildings lift and highlight on hover and keyboard focus (150 ms),
-  and the car drives in once over 12 s. Reduced motion turns every animation and transition off. The
+  and the car drives in once over 5 s (12 s before the modern-web-guidance pass: WCAG 2.2.2).
+  Reduced motion turns the map's animation and transitions off. The
   signposts show the timeline cities from `src/content` (U-08).
 - Browser checks for `/`: axe at 360 and 1440 px, a keyboard Tab walk, target sizes, the first
   viewport and horizontal overflow (`@axe-core/playwright` 4.14.0) (U-08).

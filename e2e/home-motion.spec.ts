@@ -39,7 +39,7 @@ test('HOME-AC-19 a hovered or focused building lifts by 4px, highlights its labe
   expect((await style()).labelFill).toBe(hovered.labelFill);
 });
 
-test('HOME-AC-20 the car animation runs once for 12000 ms', async ({ page }) => {
+test('HOME-AC-20 the car animation runs once for 5000 ms (WCAG 2.2.2: no pause control needed)', async ({ page }) => {
   await page.goto('/');
   const anims = await page.evaluate(() =>
     document.getAnimations().map((a) => {
@@ -48,7 +48,7 @@ test('HOME-AC-20 the car animation runs once for 12000 ms', async ({ page }) => 
       return { car: !!target?.closest('.city-car'), duration: t?.duration, iterations: t?.iterations };
     }),
   );
-  expect(anims.filter((a) => a.car)).toEqual([{ car: true, duration: 12000, iterations: 1 }]);
+  expect(anims.filter((a) => a.car)).toEqual([{ car: true, duration: 5000, iterations: 1 }]);
 });
 
 test('HOME-AC-20 hovering a work card changes only its border colour', async ({ page }) => {

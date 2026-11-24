@@ -26,7 +26,11 @@
 | 12 | html | Doctype, `lang`, viewport (zoom allowed), one `h1`, ordered headings, landmarks (one banner, main and contentinfo; two named navs), lists, link and button roles | **Compliant** |
 | 13 | css-layout | Flexbox for rows, `gap` rather than margins, the `flex` shorthand, `aspect-ratio` for the svg, `display: block` on the svg, no `overflow: hidden` to mask layout | **Compliant** |
 
-## Owner decisions
+## Owner decisions (answered 2026-11-25)
+- **D1 → (a):** the car drive is now 5 s. HOME-AC-20 in `specs/home.md` was amended, and the e2e test checks 5000 ms.
+- **D2 → (a):** light only for now, declared with `color-scheme: light`.
+
+The options as they were asked:
 - **D1: car animation (WCAG 2.2.2).**
   - (a) **Recommended:** shorten the drive to 5 s or less, which needs no control. This amends HOME-AC-20 (12000 ms → ≤ 5000 ms).
   - (b) Keep 12 s and add a visible pause control. It needs a button, so client JS or a CSS-only checkbox control.

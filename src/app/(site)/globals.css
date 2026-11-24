@@ -723,7 +723,8 @@ main:focus {
 
 /* HOME-AC-20: the car drives in along its road once. */
 .city-car {
-  animation: city-drive 12s ease-out 1 both;
+  /* 5 s: automatic motion over 5 s would need a pause control (WCAG 2.2.2, owner decision D1). */
+  animation: city-drive 5s ease-out 1 both;
 }
 
 @keyframes city-drive {

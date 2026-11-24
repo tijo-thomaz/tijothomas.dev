@@ -75,6 +75,7 @@ export interface Profile {
     linkedin: string;
     github: string;
     terminalMode: string;
+    caseStudy: string;
     now: string;
     present: string;
     notMeasured: string;

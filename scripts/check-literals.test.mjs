@@ -50,6 +50,29 @@ test('CONT-AC-12 check-literals fails on a string literal of more than 3 words (
   });
 });
 
+// U-06 review #2: text next to an {expression}, and visible text containing "//", must be seen.
+for (const [label, src, expected] of [
+  ['JSX text that sits next to an {expression}', 'export const P = ({ city }) => <p>I am a senior engineer based in {city}</p>;\n', /I am a senior engineer based in/],
+  ['JSX text containing a URL with //', 'export const P = () => <p>See https://example.com for the full story</p>;\n', /for the full story/],
+  ['a template literal with an expression', 'export const t = (n) => `Open to roles in ${n} and nearby cities`;\n', /nearby cities/],
+]) {
+  test(`CONT-AC-12 check-literals fails on ${label}`, () => {
+    withFiles({ [`${COMP}/P.tsx`]: src }, (dir) => {
+      const r = check(dir);
+      assert.equal(r.status, 1, r.out);
+      assert.match(r.out, expected);
+    });
+  });
+}
+
+test('CONT-AC-12 check-literals also scans the (site) route files (page and layout)', () => {
+  withFiles({ [`${paths.layers.site}/page.tsx`]: 'export default function P() { return <main>Welcome to my little corner of the web</main>; }\n' }, (dir) => {
+    const r = check(dir);
+    assert.equal(r.status, 1, r.out);
+    assert.match(r.out, /Welcome to my little corner/);
+  });
+});
+
 test('CONT-AC-12 check-literals skips comments and test files', () => {
   withFiles({
     [`${COMP}/Nav.tsx`]: '// This comment has many words in it\nexport const N = 1;\n',

@@ -29,7 +29,7 @@ export function Contact({ profile }: { profile: ContactProfile }) {
         <ul className="contact-card" role="list">
           {contactLinks.map((l) => (
             <li key={l.href}>
-              <a href={l.href} rel="me noopener noreferrer" target="_blank" className="contact-link">
+              <a href={l.href} rel="me noopener noreferrer" className="contact-link">
                 {l.label}
               </a>
             </li>

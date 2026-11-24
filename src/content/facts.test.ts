@@ -115,6 +115,19 @@ describe('row references in src/content/*.ts', () => {
     const acs = sourceLines.flatMap((l) => l.comment.match(/\b[A-Z]+-AC-\d{2}\b/g) ?? []);
     expect(acs.filter((ac) => !specs.includes(`**${ac}**`))).toEqual([]);
   });
+
+  it('CONT-AC-10 a value backed only by a spec AC appears verbatim in that AC (U-06 review #4)', () => {
+    const specs = fs.readdirSync(path.join(repo, 'specs')).filter((f) => f.endsWith('.md')).map((f) => read(`specs/${f}`)).join('\n');
+    const acText = (ac: string) => specs.split('\n').find((l) => l.includes(`**${ac}**`)) ?? '';
+    const acOnly = sourceLines.filter((l) => /\b[A-Z]+-AC-\d{2}\b/.test(l.comment) && !/\b([FC]-\d{2}|RQ-\d{2})\b/.test(l.comment));
+    expect(acOnly.length).toBeGreaterThan(0);
+    const bad = acOnly.flatMap((l) => {
+      const value = l.code.match(/['"`]([^'"`]+)['"`]/)?.[1] ?? '';
+      const acs = l.comment.match(/\b[A-Z]+-AC-\d{2}\b/g) ?? [];
+      return acs.some((ac) => value && acText(ac).includes(value)) ? [] : [`${l.file}:${l.n} "${value}" not in ${acs.join(', ')}`];
+    });
+    expect(bad).toEqual([]);
+  });
 });
 
 describe('owner resolutions (1.1-facts-resolved.md)', () => {

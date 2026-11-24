@@ -1,7 +1,7 @@
 // U-06: `/` composes the shell (skip link, nav, hero, highlights, contact, footer) from src/content.
 import { render, screen } from '@testing-library/react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { profile } from '@/content/profile';
 
@@ -29,9 +29,15 @@ describe('(site) home page shell', () => {
     expect(html()).not.toMatch(/Download CV|mailto:|[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i);
   });
 
-  it('HOME-AC-18 the footer shows the current (build) year and the name', () => {
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it('HOME-AC-18 the footer shows the year the page is rendered (built) in, and the name', () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2031-06-01T12:00:00Z'));
     render(<Page />);
-    expect(screen.getByRole('contentinfo').textContent).toContain(`© ${new Date().getFullYear()} ${profile.name}`);
+    expect(screen.getByRole('contentinfo').textContent).toContain(`© 2031 ${profile.name}`);
   });
 
   it('CONT-AC-07 the rendered HTML has 0 mockup placeholder tokens', () => {

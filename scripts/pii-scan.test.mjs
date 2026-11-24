@@ -117,6 +117,31 @@ test('CONT-AC-14 pii-scan skips SVG path data, coordinates, hex hashes and trace
   } finally { removeFixture(svg); removeFixture(mobile); }
 });
 
+test('CONT-AC-14 pii-scan also scans text files in public/ (served verbatim)', () => {
+  const dir = build({ 'public/cv.txt': 'Contact: someone.real@example.com' });
+  try {
+    const r = scan(dir);
+    assert.equal(r.status, 1, r.out);
+    assert.match(r.out, /public\/cv\.txt:\d+ email/);
+  } finally { removeFixture(dir); }
+});
+
+// U-04 review #2: a phone line followed by a dates line must not merge into one long digit run, and
+// a dot-separated number is a phone shape, not a decimal fraction.
+for (const [label, text, expected] of [
+  ['a phone line followed by a dates line', 'Phone: +44 7818 989060\n2019 - 2023', /phone \+44 7818 989060/],
+  ['a dot-separated phone number', 'Call +44.7818.989.060 today', /phone \+44\.7818\.989\.060/],
+]) {
+  test(`CONT-AC-14 pii-scan flags ${label}`, () => {
+    const dir = build({ '.next/server/app/terminal.html': `<pre>${text}</pre>` });
+    try {
+      const r = scan(dir);
+      assert.equal(r.status, 1, r.out);
+      assert.match(r.out, expected);
+    } finally { removeFixture(dir); }
+  });
+}
+
 test('CONT-AC-14 pii-scan exits 2 when there is no build output (no vacuous pass)', () => {
   const dir = makeFixture({ 'scripts/pii-allowlist.json': JSON.stringify({ allow: [] }) });
   try {

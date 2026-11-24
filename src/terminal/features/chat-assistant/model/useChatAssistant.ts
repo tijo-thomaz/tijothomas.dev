@@ -4,8 +4,9 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { usePromptShield } from "../../prompt-shield/model/usePromptShield";
 import { soundManager } from "../../../lib/sounds";
 import { trackQuestion } from "../../../lib/simple-analytics";
+import { CHAT_UNAVAILABLE_MESSAGE } from "./chatUnavailable";
 
-export { CHAT_UNAVAILABLE_MESSAGE } from "./chatUnavailable";
+export { CHAT_UNAVAILABLE_MESSAGE };
 
 export interface Message {
   id: string;
@@ -247,7 +248,7 @@ export function useChatAssistant() {
 
   const generateLLMResponse = useCallback(async (userMessage: string): Promise<string> => {
     if (!isOnline) {
-      return "I'm currently offline. Please check your internet connection and try again, or reach Tijo on LinkedIn.";
+      return CHAT_UNAVAILABLE_MESSAGE; // one message on every path (U-04 review #7)
     }
 
     try {

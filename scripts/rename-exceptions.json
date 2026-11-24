@@ -35,11 +35,11 @@
     },
     {
       "path": "src/terminal/components/ContactActions.tsx",
-      "reason": "U-04 commit A (SQ-05 a): data-only contact PII strip; email and WhatsApp buttons removed, GitHub button added"
+      "reason": "U-04 commit A (SQ-05 a): contact PII strip, not data-only (U-04 review): email and WhatsApp buttons and handlers removed, GitHub button added; U-04 review #4: window.open with noopener"
     },
     {
       "path": "src/terminal/components/ContactMessage.tsx",
-      "reason": "U-04 commit A (SQ-05 a): data-only contact PII strip; email and WhatsApp options removed, GitHub option added"
+      "reason": "U-04 commit A (SQ-05 a): contact PII strip, not data-only (U-04 review): email and WhatsApp options and handlers removed, GitHub option added; U-04 review #4: window.open with noopener"
     },
     {
       "path": "src/terminal/features/chat-assistant/model/useChatAssistant.ts",

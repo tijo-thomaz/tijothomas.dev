@@ -103,7 +103,10 @@ describe('content safety', () => {
   it('CONT-AC-13 every href is an in-page anchor, a site path or an https:// URL', () => {
     const hrefs = strings.filter((l) => l.key === 'href');
     expect(hrefs.length).toBeGreaterThan(0);
-    const bad = hrefs.filter((l) => !/^(#[a-z][a-z-]*|\/[a-z0-9/-]*|https:\/\/\S+)$/.test(l.value));
+    // A site path must not be protocol-relative ("//host" leaves the site) (U-05 review #4).
+    const SAFE_HREF = /^(#[a-z][a-z-]*|\/(?!\/)[a-z0-9/-]*|https:\/\/\S+)$/;
+    expect(['//evil.example', 'javascript:alert(1)', 'http://x.dev'].filter((h) => SAFE_HREF.test(h))).toEqual([]);
+    const bad = hrefs.filter((l) => !SAFE_HREF.test(l.value));
     expect(bad.map((l) => `${l.path}: ${l.value}`)).toEqual([]);
   });
 

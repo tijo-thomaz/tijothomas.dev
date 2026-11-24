@@ -87,6 +87,8 @@ main:focus {
 }
 
 .band--ink {
+  /* #1d4ed8 on --ink is about 2.6:1; WCAG 1.4.11 needs 3:1 for a focus ring (U-06 review #5). */
+  --focus: #93c5fd;
   background: var(--ink);
   color: var(--on-ink);
 }

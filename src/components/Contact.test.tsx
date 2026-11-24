@@ -23,6 +23,8 @@ describe('Contact', () => {
     expect(links.map((a) => a.getAttribute('href'))).toEqual([profile.links.linkedin, profile.links.github]);
     const rels = links.map((a) => (a.getAttribute('rel') ?? '').split(/\s+/));
     expect(rels.filter((r) => !(r.includes('me') && r.includes('noopener')))).toEqual([]);
+    // Same tab: no unannounced new-tab behaviour (U-06 review #9, WCAG G201).
+    expect(links.filter((a) => a.hasAttribute('target'))).toEqual([]);
   });
 
   it('HOME-AC-17 has no email line, no mailto: and no Download CV control', () => {

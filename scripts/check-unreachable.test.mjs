@@ -68,6 +68,22 @@ test('PLAT-AC-11 PLAT-AC-12 U-05 a keep-listed module with a reason is neither u
   } finally { removeFixture(dir); }
 });
 
+// U-05 review #2: stale or over-broad keep entries fail.
+for (const [label, keepLine, expected] of [
+  ['a module that a route now imports', `${LIB}/x.ts  # kept`, /now reachable, remove the entry: .*x\.ts/],
+  ['a module that no longer exists', `${LIB}/nope.ts  # kept`, /missing, remove the entry: .*nope\.ts/],
+  ['a path on the audited deletion list', 'gone/a.ts  # kept', /names an audited deletion.*gone\/a\.ts/],
+]) {
+  test(`PLAT-AC-11 U-05 a keep entry for ${label} fails and is named`, () => {
+    const dir = makeFixture({ ...base, [KEEP]: `${keepLine}\n`, ...(label.includes('audited') ? { 'gone/a.ts': 'export const a = 1;\n' } : {}) });
+    try {
+      const r = check(dir);
+      assert.equal(r.status, 1, r.out);
+      assert.match(r.out, expected);
+    } finally { removeFixture(dir); }
+  });
+}
+
 test('PLAT-AC-11 U-05 a keep-list entry without a # reason fails and is named', () => {
   const dir = makeFixture({ ...base, ...orphan, [KEEP]: `${LIB}/later.ts\n` });
   try {

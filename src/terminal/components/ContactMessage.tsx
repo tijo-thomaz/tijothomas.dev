@@ -10,11 +10,11 @@ const contactInfo = {
 
 export default function ContactMessage() {
   const handleLinkedInClick = () => {
-    window.open(contactInfo.linkedin, '_blank');
+    window.open(contactInfo.linkedin, '_blank', 'noopener,noreferrer');
   };
 
   const handleGitHubClick = () => {
-    window.open(contactInfo.github, '_blank');
+    window.open(contactInfo.github, '_blank', 'noopener,noreferrer');
   };
 
   return (

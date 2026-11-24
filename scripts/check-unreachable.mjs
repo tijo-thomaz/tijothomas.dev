@@ -62,8 +62,18 @@ report('PLAT-AC-11', 'unreachable path lists are readable and non-empty', [
   ...(fs.existsSync(path.join(root, U00_LIST)) && u00Listed.length === 0 ? [`${U00_LIST}: exists but 0 paths read`] : []),
 ]);
 const listed = [...auditListed, ...u00Listed];
-const stillThere = [...new Set(listed)].filter((p) => fs.existsSync(path.join(root, p)) && !keep.has(p)).sort();
+const stillThere = [...new Set(listed)].filter((p) => fs.existsSync(path.join(root, p))).sort();
 report('PLAT-AC-11', 'listed unreachable paths do not exist', stillThere.map((p) => `exists: ${p}`));
+
+// Keep entries never go stale (U-05 review #2): each must name an existing module that is still
+// unreachable, and none may exempt a path from the audited deletion lists.
+const keepProblems = [...keep].sort().flatMap((p) => {
+  if (listed.includes(p)) return [`names an audited deletion, which keep cannot exempt: ${p}`];
+  if (!fs.existsSync(path.join(root, p))) return [`missing, remove the entry: ${p}`];
+  if (graph.reachable.has(p)) return [`now reachable, remove the entry: ${p}`];
+  return [];
+});
+report('PLAT-AC-11', 'every keep entry names an existing, still-unreachable module', keepProblems);
 
 // PLAT-AC-11 (b): the import graph from the Next.js route entries has no unreachable module.
 report('PLAT-AC-11', `import graph has 0 unreachable modules in ${AC11_DIRS.join(', ')}/`,

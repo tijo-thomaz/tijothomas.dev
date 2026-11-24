@@ -19,9 +19,20 @@ const root = path.resolve(i >= 0 ? args[i + 1] : process.cwd());
 const withBuild = !args.includes('--no-build');
 const { site, components, content, lib } = paths.layers;
 const SITE_LAYERS = [site, components, content, lib];
-const ALLOWED_PACKAGES = /^(next|react|react-dom|@vercel\/analytics)(\/|$)/;
-// A directive is the first statement: only comments and whitespace may precede it.
-const DIRECTIVE = /^\s*(['"])use client\1\s*;?/;
+// Exact package specifiers only (U-06 review #3). next/link, next/image, next/dynamic and next/script
+// are client modules or inject client JS, so they are not allowed. Add an entry only with a reason.
+const ALLOWED_PACKAGES = new Set([
+  'next', // types (Metadata, Viewport)
+  'next/font/google', // build-time font loading
+  'next/font/local',
+  'react', // types and server components
+  'react-dom',
+  '@vercel/analytics/react', // the one client package HOME-AC-03 allows
+]);
+// The directive prologue: the leading run of string-literal statements. "use client" anywhere in it
+// counts ('use strict'; 'use client'; included).
+const PROLOGUE = /^(?:\s*(['"])[^'"\n]*\1\s*;?)+/;
+const hasUseClient = (code) => /(['"])use client\1/.test(code.match(PROLOGUE)?.[0] ?? '');
 
 const manifest = path.join(root, '.next/prerender-manifest.json');
 if (withBuild && !fs.existsSync(manifest)) {
@@ -39,11 +50,12 @@ while (stack.length) {
   if (seen.has(f)) continue;
   seen.add(f);
   const src = fs.readFileSync(path.join(root, f), 'utf8');
-  if (DIRECTIVE.test(stripComments(src))) clientModules.push(f);
+  if (hasUseClient(stripComments(src))) clientModules.push(f);
   for (const s of specifiers(src)) {
     const r = resolveLocal(root, f, s);
     if (typeof r === 'string') stack.push(r);
-    else if (r === null && !ALLOWED_PACKAGES.test(s)) badPackages.push(`${f} imports ${s}`);
+    else if (r === null && !ALLOWED_PACKAGES.has(s)) badPackages.push(`${f} imports ${s}`);
+    else if (r && typeof r === 'object') badPackages.push(`${f} has an unresolved local import ${s}`);
   }
 }
 
@@ -55,7 +67,7 @@ const report = (name, problems) => {
 };
 
 report(`site modules and their local imports have no "use client" directive (${seen.size} modules)`, clientModules.sort());
-report('site modules import only next, react and @vercel/analytics packages', [...new Set(badPackages)].sort());
+report("site modules import only allowed packages and resolve every local import", [...new Set(badPackages)].sort());
 if (withBuild) {
   const routes = JSON.parse(fs.readFileSync(manifest, 'utf8')).routes ?? {};
   report('the build marks / as static (prerender-manifest.json)', '/' in routes ? [] : ['/ is not prerendered']);

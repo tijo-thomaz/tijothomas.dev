@@ -61,6 +61,23 @@ test('HOME-AC-03 check-use-client fails on a bare import outside next, react and
   });
 });
 
+// U-06 review #3: only exact package subpaths are allowed; a later directive in the prologue counts;
+// an unresolved local import fails.
+for (const [label, files, expected] of [
+  ['next/script', { [`${COMP}/Hero.tsx`]: "import Script from 'next/script';\nexport const Hero = () => Script;\n" }, /next\/script/],
+  ['next/link', { [`${COMP}/Hero.tsx`]: "import Link from 'next/link';\nexport const Hero = () => Link;\n" }, /next\/link/],
+  ['"use client" after "use strict"', { [`${LIB}/s.ts`]: "'use strict';\n'use client';\nexport const s = 1;\n" }, new RegExp(`${LIB}/s\\.ts`)],
+  ['an unresolved local import', { [`${COMP}/Hero.tsx`]: "import { gone } from './gone';\nexport const Hero = () => gone;\n" }, /unresolved.*\.\/gone/],
+]) {
+  test(`HOME-AC-03 check-use-client fails on ${label}`, () => {
+    withFiles(files, (dir) => {
+      const r = check(dir);
+      assert.equal(r.status, 1, r.out);
+      assert.match(r.out, expected);
+    });
+  });
+}
+
 test('HOME-AC-03 check-use-client ignores "use client" inside a string or a test file', () => {
   withFiles({
     [`${LIB}/doc.ts`]: "export const doc = 'add \"use client\" only in the terminal';\n",

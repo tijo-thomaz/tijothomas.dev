@@ -98,6 +98,10 @@ npm run gates -- --unit U-01 --base 35521e2 --only CG2_lint,spec
 - `CG10_pii_scan` and `CG10_groq` read the build that CG1 just made, so they run after it. A pii-scan
   match is fixed at the source; `scripts/pii-allowlist.json` only lists non-contact numbers, each
   with a reason.
+- `use_client` (HOME-AC-03) also reads that build: the public site and everything it imports ship no
+  `"use client"` module of ours, only next, react and @vercel/analytics packages, and `/` is static.
+- `literals` (CONT-AC-12): components hold no copy longer than 3 words; put text in `src/content/*.ts`.
+  `scripts/literals-allowlist.json` takes exceptions, each with a reason.
 - CG1 and the runtime gates build into `.next/`. Do not run them in a checkout where `next dev` is
   running; use a separate git worktree.
 - Gate scripts never hard-code source folders: they read them from `scripts/paths.mjs`.

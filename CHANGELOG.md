@@ -5,6 +5,12 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 ## [Unreleased]
 
 ### Added
+- `/` is the real home page shell, server-rendered from `src/content/` with no client JS of our own:
+  skip link, navigation, hero, highlights, contact (LinkedIn and GitHub only) and footer with a
+  "Terminal mode" link. Site CSS tokens follow the mockup (U-06).
+- Gates `use_client` (`scripts/check-use-client.mjs`, HOME-AC-03: no `"use client"` module in the site
+  or its imports, `/` static) and `literals` (`scripts/check-literals.mjs`, CONT-AC-12: no copy longer
+  than 3 words in `src/components`; allow-list `scripts/literals-allowlist.json`) (U-06).
 - `src/content/` (`types.ts`, `profile.ts`, `experience.ts`, `work.ts`, `posts.ts`): typed content for `/`,
   the single source of every fact and line of copy. Each value cites its row in the owner facts sheet
   (CONT-AC-10). `Profile` has no email, phone or WhatsApp field (CONT-AC-15) (U-05).

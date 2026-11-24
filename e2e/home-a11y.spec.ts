@@ -31,15 +31,19 @@ test('HOME-AC-23 Tab reaches every interactive element once, each with a visible
       return {
         id: `${el.tagName}|${el.getAttribute('href') ?? ''}|${el.getAttribute('aria-label') ?? el.textContent?.trim().slice(0, 30)}`,
         outline: cs.outlineStyle !== 'none' ? parseFloat(cs.outlineWidth) : 0,
-        lifted: inMap && cs.transform === 'matrix(1, 0, 0, 1, 0, -4)',
+        inMap,
       };
     });
     if (!info) break;
     if (seen.includes(info.id)) break; // wrapped around: no trap
     seen.push(info.id);
-    await page.waitForTimeout(200); // let the 150 ms lift finish
-    const lifted = info.lifted || (await page.evaluate(() => getComputedStyle(document.activeElement as Element).transform === 'matrix(1, 0, 0, 1, 0, -4)'));
-    if (info.outline < 2 && !lifted) problems.push(`${info.id}: outline ${info.outline}px, not lifted`);
+    if (info.inMap) {
+      // Buildings: the body lifts (HOME-AC-19). Poll until the 150 ms transition settles.
+      await expect
+        .poll(() => page.evaluate(() => getComputedStyle(document.activeElement!.querySelector('.city-building-body')!).transform))
+        .toBe('matrix(1, 0, 0, 1, 0, -4)');
+    }
+    if (info.outline < 2) problems.push(`${info.id}: outline ${info.outline}px`);
   }
   expect(seen).toHaveLength(total);
   expect(problems).toEqual([]);

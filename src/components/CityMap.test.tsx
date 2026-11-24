@@ -62,6 +62,30 @@ describe('CityMap', () => {
     expect(car?.querySelectorAll('ellipse').length).toBe(2);
   });
 
+  it('HOME-AC-08 a building with no nav label fails the render instead of shipping a nameless link', () => {
+    const nav = { ...profile.nav, items: profile.nav.items.filter((i) => i.href !== '#work') };
+    expect(() => render(<CityMap city={profile.city} nav={nav} />)).toThrow(/#work: unlabelled building/);
+  });
+
+  it('HOME-AC-10 each label pill is sized from its content label and centred on the label text', () => {
+    const nav = { ...profile.nav, items: profile.nav.items.map((i) => (i.href === '#work' ? { ...i, label: 'Selected work' } : i)) };
+    const { container } = render(<CityMap city={profile.city} nav={nav} />);
+    const link = container.querySelector('a[href="#work"]');
+    const rect = link?.querySelector('rect.city-label-bg');
+    const text = link?.querySelector('text');
+    const width = Number(rect?.getAttribute('width'));
+    expect(width).toBeCloseTo(30 + 9.2 * 'Selected work'.length, 1);
+    expect(Number(rect?.getAttribute('x')) + width / 2).toBeCloseTo(Number(text?.getAttribute('x')), 1);
+  });
+
+  it('HOME-AC-10 with the confirmed labels the pills keep the mockup widths', () => {
+    const { container } = renderMap();
+    const widths = Object.fromEntries(
+      Array.from(container.querySelectorAll('a')).map((a) => [a.getAttribute('aria-label'), a.querySelector('rect.city-label-bg')?.getAttribute('width')]),
+    );
+    expect(widths).toEqual({ Experience: '122.0', Work: '66.8', Writing: '94.4', Contact: '94.4' });
+  });
+
   it('HOME-AC-08 the map holds no other links or focusable elements', () => {
     renderMap();
     expect(screen.getAllByRole('link')).toHaveLength(4);

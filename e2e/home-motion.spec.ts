@@ -7,35 +7,36 @@ const building = (page: import('@playwright/test').Page, name: string) =>
 test('HOME-AC-19 a hovered or focused building lifts by 4px, highlights its label, over 150ms ease-out', async ({ page }) => {
   await page.goto('/');
   const work = building(page, 'Work');
+  // The building's body lifts (not the link's hit area); the label bubble is the rect.
   const style = () =>
     work.evaluate((el) => {
-      const cs = getComputedStyle(el);
-      const label = el.querySelector('.city-label-bg');
+      const body = el.querySelector('.city-building-body') as Element;
+      const label = el.querySelector('rect.city-label-bg') as Element;
+      const cs = getComputedStyle(body);
       return {
         transform: cs.transform,
         duration: cs.transitionDuration,
         timing: cs.transitionTimingFunction,
-        labelFill: label ? getComputedStyle(label).fill : '',
+        labelFill: getComputedStyle(label).fill,
       };
     });
   const rest = await style();
   expect(rest.duration).toContain('0.15s');
   expect(rest.timing).toContain('ease-out');
+  expect(rest.transform).toBe('none');
 
   await work.hover();
-  await page.waitForTimeout(250);
+  await expect.poll(async () => (await style()).transform).toBe('matrix(1, 0, 0, 1, 0, -4)');
   const hovered = await style();
-  expect(hovered.transform).toBe('matrix(1, 0, 0, 1, 0, -4)');
   expect(hovered.labelFill).not.toBe(rest.labelFill);
 
   await page.mouse.move(0, 0);
+  await expect.poll(async () => (await style()).transform).toBe('none');
   await work.focus();
   await page.keyboard.press('Shift+Tab');
   await page.keyboard.press('Tab');
-  await page.waitForTimeout(250);
-  const focused = await style();
-  expect(focused.transform).toBe('matrix(1, 0, 0, 1, 0, -4)');
-  expect(focused.labelFill).toBe(hovered.labelFill);
+  await expect.poll(async () => (await style()).transform).toBe('matrix(1, 0, 0, 1, 0, -4)');
+  expect((await style()).labelFill).toBe(hovered.labelFill);
 });
 
 test('HOME-AC-20 the car animation runs once for 12000 ms', async ({ page }) => {
@@ -60,9 +61,8 @@ test('HOME-AC-20 hovering a work card changes only its border colour', async ({ 
     });
   const before = await snap();
   await card.hover();
-  await page.waitForTimeout(250);
+  await expect.poll(async () => (await snap()).border).not.toBe(before.border);
   const after = await snap();
-  expect(after.border).not.toBe(before.border);
   expect({ ...after, border: '' }).toEqual({ ...before, border: '' });
   expect(before.transition).toBe('border-color');
 });

@@ -2,14 +2,14 @@
 
 - **Date:** 2026-11-24 · **Branch:** `redesign-home` · **Base:** `ccfa635` (`base.txt`) · **Unit:** `edd-docs/inception/units/U-08-citymap-motion-a11y.md`
 - **ACs (10):** HOME-AC-07, 08, 10, 19, 20, 21, 22, 23, 24, 25. All are removed from `specs/pending.txt` (28 → 18).
-- **New dev dependency:** `@axe-core/playwright` pinned to exactly `4.14.0`. 4.14.1 was published on the day of this unit, so the older release was chosen; `npm audit` high count unchanged at 0.
+- **New dev dependency:** `@axe-core/playwright` pinned to exactly `4.14.0`. The wrapper's 4.14.1 was published on the day of this unit, so the older release was chosen. Its dependency `axe-core` resolves to 4.14.1, released 2026-11-16 (8 days earlier). That version was kept and is not overridden. `npm audit` high count unchanged at 0. (Corrected after the U-08 review.)
 
 ## Traceability
 | AC | Test file | What the tests check | Level |
 |---|---|---|---|
 | HOME-AC-07 | `e2e/home-viewport.spec.ts` | At 360×740 and 1440×900, the location line, `h1`, intro and "View work" each have `top < viewport height`. | e2e |
 | HOME-AC-08 | `CityMap.test.tsx` | Exactly 4 links in the svg (Experience, Work, Writing, Contact) to `#experience`, `#work`, `#writing` and `#contact`. Their names come from the nav content. No other link is in the map. The ids exist on the page (HOME-AC-09 page test). | unit |
-| HOME-AC-10 | `CityMap.test.tsx`, `home-viewport.spec.ts` | The viewBox is `-418 -303 837 794`. The svg is a `role="group"` named by `profile.city.label` (not `img`, which would hide its links). 9 accent fills use `class="accent"` and `var(--accent)`, with no `{{accent}}` and no literal `#ff7a33`. The signposts show `profile.city.signposts` in order. The rendered aspect ratio is 794/837, so space is reserved before paint (CLS). | unit, e2e |
+| HOME-AC-10 | `CityMap.test.tsx`, `home-viewport.spec.ts` | The viewBox is `-418 -303 837 794`. The svg sits in a `<nav>` named by `profile.city.label`. It has no `img` role, which would hide its links. A `role="group"` on the svg was rejected by lint (prefer-tag-over-role). 9 accent fills use `class="accent"` and `var(--accent)`, with no `{{accent}}` and no literal `#ff7a33`. The signposts show `profile.city.signposts` in order. The rendered aspect ratio is 794/837, so space is reserved before paint (CLS). | unit, e2e |
 | HOME-AC-19 | `e2e/home-motion.spec.ts` | On hover, and on keyboard focus, the building's transform is `translateY(-4px)` and its label fill changes. The transition is `0.15s ease-out`. | e2e |
 | HOME-AC-20 | `home-motion.spec.ts`, `CityMap.test.tsx` | Exactly one car animation: 12000 ms, 1 iteration. The car is its own `g.city-car` (6 polygons, 2 wheels). Hovering a work card changes only `border-color`. | e2e, unit |
 | HOME-AC-21 | `home-motion.spec.ts` | With reduced motion: `document.getAnimations().length === 0`, every transition ≤ 0.01 s, and the focus still changes the label fill. | e2e |

@@ -630,6 +630,10 @@ main:focus {
 
 .city-building {
   cursor: pointer;
+}
+
+/* The body lifts, not the link, so the hit area stays put and the hover edge cannot flicker. */
+.city-building-body {
   transition: transform 150ms ease-out;
 }
 
@@ -638,9 +642,13 @@ main:focus {
   transition: fill 150ms ease-out;
 }
 
+.city-building text {
+  font-family: var(--font-display);
+}
+
 /* HOME-AC-19: lift and highlight on hover and keyboard focus. */
-.city-building:hover,
-.city-building:focus-visible {
+.city-building:hover .city-building-body,
+.city-building:focus-visible .city-building-body {
   transform: translateY(-4px);
 }
 
@@ -674,7 +682,8 @@ main:focus {
 
 @keyframes city-drive {
   from {
-    transform: translate(-180px, -104px);
+    /* Starts on the road near the crossing (on the tile), along the road's isometric slope. */
+    transform: translate(-60px, -35px);
   }
 
   to {

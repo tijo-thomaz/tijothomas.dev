@@ -82,6 +82,12 @@ test('CONT-AC-12 U-08 check-literals does not count SVG path data or coordinates
     assert.equal(r.status, 1, r.out);
     assert.match(r.out, /years shipping production software/);
   });
+  // U-08 review #6: tokens that mix letters and digits are still words.
+  withFiles({ [`${COMP}/b.tsx`]: 'export const B = () => <p>Three years at bet365</p>;\n' }, (dir) => {
+    const r = check(dir);
+    assert.equal(r.status, 1, r.out);
+    assert.match(r.out, /Three years at bet365/);
+  });
 });
 
 test('CONT-AC-12 check-literals skips comments and test files', () => {

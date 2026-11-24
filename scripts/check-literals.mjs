@@ -26,9 +26,10 @@ const allow = fs.existsSync(allowFile) ? JSON.parse(fs.readFileSync(allowFile, '
 const badAllow = allow.filter((a) => !(typeof a.match === 'string' && a.match && typeof a.reason === 'string' && a.reason.trim()));
 const allowed = new Set(allow.map((a) => a.match));
 
-// A word has letters and no digits, so SVG path data ("M-7.0 -160.8 L0.0 -152.8 Z") and coordinates
-// are not counted as copy (U-08).
-const words = (s) => s.trim().split(/\s+/).filter((w) => /[A-Za-z]/.test(w) && !/\d/.test(w));
+// A word is a token with two or more letters ("bet365", "Three"), or letters only ("a", "I"). SVG path
+// commands mix a single letter with numbers ("M-7.0", "L0.0") and coordinates have no letters, so
+// path data is not counted as copy (U-08), but copy with digits in it still is (U-08 review #6).
+const words = (s) => s.trim().split(/\s+/).filter((w) => /[A-Za-z][^\sA-Za-z]*[A-Za-z]|^[A-Za-z]+\W*$/.test(w));
 const isClassName = (node) => {
   for (let p = node.parent; p; p = p.parent) {
     if (ts.isJsxAttribute(p)) return p.name.getText() === 'className';

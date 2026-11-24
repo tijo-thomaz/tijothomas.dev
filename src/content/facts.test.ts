@@ -1,0 +1,184 @@
+// U-05 CONT-AC-10: every fact in src/content/*.ts traces to an owner-answered row of the facts sheet.
+// edd-docs/questions/1.1-facts.md and 1.1-facts-resolved.md are read-only fixtures here; product code
+// never imports edd-docs/.
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+import { describe, expect, it } from 'vitest';
+
+import { experience } from './experience';
+import { posts } from './posts';
+import { profile } from './profile';
+import { work } from './work';
+
+const here = path.dirname(fileURLToPath(import.meta.url));
+const repo = path.resolve(here, '../..');
+const read = (rel: string) => fs.readFileSync(path.join(repo, rel), 'utf8');
+const FACTS = read('edd-docs/questions/1.1-facts.md');
+const RESOLVED = read('edd-docs/questions/1.1-facts-resolved.md');
+const REQUIREMENTS = read('edd-docs/questions/1.1-requirements.md');
+const DATA_FILES = ['profile.ts', 'experience.ts', 'work.ts', 'posts.ts'];
+
+const ROW_ID = /\b[FC]-\d{2}\b/g;
+
+// Owner answers from 1.1-facts.md: the last cell of each `| F-xx |` / `| C-xx |` table row.
+const answers = new Map<string, string>(
+  FACTS.split(/\r?\n/)
+    .filter((l) => /^\|\s*[FC]-\d{2}\s*\|/.test(l))
+    .map((l) => {
+      const cells = l.split('|').map((c) => c.trim());
+      return [cells[1], cells[cells.length - 2]] as [string, string];
+    }),
+);
+
+// Row IDs named in the first cell of a 1.1-facts-resolved.md table row; ranges "F-22..F-29" expand.
+const expand = (cell: string): string[] =>
+  cell.split(',').flatMap((part) => {
+    const m = part.trim().match(/^([FC])-(\d{2})\.\.\1-(\d{2})$/);
+    if (!m) return part.match(ROW_ID) ?? [];
+    const ids: string[] = [];
+    for (let n = Number(m[2]); n <= Number(m[3]); n++) ids.push(`${m[1]}-${String(n).padStart(2, '0')}`);
+    return ids;
+  });
+const resolved = new Set(
+  RESOLVED.split(/\r?\n/)
+    .filter((l) => /^\|\s*[FC]-\d{2}/.test(l))
+    .flatMap((l) => expand(l.split('|')[1])),
+);
+
+// Rows the resolutions say NOT to publish (each must be named in 1.1-facts-resolved.md).
+const WITHHELD: Record<string, string> = {
+  'F-18': 'PromptShield metric row removed',
+  'F-35': 'Opteamix delivery bullet omitted until supplied (RQ-02)',
+  'F-63': 'notice period omitted',
+  'F-64': 'superseded: no email anywhere on the site',
+  'F-66': 'footer tagline removed',
+  'F-71': 'no public project links',
+  'F-72': 'no current CV; CV button hidden',
+};
+
+const confirmed = (answer: string) => /^(confirm|correct|edit\b)/i.test(answer);
+const publishable = (id: string) =>
+  answers.has(id) && !(id in WITHHELD) && !/^remove\b/i.test(answers.get(id) ?? '') &&
+  (resolved.has(id) || confirmed(answers.get(id) ?? ''));
+
+type SourceLine = { file: string; n: number; code: string; comment: string };
+const sourceLines: SourceLine[] = DATA_FILES.flatMap((file) =>
+  read(path.relative(repo, path.join(here, file)))
+    .split(/\r?\n/)
+    .map((line, i) => {
+      const at = line.search(/\s\/\/\s/);
+      return {
+        file,
+        n: i + 1,
+        code: at === -1 ? line : line.slice(0, at),
+        comment: at === -1 ? '' : line.slice(at),
+      };
+    })
+    .filter((l) => !/^\s*(\/\/|import\b|\*|\/\*)/.test(l.code)),
+);
+// A data line holds a literal value: a string, a number, true/false or null.
+const isDataLine = (code: string) => /(:\s*|^\s*|\[\s*)(['"`]|-?\d|true\b|false\b|null\b)/.test(code);
+
+describe('facts sheet fixtures', () => {
+  it('CONT-AC-10 the facts sheet has 90 rows and the resolutions cover every ambiguous one', () => {
+    expect(answers.size).toBe(90);
+    expect(RESOLVED).toMatch(/All 90 rows resolved/);
+    for (const id of Object.keys(WITHHELD)) expect(resolved.has(id), `${id} not in the resolutions`).toBe(true);
+  });
+});
+
+describe('row references in src/content/*.ts', () => {
+  it('CONT-AC-10 every data line carries a // F-xx, C-xx or RQ-xx reference', () => {
+    const data = sourceLines.filter((l) => isDataLine(l.code));
+    expect(data.length).toBeGreaterThan(80);
+    const missing = data.filter((l) => !/\b([FC]-\d{2}|RQ-\d{2})\b/.test(l.comment));
+    expect(missing.map((l) => `${l.file}:${l.n} ${l.code.trim()}`)).toEqual([]);
+  });
+
+  it('CONT-AC-10 every referenced row exists and is publishable (confirm/edit, or resolved and not withheld)', () => {
+    const refs = sourceLines.flatMap((l) => (l.comment.match(ROW_ID) ?? []).map((id) => ({ id, at: `${l.file}:${l.n}` })));
+    expect(refs.length).toBeGreaterThan(80);
+    const bad = refs.filter((r) => !publishable(r.id)).map((r) => `${r.at} ${r.id} (${answers.get(r.id) ?? 'unknown row'})`);
+    expect(bad).toEqual([]);
+  });
+
+  it('CONT-AC-10 every referenced RQ-xx decision exists in 1.1-requirements.md', () => {
+    const rqs = sourceLines.flatMap((l) => l.comment.match(/\bRQ-\d{2}\b/g) ?? []);
+    for (const rq of rqs) expect(REQUIREMENTS, rq).toContain(`**${rq} `);
+  });
+});
+
+describe('owner resolutions (1.1-facts-resolved.md)', () => {
+  const all = JSON.stringify({ profile, experience, work, posts });
+
+  it('CONT-AC-10 F-05: the hero says relocating to the UK or EU', () => {
+    expect(profile.relocation.summary).toBe('Relocating to the UK or EU');
+  });
+
+  it('CONT-AC-10 F-08/C-17: no "regulated software" claim; the hero and meta description follow F-08', () => {
+    expect(all).not.toMatch(/regulated software/i);
+    expect(profile.hero.intro).toContain('Nine years shipping production software, including nearly three at bet365 in Manchester.');
+    expect(profile.seo.description).toMatch(/Nine years shipping production software/);
+    expect(profile.seo.description.length).toBeLessThanOrEqual(160);
+    expect(profile.seo.title.length).toBeLessThan(60);
+  });
+
+  it('CONT-AC-10 F-13/F-43: no "LLM-powered" wording; the 10-languages bullet follows the resolution', () => {
+    expect(all).not.toMatch(/LLM-powered/i);
+    const bet365 = experience.find((e) => e.id === 'bet365');
+    expect(bet365?.kind === 'job' && bet365.bullets).toContain(
+      'Built a VS Code tool that generated translations across 10 languages plus UK, US and Australian English.',
+    );
+    expect(profile.highlights.map((h) => h.value)).toContain('10 languages');
+  });
+
+  it('CONT-AC-10 F-16/F-18: PromptShield is live with the badge "Proof of concept" and no metric row', () => {
+    const ps = work.find((w) => w.slug === 'promptshield');
+    expect(ps).toMatchObject({ status: 'live', badgeLabel: 'Proof of concept', metric: null });
+  });
+
+  it('CONT-AC-10 F-20..F-29: fde-cloud-spine and fde-mcp-gateway are planned with target 2026-12', () => {
+    for (const slug of ['fde-cloud-spine', 'fde-mcp-gateway']) {
+      expect(work.find((w) => w.slug === slug)).toMatchObject({ status: 'planned', target: '2026-12' });
+    }
+  });
+
+  it('CONT-AC-10 F-35: the Opteamix entry has only the confirmed bullet', () => {
+    const op = experience.find((e) => e.id === 'opteamix');
+    expect(op?.kind === 'job' && op.bullets).toEqual(['Joined as a contractor; converted to full-time in October 2026.']);
+  });
+
+  it('CONT-AC-10 F-38: the bet365 title is Software Developer', () => {
+    expect(experience.find((e) => e.id === 'bet365')).toMatchObject({ title: 'Software Developer' });
+  });
+
+  it('CONT-AC-10 F-63/F-72: notice period and availability are null; there is no CV URL', () => {
+    expect(profile.noticePeriod).toBeNull();
+    expect(profile.availability).toBeNull();
+    expect(all).not.toMatch(/cvUrl|\.pdf/i);
+  });
+
+  it('CONT-AC-10 F-66: there is no footer tagline', () => {
+    expect(all).not.toMatch(/Built with React, TypeScript and Go/);
+    expect(Object.keys(profile)).not.toContain('footerTagline');
+  });
+
+  it('CONT-AC-10 F-67/F-68/F-69: LinkedIn, GitHub and the site origin match the owner answers', () => {
+    expect(profile.links).toEqual({
+      linkedin: 'https://www.linkedin.com/in/tijo-j-thomaz93/',
+      github: 'https://github.com/tijo-thomaz',
+    });
+    expect(profile.siteUrl).toBe('https://tijothomas.dev');
+  });
+
+  it('CONT-AC-10 F-71/RQ-04: no work item or post has a link yet', () => {
+    for (const w of work) expect(w.caseStudyUrl, w.slug).toBeUndefined();
+    for (const p of posts) expect(p.url, p.slug).toBeUndefined();
+  });
+
+  it('CONT-AC-10 F-58..F-60/RQ-01: the three posts are "coming-soon"', () => {
+    expect(posts.map((p) => p.status)).toEqual(['coming-soon', 'coming-soon', 'coming-soon']);
+  });
+});

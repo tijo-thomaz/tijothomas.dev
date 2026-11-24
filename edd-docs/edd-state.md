@@ -59,3 +59,10 @@ Order (amended 2026-11-24): U-00 → U-01 → U-03 → U-02 → U-04 → … →
 
 ## Open questions
 -
+
+## Open owner actions (before any release)
+- Vercel: delete `GROQ_API_KEY` (chat is off since U-04; no code reads it).
+- SQ-07: confirm no Supabase service-role key is set in Vercel.
+- SQ-09: account MFA and DNS checks.
+- Listen to the terminal's sound output (not testable by the gates).
+- U-04 PG5: confirm the chat-unavailable message text and the prompt change to `tijo@tijothomas:~$`.

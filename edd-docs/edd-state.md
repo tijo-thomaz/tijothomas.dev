@@ -49,7 +49,7 @@ Order (amended 2026-11-24): U-00 → U-01 → U-03 → U-02 → U-04 → … →
 | U-06 Home shell | | done | 219 node, 284 vitest, 23 e2e | 21/21 PASS at `8607725` (new use_client, literals); EX-01 | 0 self-heal (CG14 fixed in `a773f38`) | n/a | changes-required → majors 1, 2 fixed; minors 3-5, 9, 10 fixed; 6, 7 carried to U-07/U-09 | 2026-11-24 ("C, then approve U-06") |
 | U-07 Home lists | | done | 229 node, 317 vitest, 25 e2e (+2 cursor specs, run in U-08 gates) | 22/22 PASS at `2f2507d` (view-source now enforced); EX-01. Cursor/selection CSS changed after (`30cfda9`, `f2bb71a`), so U-08's gate run covers it | 1 self-heal (CG1 Tailwind @config build race, fixed in-unit) | n/a | approve-with-minors → all 7 minors and 5 nits fixed | 2026-11-24 |
 | U-08 CityMap, motion, a11y | | done | 231 node, 327 vitest, 41 e2e | 22/22 PASS at `6dd449a`; owner choice c added afterwards and verified by build + 14 map/motion/a11y e2e (axe 0) | 1 self-heal (pii-scan viewBox false positive, e2e strict locator) | n/a | approve-with-minors → all 7 minors resolved (#3 by owner choice c: labels enlarged below 40rem) | 2026-11-25 |
-| U-09 SEO | | in-progress | | | | | | |
+| U-09 SEO | | in-review (awaiting PG5) | 234 node, 361 vitest, 50 e2e | 23/23 PASS at `28d9fad`, Lighthouse enforced (SEO 100); EX-01 | 2 self-heal (og:image 404 and coverage; RCA-01 guard on a fixture) | n/a | changes-requested (1 blocker, 2 major) → all resolved | |
 | U-10 Privacy | | todo | | | | | | |
 | U-11 Security headers + release checks | critical | todo | | | | | | |
 
@@ -75,3 +75,4 @@ Order (amended 2026-11-24): U-00 → U-01 → U-03 → U-02 → U-04 → … →
 - SQ-07: confirm no Supabase service-role key is set in Vercel.
 - SQ-09: account MFA and DNS checks.
 - Listen to the terminal's sound output (not testable by the gates).
+- Run Google's Rich Results Test on a preview deployment of `/` and a writing placeholder (U-09 DoD; needs a public URL).

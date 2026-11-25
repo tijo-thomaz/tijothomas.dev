@@ -1,0 +1,18 @@
+{
+  "id": "CG10_signatures",
+  "enforce": true,
+  "status": "pass",
+  "exitCode": 0,
+  "cmd": "node scripts/audit-signatures.mjs -- npm audit signatures",
+  "evidence": "PLAT-AC-25 registry signatures and attestations verify",
+  "base": "b22401b",
+  "startedAt": "2026-11-24T12:42:57.596Z",
+  "durationMs": 12850,
+  "outputTail": [
+    "PASS PLAT-AC-25 npm audit signatures with 1 exception: @oxlint/binding-win32-x64-msvc@1.95.0",
+    "  - attestation fetch skipped (registry fault: GET /-/npm/v1/attestations/<spec> answers 200 text/plain \"OK\" instead of JSON, so npm audit signatures aborts with FETCH_ERROR. Other oxlint 1.95.0 packages and binding 1.94.0 return valid attestations.); since 2026-11-24, re-check by U-11",
+    "  - @oxlint/binding-win32-x64-msvc@1.95.0: registry signature verified against https://registry.npmjs.org/-/npm/v1/keys; integrity matches the lockfile",
+    "  - all other packages: 293 packages have verified registry signatures | 55 packages have verified attestations | (use --json --include-attestations to view attestation details)"
+  ],
+  "log": "edd-docs/construction/U-02/gates/CG10_signatures.log"
+}

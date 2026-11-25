@@ -1,0 +1,110 @@
+# Quality gates (EDD coding gates). One runner: `npm run gates -- --unit U-NN [--only CG2_lint,spec]`.
+# Each entry: id, cmd (shell, cwd = repo root), enforce (true = must pass), evidence (what it proves).
+# Optional: timeout (seconds, default 1800). In cmd, {evidence} = edd-docs/construction/<unit>/gates,
+# {unit} = the unit id, {base} = the unit start commit (--base, EDD_BASE or <unit>/base.txt; required).
+# enforce must be exactly true or false (anything else fails the config load).
+# Status per gate: pass | fail | blocked (exit 78: a required tool such as gitleaks is not installed;
+# blocked never passes). Evidence: <id>.json + <id>.log per gate in the evidence folder.
+# CG1 and the runtime gates (lighthouse, view-source) build into .next/: never run them in a checkout
+# where `next dev` is running; use a scratch git worktree.
+# Folders are never named here: scripts read them from scripts/paths.mjs.
+gates:
+  - id: CG1_build
+    cmd: node scripts/build-no-env.mjs
+    enforce: true
+    evidence: next build exit code and route table (empty-env build from U-02)
+    timeout: 900
+  - id: CG10_pii_scan
+    cmd: node scripts/pii-scan.mjs
+    enforce: true
+    evidence: CONT-AC-14 match list over the served build output (runs after CG1_build)
+    timeout: 120
+  - id: CG10_groq
+    cmd: node scripts/check-groq.mjs
+    enforce: true
+    evidence: TERM-AC-10 hits for api.groq.com / Groq SDK in src/ and the build (runs after CG1_build)
+    timeout: 120
+  - id: use_client
+    cmd: node scripts/check-use-client.mjs
+    enforce: true
+    evidence: HOME-AC-03 no "use client" module in the site layers or their imports; / is static in the build (runs after CG1_build)
+    timeout: 120
+  - id: literals
+    cmd: node scripts/check-literals.mjs
+    enforce: true
+    evidence: CONT-AC-12 no literal of more than 3 words in src/components (allow-list scripts/literals-allowlist.json)
+    timeout: 60
+  - id: CG2_lint
+    cmd: npm run lint && node scripts/lint-report.mjs --out {evidence}
+    enforce: true
+    evidence: PLAT-AC-14 Oxlint exit 0, wall time <= 5 s, 0 warnings outside legacy-terminal, ceiling held (lint.json)
+  - id: CG3_types
+    cmd: npm run type-check
+    enforce: true
+    evidence: tsc --noEmit exit 0
+  - id: CG4_tests
+    cmd: node scripts/check-vitest-config.mjs --runs 3 && npm run test:scripts
+    enforce: true
+    evidence: PLAT-AC-05 vitest config + vitest run x3 green; node:test suite in scripts/ green
+  - id: CG5_coverage
+    cmd: node scripts/check-coverage.mjs --base {base} --out {evidence}/coverage
+    enforce: true
+    evidence: diff coverage of changed source lines >= 80 % lines, >= 70 % branches (coverage-diff.json)
+  - id: CG7_complexity
+    cmd: npm run lint
+    enforce: true
+    evidence: PLAT-AC-16 complexity 10, max-lines 400, function 50, params 4, depth 3 as Oxlint errors; exit 0
+  - id: CG9_import_graph
+    cmd: node scripts/check-unreachable.mjs && node scripts/check-imports.mjs
+    enforce: true
+    evidence: PLAT-AC-11/12 0 unreachable modules from route entries; PLAT-AC-09 0 cycles and layer direction rules; HOME-AC-04 (site) graph reaches no terminal or Supabase module
+  - id: renames
+    cmd: node scripts/check-renames.mjs
+    enforce: true
+    evidence: PLAT-AC-10 the U-03 move commit is renames only (>= 90 %) and moved files stay >= 90 % at HEAD, exceptions in scripts/rename-exceptions.json
+  - id: CG10_audit
+    cmd: npm audit --audit-level=high
+    enforce: true
+    evidence: 0 high or critical advisories in the installed tree
+  - id: CG10_signatures
+    cmd: node scripts/audit-signatures.mjs -- npm audit signatures
+    enforce: true
+    evidence: PLAT-AC-25 registry signatures and attestations verify
+  - id: CG10_gitleaks_history
+    cmd: node scripts/require-tool.mjs gitleaks git --redact --no-banner --report-format json --report-path {evidence}/gitleaks-history.json
+    enforce: true
+    evidence: PLAT-AC-25 0 secrets in the full git history (RR-8)
+  - id: CG10_gitleaks_tree
+    cmd: node scripts/require-tool.mjs gitleaks dir . --config .gitleaks.toml --redact --no-banner --report-format json --report-path {evidence}/gitleaks-tree.json
+    enforce: true
+    evidence: PLAT-AC-25 0 secrets in the working tree
+  - id: CG10_sbom
+    cmd: node scripts/sbom.mjs --out {evidence}
+    enforce: true
+    evidence: PLAT-AC-25 sbom.cdx.json (CycloneDX) in the evidence folder
+  - id: CG14_docs
+    cmd: node scripts/check-docs.mjs --base {base}
+    enforce: true
+    evidence: README.md and CHANGELOG.md updated in this change
+  - id: spec
+    cmd: npm run spec:check
+    enforce: true
+    evidence: PLAT-AC-19 every AC cited by a test or gate, no unknown IDs, pending.txt not stale
+  - id: deps
+    cmd: node scripts/check-deps.mjs
+    enforce: true
+    evidence: PLAT-AC-13 0 unused dependencies
+  - id: gitignore
+    cmd: node scripts/check-gitignore.mjs
+    enforce: true
+    evidence: PLAT-AC-18 specs/home.md tracked and not ignored
+  - id: lighthouse
+    cmd: node scripts/lighthouse.mjs --runs 3 --out {evidence}/lighthouse
+    enforce: true
+    evidence: SEO-AC-10 mobile median of 3 on / (next start); performance, accessibility, best practices and SEO >= 95; CLS <= 0.05, LCP <= 2.5 s, TBT <= 150 ms; enforced from U-09
+    timeout: 900
+  - id: view-source
+    cmd: node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/view-source.mjs --out {evidence}
+    enforce: true
+    evidence: SEO-AC-09 server HTML of / holds every string rendered from src/content (SHOW_PLANNED respected); enforced from U-07
+    timeout: 120

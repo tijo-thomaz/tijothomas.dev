@@ -1,0 +1,19 @@
+# gitleaks config for the CG10 working-tree scan (PLAT-AC-25). Extends the default rules.
+# The only allowlist: git-ignored build, dependency and tool-output folders, which are never
+# committed or deployed from source (e.g. .next/ holds a per-build Server Actions encryptionKey).
+# Do not add tracked paths here; fix or rotate the secret instead.
+title = "tijothomas.dev"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "git-ignored build, dependency and tool-output folders"
+paths = [
+  '''(^|[\\/])\.next[\\/]''',
+  '''(^|[\\/])node_modules[\\/]''',
+  '''(^|[\\/])\.claude[\\/]''',
+  '''(^|[\\/])coverage[\\/]''',
+  '''(^|[\\/])test-results[\\/]''',
+  '''(^|[\\/])playwright-report[\\/]''',
+]

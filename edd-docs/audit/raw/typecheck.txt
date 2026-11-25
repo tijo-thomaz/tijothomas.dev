@@ -1,0 +1,237 @@
+
+> tijothomas.dev@1.0.0 type-check
+> tsc --noEmit
+
+features/chat-assistant/ui/atoms/SendButton.test.tsx(37,42): error TS2322: Type '{ onClick: Mock<Procedure>; loading: true; }' is not assignable to type 'IntrinsicAttributes & SendButtonProps'.
+  Property 'loading' does not exist on type 'IntrinsicAttributes & SendButtonProps'.
+features/chat-assistant/ui/atoms/SendButton.test.tsx(45,42): error TS2322: Type '{ onClick: Mock<Procedure>; className: string; }' is not assignable to type 'IntrinsicAttributes & SendButtonProps'.
+  Property 'className' does not exist on type 'IntrinsicAttributes & SendButtonProps'.
+features/chat-assistant/ui/atoms/SendButton.test.tsx(63,42): error TS2322: Type '{ onClick: Mock<Procedure>; variant: string; }' is not assignable to type 'IntrinsicAttributes & SendButtonProps'.
+  Property 'variant' does not exist on type 'IntrinsicAttributes & SendButtonProps'.
+features/chat-assistant/ui/atoms/SendButton.test.tsx(85,42): error TS2322: Type '{ onClick: Mock<Procedure>; title: string; }' is not assignable to type 'IntrinsicAttributes & SendButtonProps'.
+  Property 'title' does not exist on type 'IntrinsicAttributes & SendButtonProps'.
+features/chat-assistant/ui/atoms/SendButton.test.tsx(93,42): error TS2322: Type '{ onClick: Mock<Procedure>; loading: true; }' is not assignable to type 'IntrinsicAttributes & SendButtonProps'.
+  Property 'loading' does not exist on type 'IntrinsicAttributes & SendButtonProps'.
+features/chat-assistant/ui/atoms/SendButton.test.tsx(115,42): error TS2322: Type '{ onClick: Mock<Procedure>; size: string; }' is not assignable to type 'IntrinsicAttributes & SendButtonProps'.
+  Property 'size' does not exist on type 'IntrinsicAttributes & SendButtonProps'.
+features/chat-assistant/ui/atoms/SendButton.test.tsx(129,39): error TS2322: Type '{ onClick: Mock<Procedure>; type: string; }' is not assignable to type 'IntrinsicAttributes & SendButtonProps'.
+  Property 'type' does not exist on type 'IntrinsicAttributes & SendButtonProps'.
+features/chat-assistant/ui/molecules/MessageBubble.test.tsx(8,27): error TS2322: Type 'string' is not assignable to type 'Message'.
+features/chat-assistant/ui/molecules/MessageBubble.test.tsx(13,27): error TS2322: Type 'string' is not assignable to type 'Message'.
+features/chat-assistant/ui/molecules/MessageBubble.test.tsx(19,27): error TS2322: Type 'string' is not assignable to type 'Message'.
+features/chat-assistant/ui/molecules/MessageBubble.test.tsx(28,27): error TS2322: Type 'string' is not assignable to type 'Message'.
+features/chat-assistant/ui/molecules/MessageBubble.test.tsx(34,27): error TS2322: Type 'string' is not assignable to type 'Message'.
+features/chat-assistant/ui/molecules/MessageBubble.test.tsx(39,27): error TS2322: Type 'string' is not assignable to type 'Message'.
+features/chat-assistant/ui/molecules/MessageBubble.test.tsx(44,27): error TS2322: Type 'string' is not assignable to type 'Message'.
+features/chat-assistant/ui/molecules/MessageBubble.test.tsx(49,27): error TS2322: Type 'string' is not assignable to type 'Message'.
+features/chat-assistant/ui/molecules/MessageBubble.test.tsx(55,27): error TS2322: Type 'string' is not assignable to type 'Message'.
+features/chat-assistant/ui/molecules/MessageBubble.test.tsx(60,27): error TS2322: Type 'string' is not assignable to type 'Message'.
+features/chat-assistant/ui/molecules/MessageBubble.test.tsx(66,27): error TS2322: Type 'string' is not assignable to type 'Message'.
+features/chat-assistant/ui/molecules/MessageBubble.test.tsx(72,27): error TS2322: Type 'string' is not assignable to type 'Message'.
+features/chat-assistant/ui/molecules/MessageBubble.test.tsx(77,27): error TS2322: Type 'string' is not assignable to type 'Message'.
+features/chat-assistant/ui/molecules/MessageBubble.test.tsx(82,27): error TS2322: Type 'string' is not assignable to type 'Message'.
+features/chat-assistant/ui/molecules/MessageBubble.test.tsx(92,27): error TS2322: Type 'string' is not assignable to type 'Message'.
+features/chat-assistant/ui/molecules/MessageBubble.test.tsx(97,27): error TS2322: Type 'string' is not assignable to type 'Message'.
+features/chat-assistant/ui/molecules/MessageBubble.test.tsx(104,27): error TS2322: Type 'string' is not assignable to type 'Message'.
+features/chat-assistant/ui/molecules/MessageBubble.test.tsx(109,27): error TS2322: Type 'string' is not assignable to type 'Message'.
+features/chat-assistant/ui/molecules/MessageBubble.test.tsx(115,27): error TS2322: Type 'string' is not assignable to type 'Message'.
+features/chat-assistant/ui/molecules/MessageBubble.test.tsx(121,27): error TS2322: Type 'string' is not assignable to type 'Message'.
+features/chat-assistant/ui/molecules/MessageBubble.test.tsx(131,27): error TS2322: Type 'string' is not assignable to type 'Message'.
+features/chat-assistant/ui/organisms/MessageList.test.tsx(14,25): error TS2322: Type '({ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; })[]' is not assignable to type 'Message[]'.
+  Type '{ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; }' is not assignable to type 'Message'.
+    Type '{ id: string; content: string; sender: "user"; timestamp: Date; }' is missing the following properties from type 'Message': text, isUser
+features/chat-assistant/ui/organisms/MessageList.test.tsx(22,13): error TS2741: Property 'messagesEndRef' is missing in type '{ messages: never[]; }' but required in type 'MessageListProps'.
+features/chat-assistant/ui/organisms/MessageList.test.tsx(30,25): error TS2322: Type '({ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; })[]' is not assignable to type 'Message[]'.
+  Type '{ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; }' is not assignable to type 'Message'.
+    Type '{ id: string; content: string; sender: "user"; timestamp: Date; }' is missing the following properties from type 'Message': text, isUser
+features/chat-assistant/ui/organisms/MessageList.test.tsx(40,46): error TS2322: Type '({ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; })[]' is not assignable to type 'Message[]'.
+  Type '{ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; }' is not assignable to type 'Message'.
+    Type '{ id: string; content: string; sender: "user"; timestamp: Date; }' is missing the following properties from type 'Message': text, isUser
+features/chat-assistant/ui/organisms/MessageList.test.tsx(49,27): error TS2322: Type '({ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; })[]' is not assignable to type 'Message[]'.
+  Type '{ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; }' is not assignable to type 'Message'.
+    Type '{ id: string; content: string; sender: "user"; timestamp: Date; }' is missing the following properties from type 'Message': text, isUser
+features/chat-assistant/ui/organisms/MessageList.test.tsx(57,25): error TS2322: Type '({ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; })[]' is not assignable to type 'Message[]'.
+  Type '{ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; }' is not assignable to type 'Message'.
+    Type '{ id: string; content: string; sender: "user"; timestamp: Date; }' is missing the following properties from type 'Message': text, isUser
+features/chat-assistant/ui/organisms/MessageList.test.tsx(65,25): error TS2322: Type '({ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; })[]' is not assignable to type 'Message[]'.
+  Type '{ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; }' is not assignable to type 'Message'.
+    Type '{ id: string; content: string; sender: "user"; timestamp: Date; }' is missing the following properties from type 'Message': text, isUser
+features/chat-assistant/ui/organisms/MessageList.test.tsx(71,25): error TS2322: Type '({ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; })[]' is not assignable to type 'Message[]'.
+  Type '{ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; }' is not assignable to type 'Message'.
+    Type '{ id: string; content: string; sender: "user"; timestamp: Date; }' is missing the following properties from type 'Message': text, isUser
+features/chat-assistant/ui/organisms/MessageList.test.tsx(83,25): error TS2322: Type '({ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; loading: boolean; })[]' is not assignable to type 'Message[]'.
+  Type '{ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; loading: boolean; }' is not assignable to type 'Message'.
+    Type '{ id: string; content: string; sender: "user"; timestamp: Date; }' is missing the following properties from type 'Message': text, isUser
+features/chat-assistant/ui/organisms/MessageList.test.tsx(92,9): error TS2322: Type '({ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; })[]' is not assignable to type 'Message[]'.
+  Type '{ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; }' is not assignable to type 'Message'.
+    Type '{ id: string; content: string; sender: "user"; timestamp: Date; }' is missing the following properties from type 'Message': text, isUser
+features/chat-assistant/ui/organisms/MessageList.test.tsx(105,25): error TS2322: Type '({ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; })[]' is not assignable to type 'Message[]'.
+  Type '{ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; }' is not assignable to type 'Message'.
+    Type '{ id: string; content: string; sender: "user"; timestamp: Date; }' is missing the following properties from type 'Message': text, isUser
+features/chat-assistant/ui/organisms/MessageList.test.tsx(112,25): error TS2322: Type '({ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; })[]' is not assignable to type 'Message[]'.
+  Type '{ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; }' is not assignable to type 'Message'.
+    Type '{ id: string; content: string; sender: "user"; timestamp: Date; }' is missing the following properties from type 'Message': text, isUser
+features/chat-assistant/ui/organisms/MessageList.test.tsx(126,25): error TS2322: Type '{ id: string; content: string; sender: "user" | "bot"; timestamp: Date; }[]' is not assignable to type 'Message[]'.
+  Type '{ id: string; content: string; sender: "user" | "bot"; timestamp: Date; }' is missing the following properties from type 'Message': text, isUser
+features/chat-assistant/ui/organisms/MessageList.test.tsx(138,25): error TS2322: Type '({ reactions: string[] | undefined; id: string; content: string; sender: "user"; timestamp: Date; } | { reactions: string[] | undefined; id: string; content: string; sender: "bot"; timestamp: Date; })[]' is not assignable to type 'Message[]'.
+  Type '{ reactions: string[] | undefined; id: string; content: string; sender: "user"; timestamp: Date; } | { reactions: string[] | undefined; id: string; content: string; sender: "bot"; timestamp: Date; }' is not assignable to type 'Message'.
+    Type '{ reactions: string[] | undefined; id: string; content: string; sender: "user"; timestamp: Date; }' is missing the following properties from type 'Message': text, isUser
+features/chat-assistant/ui/organisms/MessageList.test.tsx(145,25): error TS2322: Type '({ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; })[]' is not assignable to type 'Message[]'.
+  Type '{ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; }' is not assignable to type 'Message'.
+    Type '{ id: string; content: string; sender: "user"; timestamp: Date; }' is missing the following properties from type 'Message': text, isUser
+features/chat-assistant/ui/organisms/MessageList.test.tsx(155,9): error TS2322: Type '({ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; })[]' is not assignable to type 'Message[]'.
+  Type '{ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; }' is not assignable to type 'Message'.
+    Type '{ id: string; content: string; sender: "user"; timestamp: Date; }' is missing the following properties from type 'Message': text, isUser
+features/chat-assistant/ui/organisms/MessageList.test.tsx(174,25): error TS2322: Type '({ status: "delivered" | undefined; id: string; content: string; sender: "user"; timestamp: Date; } | { status: "delivered" | undefined; id: string; content: string; sender: "bot"; timestamp: Date; })[]' is not assignable to type 'Message[]'.
+  Type '{ status: "delivered" | undefined; id: string; content: string; sender: "user"; timestamp: Date; } | { status: "delivered" | undefined; id: string; content: string; sender: "bot"; timestamp: Date; }' is not assignable to type 'Message'.
+    Type '{ status: "delivered" | undefined; id: string; content: string; sender: "user"; timestamp: Date; }' is missing the following properties from type 'Message': text, isUser
+features/chat-assistant/ui/organisms/MessageList.test.tsx(184,9): error TS2322: Type '({ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; })[]' is not assignable to type 'Message[]'.
+  Type '{ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; }' is not assignable to type 'Message'.
+    Type '{ id: string; content: string; sender: "user"; timestamp: Date; }' is missing the following properties from type 'Message': text, isUser
+features/chat-assistant/ui/organisms/MessageList.test.tsx(197,46): error TS2322: Type '({ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; })[]' is not assignable to type 'Message[]'.
+  Type '{ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; }' is not assignable to type 'Message'.
+    Type '{ id: string; content: string; sender: "user"; timestamp: Date; }' is missing the following properties from type 'Message': text, isUser
+features/chat-assistant/ui/organisms/MessageList.test.tsx(204,27): error TS2322: Type '({ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; })[]' is not assignable to type 'Message[]'.
+  Type '{ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; }' is not assignable to type 'Message'.
+    Type '{ id: string; content: string; sender: "user"; timestamp: Date; }' is missing the following properties from type 'Message': text, isUser
+features/chat-assistant/ui/organisms/MessageList.test.tsx(212,25): error TS2322: Type '({ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; })[]' is not assignable to type 'Message[]'.
+  Type '{ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; }' is not assignable to type 'Message'.
+    Type '{ id: string; content: string; sender: "user"; timestamp: Date; }' is missing the following properties from type 'Message': text, isUser
+features/chat-assistant/ui/organisms/MessageList.test.tsx(223,9): error TS2322: Type '({ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; })[]' is not assignable to type 'Message[]'.
+  Type '{ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; }' is not assignable to type 'Message'.
+    Type '{ id: string; content: string; sender: "user"; timestamp: Date; }' is missing the following properties from type 'Message': text, isUser
+features/chat-assistant/ui/organisms/MessageList.test.tsx(241,39): error TS2322: Type '{ messages: never[]; emptyStateMessage: string; }' is not assignable to type 'IntrinsicAttributes & MessageListProps'.
+  Property 'emptyStateMessage' does not exist on type 'IntrinsicAttributes & MessageListProps'.
+features/chat-assistant/ui/organisms/MessageList.test.tsx(247,25): error TS2322: Type '({ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; })[]' is not assignable to type 'Message[]'.
+  Type '{ id: string; content: string; sender: "user"; timestamp: Date; } | { id: string; content: string; sender: "bot"; timestamp: Date; }' is not assignable to type 'Message'.
+    Type '{ id: string; content: string; sender: "user"; timestamp: Date; }' is missing the following properties from type 'Message': text, isUser
+features/terminal/ui/atoms/TerminalPrompt.test.tsx(66,40): error TS2322: Type '{ user: string; hostname: string; path: string; }' is not assignable to type 'IntrinsicAttributes & TerminalPromptProps'.
+  Property 'hostname' does not exist on type 'IntrinsicAttributes & TerminalPromptProps'.
+features/terminal/ui/atoms/TerminalPrompt.test.tsx(73,57): error TS2322: Type '{ user: string; path: string; gitBranch: string; }' is not assignable to type 'IntrinsicAttributes & TerminalPromptProps'.
+  Property 'gitBranch' does not exist on type 'IntrinsicAttributes & TerminalPromptProps'.
+features/terminal/ui/molecules/CommandOutput.test.tsx(8,13): error TS2741: Property 'type' is missing in type '{ output: string; }' but required in type 'CommandOutputProps'.
+features/terminal/ui/molecules/CommandOutput.test.tsx(16,13): error TS2741: Property 'type' is missing in type '{ output: string; }' but required in type 'CommandOutputProps'.
+features/terminal/ui/molecules/CommandOutput.test.tsx(21,13): error TS2741: Property 'type' is missing in type '{ output: string; }' but required in type 'CommandOutputProps'.
+features/terminal/ui/molecules/CommandOutput.test.tsx(39,13): error TS2741: Property 'type' is missing in type '{ output: string; className: string; }' but required in type 'CommandOutputProps'.
+features/terminal/ui/molecules/CommandOutput.test.tsx(45,13): error TS2741: Property 'type' is missing in type '{ output: string; }' but required in type 'CommandOutputProps'.
+features/terminal/ui/molecules/CommandOutput.test.tsx(57,13): error TS2741: Property 'type' is missing in type '{ output: string; }' but required in type 'CommandOutputProps'.
+features/terminal/ui/molecules/CommandOutput.test.tsx(63,13): error TS2741: Property 'type' is missing in type '{ output: string; }' but required in type 'CommandOutputProps'.
+features/terminal/ui/molecules/CommandOutput.test.tsx(68,52): error TS2322: Type '"warning"' is not assignable to type '"command" | "error" | "success" | "info"'.
+features/terminal/ui/molecules/CommandOutput.test.tsx(75,13): error TS2741: Property 'type' is missing in type '{ output: string; }' but required in type 'CommandOutputProps'.
+features/terminal/ui/molecules/CommandOutput.test.tsx(80,37): error TS2322: Type '{ output: string; loading: true; }' is not assignable to type 'IntrinsicAttributes & CommandOutputProps'.
+  Property 'loading' does not exist on type 'IntrinsicAttributes & CommandOutputProps'.
+features/terminal/ui/molecules/CommandOutput.test.tsx(85,13): error TS2741: Property 'type' is missing in type '{ output: string; }' but required in type 'CommandOutputProps'.
+features/terminal/ui/molecules/CommandOutput.test.tsx(93,13): error TS2741: Property 'type' is missing in type '{ output: string; }' but required in type 'CommandOutputProps'.
+features/terminal/ui/molecules/CommandOutput.test.tsx(98,52): error TS2322: Type '{ output: string; animated: true; }' is not assignable to type 'IntrinsicAttributes & CommandOutputProps'.
+  Property 'animated' does not exist on type 'IntrinsicAttributes & CommandOutputProps'.
+features/terminal/ui/molecules/CommandOutput.test.tsx(104,13): error TS2741: Property 'type' is missing in type '{ output: string; }' but required in type 'CommandOutputProps'.
+features/terminal/ui/molecules/CommandOutput.test.tsx(111,13): error TS2741: Property 'type' is missing in type '{ output: string; }' but required in type 'CommandOutputProps'.
+features/terminal/ui/organisms/TerminalHistory.test.tsx(15,29): error TS2322: Type '{ history: ({ command: string; output: string; type: "default"; id: string; } | { command: string; output: string; type: "error"; id: string; })[]; }' is not assignable to type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+  Property 'history' does not exist on type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+features/terminal/ui/organisms/TerminalHistory.test.tsx(23,29): error TS2322: Type '{ history: ({ command: string; output: string; type: "default"; id: string; } | { command: string; output: string; type: "error"; id: string; })[]; }' is not assignable to type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+  Property 'history' does not exist on type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+features/terminal/ui/organisms/TerminalHistory.test.tsx(31,29): error TS2322: Type '{ history: ({ command: string; output: string; type: "default"; id: string; } | { command: string; output: string; type: "error"; id: string; })[]; }' is not assignable to type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+  Property 'history' does not exist on type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+features/terminal/ui/organisms/TerminalHistory.test.tsx(38,29): error TS2322: Type '{ history: never[]; }' is not assignable to type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+  Property 'history' does not exist on type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+features/terminal/ui/organisms/TerminalHistory.test.tsx(46,50): error TS2322: Type '{ history: ({ command: string; output: string; type: "default"; id: string; } | { command: string; output: string; type: "error"; id: string; })[]; }' is not assignable to type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+  Property 'history' does not exist on type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+features/terminal/ui/organisms/TerminalHistory.test.tsx(55,31): error TS2322: Type '{ history: ({ command: string; output: string; type: "default"; id: string; } | { command: string; output: string; type: "error"; id: string; })[]; autoScroll: true; }' is not assignable to type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+  Property 'history' does not exist on type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+features/terminal/ui/organisms/TerminalHistory.test.tsx(60,29): error TS2322: Type '{ history: ({ command: string; output: string; type: "default"; id: string; } | { command: string; output: string; type: "error"; id: string; })[]; className: string; }' is not assignable to type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+  Property 'history' does not exist on type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+features/terminal/ui/organisms/TerminalHistory.test.tsx(68,29): error TS2322: Type '{ history: ({ command: string; output: string; type: "default"; id: string; } | { command: string; output: string; type: "error"; id: string; })[]; showPrompt: true; }' is not assignable to type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+  Property 'history' does not exist on type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+features/terminal/ui/organisms/TerminalHistory.test.tsx(82,29): error TS2322: Type '{ history: { command: string; output: string; type: "default"; id: string; }[]; }' is not assignable to type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+  Property 'history' does not exist on type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+features/terminal/ui/organisms/TerminalHistory.test.tsx(89,29): error TS2322: Type '{ history: ({ command: string; output: string; type: "default"; id: string; } | { command: string; output: string; type: "error"; id: string; })[]; filter: string; }' is not assignable to type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+  Property 'history' does not exist on type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+features/terminal/ui/organisms/TerminalHistory.test.tsx(105,29): error TS2322: Type '{ history: { command: string; output: string; type: "default"; id: string; }[]; }' is not assignable to type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+  Property 'history' does not exist on type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+features/terminal/ui/organisms/TerminalHistory.test.tsx(120,29): error TS2322: Type '{ history: ({ timestamp: Date; command: string; output: string; type: "default"; id: string; } | { timestamp: Date; command: string; output: string; type: "error"; id: string; })[]; showTimestamp: true; }' is not assignable to type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+  Property 'history' does not exist on type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+features/terminal/ui/organisms/TerminalHistory.test.tsx(133,29): error TS2322: Type '{ history: { command: string; output: string; type: "success"; id: string; }[]; }' is not assignable to type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+  Property 'history' does not exist on type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+features/terminal/ui/organisms/TerminalHistory.test.tsx(146,29): error TS2322: Type '{ history: ({ path: string; user: string; command: string; output: string; type: "default"; id: string; } | { path: string; user: string; command: string; output: string; type: "error"; id: string; })[]; showContext: true; }' is not assignable to type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+  Property 'history' does not exist on type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+features/terminal/ui/organisms/TerminalHistory.test.tsx(156,9): error TS2322: Type '{ history: ({ command: string; output: string; type: "default"; id: string; } | { command: string; output: string; type: "error"; id: string; })[]; onSelectCommand: Mock<Procedure>; selectable: true; }' is not assignable to type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+  Property 'history' does not exist on type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+features/terminal/ui/organisms/TerminalHistory.test.tsx(169,29): error TS2322: Type '{ history: ({ command: string; output: string; type: "default"; id: string; } | { command: string; output: string; type: "error"; id: string; })[]; maxHeight: string; }' is not assignable to type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+  Property 'history' does not exist on type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+features/terminal/ui/organisms/TerminalHistory.test.tsx(178,29): error TS2322: Type '{ history: ({ command: string; output: string; type: "default"; id: string; } | { command: string; output: string; type: "error"; id: string; })[]; loading: true; }' is not assignable to type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+  Property 'history' does not exist on type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+features/terminal/ui/organisms/TerminalHistory.test.tsx(187,9): error TS2322: Type '{ history: ({ command: string; output: string; type: "default"; id: string; } | { command: string; output: string; type: "error"; id: string; })[]; onClear: Mock<Procedure>; clearable: true; }' is not assignable to type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+  Property 'history' does not exist on type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+features/terminal/ui/organisms/TerminalHistory.test.tsx(209,29): error TS2322: Type '{ history: { command: string; output: string; type: "default"; id: string; }[]; virtualized: true; }' is not assignable to type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+  Property 'history' does not exist on type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+features/terminal/ui/organisms/TerminalHistory.test.tsx(226,29): error TS2322: Type '{ history: { command: string; output: string; type: "default"; id: string; }[]; }' is not assignable to type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+  Property 'history' does not exist on type 'IntrinsicAttributes & TerminalHistoryProps & RefAttributes<HTMLDivElement>'.
+shared/ui/atoms/Icon.test.tsx(4,10): error TS2305: Module '"./Icon"' has no exported member 'Icon'.
+shared/ui/atoms/Text.test.tsx(29,18): error TS2322: Type '"h1"' is not assignable to type '"default" | "destructive" | "secondary" | "terminal" | "success" | "warning" | "info" | "muted" | "accent" | null | undefined'.
+shared/ui/atoms/Text.test.tsx(35,18): error TS2322: Type '"small"' is not assignable to type '"default" | "destructive" | "secondary" | "terminal" | "success" | "warning" | "info" | "muted" | "accent" | null | undefined'.
+shared/ui/atoms/Text.test.tsx(83,18): error TS2322: Type 'string' is not assignable to type 'boolean | undefined'.
+shared/ui/atoms/Text.test.tsx(106,18): error TS2322: Type '{ children: string; leading: string; }' is not assignable to type 'IntrinsicAttributes & TextProps & RefAttributes<HTMLElement>'.
+  Property 'leading' does not exist on type 'IntrinsicAttributes & TextProps & RefAttributes<HTMLElement>'.
+shared/ui/atoms/Text.test.tsx(112,18): error TS2322: Type '{ children: string; tracking: string; }' is not assignable to type 'IntrinsicAttributes & TextProps & RefAttributes<HTMLElement>'.
+  Property 'tracking' does not exist on type 'IntrinsicAttributes & TextProps & RefAttributes<HTMLElement>'.
+shared/ui/atoms/Text.test.tsx(118,18): error TS2322: Type '{ children: string; decoration: string; }' is not assignable to type 'IntrinsicAttributes & TextProps & RefAttributes<HTMLElement>'.
+  Property 'decoration' does not exist on type 'IntrinsicAttributes & TextProps & RefAttributes<HTMLElement>'.
+widgets/ThemeControls/atoms/ThemeButton.test.tsx(9,13): error TS2739: Type '{ onClick: Mock<Procedure>; }' is missing the following properties from type 'ThemeButtonProps': isOpen, currentThemeLabel
+widgets/ThemeControls/atoms/ThemeButton.test.tsx(14,13): error TS2739: Type '{ onClick: Mock<Procedure>; }' is missing the following properties from type 'ThemeButtonProps': isOpen, currentThemeLabel
+widgets/ThemeControls/atoms/ThemeButton.test.tsx(22,13): error TS2739: Type '{ onClick: Mock<Procedure>; }' is missing the following properties from type 'ThemeButtonProps': isOpen, currentThemeLabel
+widgets/ThemeControls/atoms/ThemeButton.test.tsx(31,43): error TS2322: Type '{ onClick: Mock<Procedure>; active: true; }' is not assignable to type 'IntrinsicAttributes & ThemeButtonProps'.
+  Property 'active' does not exist on type 'IntrinsicAttributes & ThemeButtonProps'.
+widgets/ThemeControls/atoms/ThemeButton.test.tsx(37,43): error TS2322: Type '{ onClick: Mock<Procedure>; active: boolean; }' is not assignable to type 'IntrinsicAttributes & ThemeButtonProps'.
+  Property 'active' does not exist on type 'IntrinsicAttributes & ThemeButtonProps'.
+widgets/ThemeControls/atoms/ThemeButton.test.tsx(43,43): error TS2322: Type '{ onClick: Mock<Procedure>; className: string; }' is not assignable to type 'IntrinsicAttributes & ThemeButtonProps'.
+  Property 'className' does not exist on type 'IntrinsicAttributes & ThemeButtonProps'.
+widgets/ThemeControls/atoms/ThemeButton.test.tsx(49,43): error TS2322: Type '{ onClick: Mock<Procedure>; tooltip: string; }' is not assignable to type 'IntrinsicAttributes & ThemeButtonProps'.
+  Property 'tooltip' does not exist on type 'IntrinsicAttributes & ThemeButtonProps'.
+widgets/ThemeControls/atoms/ThemeButton.test.tsx(55,43): error TS2322: Type '{ onClick: Mock<Procedure>; disabled: true; }' is not assignable to type 'IntrinsicAttributes & ThemeButtonProps'.
+  Property 'disabled' does not exist on type 'IntrinsicAttributes & ThemeButtonProps'.
+widgets/ThemeControls/atoms/ThemeButton.test.tsx(62,43): error TS2322: Type '{ onClick: Mock<Procedure>; size: string; }' is not assignable to type 'IntrinsicAttributes & ThemeButtonProps'.
+  Property 'size' does not exist on type 'IntrinsicAttributes & ThemeButtonProps'.
+widgets/ThemeControls/atoms/ThemeButton.test.tsx(68,13): error TS2739: Type '{ onClick: Mock<Procedure>; }' is missing the following properties from type 'ThemeButtonProps': isOpen, currentThemeLabel
+widgets/ThemeControls/atoms/ThemeButton.test.tsx(74,13): error TS2739: Type '{ onClick: Mock<Procedure>; }' is missing the following properties from type 'ThemeButtonProps': isOpen, currentThemeLabel
+widgets/ThemeControls/atoms/ThemeButton.test.tsx(80,13): error TS2739: Type '{ onClick: Mock<Procedure>; "aria-label": string; }' is missing the following properties from type 'ThemeButtonProps': isOpen, currentThemeLabel
+widgets/ThemeControls/atoms/ThemeButton.test.tsx(88,13): error TS2739: Type '{ onClick: Mock<Procedure>; }' is missing the following properties from type 'ThemeButtonProps': isOpen, currentThemeLabel
+widgets/ThemeControls/atoms/ThemeButton.test.tsx(102,64): error TS2322: Type '{ onClick: Mock<Procedure>; currentTheme: string; }' is not assignable to type 'IntrinsicAttributes & ThemeButtonProps'.
+  Property 'currentTheme' does not exist on type 'IntrinsicAttributes & ThemeButtonProps'.
+widgets/ThemeControls/atoms/ThemeButton.test.tsx(106,45): error TS2322: Type '{ onClick: Mock<Procedure>; currentTheme: string; }' is not assignable to type 'IntrinsicAttributes & ThemeButtonProps'.
+  Property 'currentTheme' does not exist on type 'IntrinsicAttributes & ThemeButtonProps'.
+widgets/ThemeControls/atoms/ThemeButton.test.tsx(113,13): error TS2739: Type '{ onClick: Mock<Procedure>; }' is missing the following properties from type 'ThemeButtonProps': isOpen, currentThemeLabel
+widgets/ThemeControls/atoms/ThemeButton.test.tsx(122,43): error TS2322: Type '{ onClick: Mock<Procedure>; loading: true; }' is not assignable to type 'IntrinsicAttributes & ThemeButtonProps'.
+  Property 'loading' does not exist on type 'IntrinsicAttributes & ThemeButtonProps'.
+widgets/ThemeControls/atoms/ThemeButton.test.tsx(129,13): error TS2739: Type '{ onClick: Mock<Procedure>; }' is missing the following properties from type 'ThemeButtonProps': isOpen, currentThemeLabel
+widgets/ThemeControls/atoms/ThemeButton.test.tsx(135,13): error TS2739: Type '{ onClick: Mock<Procedure>; }' is missing the following properties from type 'ThemeButtonProps': isOpen, currentThemeLabel
+widgets/ThemeControls/atoms/ThemeButton.test.tsx(144,43): error TS2322: Type '{ onClick: Mock<Procedure>; icon: string; }' is not assignable to type 'IntrinsicAttributes & ThemeButtonProps'.
+  Property 'icon' does not exist on type 'IntrinsicAttributes & ThemeButtonProps'.
+widgets/ThemeControls/atoms/ThemeButton.test.tsx(150,43): error TS2322: Type '{ onClick: Mock<Procedure>; animateOnChange: true; }' is not assignable to type 'IntrinsicAttributes & ThemeButtonProps'.
+  Property 'animateOnChange' does not exist on type 'IntrinsicAttributes & ThemeButtonProps'.
+widgets/ZoomControls/atoms/IconButton.test.tsx(9,24): error TS2322: Type 'string' is not assignable to type 'ReactElement<any, string | JSXElementConstructor<any>>'.
+widgets/ZoomControls/atoms/IconButton.test.tsx(14,24): error TS2322: Type 'string' is not assignable to type 'ReactElement<any, string | JSXElementConstructor<any>>'.
+widgets/ZoomControls/atoms/IconButton.test.tsx(22,24): error TS2322: Type 'string' is not assignable to type 'ReactElement<any, string | JSXElementConstructor<any>>'.
+widgets/ZoomControls/atoms/IconButton.test.tsx(31,24): error TS2322: Type 'string' is not assignable to type 'ReactElement<any, string | JSXElementConstructor<any>>'.
+widgets/ZoomControls/atoms/IconButton.test.tsx(37,24): error TS2322: Type 'string' is not assignable to type 'ReactElement<any, string | JSXElementConstructor<any>>'.
+widgets/ZoomControls/atoms/IconButton.test.tsx(43,24): error TS2322: Type 'string' is not assignable to type 'ReactElement<any, string | JSXElementConstructor<any>>'.
+widgets/ZoomControls/atoms/IconButton.test.tsx(50,24): error TS2322: Type 'string' is not assignable to type 'ReactElement<any, string | JSXElementConstructor<any>>'.
+widgets/ZoomControls/atoms/IconButton.test.tsx(56,24): error TS2322: Type 'string' is not assignable to type 'ReactElement<any, string | JSXElementConstructor<any>>'.
+widgets/ZoomControls/atoms/IconButton.test.tsx(62,24): error TS2322: Type 'string' is not assignable to type 'ReactElement<any, string | JSXElementConstructor<any>>'.
+widgets/ZoomControls/atoms/IconButton.test.tsx(68,24): error TS2322: Type 'string' is not assignable to type 'ReactElement<any, string | JSXElementConstructor<any>>'.
+widgets/ZoomControls/atoms/IconButton.test.tsx(74,24): error TS2322: Type 'string' is not assignable to type 'ReactElement<any, string | JSXElementConstructor<any>>'.
+widgets/ZoomControls/atoms/IconButton.test.tsx(80,24): error TS2322: Type 'string' is not assignable to type 'ReactElement<any, string | JSXElementConstructor<any>>'.
+widgets/ZoomControls/atoms/IconButton.test.tsx(88,24): error TS2322: Type 'string' is not assignable to type 'ReactElement<any, string | JSXElementConstructor<any>>'.
+widgets/ZoomControls/atoms/IconButton.test.tsx(103,24): error TS2322: Type 'string' is not assignable to type 'ReactElement<any, string | JSXElementConstructor<any>>'.
+widgets/ZoomControls/atoms/IconButton.test.tsx(112,24): error TS2322: Type 'string' is not assignable to type 'ReactElement<any, string | JSXElementConstructor<any>>'.
+widgets/ZoomControls/atoms/IconButton.test.tsx(119,24): error TS2322: Type 'string' is not assignable to type 'ReactElement<any, string | JSXElementConstructor<any>>'.
+widgets/ZoomControls/atoms/IconButton.test.tsx(126,24): error TS2322: Type 'string' is not assignable to type 'ReactElement<any, string | JSXElementConstructor<any>>'.
+widgets/ZoomControls/atoms/IconButton.test.tsx(136,24): error TS2322: Type 'string' is not assignable to type 'ReactElement<any, string | JSXElementConstructor<any>>'.
+widgets/ZoomControls/atoms/IconButton.test.tsx(142,24): error TS2322: Type 'string' is not assignable to type 'ReactElement<any, string | JSXElementConstructor<any>>'.
+widgets/ZoomControls/atoms/IconButton.test.tsx(148,24): error TS2322: Type 'string' is not assignable to type 'ReactElement<any, string | JSXElementConstructor<any>>'.
+widgets/ZoomControls/atoms/IconButton.test.tsx(154,24): error TS2322: Type 'string' is not assignable to type 'ReactElement<any, string | JSXElementConstructor<any>>'.
+widgets/ZoomControls/atoms/IconButton.test.tsx(162,24): error TS2322: Type 'string' is not assignable to type 'ReactElement<any, string | JSXElementConstructor<any>>'.
+
+real	0m13.752s
+user	0m0.121s
+sys	0m0.289s
+EXIT=2

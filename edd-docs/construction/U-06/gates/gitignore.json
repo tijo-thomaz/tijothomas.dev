@@ -1,0 +1,15 @@
+{
+  "id": "gitignore",
+  "enforce": true,
+  "status": "pass",
+  "exitCode": 0,
+  "cmd": "node scripts/check-gitignore.mjs",
+  "evidence": "PLAT-AC-18 specs/home.md tracked and not ignored",
+  "base": "813ab51",
+  "startedAt": "2026-11-24T16:13:32.305Z",
+  "durationMs": 153,
+  "outputTail": [
+    "PASS PLAT-AC-18 specs/home.md is tracked and not git-ignored"
+  ],
+  "log": "edd-docs/construction/U-06/gates/gitignore.log"
+}

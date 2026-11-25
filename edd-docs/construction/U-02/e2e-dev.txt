@@ -1,0 +1,7 @@
+
+Running 2 tests using 1 worker
+
+  ✓  1 [chromium] › e2e\terminal-react19.spec.ts:38:5 › desktop 1280 › U-02 TERM-AC-01 desktop 1280: help, theme switch, zoom, sound toggle and chat open emit 0 console errors, 0 React warnings, 0 page errors (3.4s)
+  ✓  2 [chromium] › e2e\terminal-react19.spec.ts:38:5 › mobile 360 › U-02 TERM-AC-01 mobile 360: help, theme switch, zoom, sound toggle and chat open emit 0 console errors, 0 React warnings, 0 page errors (12.0s)
+
+  2 passed (26.8s)

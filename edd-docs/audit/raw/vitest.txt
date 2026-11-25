@@ -1,0 +1,176 @@
+# npx vitest run (vitest 3.2.4) - condensed: per-file results, failing test names, first error line per failure, summary
+ ❯ features/terminal/ui/atoms/TerminalPrompt.test.tsx (12 tests | 3 failed) 444ms
+ ❯ features/terminal/ui/molecules/CommandOutput.test.tsx (17 tests | 7 failed) 284ms
+ ❯ shared/ui/atoms/Text.test.tsx (24 tests | 11 failed) 306ms
+ ❯ shared/ui/atoms/Icon.test.tsx (19 tests | 19 failed) 310ms
+ ❯ features/terminal/ui/organisms/TerminalHistory.test.tsx (19 tests | 19 failed) 725ms
+ ❯ features/chat-assistant/ui/organisms/MessageList.test.tsx (22 tests | 22 failed) 1393ms
+ ❯ features/chat-assistant/ui/molecules/MessageBubble.test.tsx (21 tests | 21 failed) 845ms
+ ❯ shared/ui/atoms/Input.test.tsx (23 tests | 9 failed) 1850ms
+ ✓ features/terminal/ui/atoms/TerminalText.test.tsx (8 tests) 173ms
+ ✓ features/terminal/ui/atoms/TerminalInput.test.tsx (11 tests) 415ms
+ ❯ features/chat-assistant/ui/atoms/AnimatedDots.test.tsx (7 tests | 7 failed) 156ms
+ ✓ features/terminal/ui/molecules/CommandLine.test.tsx (6 tests) 89ms
+ ✓ shared/ui/atoms/Button.test.tsx (9 tests) 188ms
+
+## Failing tests
+ FAIL  features/chat-assistant/ui/atoms/AnimatedDots.test.tsx > AnimatedDots Atom > applies animation delays correctly
+ FAIL  features/chat-assistant/ui/atoms/AnimatedDots.test.tsx > AnimatedDots Atom > applies bouncing animation to all dots
+ FAIL  features/chat-assistant/ui/atoms/AnimatedDots.test.tsx > AnimatedDots Atom > applies correct base styling
+ FAIL  features/chat-assistant/ui/atoms/AnimatedDots.test.tsx > AnimatedDots Atom > applies correct dot dimensions
+ FAIL  features/chat-assistant/ui/atoms/AnimatedDots.test.tsx > AnimatedDots Atom > renders as visual indicator for loading state
+ FAIL  features/chat-assistant/ui/atoms/AnimatedDots.test.tsx > AnimatedDots Atom > renders three animated dots by default
+ FAIL  features/chat-assistant/ui/atoms/AnimatedDots.test.tsx > AnimatedDots Atom > uses correct color styling
+ FAIL  features/chat-assistant/ui/atoms/SendButton.test.tsx [ features/chat-assistant/ui/atoms/SendButton.test.tsx ]
+ FAIL  features/chat-assistant/ui/molecules/MessageBubble.test.tsx > MessageBubble Molecule > applies bot message styling
+ FAIL  features/chat-assistant/ui/molecules/MessageBubble.test.tsx > MessageBubble Molecule > applies correct border radius
+ FAIL  features/chat-assistant/ui/molecules/MessageBubble.test.tsx > MessageBubble Molecule > applies correct max width
+ FAIL  features/chat-assistant/ui/molecules/MessageBubble.test.tsx > MessageBubble Molecule > applies custom className
+ FAIL  features/chat-assistant/ui/molecules/MessageBubble.test.tsx > MessageBubble Molecule > applies theme colors correctly
+ FAIL  features/chat-assistant/ui/molecules/MessageBubble.test.tsx > MessageBubble Molecule > applies user message styling
+ FAIL  features/chat-assistant/ui/molecules/MessageBubble.test.tsx > MessageBubble Molecule > displays sender name when provided
+ FAIL  features/chat-assistant/ui/molecules/MessageBubble.test.tsx > MessageBubble Molecule > displays timestamp when provided
+ FAIL  features/chat-assistant/ui/molecules/MessageBubble.test.tsx > MessageBubble Molecule > handles error state
+ FAIL  features/chat-assistant/ui/molecules/MessageBubble.test.tsx > MessageBubble Molecule > handles loading state
+ FAIL  features/chat-assistant/ui/molecules/MessageBubble.test.tsx > MessageBubble Molecule > handles markdown content
+ FAIL  features/chat-assistant/ui/molecules/MessageBubble.test.tsx > MessageBubble Molecule > handles multiline messages
+ FAIL  features/chat-assistant/ui/molecules/MessageBubble.test.tsx > MessageBubble Molecule > handles reactions when provided
+ FAIL  features/chat-assistant/ui/molecules/MessageBubble.test.tsx > MessageBubble Molecule > handles special characters in messages
+ FAIL  features/chat-assistant/ui/molecules/MessageBubble.test.tsx > MessageBubble Molecule > handles very long messages
+ FAIL  features/chat-assistant/ui/molecules/MessageBubble.test.tsx > MessageBubble Molecule > preserves whitespace in code blocks
+ FAIL  features/chat-assistant/ui/molecules/MessageBubble.test.tsx > MessageBubble Molecule > renders message content correctly
+ FAIL  features/chat-assistant/ui/molecules/MessageBubble.test.tsx > MessageBubble Molecule > shows avatar for bot messages
+ FAIL  features/chat-assistant/ui/molecules/MessageBubble.test.tsx > MessageBubble Molecule > shows avatar for user messages when specified
+ FAIL  features/chat-assistant/ui/molecules/MessageBubble.test.tsx > MessageBubble Molecule > shows delivery status for user messages
+ FAIL  features/chat-assistant/ui/molecules/MessageBubble.test.tsx > MessageBubble Molecule > shows typing animation for bot loading state
+ FAIL  features/chat-assistant/ui/organisms/MessageList.test.tsx > MessageList Organism > applies correct styling for different senders
+ FAIL  features/chat-assistant/ui/organisms/MessageList.test.tsx > MessageList Organism > applies custom className
+ FAIL  features/chat-assistant/ui/organisms/MessageList.test.tsx > MessageList Organism > applies theme colors correctly
+ FAIL  features/chat-assistant/ui/organisms/MessageList.test.tsx > MessageList Organism > filters messages when search term provided
+ FAIL  features/chat-assistant/ui/organisms/MessageList.test.tsx > MessageList Organism > groups messages by timestamp
+ FAIL  features/chat-assistant/ui/organisms/MessageList.test.tsx > MessageList Organism > handles empty message list
+ FAIL  features/chat-assistant/ui/organisms/MessageList.test.tsx > MessageList Organism > handles infinite scroll loading
+ FAIL  features/chat-assistant/ui/organisms/MessageList.test.tsx > MessageList Organism > handles keyboard navigation
+ FAIL  features/chat-assistant/ui/organisms/MessageList.test.tsx > MessageList Organism > handles message deletion
+ FAIL  features/chat-assistant/ui/organisms/MessageList.test.tsx > MessageList Organism > handles message editing
+ FAIL  features/chat-assistant/ui/organisms/MessageList.test.tsx > MessageList Organism > handles message loading states
+ FAIL  features/chat-assistant/ui/organisms/MessageList.test.tsx > MessageList Organism > handles very long message list
+ FAIL  features/chat-assistant/ui/organisms/MessageList.test.tsx > MessageList Organism > maintains scroll position when loading older messages
+ FAIL  features/chat-assistant/ui/organisms/MessageList.test.tsx > MessageList Organism > renders all messages correctly
+ FAIL  features/chat-assistant/ui/organisms/MessageList.test.tsx > MessageList Organism > renders avatars when enabled
+ FAIL  features/chat-assistant/ui/organisms/MessageList.test.tsx > MessageList Organism > scrolls to bottom when new messages arrive
+ FAIL  features/chat-assistant/ui/organisms/MessageList.test.tsx > MessageList Organism > shows empty state message
+ FAIL  features/chat-assistant/ui/organisms/MessageList.test.tsx > MessageList Organism > shows message delivery status
+ FAIL  features/chat-assistant/ui/organisms/MessageList.test.tsx > MessageList Organism > shows timestamps when enabled
+ FAIL  features/chat-assistant/ui/organisms/MessageList.test.tsx > MessageList Organism > shows typing indicator when provided
+ FAIL  features/chat-assistant/ui/organisms/MessageList.test.tsx > MessageList Organism > supports message reactions
+ FAIL  features/chat-assistant/ui/organisms/MessageList.test.tsx > MessageList Organism > supports message selection
+ FAIL  features/terminal/ui/atoms/TerminalPrompt.test.tsx > TerminalPrompt Atom > displays hostname when provided
+ FAIL  features/terminal/ui/atoms/TerminalPrompt.test.tsx > TerminalPrompt Atom > renders minimalist prompt when no user/path provided
+ FAIL  features/terminal/ui/atoms/TerminalPrompt.test.tsx > TerminalPrompt Atom > shows git branch when provided
+ FAIL  features/terminal/ui/molecules/CommandOutput.test.tsx > CommandOutput Molecule > accepts custom className
+ FAIL  features/terminal/ui/molecules/CommandOutput.test.tsx > CommandOutput Molecule > applies correct margins and padding
+ FAIL  features/terminal/ui/molecules/CommandOutput.test.tsx > CommandOutput Molecule > applies warning type styling
+ FAIL  features/terminal/ui/molecules/CommandOutput.test.tsx > CommandOutput Molecule > handles empty output
+ FAIL  features/terminal/ui/molecules/CommandOutput.test.tsx > CommandOutput Molecule > handles HTML entities in output
+ FAIL  features/terminal/ui/molecules/CommandOutput.test.tsx > CommandOutput Molecule > supports animation when specified
+ FAIL  features/terminal/ui/molecules/CommandOutput.test.tsx > CommandOutput Molecule > supports loading state
+ FAIL  features/terminal/ui/organisms/TerminalHistory.test.tsx > TerminalHistory Organism > applies correct scroll behavior
+ FAIL  features/terminal/ui/organisms/TerminalHistory.test.tsx > TerminalHistory Organism > applies correct styling for error commands
+ FAIL  features/terminal/ui/organisms/TerminalHistory.test.tsx > TerminalHistory Organism > applies custom className
+ FAIL  features/terminal/ui/organisms/TerminalHistory.test.tsx > TerminalHistory Organism > displays output for each command
+ FAIL  features/terminal/ui/organisms/TerminalHistory.test.tsx > TerminalHistory Organism > handles command execution context
+ FAIL  features/terminal/ui/organisms/TerminalHistory.test.tsx > TerminalHistory Organism > handles empty history
+ FAIL  features/terminal/ui/organisms/TerminalHistory.test.tsx > TerminalHistory Organism > handles loading states
+ FAIL  features/terminal/ui/organisms/TerminalHistory.test.tsx > TerminalHistory Organism > handles multiline command output
+ FAIL  features/terminal/ui/organisms/TerminalHistory.test.tsx > TerminalHistory Organism > handles very long command history
+ FAIL  features/terminal/ui/organisms/TerminalHistory.test.tsx > TerminalHistory Organism > maintains performance with large histories
+ FAIL  features/terminal/ui/organisms/TerminalHistory.test.tsx > TerminalHistory Organism > preserves terminal formatting
+ FAIL  features/terminal/ui/organisms/TerminalHistory.test.tsx > TerminalHistory Organism > renders command history correctly
+ FAIL  features/terminal/ui/organisms/TerminalHistory.test.tsx > TerminalHistory Organism > renders command prompts correctly
+ FAIL  features/terminal/ui/organisms/TerminalHistory.test.tsx > TerminalHistory Organism > scrolls to bottom when new entries are added
+ FAIL  features/terminal/ui/organisms/TerminalHistory.test.tsx > TerminalHistory Organism > shows timestamps when enabled
+ FAIL  features/terminal/ui/organisms/TerminalHistory.test.tsx > TerminalHistory Organism > supports command selection
+ FAIL  features/terminal/ui/organisms/TerminalHistory.test.tsx > TerminalHistory Organism > supports filtering history entries
+ FAIL  features/terminal/ui/organisms/TerminalHistory.test.tsx > TerminalHistory Organism > supports history clearing
+ FAIL  features/terminal/ui/organisms/TerminalHistory.test.tsx > TerminalHistory Organism > supports success command styling
+ FAIL  shared/ui/atoms/Icon.test.tsx > Icon Atom > applies custom className
+ FAIL  shared/ui/atoms/Icon.test.tsx > Icon Atom > applies custom color
+ FAIL  shared/ui/atoms/Icon.test.tsx > Icon Atom > applies custom size correctly
+ FAIL  shared/ui/atoms/Icon.test.tsx > Icon Atom > applies default size correctly
+ FAIL  shared/ui/atoms/Icon.test.tsx > Icon Atom > applies theme colors correctly
+ FAIL  shared/ui/atoms/Icon.test.tsx > Icon Atom > can be made visible to screen readers
+ FAIL  shared/ui/atoms/Icon.test.tsx > Icon Atom > combines multiple transformations
+ FAIL  shared/ui/atoms/Icon.test.tsx > Icon Atom > handles invalid icon names gracefully
+ FAIL  shared/ui/atoms/Icon.test.tsx > Icon Atom > handles responsive sizing
+ FAIL  shared/ui/atoms/Icon.test.tsx > Icon Atom > has correct accessibility attributes
+ FAIL  shared/ui/atoms/Icon.test.tsx > Icon Atom > is hidden from screen readers by default
+ FAIL  shared/ui/atoms/Icon.test.tsx > Icon Atom > maintains aspect ratio
+ FAIL  shared/ui/atoms/Icon.test.tsx > Icon Atom > renders icon with correct name
+ FAIL  shared/ui/atoms/Icon.test.tsx > Icon Atom > supports custom stroke width
+ FAIL  shared/ui/atoms/Icon.test.tsx > Icon Atom > supports custom viewBox
+ FAIL  shared/ui/atoms/Icon.test.tsx > Icon Atom > supports different icon variants
+ FAIL  shared/ui/atoms/Icon.test.tsx > Icon Atom > supports flip transformations
+ FAIL  shared/ui/atoms/Icon.test.tsx > Icon Atom > supports rotation
+ FAIL  shared/ui/atoms/Icon.test.tsx > Icon Atom > uses current color by default
+ FAIL  shared/ui/atoms/Input.test.tsx > Input Atom > applies focus styling
+ FAIL  shared/ui/atoms/Input.test.tsx > Input Atom > applies theme colors
+ FAIL  shared/ui/atoms/Input.test.tsx > Input Atom > handles disabled state
+ FAIL  shared/ui/atoms/Input.test.tsx > Input Atom > handles password type
+ FAIL  shared/ui/atoms/Input.test.tsx > Input Atom > shows error state styling
+ FAIL  shared/ui/atoms/Input.test.tsx > Input Atom > shows success state styling
+ FAIL  shared/ui/atoms/Input.test.tsx > Input Atom > supports different sizes
+ FAIL  shared/ui/atoms/Input.test.tsx > Input Atom > supports large size
+ FAIL  shared/ui/atoms/Input.test.tsx > Input Atom > supports readonly state
+ FAIL  shared/ui/atoms/Text.test.tsx > Text Atom > applies accent text variant
+ FAIL  shared/ui/atoms/Text.test.tsx > Text Atom > applies default variant styling
+ FAIL  shared/ui/atoms/Text.test.tsx > Text Atom > applies heading variants correctly
+ FAIL  shared/ui/atoms/Text.test.tsx > Text Atom > applies muted text variant
+ FAIL  shared/ui/atoms/Text.test.tsx > Text Atom > applies small text variant
+ FAIL  shared/ui/atoms/Text.test.tsx > Text Atom > applies theme colors correctly
+ FAIL  shared/ui/atoms/Text.test.tsx > Text Atom > handles different color variants
+ FAIL  shared/ui/atoms/Text.test.tsx > Text Atom > handles line height variants
+ FAIL  shared/ui/atoms/Text.test.tsx > Text Atom > handles text decoration
+ FAIL  shared/ui/atoms/Text.test.tsx > Text Atom > supports letter spacing
+ FAIL  shared/ui/atoms/Text.test.tsx > Text Atom > supports multiline truncation
+ FAIL  widgets/ThemeControls/atoms/ThemeButton.test.tsx [ widgets/ThemeControls/atoms/ThemeButton.test.tsx ]
+ FAIL  widgets/ZoomControls/atoms/IconButton.test.tsx [ widgets/ZoomControls/atoms/IconButton.test.tsx ]
+
+## Distinct error messages (count)
+    358 Error: Uncaught [TypeError: Cannot read properties of undefined (reading 'split')]
+     38 Error: Uncaught [TypeError: Cannot read properties of undefined (reading 'map')]
+     19 Error: Uncaught [Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. 
+      7 TestingLibraryElementError: Found multiple elements with the role "generic"
+      6 Error: expect(element).toHaveStyle()
+      2 Error: Failed to resolve import "@/lib/utils" from "components/ui/button.tsx". Does the file exist?
+      1 TypeError: Cannot read properties of undefined (reading 'split')
+      1 TypeError: Cannot read properties of undefined (reading 'map')
+      1 TestingLibraryElementError: Unable to find an element with the text: tijo. This could be because the text is broken up by multiple elements. In this case, you c
+      1 TestingLibraryElementError: Unable to find an element with the text: No messages yet. This could be because the text is broken up by multiple elements. In this 
+      1 TestingLibraryElementError: Unable to find an element with the text: main. This could be because the text is broken up by multiple elements. In this case, you c
+      1 TestingLibraryElementError: Unable to find an element with the text: .... This could be because the text is broken up by multiple elements. In this case, you ca
+      1 TestingLibraryElementError: Unable to find an element with the text: &lt;script&gt;alert('test')&lt;/script&gt;. This could be because the text is broken up by 
+      1 TestingLibraryElementError: Found multiple elements with the text: 
+      1 TestingLibraryElementError: Found a label with the text of: , however no form control was found associated to that label. Make sure you're using the "for" attri
+      1 Error: expect(received).toBeInTheDocument()
+      1 Error: expect(element).toHaveClass("underline")
+      1 Error: expect(element).toHaveClass("tracking-wide")
+      1 Error: expect(element).toHaveClass("text-sm")
+      1 Error: expect(element).toHaveClass("text-base leading-relaxed")
+      1 Error: expect(element).toHaveClass("text-4xl font-bold tracking-tight")
+      1 Error: expect(element).toHaveClass("py-1")
+      1 Error: expect(element).toHaveClass("px-4 py-3 text-lg")
+      1 Error: expect(element).toHaveClass("px-2 py-1 text-sm")
+      1 Error: expect(element).toHaveClass("opacity-50 cursor-not-allowed")
+      1 Error: expect(element).toHaveClass("line-clamp-3")
+      1 Error: expect(element).toHaveClass("leading-tight")
+      1 Error: expect(element).toHaveClass("focus:outline-none focus:ring-2")
+      1 Error: expect(element).toHaveClass("custom-output")
+      1 Error: expect(element).toHaveClass("border-red-500 focus:border-red-500")
+
+## Summary
+⎯⎯⎯⎯⎯⎯ Failed Tests 118 ⎯⎯⎯⎯⎯⎯
+ Test Files  12 failed | 4 passed (16)
+      Tests  118 failed | 80 passed (198)
+   Duration  11.83s (transform 2.65s, setup 7.98s, collect 12.69s, tests 7.18s, environment 45.56s, prepare 15.76s)
+EXIT=1

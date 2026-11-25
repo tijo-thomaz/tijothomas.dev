@@ -1,0 +1,23 @@
+
+> tijothomas.dev@1.0.0 lint
+> next lint
+
+
+./app/v2/page.tsx
+96:6  Warning: React Hook useEffect has a missing dependency: 'handleAddToCommandHistory'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/Terminal.tsx
+561:7  Warning: React Hook useCallback has missing dependencies: 'availableCommands' and 'portfolioData'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/ThemeProvider.tsx
+60:6  Warning: React Hook useEffect has a missing dependency: 'themes'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/ZoomControls.tsx
+51:6  Warning: React Hook useEffect has missing dependencies: 'onZoomChange' and 'zoomLevels'. Either include them or remove the dependency array. If 'onZoomChange' changes too often, find the parent component that defines it and wrap that definition in useCallback.  react-hooks/exhaustive-deps
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+
+real	0m8.892s
+user	0m0.213s
+sys	0m0.106s
+EXIT=0

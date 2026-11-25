@@ -1,0 +1,15 @@
+{
+  "id": "CG10_groq",
+  "enforce": true,
+  "status": "pass",
+  "exitCode": 0,
+  "cmd": "node scripts/check-groq.mjs",
+  "evidence": "TERM-AC-10 hits for api.groq.com / Groq SDK in src/ and the build (runs after CG1_build)",
+  "base": "0d75cb8",
+  "startedAt": "2026-11-24T14:46:31.123Z",
+  "durationMs": 191,
+  "outputTail": [
+    "PASS TERM-AC-10 no api.groq.com and no Groq SDK import in src/ or the build (314 files)"
+  ],
+  "log": "edd-docs/construction/U-05/gates/CG10_groq.log"
+}

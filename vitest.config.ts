@@ -3,35 +3,26 @@ import { fileURLToPath } from 'node:url';
 
 import { defineConfig } from 'vitest/config';
 
-import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
-
 const dirname =
   typeof __dirname !== 'undefined' ? __dirname : path.dirname(fileURLToPath(import.meta.url));
 
-// More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
+  resolve: {
+    // Mirrors tsconfig "paths": { "@/*": ["./src/*"] } (Vite does not read tsconfig paths).
+    alias: {
+      '@': path.resolve(dirname, './src'),
+    },
+  },
   test: {
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
-    include: [
-      'features/**/*.test.{ts,tsx}',
-      'widgets/**/*.test.{ts,tsx}',
-      'shared/**/*.test.{ts,tsx}',
-    ],
+    include: ['src/{app,components,terminal,content,lib}/**/*.test.{ts,tsx}'],
+    exclude: ['**/node_modules/**', '**/.next/**', '.claude/**'],
     coverage: {
       reporter: ['text', 'json', 'html'],
-      include: [
-        'features/**/*.{ts,tsx}',
-        'widgets/**/*.{ts,tsx}',
-        'shared/**/*.{ts,tsx}',
-      ],
-      exclude: [
-        '**/*.stories.{ts,tsx}',
-        '**/*.test.{ts,tsx}',
-        '**/node_modules/**',
-        '**/.next/**',
-      ],
+      include: ['src/{app,components,terminal,content,lib}/**/*.{ts,tsx}'],
+      exclude: ['**/*.test.{ts,tsx}', '**/node_modules/**', '**/.next/**', '.claude/**'],
     },
   },
 });

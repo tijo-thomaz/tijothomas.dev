@@ -2,64 +2,58 @@
   "name": "tijothomas.dev",
   "version": "1.0.0",
   "private": true,
+  "packageManager": "npm@11.21.3",
+  "engines": {
+    "node": ">=22.18",
+    "npm": ">=11"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "oxlint --max-warnings 109",
+    "lint:fix": "oxlint --fix",
     "type-check": "tsc --noEmit",
-    "test": "vitest",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:scripts": "node --test scripts/*.test.mjs",
+    "test:e2e": "playwright test",
+    "spec:check": "node scripts/spec-check.mjs",
+    "gates": "node scripts/gates.mjs",
     "test:ui": "vitest --ui",
-    "test:coverage": "vitest --coverage",
-    "analyze": "ANALYZE=true npm run build",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "test:coverage": "vitest --coverage"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.50.2",
     "@vercel/analytics": "^1.5.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
-    "gsap": "^3.13.0",
-    "lucide-react": "^0.290.0",
-    "next": "^14.0.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "tailwind-merge": "^2.0.0",
-    "zod": "^4.1.8",
-    "zustand": "^5.0.8"
+    "lucide-react": "0.577.0",
+    "next": "16.4.6",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "tailwind-merge": "^2.0.0"
   },
   "devDependencies": {
-    "@chromatic-com/storybook": "^4.1.1",
-    "@next/bundle-analyzer": "^15.5.3",
-    "@storybook/addon-a11y": "^9.1.5",
-    "@storybook/addon-docs": "^9.1.5",
-    "@storybook/addon-onboarding": "^9.1.5",
-    "@storybook/addon-vitest": "^9.1.5",
-    "@storybook/nextjs-vite": "^9.1.5",
+    "@axe-core/playwright": "4.14.0",
+    "@playwright/test": "1.65.1",
+    "@testing-library/dom": "10.4.1",
     "@testing-library/jest-dom": "^6.8.0",
     "@testing-library/react": "^16.3.0",
     "@types/node": "^20.0.0",
-    "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.0",
-    "@vitest/browser": "3.2.4",
-    "@vitest/coverage-v8": "3.2.4",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitest/coverage-v8": "3.2.7",
     "autoprefixer": "^10.0.0",
-    "eslint": "^8.0.0",
-    "eslint-config-next": "^14.0.0",
-    "eslint-plugin-storybook": "^9.1.5",
     "jsdom": "^26.1.0",
-    "playwright": "^1.55.0",
+    "oxlint": "1.95.0",
     "postcss": "^8.0.0",
-    "storybook": "^9.1.5",
     "tailwind-scrollbar": "^3.0.5",
     "tailwindcss": "^3.3.0",
     "typescript": "^5.0.0",
     "vitest": "^3.2.4"
   },
-  "eslintConfig": {
-    "extends": [
-      "plugin:storybook/recommended"
-    ]
+  "overrides": {
+    "tinypool": "2.2.0"
   }
 }

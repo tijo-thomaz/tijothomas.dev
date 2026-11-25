@@ -1,0 +1,16 @@
+{
+  "id": "CG10_sbom",
+  "enforce": true,
+  "status": "pass",
+  "exitCode": 0,
+  "cmd": "node scripts/sbom.mjs --out edd-docs/construction/U-08/gates",
+  "evidence": "PLAT-AC-25 sbom.cdx.json (CycloneDX) in the evidence folder",
+  "base": "ccfa635",
+  "startedAt": "2026-11-24T18:32:57.704Z",
+  "durationMs": 99,
+  "outputTail": [
+    "PASS PLAT-AC-25 sbom.cdx.json written (CycloneDX 1.5, 385 components, 26 direct)",
+    "  edd-docs/construction/U-08/gates/sbom.cdx.json"
+  ],
+  "log": "edd-docs/construction/U-08/gates/CG10_sbom.log"
+}

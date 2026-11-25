@@ -1,0 +1,900 @@
+/* Site styles for the (site) route group. Terminal styles live in src/terminal/globals.css.
+   Tokens follow docs/design/home-reference/Main.dc.html (accent: RQ-06 a). Sizes are rem so the
+   page honours the browser font size; px values from the mockup are divided by 16. */
+@config "../../../tailwind.site.config.js"; /* site-only content globs: no terminal utilities (U-07) */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-body: var(--font-inter), system-ui, sans-serif;
+  --font-display: var(--font-space-grotesk), var(--font-body);
+
+  --ink: #0f1b2d;
+  --text: #2d3a4d;
+  --muted: #4a5568;
+  --green: #1f5c3f;
+  --mint: #e6f5ec;
+  --mint-border: #cfe6d8;
+  --surface: #f4f7fa;
+  --line: #dfe7ef;
+  --white: #ffffff;
+  --on-ink: #c9d4e3;
+  --on-ink-line: rgb(255 255 255 / 0.16);
+  --on-ink-surface: rgb(255 255 255 / 0.07);
+  --line-strong: #9fb3c8;
+  --timeline: #cbd8e5;
+  --accent: #ff7a33;
+  --focus: #1d4ed8;
+
+  /* Status badges (mockup colours; text/background pairs meet AA). */
+  --badge-bg: #eef2f7;
+  --badge-live-bg: #dff5e8;
+  --badge-live-fg: #14532d;
+  --badge-progress-bg: #fff1e6;
+  --badge-progress-fg: #7c2d12;
+
+  --gutter: max(4vw, 1rem);
+  --radius: 1rem;
+
+  /* The design is light only (no dark theme in the mockup): tell the browser, so its own UI
+     (scrollbars, form controls) stays light too (MWG color guide). */
+  color-scheme: light;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--white);
+  line-height: 1.5;
+  /* Owner request (U-07): arrow over titles, text, badges and labels, not the I-beam, and no text
+     selection anywhere on the site pages. Only controls change the cursor. */
+  cursor: default;
+  user-select: none;
+}
+
+:where(input, textarea, [contenteditable='true']) {
+  user-select: text;
+}
+
+:where(a[href], button:not(:disabled), summary, label[for]) {
+  cursor: pointer;
+}
+
+:where(input, textarea, [contenteditable='true']) {
+  cursor: text;
+}
+
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 700; /* the mockup relies on the browser's bold headings; the Tailwind reset removes it */
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* Focus: one visible ring for every interactive element (3px, #1d4ed8, offset). */
+:where(a:any-link, button, [tabindex]):focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+main:focus {
+  outline: none; /* main is only focused by the skip link; it is not a control. */
+}
+
+/* In-page navigation. The brand link targets #top (the hero, HOME-AC-11), which sits below the
+   header. Without a margin, jumping there scrolls the header and the name out of view, so #top
+   scrolls to the very top of the page instead. Smooth scrolling only when motion is welcome. */
+#top {
+  scroll-margin-block-start: 100dvh;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Skip link: off-screen until focused (HOME-AC-11). */
+.skip-link {
+  position: absolute;
+  inset-inline-start: 1rem;
+  inset-block-start: -10rem;
+  z-index: 10;
+  padding: 0.75rem 1rem;
+  border-radius: 0.625rem;
+  background: var(--ink);
+  color: var(--white);
+  font-weight: 600;
+}
+
+.skip-link:focus-visible {
+  inset-block-start: 1rem;
+}
+
+/* Layout */
+.band {
+  padding-inline: var(--gutter);
+}
+
+.band--mint {
+  background: var(--mint);
+}
+
+.band--surface {
+  padding-block: 2rem;
+  background: var(--surface);
+}
+
+.band--ink {
+  /* #1d4ed8 on --ink is about 2.6:1; WCAG 1.4.11 needs 3:1 for a focus ring (U-06 review #5). */
+  --focus: #93c5fd;
+  background: var(--ink);
+  color: var(--on-ink);
+}
+
+.wrap {
+  max-width: 77.5rem;
+  margin-inline: auto;
+}
+
+/* Header and nav */
+.site-header {
+  padding-block: 1rem;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+}
+
+.nav-brand {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.nav-list {
+  display: flex;
+  flex-wrap: wrap;
+  flex-wrap: balance; /* even rows on narrow screens, no orphaned "Contact"; falls back to wrap */
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav-link {
+  display: inline-block;
+  min-block-size: 2.75rem;
+  padding: 0.625rem 0.75rem;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
+/* Hero */
+.hero {
+  padding-block: 1.5rem 3.5rem;
+}
+
+.hero-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem 3rem;
+}
+
+.hero-copy {
+  flex: 1 1 23.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.hero-line {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--green);
+}
+
+.hero-title {
+  margin: 0;
+  font-size: clamp(2.5rem, 1.75rem + 3vw, 4rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+}
+
+.hero-intro {
+  margin: 0;
+  max-width: 35rem;
+  font-size: 1.125rem;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+.hero-tip {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--text);
+}
+
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.875rem 1.375rem;
+  border: 2px solid transparent;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.btn--accent {
+  background: var(--accent);
+}
+
+.btn--outline {
+  background: var(--white);
+  border-color: var(--ink);
+}
+
+/* Highlights */
+.tiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-block: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tile {
+  flex: 1 1 13.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--white);
+}
+
+.tile-value {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.tile-label {
+  font-size: 0.9375rem;
+  color: var(--muted);
+}
+
+/* Sections */
+.section {
+  padding-block: 4.5rem;
+}
+
+.section-title {
+  margin: 0;
+  font-size: clamp(2rem, 1.6rem + 1.5vw, 2.5rem);
+  letter-spacing: -0.02em;
+}
+
+.section-title--light {
+  color: var(--white);
+}
+
+.section-head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.section-intro {
+  margin: 0;
+  max-width: 40rem;
+  font-size: 1.0625rem;
+  color: var(--muted);
+}
+
+.stack-sm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.stack-lg {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.wrap--narrow {
+  max-width: 65rem;
+}
+
+.empty {
+  margin: 0;
+  color: var(--muted);
+}
+
+/* Badges */
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.625rem;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  white-space: nowrap;
+  background: var(--badge-bg);
+  color: var(--ink);
+}
+
+.badge--live {
+  background: var(--badge-live-bg);
+  color: var(--badge-live-fg);
+}
+
+.badge--in-progress {
+  background: var(--badge-progress-bg);
+  color: var(--badge-progress-fg);
+}
+
+.badge-now {
+  background: var(--accent);
+  color: var(--ink);
+  font-weight: 700;
+}
+
+/* Cards */
+.card {
+  border: 1px solid var(--line);
+  background: var(--white);
+}
+
+.card-title {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.card-subtitle {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--muted);
+}
+
+/* Work */
+.card-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.work-card {
+  flex: 1 1 20rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  border-radius: 1.25rem;
+  transition: border-color 150ms ease-out;
+}
+
+.work-card:hover {
+  border-color: var(--line-strong);
+}
+
+.work-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.work-summary {
+  margin: 0;
+  line-height: 1.55;
+}
+
+.metric {
+  margin: 0;
+  padding: 0.75rem 0.875rem;
+  border-radius: 0.75rem;
+  background: var(--surface);
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.work-stack {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.work-link {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* Experience */
+.timeline {
+  position: relative;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: 1.6875rem;
+  inset-block: 0.5rem 2.25rem;
+  inline-size: 2px;
+  background: var(--timeline);
+}
+
+.exp-row {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  padding-block-end: 1.75rem;
+}
+
+.monogram,
+.tile-gap {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 3.5rem;
+  block-size: 3.5rem;
+  border-radius: 1rem;
+}
+
+.monogram {
+  background: var(--ink);
+  color: var(--white);
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 700;
+  box-shadow: 0 0 0 6px var(--white);
+}
+
+.tile-gap {
+  border: 2px dashed var(--line-strong);
+  background: var(--white);
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.exp-card {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.25rem 1.5rem;
+  border-radius: 1.125rem;
+  background: var(--surface);
+}
+
+.exp-card .card-title {
+  font-size: 1.375rem;
+}
+
+.exp-title {
+  margin: 0;
+  font-weight: 600;
+}
+
+.exp-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.exp-dates {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.exp-bullets {
+  margin: 0.25rem 0 0;
+  padding-inline-start: 1.25rem;
+  line-height: 1.55;
+  list-style: disc;
+}
+
+.exp-bullets li + li {
+  margin-block-start: 0.375rem;
+}
+
+.exp-gap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding-block-start: 0.375rem;
+}
+
+.exp-gap-label {
+  margin: 0;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* How I work */
+.steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.step {
+  flex: 1 1 12.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.25rem;
+  border: 1px solid var(--on-ink-line);
+  border-radius: var(--radius);
+  background: var(--on-ink-surface);
+}
+
+.step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 2.25rem;
+  block-size: 2.25rem;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.step-title {
+  margin: 0;
+  font-size: 1.25rem;
+  color: var(--white);
+}
+
+.step-text {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--on-ink);
+}
+
+/* Writing */
+.posts {
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.post-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 1.25rem;
+  border-block-start: 1px solid var(--line);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.post-row--link:hover .post-title {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.post-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.post-title {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.post-subtitle {
+  font-size: 0.9375rem;
+  color: var(--muted);
+}
+
+/* CityMap (U-08). The svg keeps the mockup's aspect ratio, so its space is reserved before paint. */
+.hero-map {
+  flex: 1 1 30rem;
+  max-width: 42.5rem;
+}
+
+.city-map {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  aspect-ratio: 837 / 794;
+}
+
+.city-map .accent {
+  fill: var(--accent);
+}
+
+.city-building {
+  cursor: pointer;
+}
+
+/* The body lifts, not the link, so the hit area stays put and the hover edge cannot flicker. */
+.city-building-body {
+  transition: transform 150ms ease-out;
+}
+
+.city-label-bg {
+  fill: var(--ink);
+  transition: fill 150ms ease-out;
+}
+
+.city-building text {
+  font-family: var(--font-display);
+}
+
+/* HOME-AC-19: lift and highlight on hover and keyboard focus. */
+.city-building:hover .city-building-body,
+.city-building:focus-visible .city-building-body {
+  transform: translateY(-4px);
+}
+
+.city-building:hover .city-label-bg,
+.city-building:focus-visible .city-label-bg {
+  fill: var(--focus);
+}
+
+.city-building:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.city-board {
+  fill: var(--white);
+  stroke: var(--ink);
+  stroke-width: 2;
+}
+
+.city-board-text {
+  fill: var(--ink);
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* Owner choice (c) at U-08 PG5: on narrow screens the whole map scales down to about 0.4, so the
+   building labels and sign boards are enlarged around their own anchor point to stay readable
+   (about 11 px text at 360 px). The geometry and viewBox are unchanged. */
+@media (max-width: 40rem) {
+  .city-label {
+    transform: scale(2);
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+  }
+
+  .city-boards {
+    transform: scale(1.9);
+    transform-box: fill-box;
+    transform-origin: 0 100%;
+  }
+}
+
+/* HOME-AC-20: the car drives in along its road once. */
+.city-car {
+  /* 5 s: automatic motion over 5 s would need a pause control (WCAG 2.2.2, owner decision D1). */
+  animation: city-drive 5s ease-out 1 both;
+}
+
+@keyframes city-drive {
+  from {
+    /* Starts on the road near the crossing (on the tile), along the road's isometric slope. */
+    transform: translate(-60px, -35px);
+  }
+
+  to {
+    transform: translate(0, 0);
+  }
+}
+
+/* Narrow screens: a smaller timeline tile leaves the experience card more room. */
+@media (max-width: 30rem) {
+  .exp-row {
+    gap: 0.75rem;
+  }
+
+  .monogram,
+  .tile-gap {
+    inline-size: 2.75rem;
+    block-size: 2.75rem;
+    font-size: 0.8125rem;
+  }
+
+  .timeline::before {
+    inset-inline-start: 1.3125rem;
+  }
+
+  .exp-card {
+    padding: 1rem;
+  }
+}
+
+/* HOME-AC-21: reduced motion, case by case (MWG motion guide: no global "kill everything" rule).
+   Each animated or transitioned element is listed. The car stays parked in its final position, and
+   hover and focus states still apply, instantly. HOME-AC-21 also asks for colour transitions to be
+   instant, so the label fill change is included too. */
+@media (prefers-reduced-motion: reduce) {
+  .city-car {
+    animation: none;
+  }
+
+  .work-card,
+  .city-building-body,
+  .city-label-bg {
+    transition: none;
+  }
+}
+
+/* Windows High Contrast (forced colours) drops backgrounds and box shadows, so shapes that exist
+   only as a background get a system-colour border to stay visible (MWG color guide). */
+@media (forced-colors: active) {
+  .badge,
+  .monogram,
+  .step-number,
+  .tile,
+  .metric {
+    border: 1px solid CanvasText;
+  }
+}
+
+/* Contact */
+#contact {
+  padding-block: 4.5rem;
+}
+
+.contact {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.contact-copy {
+  flex: 1 1 26.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.contact-intro {
+  margin: 0;
+  max-width: 35rem;
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+.contact-availability {
+  margin: 0;
+}
+
+.contact-card {
+  flex: 1 1 18.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  margin: 0;
+  padding: 1.5rem;
+  border: 1px solid var(--mint-border);
+  border-radius: 1.25rem;
+  background: var(--white);
+  list-style: none;
+}
+
+.contact-link {
+  display: inline-block;
+  min-block-size: 1.5rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* Footer */
+.site-footer {
+  padding-block: 1.5rem;
+  font-size: 0.875rem;
+}
+
+.footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.footer-link {
+  color: var(--on-ink);
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+/* Privacy notice (U-10) */
+.privacy {
+  padding-block: 1.5rem;
+}
+
+.privacy-heading {
+  margin: 0;
+  font-size: 1.375rem;
+}
+
+.privacy-section p,
+.privacy-list {
+  margin: 0;
+  max-width: 70ch;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.privacy-list {
+  padding-inline-start: 1.25rem;
+  list-style: disc;
+}
+
+.privacy-list li + li {
+  margin-block-start: 0.5rem;
+}
+
+@media (pointer: coarse) {
+  .contact-link,
+  .footer-link {
+    min-block-size: 2.75rem;
+    display: inline-flex;
+    align-items: center;
+  }
+}

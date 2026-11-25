@@ -1,0 +1,73 @@
+{
+  "moveCommit": "0e8b4e9eb5d4c9366b559ed856994ba9c58fa190",
+  "exceptions": [
+    {
+      "path": "src/terminal/page.tsx",
+      "reason": "U-10: stale 'Groq AI' credit link removed (chat is off since U-04, so the credit misled visitors); 'Anonymous Analytics Only' reworded to 'Cookieless Analytics' (U-10 review #8: Vercel analytics is pseudonymous for 24 h, not anonymous)"
+    },
+    {
+      "path": "src/terminal/lib/supabase.ts",
+      "reason": "U-02 TERM-AC-06: eager client replaced by lazy getSupabase()"
+    },
+    {
+      "path": "src/terminal/api/analytics/route.ts",
+      "reason": "U-02 TERM-AC-06: route uses getSupabase() and no-ops with no env"
+    },
+    {
+      "path": "src/terminal/features/chat-assistant/ui/ChatMessages.tsx",
+      "reason": "U-02 PLAT-AC-04: React 19 RefObject<T | null> prop type"
+    },
+    {
+      "path": "src/terminal/features/chat-assistant/ui/FloatingDrawer.tsx",
+      "reason": "U-02 PLAT-AC-04: React 19 RefObject<T | null> prop type"
+    },
+    {
+      "path": "src/terminal/components/Terminal.tsx",
+      "reason": "U-04 commit A (SQ-05 a): data-only contact PII strip"
+    },
+    {
+      "path": "src/terminal/lib/utils.ts",
+      "reason": "U-04 commit A (SQ-05 a): data-only contact PII strip"
+    },
+    {
+      "path": "src/terminal/features/prompt-shield/model/usePromptShield.ts",
+      "reason": "U-04 commit A (SQ-05 a): data-only contact PII strip"
+    },
+    {
+      "path": "src/terminal/widgets/PrivacyPolicy/molecules/PrivacyModal.tsx",
+      "reason": "U-04 commit A (SQ-05 a): contact PII strip (email to LinkedIn); U-10 TERM-AC-12: text-only rewrite (inaccurate claims removed, link to /privacy)"
+    },
+    {
+      "path": "src/terminal/components/ContactActions.tsx",
+      "reason": "U-04 commit A (SQ-05 a): contact PII strip, not data-only (U-04 review): email and WhatsApp buttons and handlers removed, GitHub button added; U-04 review #4: window.open with noopener"
+    },
+    {
+      "path": "src/terminal/components/ContactMessage.tsx",
+      "reason": "U-04 commit A (SQ-05 a): contact PII strip, not data-only (U-04 review): email and WhatsApp options and handlers removed, GitHub option added; U-04 review #4: window.open with noopener"
+    },
+    {
+      "path": "src/terminal/features/chat-assistant/model/useChatAssistant.ts",
+      "reason": "U-04 commit A (SQ-05 a): data-only contact PII strip; commit B returns CHAT_UNAVAILABLE_MESSAGE"
+    },
+    {
+      "path": "src/terminal/api/chat/route.ts",
+      "reason": "U-04 commit B (SQ-01 c, ADR-P2): /api/chat and its Groq handler deleted"
+    },
+    {
+      "path": "src/terminal/layout.tsx",
+      "reason": "U-04 carried U-03 review minor: hidden SEO block (owner email and phone) removed, og:url is /terminal"
+    },
+    {
+      "path": "src/terminal/globals.css",
+      "reason": "U-04 carried U-03 review minor: unused .seo-content rule removed; U-07: explicit @config for the terminal Tailwind config (build race with the site @config)"
+    },
+    {
+      "path": "src/terminal/widgets/VersionSelector/organisms/VersionDropdown.tsx",
+      "reason": "U-04 carried U-03 review minor: dead /v1 branch removed"
+    },
+    {
+      "path": "src/terminal/shared/api/http.ts",
+      "reason": "U-04 commit B follow-up: the http client only served /api/chat; deleted as dead code (PLAT-AC-11)"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "renames",
+  "enforce": true,
+  "status": "pass",
+  "exitCode": 0,
+  "cmd": "node scripts/check-renames.mjs",
+  "evidence": "PLAT-AC-10 the U-03 move commit is renames only (>= 90 %) and moved files stay >= 90 % at HEAD, exceptions in scripts/rename-exceptions.json",
+  "base": "2535185",
+  "startedAt": "2026-11-23T20:51:43.164Z",
+  "durationMs": 393,
+  "outputTail": [
+    "PASS PLAT-AC-10 move commit 0e8b4e9eb5d4 is renames only, each >= 90 % similar",
+    "PASS PLAT-AC-10 scripts/rename-exceptions.json entries name a moved file and give a reason",
+    "PASS PLAT-AC-10 moved files are still renames >= 90 % at HEAD (0 exceptions checked at the move commit only)",
+    "renames: 96"
+  ],
+  "log": "edd-docs/construction/U-03/gates/renames.log"
+}

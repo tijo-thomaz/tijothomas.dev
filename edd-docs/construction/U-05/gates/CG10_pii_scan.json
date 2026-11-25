@@ -1,0 +1,15 @@
+{
+  "id": "CG10_pii_scan",
+  "enforce": true,
+  "status": "pass",
+  "exitCode": 0,
+  "cmd": "node scripts/pii-scan.mjs",
+  "evidence": "CONT-AC-14 match list over the served build output (runs after CG1_build)",
+  "base": "0d75cb8",
+  "startedAt": "2026-11-24T14:46:30.985Z",
+  "durationMs": 136,
+  "outputTail": [
+    "PASS CONT-AC-14 served build output has no email, mailto:, tel:, wa.me or phone number (34 files)"
+  ],
+  "log": "edd-docs/construction/U-05/gates/CG10_pii_scan.log"
+}

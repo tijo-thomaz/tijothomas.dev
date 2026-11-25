@@ -1,0 +1,27 @@
+{
+  "tool": "oxlint",
+  "version": "1.95.0",
+  "files": 132,
+  "wallTimeMs": 473,
+  "errors": 0,
+  "warnings": 109,
+  "warningsOutsideLegacy": 0,
+  "ceiling": 109,
+  "warningsByRule": {
+    "typescript(no-explicit-any)": 10,
+    "eslint(no-unused-vars)": 19,
+    "eslint(max-lines-per-function)": 35,
+    "jsx-a11y(no-static-element-interactions)": 9,
+    "jsx-a11y(click-events-have-key-events)": 8,
+    "eslint(complexity)": 12,
+    "jsx-a11y(prefer-tag-over-role)": 3,
+    "react(no-danger)": 1,
+    "jsx-a11y(control-has-associated-label)": 1,
+    "eslint(max-params)": 1,
+    "jsx-a11y(heading-has-content)": 1,
+    "react-hooks(exhaustive-deps)": 4,
+    "eslint(max-depth)": 2,
+    "eslint(max-lines)": 2,
+    "jsx-a11y(no-autofocus)": 1
+  }
+}

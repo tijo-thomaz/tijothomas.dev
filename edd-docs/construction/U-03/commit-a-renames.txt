@@ -1,0 +1,218 @@
+# git diff -M --stat 0e8b4e9^ 0e8b4e9 (U-03 commit A, PLAT-AC-10)
+ {app => src/terminal}/api/analytics/route.ts                                          | 0
+ {app => src/terminal}/api/chat/route.ts                                               | 0
+ {components => src/terminal/components}/ContactActions.tsx                            | 0
+ {components => src/terminal/components}/ContactMessage.tsx                            | 0
+ {components => src/terminal/components}/SoundControls.tsx                             | 0
+ {components => src/terminal/components}/Terminal.tsx                                  | 0
+ {components => src/terminal/components}/ThemeControls.tsx                             | 0
+ {components => src/terminal/components}/ThemeProvider.tsx                             | 0
+ {components => src/terminal/components}/ZoomControls.tsx                              | 0
+ {components => src/terminal/components}/ui/button.tsx                                 | 0
+ {components => src/terminal/components}/ui/card.tsx                                   | 0
+ {components => src/terminal/components}/ui/input.tsx                                  | 0
+ {features => src/terminal/features}/chat-assistant/index.tsx                          | 0
+ {features => src/terminal/features}/chat-assistant/model/useChatAssistant.ts          | 0
+ {features => src/terminal/features}/chat-assistant/model/useFloatingAssistant.ts      | 0
+ {features => src/terminal/features}/chat-assistant/ui/ChatHeader.tsx                  | 0
+ {features => src/terminal/features}/chat-assistant/ui/ChatInput.tsx                   | 0
+ {features => src/terminal/features}/chat-assistant/ui/ChatMessages.tsx                | 0
+ {features => src/terminal/features}/chat-assistant/ui/ChatSubHeader.tsx               | 0
+ {features => src/terminal/features}/chat-assistant/ui/EnhancedChatAgent.tsx           | 0
+ {features => src/terminal/features}/chat-assistant/ui/FloatingDrawer.tsx              | 0
+ {features => src/terminal/features}/chat-assistant/ui/FloatingTrigger.tsx             | 0
+ {features => src/terminal/features}/chat-assistant/ui/PromptShieldStatus.tsx          | 0
+ {features => src/terminal/features}/chat-assistant/ui/QuickReplies.tsx                | 0
+ {features => src/terminal/features}/chat-assistant/ui/TypingIndicator.tsx             | 0
+ {features => src/terminal/features}/prompt-shield/model/usePromptShield.ts            | 0
+ {features => src/terminal/features}/prompt-shield/ui/ShieldBadge.tsx                  | 0
+ {features => src/terminal/features}/world-viewer/index.tsx                            | 0
+ {features => src/terminal/features}/world-viewer/model/useWorldNavigation.ts          | 0
+ {features => src/terminal/features}/world-viewer/model/worldData.ts                   | 0
+ {features => src/terminal/features}/world-viewer/ui/InteractiveWorldViewer.atomic.tsx | 0
+ {features => src/terminal/features}/world-viewer/ui/atoms/AnimatedParticle.tsx        | 0
+ {features => src/terminal/features}/world-viewer/ui/atoms/Badge.tsx                   | 0
+ {features => src/terminal/features}/world-viewer/ui/atoms/Button.tsx                  | 0
+ {features => src/terminal/features}/world-viewer/ui/atoms/Card.tsx                    | 0
+ {features => src/terminal/features}/world-viewer/ui/atoms/ProgressBar.tsx             | 0
+ {features => src/terminal/features}/world-viewer/ui/atoms/SectionTitle.tsx            | 0
+ {features => src/terminal/features}/world-viewer/ui/atoms/VinylRecord.tsx             | 0
+ {features => src/terminal/features}/world-viewer/ui/molecules/ClientCard.tsx          | 0
+ {features => src/terminal/features}/world-viewer/ui/molecules/NavigationItem.tsx      | 0
+ {features => src/terminal/features}/world-viewer/ui/molecules/ProjectCard.tsx         | 0
+ {features => src/terminal/features}/world-viewer/ui/molecules/SkillCard.tsx           | 0
+ {features => src/terminal/features}/world-viewer/ui/molecules/SkillCarousel.tsx       | 0
+ {features => src/terminal/features}/world-viewer/ui/molecules/TimelineItem.tsx        | 0
+ {features => src/terminal/features}/world-viewer/ui/organisms/BackgroundEffects.tsx   | 0
+ {features => src/terminal/features}/world-viewer/ui/organisms/ClientGallery.tsx       | 0
+ {features => src/terminal/features}/world-viewer/ui/organisms/ExperienceTimeline.tsx  | 0
+ {features => src/terminal/features}/world-viewer/ui/organisms/NavigationPanel.tsx     | 0
+ {features => src/terminal/features}/world-viewer/ui/organisms/ProjectShowcase.tsx     | 0
+ {features => src/terminal/features}/world-viewer/ui/organisms/SkillsConstellation.tsx | 0
+ {app => src/terminal}/globals.css                                                     | 0
+ {app => src/terminal}/layout.tsx                                                      | 0
+ {lib => src/terminal/lib}/simple-analytics.ts                                         | 0
+ {lib => src/terminal/lib}/sounds.ts                                                   | 0
+ {lib => src/terminal/lib}/supabase.ts                                                 | 0
+ {lib => src/terminal/lib}/tutorial-manager.ts                                         | 0
+ {lib => src/terminal/lib}/utils.ts                                                    | 0
+ {lib => src/terminal/lib}/version.ts                                                  | 0
+ {lib => src/terminal/lib}/vitest-alias.test.ts                                        | 0
+ {app => src/terminal}/page.tsx                                                        | 0
+ {shared => src/terminal/shared}/api/http.ts                                           | 0
+ {shared => src/terminal/shared}/lib/utils.ts                                          | 0
+ {shared => src/terminal/shared}/ui/atoms/Icon.test.tsx                                | 0
+ {shared => src/terminal/shared}/ui/atoms/Icon.tsx                                     | 0
+ {shared => src/terminal/shared}/ui/atoms/Text.test.tsx                                | 0
+ {shared => src/terminal/shared}/ui/atoms/Text.tsx                                     | 0
+ {shared => src/terminal/shared}/ui/molecules/Badge.tsx                                | 0
+ {widgets => src/terminal/widgets}/Analytics/SimpleAnalyticsDisplay.tsx                | 0
+ {widgets => src/terminal/widgets}/Analytics/atoms/AnalyticsButton.tsx                 | 0
+ {widgets => src/terminal/widgets}/Analytics/atoms/PrivacyNotice.tsx                   | 0
+ {widgets => src/terminal/widgets}/Analytics/atoms/StatCard.tsx                        | 0
+ {widgets => src/terminal/widgets}/Analytics/index.tsx                                 | 0
+ {widgets => src/terminal/widgets}/Analytics/molecules/StatGrid.tsx                    | 0
+ {widgets => src/terminal/widgets}/Analytics/organisms/AnalyticsModal.tsx              | 0
+ {widgets => src/terminal/widgets}/Breadcrumbs/Breadcrumbs.tsx                         | 0
+ {widgets => src/terminal/widgets}/Breadcrumbs/atoms/BreadcrumbItem.tsx                | 0
+ {widgets => src/terminal/widgets}/Breadcrumbs/atoms/ProgressBar.tsx                   | 0
+ {widgets => src/terminal/widgets}/Breadcrumbs/index.tsx                               | 0
+ {widgets => src/terminal/widgets}/Breadcrumbs/molecules/BreadcrumbNavigation.tsx      | 0
+ {widgets => src/terminal/widgets}/CommandSuggestions/CommandSuggestions.tsx           | 0
+ {widgets => src/terminal/widgets}/CommandSuggestions/atoms/CommandButton.tsx          | 0
+ {widgets => src/terminal/widgets}/CommandSuggestions/atoms/ProgressIndicator.tsx      | 0
+ {widgets => src/terminal/widgets}/CommandSuggestions/index.tsx                        | 0
+ {widgets => src/terminal/widgets}/CommandSuggestions/molecules/WelcomePanel.tsx       | 0
+ {widgets => src/terminal/widgets}/CommandSuggestions/organisms/TutorialPanel.tsx      | 0
+ {widgets => src/terminal/widgets}/PrivacyPolicy/PrivacyPolicy.tsx                     | 0
+ {widgets => src/terminal/widgets}/PrivacyPolicy/atoms/CloseButton.tsx                 | 0
+ {widgets => src/terminal/widgets}/PrivacyPolicy/atoms/PolicySection.tsx               | 0
+ {widgets => src/terminal/widgets}/PrivacyPolicy/index.tsx                             | 0
+ {widgets => src/terminal/widgets}/PrivacyPolicy/molecules/PrivacyModal.tsx            | 0
+ {widgets => src/terminal/widgets}/VersionSelector/VersionSelector.tsx                 | 0
+ {widgets => src/terminal/widgets}/VersionSelector/atoms/StatusBadge.tsx               | 0
+ {widgets => src/terminal/widgets}/VersionSelector/atoms/VersionButton.tsx             | 0
+ {widgets => src/terminal/widgets}/VersionSelector/index.tsx                           | 0
+ {widgets => src/terminal/widgets}/VersionSelector/molecules/VersionOption.tsx         | 0
+ {widgets => src/terminal/widgets}/VersionSelector/organisms/VersionDropdown.tsx       | 0
+ 96 files changed, 0 insertions(+), 0 deletions(-)
+
+# git diff -M --name-status (similarity per file)
+R100	app/api/analytics/route.ts	src/terminal/api/analytics/route.ts
+R100	app/api/chat/route.ts	src/terminal/api/chat/route.ts
+R100	components/ContactActions.tsx	src/terminal/components/ContactActions.tsx
+R100	components/ContactMessage.tsx	src/terminal/components/ContactMessage.tsx
+R100	components/SoundControls.tsx	src/terminal/components/SoundControls.tsx
+R100	components/Terminal.tsx	src/terminal/components/Terminal.tsx
+R100	components/ThemeControls.tsx	src/terminal/components/ThemeControls.tsx
+R100	components/ThemeProvider.tsx	src/terminal/components/ThemeProvider.tsx
+R100	components/ZoomControls.tsx	src/terminal/components/ZoomControls.tsx
+R100	components/ui/button.tsx	src/terminal/components/ui/button.tsx
+R100	components/ui/card.tsx	src/terminal/components/ui/card.tsx
+R100	components/ui/input.tsx	src/terminal/components/ui/input.tsx
+R100	features/chat-assistant/index.tsx	src/terminal/features/chat-assistant/index.tsx
+R100	features/chat-assistant/model/useChatAssistant.ts	src/terminal/features/chat-assistant/model/useChatAssistant.ts
+R100	features/chat-assistant/model/useFloatingAssistant.ts	src/terminal/features/chat-assistant/model/useFloatingAssistant.ts
+R100	features/chat-assistant/ui/ChatHeader.tsx	src/terminal/features/chat-assistant/ui/ChatHeader.tsx
+R100	features/chat-assistant/ui/ChatInput.tsx	src/terminal/features/chat-assistant/ui/ChatInput.tsx
+R100	features/chat-assistant/ui/ChatMessages.tsx	src/terminal/features/chat-assistant/ui/ChatMessages.tsx
+R100	features/chat-assistant/ui/ChatSubHeader.tsx	src/terminal/features/chat-assistant/ui/ChatSubHeader.tsx
+R100	features/chat-assistant/ui/EnhancedChatAgent.tsx	src/terminal/features/chat-assistant/ui/EnhancedChatAgent.tsx
+R100	features/chat-assistant/ui/FloatingDrawer.tsx	src/terminal/features/chat-assistant/ui/FloatingDrawer.tsx
+R100	features/chat-assistant/ui/FloatingTrigger.tsx	src/terminal/features/chat-assistant/ui/FloatingTrigger.tsx
+R100	features/chat-assistant/ui/PromptShieldStatus.tsx	src/terminal/features/chat-assistant/ui/PromptShieldStatus.tsx
+R100	features/chat-assistant/ui/QuickReplies.tsx	src/terminal/features/chat-assistant/ui/QuickReplies.tsx
+R100	features/chat-assistant/ui/TypingIndicator.tsx	src/terminal/features/chat-assistant/ui/TypingIndicator.tsx
+R100	features/prompt-shield/model/usePromptShield.ts	src/terminal/features/prompt-shield/model/usePromptShield.ts
+R100	features/prompt-shield/ui/ShieldBadge.tsx	src/terminal/features/prompt-shield/ui/ShieldBadge.tsx
+R100	features/world-viewer/index.tsx	src/terminal/features/world-viewer/index.tsx
+R100	features/world-viewer/model/useWorldNavigation.ts	src/terminal/features/world-viewer/model/useWorldNavigation.ts
+R100	features/world-viewer/model/worldData.ts	src/terminal/features/world-viewer/model/worldData.ts
+R100	features/world-viewer/ui/InteractiveWorldViewer.atomic.tsx	src/terminal/features/world-viewer/ui/InteractiveWorldViewer.atomic.tsx
+R100	features/world-viewer/ui/atoms/AnimatedParticle.tsx	src/terminal/features/world-viewer/ui/atoms/AnimatedParticle.tsx
+R100	features/world-viewer/ui/atoms/Badge.tsx	src/terminal/features/world-viewer/ui/atoms/Badge.tsx
+R100	features/world-viewer/ui/atoms/Button.tsx	src/terminal/features/world-viewer/ui/atoms/Button.tsx
+R100	features/world-viewer/ui/atoms/Card.tsx	src/terminal/features/world-viewer/ui/atoms/Card.tsx
+R100	features/world-viewer/ui/atoms/ProgressBar.tsx	src/terminal/features/world-viewer/ui/atoms/ProgressBar.tsx
+R100	features/world-viewer/ui/atoms/SectionTitle.tsx	src/terminal/features/world-viewer/ui/atoms/SectionTitle.tsx
+R100	features/world-viewer/ui/atoms/VinylRecord.tsx	src/terminal/features/world-viewer/ui/atoms/VinylRecord.tsx
+R100	features/world-viewer/ui/molecules/ClientCard.tsx	src/terminal/features/world-viewer/ui/molecules/ClientCard.tsx
+R100	features/world-viewer/ui/molecules/NavigationItem.tsx	src/terminal/features/world-viewer/ui/molecules/NavigationItem.tsx
+R100	features/world-viewer/ui/molecules/ProjectCard.tsx	src/terminal/features/world-viewer/ui/molecules/ProjectCard.tsx
+R100	features/world-viewer/ui/molecules/SkillCard.tsx	src/terminal/features/world-viewer/ui/molecules/SkillCard.tsx
+R100	features/world-viewer/ui/molecules/SkillCarousel.tsx	src/terminal/features/world-viewer/ui/molecules/SkillCarousel.tsx
+R100	features/world-viewer/ui/molecules/TimelineItem.tsx	src/terminal/features/world-viewer/ui/molecules/TimelineItem.tsx
+R100	features/world-viewer/ui/organisms/BackgroundEffects.tsx	src/terminal/features/world-viewer/ui/organisms/BackgroundEffects.tsx
+R100	features/world-viewer/ui/organisms/ClientGallery.tsx	src/terminal/features/world-viewer/ui/organisms/ClientGallery.tsx
+R100	features/world-viewer/ui/organisms/ExperienceTimeline.tsx	src/terminal/features/world-viewer/ui/organisms/ExperienceTimeline.tsx
+R100	features/world-viewer/ui/organisms/NavigationPanel.tsx	src/terminal/features/world-viewer/ui/organisms/NavigationPanel.tsx
+R100	features/world-viewer/ui/organisms/ProjectShowcase.tsx	src/terminal/features/world-viewer/ui/organisms/ProjectShowcase.tsx
+R100	features/world-viewer/ui/organisms/SkillsConstellation.tsx	src/terminal/features/world-viewer/ui/organisms/SkillsConstellation.tsx
+R100	app/globals.css	src/terminal/globals.css
+R100	app/layout.tsx	src/terminal/layout.tsx
+R100	lib/simple-analytics.ts	src/terminal/lib/simple-analytics.ts
+R100	lib/sounds.ts	src/terminal/lib/sounds.ts
+R100	lib/supabase.ts	src/terminal/lib/supabase.ts
+R100	lib/tutorial-manager.ts	src/terminal/lib/tutorial-manager.ts
+R100	lib/utils.ts	src/terminal/lib/utils.ts
+R100	lib/version.ts	src/terminal/lib/version.ts
+R100	lib/vitest-alias.test.ts	src/terminal/lib/vitest-alias.test.ts
+R100	app/page.tsx	src/terminal/page.tsx
+R100	shared/api/http.ts	src/terminal/shared/api/http.ts
+R100	shared/lib/utils.ts	src/terminal/shared/lib/utils.ts
+R100	shared/ui/atoms/Icon.test.tsx	src/terminal/shared/ui/atoms/Icon.test.tsx
+R100	shared/ui/atoms/Icon.tsx	src/terminal/shared/ui/atoms/Icon.tsx
+R100	shared/ui/atoms/Text.test.tsx	src/terminal/shared/ui/atoms/Text.test.tsx
+R100	shared/ui/atoms/Text.tsx	src/terminal/shared/ui/atoms/Text.tsx
+R100	shared/ui/molecules/Badge.tsx	src/terminal/shared/ui/molecules/Badge.tsx
+R100	widgets/Analytics/SimpleAnalyticsDisplay.tsx	src/terminal/widgets/Analytics/SimpleAnalyticsDisplay.tsx
+R100	widgets/Analytics/atoms/AnalyticsButton.tsx	src/terminal/widgets/Analytics/atoms/AnalyticsButton.tsx
+R100	widgets/Analytics/atoms/PrivacyNotice.tsx	src/terminal/widgets/Analytics/atoms/PrivacyNotice.tsx
+R100	widgets/Analytics/atoms/StatCard.tsx	src/terminal/widgets/Analytics/atoms/StatCard.tsx
+R100	widgets/Analytics/index.tsx	src/terminal/widgets/Analytics/index.tsx
+R100	widgets/Analytics/molecules/StatGrid.tsx	src/terminal/widgets/Analytics/molecules/StatGrid.tsx
+R100	widgets/Analytics/organisms/AnalyticsModal.tsx	src/terminal/widgets/Analytics/organisms/AnalyticsModal.tsx
+R100	widgets/Breadcrumbs/Breadcrumbs.tsx	src/terminal/widgets/Breadcrumbs/Breadcrumbs.tsx
+R100	widgets/Breadcrumbs/atoms/BreadcrumbItem.tsx	src/terminal/widgets/Breadcrumbs/atoms/BreadcrumbItem.tsx
+R100	widgets/Breadcrumbs/atoms/ProgressBar.tsx	src/terminal/widgets/Breadcrumbs/atoms/ProgressBar.tsx
+R100	widgets/Breadcrumbs/index.tsx	src/terminal/widgets/Breadcrumbs/index.tsx
+R100	widgets/Breadcrumbs/molecules/BreadcrumbNavigation.tsx	src/terminal/widgets/Breadcrumbs/molecules/BreadcrumbNavigation.tsx
+R100	widgets/CommandSuggestions/CommandSuggestions.tsx	src/terminal/widgets/CommandSuggestions/CommandSuggestions.tsx
+R100	widgets/CommandSuggestions/atoms/CommandButton.tsx	src/terminal/widgets/CommandSuggestions/atoms/CommandButton.tsx
+R100	widgets/CommandSuggestions/atoms/ProgressIndicator.tsx	src/terminal/widgets/CommandSuggestions/atoms/ProgressIndicator.tsx
+R100	widgets/CommandSuggestions/index.tsx	src/terminal/widgets/CommandSuggestions/index.tsx
+R100	widgets/CommandSuggestions/molecules/WelcomePanel.tsx	src/terminal/widgets/CommandSuggestions/molecules/WelcomePanel.tsx
+R100	widgets/CommandSuggestions/organisms/TutorialPanel.tsx	src/terminal/widgets/CommandSuggestions/organisms/TutorialPanel.tsx
+R100	widgets/PrivacyPolicy/PrivacyPolicy.tsx	src/terminal/widgets/PrivacyPolicy/PrivacyPolicy.tsx
+R100	widgets/PrivacyPolicy/atoms/CloseButton.tsx	src/terminal/widgets/PrivacyPolicy/atoms/CloseButton.tsx
+R100	widgets/PrivacyPolicy/atoms/PolicySection.tsx	src/terminal/widgets/PrivacyPolicy/atoms/PolicySection.tsx
+R100	widgets/PrivacyPolicy/index.tsx	src/terminal/widgets/PrivacyPolicy/index.tsx
+R100	widgets/PrivacyPolicy/molecules/PrivacyModal.tsx	src/terminal/widgets/PrivacyPolicy/molecules/PrivacyModal.tsx
+R100	widgets/VersionSelector/VersionSelector.tsx	src/terminal/widgets/VersionSelector/VersionSelector.tsx
+R100	widgets/VersionSelector/atoms/StatusBadge.tsx	src/terminal/widgets/VersionSelector/atoms/StatusBadge.tsx
+R100	widgets/VersionSelector/atoms/VersionButton.tsx	src/terminal/widgets/VersionSelector/atoms/VersionButton.tsx
+R100	widgets/VersionSelector/index.tsx	src/terminal/widgets/VersionSelector/index.tsx
+R100	widgets/VersionSelector/molecules/VersionOption.tsx	src/terminal/widgets/VersionSelector/molecules/VersionOption.tsx
+R100	widgets/VersionSelector/organisms/VersionDropdown.tsx	src/terminal/widgets/VersionSelector/organisms/VersionDropdown.tsx
+
+# moved files that are not R100 between 0e8b4e9^ and HEAD (all >= 90)
+R098	app/api/analytics/route.ts	src/terminal/api/analytics/route.ts
+R090	components/SoundControls.tsx	src/terminal/components/SoundControls.tsx
+R098	components/Terminal.tsx	src/terminal/components/Terminal.tsx
+R095	components/ThemeControls.tsx	src/terminal/components/ThemeControls.tsx
+R098	components/ZoomControls.tsx	src/terminal/components/ZoomControls.tsx
+R097	components/ui/button.tsx	src/terminal/components/ui/button.tsx
+R097	components/ui/card.tsx	src/terminal/components/ui/card.tsx
+R094	components/ui/input.tsx	src/terminal/components/ui/input.tsx
+R098	app/layout.tsx	src/terminal/layout.tsx
+R097	lib/version.ts	src/terminal/lib/version.ts
+R091	lib/vitest-alias.test.ts	src/terminal/lib/vitest-alias.test.ts
+R094	app/page.tsx	src/terminal/page.tsx
+R095	widgets/Analytics/SimpleAnalyticsDisplay.tsx	src/terminal/widgets/Analytics/SimpleAnalyticsDisplay.tsx
+R091	widgets/Analytics/atoms/AnalyticsButton.tsx	src/terminal/widgets/Analytics/atoms/AnalyticsButton.tsx
+R096	widgets/Analytics/organisms/AnalyticsModal.tsx	src/terminal/widgets/Analytics/organisms/AnalyticsModal.tsx
+R098	widgets/CommandSuggestions/CommandSuggestions.tsx	src/terminal/widgets/CommandSuggestions/CommandSuggestions.tsx
+R097	widgets/CommandSuggestions/organisms/TutorialPanel.tsx	src/terminal/widgets/CommandSuggestions/organisms/TutorialPanel.tsx
+R097	widgets/VersionSelector/VersionSelector.tsx	src/terminal/widgets/VersionSelector/VersionSelector.tsx
+R097	widgets/VersionSelector/molecules/VersionOption.tsx	src/terminal/widgets/VersionSelector/molecules/VersionOption.tsx
+R097	widgets/VersionSelector/organisms/VersionDropdown.tsx	src/terminal/widgets/VersionSelector/organisms/VersionDropdown.tsx

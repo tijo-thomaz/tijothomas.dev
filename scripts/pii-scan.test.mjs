@@ -1,0 +1,151 @@
+// CONT-AC-14 (Verify: gate), U-04: behaviour of scripts/pii-scan.mjs on fake build output.
+//
+// Contract (U-04 unit interfaces):
+//   node scripts/pii-scan.mjs [--root <dir>] [--allow <file>]
+//   - Scans what the site serves from a production build: .html/.rsc/.body under <root>/.next/server/app
+//     and every .js/.css/.html/.json/.txt/.rsc/.body/.xml file under <root>/.next/static.
+//     Server code, .nft.json trace manifests, .next/server/chunks and .next/cache are not served.
+//   - Built-in non-contact rules for phone-like runs: part of a longer token (hex, identifier,
+//     decimal); < 10 or > 15 digits; a decimal fraction; two or more single-digit groups (SVG data).
+//   - Patterns: email /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i, `mailto:`, `tel:`, `wa.me`,
+//     phone-like run /\+?\d[\d\s().-]{8,}\d/.
+//   - Allow-list: <root>/scripts/pii-allowlist.json (or --allow): { "allow": [{ "match": "<exact text>",
+//     "reason": "…" }] }. A match whose text equals an allowed `match` is skipped. Entries need a reason.
+//   - Each match prints `<file>:<offset> <pattern> <text>` (file relative to root, POSIX).
+//   - Last line `PASS CONT-AC-14 …` (exit 0) or `FAIL CONT-AC-14 … (<n> matches)` (exit 1).
+//   - Exit 2 if there is no build output or 0 files were scanned (no vacuous pass).
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { makeFixture, removeFixture, runScript } from './lib/test-utils.mjs';
+
+const CLEAN_JS = 'self.__next_f.push([1,"hello"]);var a=1+2;';
+const scan = (dir, args = []) => runScript('pii-scan.mjs', ['--root', dir, ...args]);
+
+function build(files) {
+  return makeFixture({
+    '.next/server/app/index.html': '<html><body>Hello</body></html>',
+    '.next/static/chunks/main.js': CLEAN_JS,
+    'scripts/pii-allowlist.json': JSON.stringify({ allow: [] }),
+    ...files,
+  });
+}
+
+test('CONT-AC-14 pii-scan passes on clean build output', () => {
+  const dir = build({});
+  try {
+    const r = scan(dir);
+    assert.equal(r.status, 0, r.out);
+    assert.match(r.out, /PASS CONT-AC-14/);
+  } finally { removeFixture(dir); }
+});
+
+test('CONT-AC-14 pii-scan fails on an email address in prerendered HTML and names the file and the match', () => {
+  const dir = build({ '.next/server/app/terminal.html': '<p>Email: someone.real@example.com</p>' });
+  try {
+    const r = scan(dir);
+    assert.equal(r.status, 1, r.out);
+    assert.match(r.out, /\.next\/server\/app\/terminal\.html:\d+ email someone\.real@example\.com/);
+    assert.match(r.out, /FAIL CONT-AC-14/);
+  } finally { removeFixture(dir); }
+});
+
+for (const [name, text, pattern] of [
+  ['mailto: link', 'href="mailto:x"', 'mailto'],
+  ['tel: link', 'href="tel:+447000000000"', 'tel'],
+  ['wa.me link', '"https://wa.me/1"', 'wa.me'],
+  ['UK phone number', '"Phone: +44 7000 000000"', 'phone'],
+]) {
+  test(`CONT-AC-14 pii-scan fails on a ${name} in a served JS chunk`, () => {
+    const dir = build({ '.next/static/chunks/app/page.js': `var x=${JSON.stringify(text)};` });
+    try {
+      const r = scan(dir);
+      assert.equal(r.status, 1, r.out);
+      assert.match(r.out, new RegExp(`\\.next/static/chunks/app/page\\.js:\\d+ ${pattern.replace('.', '\\.')}\\b`));
+    } finally { removeFixture(dir); }
+  });
+}
+
+test('CONT-AC-14 pii-scan scans RSC payloads under .next/server/app', () => {
+  const dir = build({ '.next/server/app/terminal.rsc': '1:["$","p",null,{"children":"x@example.org"}]' });
+  try {
+    const r = scan(dir);
+    assert.equal(r.status, 1, r.out);
+    assert.match(r.out, /terminal\.rsc:\d+ email/);
+  } finally { removeFixture(dir); }
+});
+
+test('CONT-AC-14 pii-scan skips an allow-listed non-contact match and requires a reason', () => {
+  const allowed = build({
+    '.next/static/chunks/lib.js': 'var max=4294967295000;',
+    'scripts/pii-allowlist.json': JSON.stringify({ allow: [{ match: '4294967295000', reason: 'uint32 constant in a library' }] }),
+  });
+  const noReason = build({
+    '.next/static/chunks/lib.js': 'var max=4294967295000;',
+    'scripts/pii-allowlist.json': JSON.stringify({ allow: [{ match: '4294967295000' }] }),
+  });
+  try {
+    assert.equal(scan(allowed).status, 0, scan(allowed).out);
+    const r = scan(noReason);
+    assert.notEqual(r.status, 0, r.out);
+    assert.match(r.out, /reason/);
+  } finally { removeFixture(allowed); removeFixture(noReason); }
+});
+
+test('CONT-AC-14 pii-scan does not scan server-only chunks or the build cache', () => {
+  const dir = build({
+    '.next/server/chunks/route.js': 'var e="owner@example.com";',
+    '.next/cache/x.txt': 'owner@example.com',
+  });
+  try {
+    const r = scan(dir);
+    assert.equal(r.status, 0, r.out);
+  } finally { removeFixture(dir); }
+});
+
+test('CONT-AC-14 pii-scan skips SVG path data, coordinates, hex hashes and trace manifests but flags an unspaced UK mobile', () => {
+  const svg = build({
+    '.next/static/chunks/icons.js': 'var a=["path",{d:"M12 2a10 10 0 0 1 0 20 10 10 0 0 1 0-20"}],b="18.0839 0.000116771 19.1334 0.658832",c="50bb01754878225cf6730e";',
+    '.next/server/app/page.js.nft.json': '{"files":["01754878225"]}',
+  });
+  const mobile = build({ '.next/static/chunks/c.js': 'var p="07000000000",types={email:!0,tel:!0,text:!0};' });
+  try {
+    const a = scan(svg);
+    assert.equal(a.status, 0, a.out);
+    const b = scan(mobile);
+    assert.equal(b.status, 1, b.out);
+    assert.match(b.out, /c\.js:\d+ phone 07000000000/);
+  } finally { removeFixture(svg); removeFixture(mobile); }
+});
+
+test('CONT-AC-14 pii-scan also scans text files in public/ (served verbatim)', () => {
+  const dir = build({ 'public/cv.txt': 'Contact: someone.real@example.com' });
+  try {
+    const r = scan(dir);
+    assert.equal(r.status, 1, r.out);
+    assert.match(r.out, /public\/cv\.txt:\d+ email/);
+  } finally { removeFixture(dir); }
+});
+
+// U-04 review #2: a phone line followed by a dates line must not merge into one long digit run, and
+// a dot-separated number is a phone shape, not a decimal fraction.
+for (const [label, text, expected] of [
+  ['a phone line followed by a dates line', 'Phone: +44 7818 989060\n2019 - 2023', /phone \+44 7818 989060/],
+  ['a dot-separated phone number', 'Call +44.7818.989.060 today', /phone \+44\.7818\.989\.060/],
+]) {
+  test(`CONT-AC-14 pii-scan flags ${label}`, () => {
+    const dir = build({ '.next/server/app/terminal.html': `<pre>${text}</pre>` });
+    try {
+      const r = scan(dir);
+      assert.equal(r.status, 1, r.out);
+      assert.match(r.out, expected);
+    } finally { removeFixture(dir); }
+  });
+}
+
+test('CONT-AC-14 pii-scan exits 2 when there is no build output (no vacuous pass)', () => {
+  const dir = makeFixture({ 'scripts/pii-allowlist.json': JSON.stringify({ allow: [] }) });
+  try {
+    const r = scan(dir);
+    assert.equal(r.status, 2, r.out);
+  } finally { removeFixture(dir); }
+});

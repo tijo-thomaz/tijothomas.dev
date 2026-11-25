@@ -1,0 +1,46 @@
+[
+  {
+    "name": "base",
+    "vp": "desktop-1280",
+    "steps": {
+      "help": "ok",
+      "theme": "menu 4 items; body bg rgb(15, 15, 15) -> rgb(255, 255, 255)",
+      "chat": "trigger clicked"
+    },
+    "status": 200,
+    "pageErrors": []
+  },
+  {
+    "name": "base",
+    "vp": "mobile-360",
+    "steps": {
+      "help": "ok",
+      "theme": "menu 4 items; body bg rgb(15, 15, 15) -> rgb(255, 255, 255)",
+      "chat": "trigger clicked"
+    },
+    "status": 200,
+    "pageErrors": []
+  },
+  {
+    "name": "head",
+    "vp": "desktop-1280",
+    "steps": {
+      "help": "ok",
+      "theme": "menu 4 items; body bg rgb(15, 15, 15) -> rgb(255, 255, 255)",
+      "chat": "trigger clicked"
+    },
+    "status": 200,
+    "pageErrors": []
+  },
+  {
+    "name": "head",
+    "vp": "mobile-360",
+    "steps": {
+      "help": "ok",
+      "theme": "menu 4 items; body bg rgb(15, 15, 15) -> rgb(255, 255, 255)",
+      "chat": "trigger clicked"
+    },
+    "status": 200,
+    "pageErrors": []
+  }
+]

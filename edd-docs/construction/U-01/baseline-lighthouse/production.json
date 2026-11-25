@@ -1,0 +1,71 @@
+{
+  "url": "https://tijothomas.dev/",
+  "tool": "lighthouse@13.6.0",
+  "formFactor": "mobile",
+  "runs": [
+    {
+      "run": 1,
+      "scores": {
+        "performance": 87,
+        "accessibility": 90,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "cls": 0,
+      "lcpMs": 1974,
+      "tbtMs": 496,
+      "formFactor": "mobile",
+      "lighthouseVersion": "13.6.0",
+      "fetchTime": "2026-11-23T19:30:25.738Z"
+    },
+    {
+      "run": 2,
+      "scores": {
+        "performance": 94,
+        "accessibility": 90,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "cls": 0,
+      "lcpMs": 1964,
+      "tbtMs": 250,
+      "formFactor": "mobile",
+      "lighthouseVersion": "13.6.0",
+      "fetchTime": "2026-11-23T19:30:55.612Z"
+    },
+    {
+      "run": 3,
+      "scores": {
+        "performance": 96,
+        "accessibility": 90,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "cls": 0,
+      "lcpMs": 1917,
+      "tbtMs": 211,
+      "formFactor": "mobile",
+      "lighthouseVersion": "13.6.0",
+      "fetchTime": "2026-11-23T19:31:15.848Z"
+    }
+  ],
+  "medianRun": 2,
+  "median": {
+    "scores": {
+      "performance": 94,
+      "accessibility": 90,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "cls": 0,
+    "lcpMs": 1964,
+    "tbtMs": 250
+  },
+  "thresholds": {
+    "minScore": 95,
+    "cls": 0.05,
+    "lcpMs": 2500,
+    "tbtMs": 150
+  },
+  "pass": false
+}

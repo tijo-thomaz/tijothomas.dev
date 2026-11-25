@@ -1,0 +1,23 @@
+{
+  "id": "spec",
+  "enforce": true,
+  "status": "pass",
+  "exitCode": 0,
+  "cmd": "npm run spec:check",
+  "evidence": "PLAT-AC-19 every AC cited by a test or gate, no unknown IDs, pending.txt not stale",
+  "base": "152b495",
+  "startedAt": "2026-11-24T19:13:57.736Z",
+  "durationMs": 623,
+  "outputTail": [
+    "",
+    "> tijothomas.dev@1.0.0 spec:check",
+    "> node scripts/spec-check.mjs",
+    "",
+    "PASS PLAT-AC-19 specs/*.md define at least one AC",
+    "PASS PLAT-AC-19 every AC is cited by a test or gate check, or listed in pending.txt",
+    "PASS PLAT-AC-19 every cited AC ID exists in specs/",
+    "PASS PLAT-AC-19 pending.txt lists only ACs that exist and are not cited yet",
+    "ACs: 92 active, 1 retired; cited: 84; pending: 8; citing files scanned: 112"
+  ],
+  "log": "edd-docs/construction/U-09/gates/spec.log"
+}

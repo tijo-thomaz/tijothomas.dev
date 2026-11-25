@@ -1,0 +1,8 @@
+[
+  {
+    "spec": "@oxlint/binding-win32-x64-msvc@1.95.0",
+    "reason": "registry fault: GET /-/npm/v1/attestations/<spec> answers 200 text/plain \"OK\" instead of JSON, so npm audit signatures aborts with FETCH_ERROR. Other oxlint 1.95.0 packages and binding 1.94.0 return valid attestations.",
+    "since": "2026-11-24",
+    "recheck": "U-11"
+  }
+]

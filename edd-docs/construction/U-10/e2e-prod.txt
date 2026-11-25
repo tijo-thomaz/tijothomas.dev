@@ -1,0 +1,57 @@
+
+Running 53 tests using 6 workers
+
+[1/53] [chromium] › e2e\cursor.spec.ts:9:1 › U-07 / shows the arrow over headings, text, badges and tiles, and the hand over links
+[2/53] [chromium] › e2e\home-nojs.spec.ts:9:1 › HOME-AC-06 with JS disabled every section is visible and no "Loading" text exists
+[3/53] [chromium] › e2e\home-motion.spec.ts:7:1 › HOME-AC-19 a hovered or focused building lifts by 4px, highlights its label, over 150ms ease-out
+[4/53] [chromium] › e2e\home-storage.spec.ts:4:1 › HOME-AC-26 a fresh context loading / has 0 cookies, empty document.cookie and empty local/session storage
+[5/53] [chromium] › e2e\home-viewport.spec.ts:8:3 › HOME-AC-07 at 360x740 the location line, h1, intro and "View work" start in the first viewport
+[6/53] [chromium] › e2e\home-a11y.spec.ts:17:1 › HOME-AC-23 Tab reaches every interactive element once, each with a visible >= 2px outline (buildings lift), no trap
+[7/53] [chromium] › e2e\home-viewport.spec.ts:8:3 › HOME-AC-07 at 1440x900 the location line, h1, intro and "View work" start in the first viewport
+[8/53] [chromium] › e2e\home-storage.spec.ts:16:1 › HOME-AC-01 HOME-AC-11 / renders the headline h1 and the skip link as the first Tab stop
+[9/53] [chromium] › e2e\home-nojs.spec.ts:16:1 › HOME-AC-06 HOME-AC-09 with JS disabled each nav anchor scrolls its target into view
+[10/53] [chromium] › e2e\cursor.spec.ts:19:1 › U-07 / text cannot be selected (owner request): headings, paragraphs and badges
+[11/53] [chromium] › e2e\home-viewport.spec.ts:18:1 › HOME-AC-11 the brand link (#top) returns to the very top with the header and name visible
+[12/53] [chromium] › e2e\home-motion.spec.ts:42:1 › HOME-AC-20 the car animation runs once for 5000 ms (WCAG 2.2.2: no pause control needed)
+[13/53] [chromium] › e2e\privacy.spec.ts:5:1 › HOME-AC-27 the footer of / links to /privacy
+[14/53] [chromium] › e2e\privacy.spec.ts:10:1 › HOME-AC-28 /privacy without JS: 200, one h1, the required topics, a LinkedIn contact and no email
+[15/53] [chromium] › e2e\home-motion.spec.ts:54:1 › HOME-AC-20 hovering a work card changes only its border colour
+[16/53] [chromium] › e2e\privacy.spec.ts:23:1 › TERM-AC-12 the terminal privacy modal links to /privacy and makes no inaccurate claims
+[17/53] [chromium] › e2e\home-a11y.spec.ts:53:3 › HOME-AC-24 axe finds 0 violations on / at 360px
+[18/53] [chromium] › e2e\home-viewport.spec.ts:27:1 › HOME-AC-22 at 360x740, scrolled to the end, the page is no wider than the viewport
+[19/53] [chromium] › e2e\site-home.spec.ts:5:1 › HOME-AC-05 with localStorage tijothomas-theme=cyber, / renders <html> with no theme-* class
+[20/53] [chromium] › e2e\seo.spec.ts:4:1 › SEO-AC-02 the og:image and twitter:image of / resolve to a 1200x630 PNG
+[21/53] [chromium] › e2e\home-motion.spec.ts:73:3 › reduced motion › HOME-AC-21 with prefers-reduced-motion there are 0 animations, transitions are <= 0.01s, and focus still highlights
+[22/53] [chromium] › e2e\smoke.spec.ts:6:3 › U-03 smoke: / responds 200 with no uncaught page errors
+[23/53] [chromium] › e2e\home-viewport.spec.ts:34:1 › HOME-AC-10 U-08 owner choice c: at 360px the map labels and sign boards render at a readable size
+[24/53] [chromium] › e2e\home-a11y.spec.ts:53:3 › HOME-AC-24 axe finds 0 violations on / at 1440px
+[25/53] [chromium] › e2e\terminal-chat-off.spec.ts:9:1 › TERM-AC-07 GET and POST /api/chat answer 404 or 410 (route removed)
+[26/53] [chromium] › e2e\site-home.spec.ts:14:1 › U-03 U-06 / is the site page: 200, lang en, exactly one main, 0 uncaught errors
+[27/53] [chromium] › e2e\seo.spec.ts:20:1 › SEO-AC-01 / has a canonical, a description and an og:image tag in the head
+[28/53] [chromium] › e2e\home-viewport.spec.ts:48:1 › HOME-AC-10 U-08 the labels keep the mockup size on wide screens
+[29/53] [chromium] › e2e\smoke.spec.ts:6:3 › U-03 smoke: /terminal responds 200 with no uncaught page errors
+[30/53] [chromium] › e2e\terminal-chat-off.spec.ts:16:1 › TERM-AC-08 opening the chat and sending a message shows the unavailable text, sends no /api/chat request and logs 0 uncaught errors
+[31/53] [chromium] › e2e\site-home.spec.ts:24:1 › U-03 / has no terminal input, toolbar controls, version selector, chat trigger or hidden SEO block
+[32/53] [chromium] › e2e\home-viewport.spec.ts:55:1 › HOME-AC-10 the CityMap reserves its space before paint (no layout shift from the svg)
+[33/53] [chromium] › e2e\seo.spec.ts:30:3 › SEO-AC-07 /work/promptshield answers 200 with robots noindex
+[34/53] [chromium] › e2e\terminal-contact.spec.ts:8:1 › TERM-AC-11 contact lists the LinkedIn and GitHub URLs and the page has no email, phone or wa.me link
+[35/53] [chromium] › e2e\seo.spec.ts:30:3 › SEO-AC-07 /writing/queues-double-charge answers 200 with robots noindex
+[36/53] [chromium] › e2e\terminal-no-env.spec.ts:23:1 › TERM-AC-06 guard: the e2e server was started with no Supabase env vars and no .env file
+[37/53] [chromium] › e2e\terminal-no-env.spec.ts:28:1 › TERM-AC-06 with no Supabase env /terminal renders, help works, 0 uncaught errors and 0 /api/analytics 5xx
+[38/53] [chromium] › e2e\home-a11y.spec.ts:61:1 › HOME-AC-25 at 360px every link and button is >= 24x24 or has 24px clearance (WCAG 2.5.8)
+[39/53] [chromium] › e2e\site-home.spec.ts:33:1 › U-03 / does not set the terminal theme key in localStorage
+[40/53] [chromium] › e2e\seo.spec.ts:38:3 › SEO-AC-07 /work/does-not-exist answers 404
+[41/53] [chromium] › e2e\terminal-react19.spec.ts:38:5 › desktop 1280 › U-02 TERM-AC-01 desktop 1280: help, theme switch, zoom, sound toggle and chat open emit 0 console errors, 0 React warnings, 0 page errors
+[42/53] [chromium] › e2e\seo.spec.ts:38:3 › SEO-AC-07 /writing/does-not-exist answers 404
+[43/53] [chromium] › e2e\seo.spec.ts:38:3 › SEO-AC-07 /work/fde-mcp-gateway answers 404
+[44/53] [chromium] › e2e\seo.spec.ts:43:1 › SEO-AC-04 SEO-AC-05 /sitemap.xml lists / and /robots.txt points to it
+[45/53] [chromium] › e2e\terminal.spec.ts:20:1 › TERM-AC-01 /terminal returns 200, help prints the help output, and 0 uncaught errors are thrown
+[46/53] [chromium] › e2e\v2-redirect.spec.ts:4:1 › TERM-AC-04 GET /v2 responds 308 with location /terminal
+[47/53] [chromium] › e2e\terminal-no-env.spec.ts:42:1 › TERM-AC-06 with no Supabase env GET and POST /api/analytics answer 200 JSON (no-op), never 500
+[48/53] [chromium] › e2e\v2-redirect.spec.ts:10:1 › TERM-AC-04 following /v2 lands on /terminal with status 200
+[49/53] [chromium] › e2e\v2-redirect.spec.ts:16:1 › TERM-AC-04 TERM-AC-05 the VersionSelector v1 option navigates to /terminal
+[50/53] [chromium] › e2e\terminal.spec.ts:29:1 › TERM-AC-02 a theme chosen on /terminal persists across reload via localStorage tijothomas-theme
+[51/53] [chromium] › e2e\terminal-react19.spec.ts:38:5 › mobile 360 › U-02 TERM-AC-01 mobile 360: help, theme switch, zoom, sound toggle and chat open emit 0 console errors, 0 React warnings, 0 page errors
+[52/53] [chromium] › e2e\terminal.spec.ts:42:1 › TERM-AC-03 /terminal HTML has robots noindex, follow and canonical https://tijothomas.dev/terminal
+[53/53] [chromium] › e2e\terminal.spec.ts:50:1 › U-03 /terminal is served by the terminal root layout (font-mono body)
+  53 passed (47.6s)

@@ -1,0 +1,5 @@
+css-diff base=css-base.css head=css-head.css
+base 693 HEAD 695 | removed 0, removed-but-used 0 | added 2
+MISSING-USED: (none)
+ADDED: antialiased block
+PASS PLAT-AC-06 css-diff 0 missing

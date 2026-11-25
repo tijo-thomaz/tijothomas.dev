@@ -1,0 +1,15 @@
+{
+  "id": "CG10_sourcemaps",
+  "enforce": true,
+  "status": "pass",
+  "exitCode": 0,
+  "cmd": "node scripts/check-sourcemaps.mjs",
+  "evidence": "PLAT-AC-26 no *.map file under .next/static (runs after CG1_build)",
+  "base": "6fedeed",
+  "startedAt": "2026-11-25T10:32:10.574Z",
+  "durationMs": 124,
+  "outputTail": [
+    "PASS PLAT-AC-26 .next/static has 0 source map files (30 files)"
+  ],
+  "log": "edd-docs/construction/U-11/gates/CG10_sourcemaps.log"
+}

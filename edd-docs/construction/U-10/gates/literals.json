@@ -1,0 +1,15 @@
+{
+  "id": "literals",
+  "enforce": true,
+  "status": "pass",
+  "exitCode": 0,
+  "cmd": "node scripts/check-literals.mjs",
+  "evidence": "CONT-AC-12 no literal of more than 3 words in src/components (allow-list scripts/literals-allowlist.json)",
+  "base": "692faaf",
+  "startedAt": "2026-11-24T19:36:34.205Z",
+  "durationMs": 399,
+  "outputTail": [
+    "PASS CONT-AC-12 no literal of more than 3 words in src/components, src/app/(site) (24 files)"
+  ],
+  "log": "edd-docs/construction/U-10/gates/literals.log"
+}

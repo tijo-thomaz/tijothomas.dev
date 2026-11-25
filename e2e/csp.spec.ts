@@ -4,12 +4,17 @@ import { expect, test, type Page } from '@playwright/test';
 
 // Same-origin subresources that fail to load (e.g. upgraded to https by upgrade-insecure-requests on a
 // plain-http origin) are not CSP violation events; record them separately (U-11 review #4).
-// The analytics script is expected to 404 off Vercel, so only network-level failures count here.
+// Exempt: /_vercel/insights/* exists only on Vercel. Under `next start` it is an HTML 404, which the
+// browser refuses to run as a script because of `nosniff` (ERR_ABORTED) - correct behaviour, not a bug.
+const OFF_VERCEL_ONLY = /^\/_vercel\/insights\//;
 function collectFailedRequests(page: Page, baseURL: string | undefined) {
   const { hostname } = new URL(baseURL ?? 'http://127.0.0.1');
   const failed: string[] = [];
   page.on('requestfailed', (r) => {
-    if (new URL(r.url()).hostname === hostname) failed.push(`${r.url()} ${r.failure()?.errorText ?? ''}`);
+    const url = new URL(r.url());
+    if (url.hostname === hostname && !OFF_VERCEL_ONLY.test(url.pathname)) {
+      failed.push(`${r.url()} ${r.failure()?.errorText ?? ''}`);
+    }
   });
   return failed;
 }

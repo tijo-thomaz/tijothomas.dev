@@ -1,8 +1,8 @@
 # tijothomas.dev
 
-Personal site of Tijo Thomas: a Next.js 16 (App Router, Turbopack) + React 19 app deployed on Vercel. `/` is the new site
-(a placeholder until the home page lands); the interactive terminal lives at `/terminal`, and `/v2`
-redirects there (308). See `edd-docs/inception/plan.md`.
+Personal site of Tijo Thomas: a Next.js 16 (App Router, Turbopack) + React 19 app deployed on Vercel. `/` is the static,
+server-rendered home page built from `src/content/`; the interactive terminal lives at `/terminal`, and
+`/v2` redirects there (308). See `edd-docs/inception/plan.md`.
 
 ## Folder rules
 
@@ -25,6 +25,36 @@ All app code lives under `src/`; the repo root holds only config, docs and these
   Nothing reachable from `(site)` imports `src/terminal` or Supabase (HOME-AC-04).
 - Files moved into `src/terminal/` stay renames (>= 90 % similar) of their old paths
   (PLAT-AC-10, `check-renames`); data-only edits are recorded in `scripts/rename-exceptions.json`.
+
+## Security headers
+
+Static edge headers from `next.config.js` `headers()` (ADR-P1; values in
+`edd-docs/inception/threat-model.md` §6). There is no nonce and no per-request code, so `/` stays
+prerendered.
+
+- **Baseline, every path** (`/:path*`, including `/terminal`, `/api/*` and 404s):
+  - `Strict-Transport-Security: max-age=63072000; includeSubDomains` (no preload);
+  - `nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, a `Permissions-Policy`, `X-Frame-Options: DENY`
+    and `Cross-Origin-Opener-Policy: same-origin`;
+  - a CSP of `frame-ancestors 'none'; object-src 'none'; base-uri 'none'`. It restricts no scripts or
+    connections, so the terminal is unchanged.
+- **Site CSP** (`/`, `/privacy`, `/work/*`, `/writing/*`, the OG image, the sitemap and robots): a later rule
+  overrides the baseline CSP.
+  - `script-src 'self' 'unsafe-inline'`: Next's inline RSC data needs `'unsafe-inline'` on a static page.
+  - `connect-src`, `img-src` and `font-src` are `'self'`. Vercel Analytics is first-party.
+  - `object-src`, `base-uri`, `form-action`, `frame-src` and `frame-ancestors` are `'none'`.
+  - `upgrade-insecure-requests`.
+  - `'unsafe-eval'` and the analytics debug host are added in development only.
+- **Other settings:** `poweredByHeader: false`, and no browser source maps (`CG10_sourcemaps` gate,
+  PLAT-AC-26).
+- **Tests:** `e2e/headers.spec.ts` and `e2e/csp.spec.ts` read the headers from a production build for each
+  route class, because a wrong rule order fails silently.
+
+### Vulnerability remediation timeframes (SEC-13)
+- **Critical:** fixed within 7 days of the advisory.
+- **High:** within 30 days.
+- **Moderate:** at the next release.
+- `CG10_audit` blocks a release with any high or critical advisory that has a fix.
 
 ## CityMap
 

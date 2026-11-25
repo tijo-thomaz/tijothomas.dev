@@ -2,6 +2,18 @@
 // Analytics script (first-party path) is still requested.
 import { expect, test, type Page } from '@playwright/test';
 
+// Same-origin subresources that fail to load (e.g. upgraded to https by upgrade-insecure-requests on a
+// plain-http origin) are not CSP violation events; record them separately (U-11 review #4).
+// The analytics script is expected to 404 off Vercel, so only network-level failures count here.
+function collectFailedRequests(page: Page, baseURL: string | undefined) {
+  const { hostname } = new URL(baseURL ?? 'http://127.0.0.1');
+  const failed: string[] = [];
+  page.on('requestfailed', (r) => {
+    if (new URL(r.url()).hostname === hostname) failed.push(`${r.url()} ${r.failure()?.errorText ?? ''}`);
+  });
+  return failed;
+}
+
 async function collectViolations(page: Page) {
   await page.addInitScript(() => {
     (window as unknown as { __cspViolations: string[] }).__cspViolations = [];
@@ -12,24 +24,28 @@ async function collectViolations(page: Page) {
   return () => page.evaluate(() => (window as unknown as { __cspViolations: string[] }).__cspViolations);
 }
 
-test('PLAT-AC-20 PLAT-AC-24 / loads with 0 CSP violations and requests /_vercel/insights/script.js', async ({ page }) => {
+test('PLAT-AC-20 PLAT-AC-24 / loads with 0 CSP violations, 0 failed same-origin requests, and requests /_vercel/insights/script.js', async ({ page, baseURL }) => {
   const violations = await collectViolations(page);
+  const failed = collectFailedRequests(page, baseURL);
   const analytics = page.waitForRequest((r) => new URL(r.url()).pathname === '/_vercel/insights/script.js', { timeout: 15_000 });
   await page.goto('/');
   await analytics;
   await page.waitForLoadState('networkidle');
   expect(await violations()).toEqual([]);
+  expect(failed).toEqual([]);
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
 });
 
-for (const path of ['/privacy', '/work/promptshield', '/terminal']) {
-  test(`PLAT-AC-22 PLAT-AC-21 ${path} loads with 0 CSP violations and 0 page errors`, async ({ page }) => {
+for (const path of ['/privacy', '/work/promptshield', '/writing/queues-double-charge', '/terminal']) {
+  test(`PLAT-AC-22 PLAT-AC-21 ${path} loads with 0 CSP violations, 0 failed same-origin requests and 0 page errors`, async ({ page, baseURL }) => {
     const violations = await collectViolations(page);
+    const failed = collectFailedRequests(page, baseURL);
     const errors: string[] = [];
     page.on('pageerror', (e) => errors.push(e.message));
     await page.goto(path);
     await page.waitForLoadState('networkidle');
     expect(await violations()).toEqual([]);
+    expect(failed).toEqual([]);
     expect(errors).toEqual([]);
   });
 }

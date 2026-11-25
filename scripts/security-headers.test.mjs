@@ -23,7 +23,19 @@ const rules = async (env) => (await loadConfig(env).headers()) ?? [];
 const valueOf = (rule, key) => rule.headers.find((h) => h.key.toLowerCase() === key.toLowerCase())?.value;
 const directives = (csp) => Object.fromEntries(csp.split(';').map((d) => d.trim()).filter(Boolean)
   .map((d) => { const [name, ...vals] = d.split(/\s+/); return [name, vals]; }));
-const SITE_SOURCES = ['/', '/privacy', '/work/:path*', '/writing/:path*', '/sitemap.xml', '/robots.txt'];
+// Real request paths per route class (U-11 review #2): the rules are compiled with Next's own
+// path-to-regexp and matched, instead of comparing source strings.
+const SITE_PATHS = ['/', '/privacy', '/work/promptshield', '/writing/queues-double-charge', '/opengraph-image',
+  '/opengraph-image-12o0cb', '/sitemap.xml', '/robots.txt'];
+const BASELINE_PATHS = ['/terminal', '/api/analytics', '/does-not-exist', '/v2', '/privacy-old', '/opengraph-imagex'];
+const BASELINE_CSP = "frame-ancestors 'none'; object-src 'none'; base-uri 'none'";
+const { pathToRegexp } = createRequire(repoFile('package.json'))('next/dist/compiled/path-to-regexp');
+// Next applies the later rule when two rules set the same key, so the effective CSP is the last match.
+const effectiveCsp = (all, url) => all
+  .filter((r) => pathToRegexp(r.source).test(url))
+  .map((r) => valueOf(r, 'Content-Security-Policy'))
+  .filter(Boolean)
+  .at(-1);
 
 test('PLAT-AC-20 PLAT-AC-21 poweredByHeader is false (no x-powered-by)', () => {
   assert.equal(loadConfig().poweredByHeader, false);
@@ -35,7 +47,10 @@ test('PLAT-AC-21 the first rule is the baseline for /:path* with the exact threa
   assert.equal(valueOf(base, 'Strict-Transport-Security'), 'max-age=63072000; includeSubDomains');
   assert.equal(valueOf(base, 'X-Content-Type-Options'), 'nosniff');
   assert.equal(valueOf(base, 'Referrer-Policy'), 'strict-origin-when-cross-origin');
-  assert.match(valueOf(base, 'Permissions-Policy'), /camera=\(\).*microphone=\(\).*geolocation=\(\)/);
+  assert.equal(
+    valueOf(base, 'Permissions-Policy'),
+    'camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=()',
+  );
   assert.equal(valueOf(base, 'X-Frame-Options'), 'DENY');
   assert.equal(valueOf(base, 'Cross-Origin-Opener-Policy'), 'same-origin');
   const csp = directives(valueOf(base, 'Content-Security-Policy'));
@@ -49,12 +64,16 @@ test('PLAT-AC-21 HSTS has no preload (SQ-03 a)', async () => {
   for (const r of await rules()) assert.doesNotMatch(valueOf(r, 'Strict-Transport-Security') ?? '', /preload/);
 });
 
-test('PLAT-AC-22 every site route has a site-CSP rule after the baseline rule', async () => {
-  const all = await rules();
-  for (const src of SITE_SOURCES) {
-    const i = all.findIndex((r) => r.source === src && valueOf(r, 'Content-Security-Policy'));
-    assert.ok(i > 0, `${src}: no site-CSP rule after the baseline`);
-  }
+test('PLAT-AC-22 every header source compiles with Next path-to-regexp (an invalid source fails next build)', async () => {
+  for (const r of await rules()) assert.doesNotThrow(() => pathToRegexp(r.source), r.source);
+});
+
+test('PLAT-AC-22 every site path resolves to the site CSP; terminal, API, 404 and look-alike paths keep the baseline CSP', async () => {
+  const all = await rules({ NODE_ENV: 'production' });
+  const site = valueOf(all.find((r) => r.source === '/'), 'Content-Security-Policy');
+  assert.match(site, /form-action 'none'/);
+  for (const url of SITE_PATHS) assert.equal(effectiveCsp(all, url), site, url);
+  for (const url of BASELINE_PATHS) assert.equal(effectiveCsp(all, url), BASELINE_CSP, url);
 });
 
 test('PLAT-AC-22 the production site CSP: script-src self + unsafe-inline only, no host, no unsafe-eval, all lock-down directives', async () => {

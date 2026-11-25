@@ -39,10 +39,18 @@ for (const path of ['/terminal', '/api/analytics', '/does-not-exist']) {
   });
 }
 
-test('PLAT-AC-21 /terminal keeps the baseline CSP only (scripts and connections unrestricted, RQ-11 a)', async ({ request }) => {
-  const csp = directives((await request.get('/terminal')).headers()['content-security-policy'] ?? '');
-  expect(csp['script-src']).toBeUndefined();
-  expect(csp['connect-src']).toBeUndefined();
+// Exact match (U-11 review #3): a leaked default-src or script-src would break the terminal.
+const BASELINE_CSP = "frame-ancestors 'none'; object-src 'none'; base-uri 'none'";
+for (const path of ['/terminal', '/api/analytics', '/does-not-exist']) {
+  test(`PLAT-AC-21 ${path} keeps exactly the baseline CSP (RQ-11 a: the terminal stays unrestricted)`, async ({ request }) => {
+    expect((await request.get(path)).headers()['content-security-policy']).toBe(BASELINE_CSP);
+  });
+}
+
+test('PLAT-AC-21 Permissions-Policy is the exact threat-model value', async ({ request }) => {
+  expect((await request.get('/')).headers()['permissions-policy']).toBe(
+    'camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=()',
+  );
 });
 
 for (const path of ['/', '/privacy']) {
@@ -53,9 +61,15 @@ for (const path of ['/', '/privacy']) {
   });
 }
 
-test('PLAT-AC-22 the placeholder, sitemap and robots routes get the site CSP too', async ({ request }) => {
-  for (const path of ['/work/promptshield', '/sitemap.xml', '/robots.txt']) {
-    const csp = (await request.get(path)).headers()['content-security-policy'] ?? '';
-    expect(csp, path).toMatch(/form-action 'none'/);
+test('PLAT-AC-22 the placeholders, the OG image, sitemap and robots get the same site CSP as /', async ({ request }) => {
+  const home = await request.get('/');
+  const site = home.headers()['content-security-policy'];
+  // The OG image is served at a hashed path; read it from the page's og:image tag.
+  const og = new URL((await home.text()).match(/property="og:image" content="([^"]+)"/)?.[1] ?? '').pathname;
+  expect(og).toMatch(/^\/opengraph-image/);
+  for (const path of ['/work/promptshield', '/writing/queues-double-charge', og, '/sitemap.xml', '/robots.txt']) {
+    const res = await request.get(path);
+    expect(res.status(), path).toBe(200);
+    expect(res.headers()['content-security-policy'], path).toBe(site);
   }
 });

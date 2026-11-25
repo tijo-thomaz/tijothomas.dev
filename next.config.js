@@ -44,7 +44,9 @@ const SITE_SOURCES = [
   '/privacy',
   '/work/:path*',
   '/writing/:path*',
-  '/opengraph-image:suffix*',
+  // Next serves the OG image at /opengraph-image-<hash> for a route group; `:suffix*` without a prefix
+  // is invalid path-to-regexp and fails `next build` (U-11 review #1).
+  '/opengraph-image{-:suffix}?',
   '/sitemap.xml',
   '/robots.txt',
 ];

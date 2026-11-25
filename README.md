@@ -28,7 +28,8 @@ All app code lives under `src/`; the repo root holds only config, docs and these
 
 ## CityMap
 
-`src/components/CityMap.tsx` renders the hero's isometric city from `src/components/cityGeometry.ts`.
+`src/components/CityMap/CityMap.tsx` renders the hero's isometric city from
+`src/components/CityMap/cityGeometry.ts` (types in `cityTypes.ts`; all three live in `src/components/CityMap/`).
 That file holds shapes only, in paint order, and was generated once from
 `docs/design/home-reference/Main.dc.html`. Building names come from the nav labels and the sign
 boards from `profile.city.signposts`, so editing content never means editing geometry. Motion is

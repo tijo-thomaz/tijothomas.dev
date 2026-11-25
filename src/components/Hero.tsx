@@ -1,6 +1,6 @@
 import type { Profile } from '@/content/types';
 
-import { CityMap } from './CityMap';
+import { CityMap } from './CityMap/CityMap';
 
 type HeroProfile = Pick<Profile, 'location' | 'relocation' | 'headline' | 'hero' | 'city' | 'nav'>;
 

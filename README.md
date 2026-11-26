@@ -45,6 +45,12 @@ prerendered.
   - `object-src`, `base-uri`, `form-action`, `frame-src` and `frame-ancestors` are `'none'`.
   - `upgrade-insecure-requests`.
   - `'unsafe-eval'` and the analytics debug host are added in development only.
+- **`/play/<slug>/*`** (projects platform, threat-model §6.5): a third rule set from
+  `src/lib/projects.ts`, added after the others. It sets `X-Robots-Tag: noindex`, and a CSP that depends
+  on whether the demo is deployed:
+  - **deployed:** `'self'` only, with no inline or eval script and `'wasm-unsafe-eval'` only for
+    WebAssembly demos;
+  - **not deployed:** the site CSP, because the in-site "Demo coming soon" page is served.
 - **Other settings:** `poweredByHeader: false`, and no browser source maps (`CG10_sourcemaps` gate,
   PLAT-AC-26).
 - **Tests:** `e2e/headers.spec.ts` and `e2e/csp.spec.ts` read the headers from a production build for each
@@ -55,6 +61,19 @@ prerendered.
 - **High:** within 30 days.
 - **Moderate:** at the next release.
 - `CG10_audit` blocks a release with any high or critical advisory that has a fix.
+
+## Mini projects (`/play/<slug>`)
+
+`src/content/work.ts` is the project registry. A project with a demo names the env var that holds its
+origin (`playOriginEnv: 'SLUICE_ORIGIN'`).
+- **Env var set** to a bare `https://<name>.vercel.app` (in Vercel → Settings → Environment Variables,
+  then redeploy): `/play/<slug>` is served from that deployment, and the URL stays on tijothomas.dev.
+- **Env var unset:** `/play/<slug>` shows "Demo coming soon" and links to the case study.
+- **Any other value** fails the build.
+
+Every project follows the rules in `docs/ai/PROJECT_HOSTING.md`: base path, static only, same-origin
+assets, no analytics. `/work/promptshield` redirects (308) to `/work/sluice`. The build runs on Node 24
+(`engines`), because `next.config.js` loads the TypeScript registry directly.
 
 ## CityMap
 

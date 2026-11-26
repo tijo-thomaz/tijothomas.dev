@@ -61,18 +61,23 @@ export function playOrigin(item: WorkItem, env: Readonly<Record<string, string |
   if (!item.playOriginEnv) return null;
   const raw = env[item.playOriginEnv]?.trim();
   if (!raw) return null;
-  const value = raw.endsWith('/') ? raw.slice(0, -1) : raw;
-  let url: URL | null = null;
+  const origin = zoneOrigin(raw.endsWith('/') ? raw.slice(0, -1) : raw);
+  if (!origin) {
+    throw new Error(`${item.playOriginEnv} must be a bare https origin such as https://name.vercel.app (got "${raw}")`);
+  }
+  return origin;
+}
+
+/** A bare origin (no path, query, hash, userinfo or port) on a <name>.vercel.app domain, else null. */
+function zoneOrigin(value: string): string | null {
+  let url: URL;
   try {
     url = new URL(value);
   } catch {
-    url = null;
+    return null;
   }
-  // A bare origin (no path, query, hash, userinfo or port) on a <name>.vercel.app production domain.
-  if (!url || url.protocol !== 'https:' || url.origin !== value || url.port !== '' || !ZONE_HOST.test(url.hostname)) {
-    throw new Error(`${item.playOriginEnv} must be a bare https origin such as https://name.vercel.app (got "${raw}")`);
-  }
-  return url.origin;
+  const bare = url.protocol === 'https:' && url.origin === value && url.port === '';
+  return bare && ZONE_HOST.test(url.hostname) ? url.origin : null;
 }
 
 type Env = Readonly<Record<string, string | undefined>>;

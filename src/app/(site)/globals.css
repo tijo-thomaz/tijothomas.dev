@@ -394,6 +394,13 @@ main:focus {
   color: var(--muted);
 }
 
+.placeholder-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 0;
+}
+
 /* Work */
 .card-grid {
   display: flex;

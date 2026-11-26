@@ -113,7 +113,7 @@ describe('playHeaderRules', () => {
     expect(header(rules, '/play/demo', 'X-Robots-Tag')).toBeUndefined();
   });
 
-  it('PROJ-AC-12 a deployed wasm demo gets a self-only CSP with wasm-unsafe-eval and no unsafe-inline or unsafe-eval', () => {
+  it("PROJ-AC-12 a deployed wasm demo gets a self-only CSP whose script-src is exactly 'self' 'wasm-unsafe-eval' (no inline or eval script)", () => {
     const rules = playHeaderRules(work, { SLUICE_ORIGIN: 'https://sluice-example.vercel.app' }, SITE);
     const d = csp(header(rules, '/play/sluice/:path*', 'Content-Security-Policy'));
     expect(header(rules, '/play/sluice', 'Content-Security-Policy')).toBe(header(rules, '/play/sluice/:path*', 'Content-Security-Policy'));

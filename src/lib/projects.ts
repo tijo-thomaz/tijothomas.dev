@@ -41,3 +41,71 @@ export function playOrigin(item: WorkItem, env: Readonly<Record<string, string |
   }
   return url.origin;
 }
+
+type Env = Readonly<Record<string, string | undefined>>;
+type Header = { key: string; value: string };
+
+const playPaths = (slug: string) => [`/play/${slug}`, `/play/${slug}/:path*`] as const;
+
+/**
+ * PROJ-AC-03, PROJ-AC-04: multi-zone rewrites for every item whose demo origin is set. They go in
+ * `beforeFiles`, because the in-site /play/[slug] page would otherwise win over an afterFiles rewrite.
+ */
+export function playRewrites(items: readonly WorkItem[], env: Env): { source: string; destination: string }[] {
+  return items.flatMap((item) => {
+    const origin = playOrigin(item, env);
+    if (!origin) return [];
+    const [root, deep] = playPaths(item.slug);
+    return [
+      { source: root, destination: `${origin}${root}` },
+      { source: deep, destination: `${origin}/play/${item.slug}/:path*` },
+    ];
+  });
+}
+
+/** PROJ-AC-06: a permanent (308) redirect from each item's former slug to its current page. */
+export function formerRedirects(items: readonly WorkItem[]): { source: string; destination: string; permanent: true }[] {
+  return items.flatMap((item) =>
+    item.formerSlug ? [{ source: `/work/${item.formerSlug}`, destination: `/work/${item.slug}`, permanent: true as const }] : [],
+  );
+}
+
+/**
+ * PROJ-AC-12: CSP for a demo served from its own deployment. Same-origin only (the rewrite keeps every
+ * asset on tijothomas.dev); `'wasm-unsafe-eval'` only for a WebAssembly demo; no inline or eval script.
+ */
+export function zoneCsp(item: Pick<WorkItem, 'wasm'>): string {
+  return [
+    "default-src 'self'",
+    `script-src 'self'${item.wasm ? " 'wasm-unsafe-eval'" : ''}`,
+    "style-src 'self' 'unsafe-inline'",
+    "img-src 'self' data:",
+    "font-src 'self'",
+    "connect-src 'self'",
+    "worker-src 'self'",
+    "manifest-src 'self'",
+    "object-src 'none'",
+    "base-uri 'none'",
+    "form-action 'self'",
+    "frame-src 'none'",
+    "frame-ancestors 'none'",
+    'upgrade-insecure-requests',
+  ].join('; ');
+}
+
+/**
+ * PROJ-AC-11, PROJ-AC-12: header rules for /play/<slug> and /play/<slug>/*. They come after the baseline
+ * rule in next.config.js, so their CSP wins. A deployed demo gets `zoneCsp`; while not deployed the
+ * in-site Next page is served and needs the site CSP (`siteCsp`). noindex unless `indexPlay`.
+ */
+export function playHeaderRules(items: readonly WorkItem[], env: Env, siteCsp: string): { source: string; headers: Header[] }[] {
+  return items.flatMap((item) => {
+    if (!item.playOriginEnv) return [];
+    const csp = playOrigin(item, env) ? zoneCsp(item) : siteCsp;
+    const headers: Header[] = [
+      { key: 'Content-Security-Policy', value: csp },
+      ...(item.indexPlay ? [] : [{ key: 'X-Robots-Tag', value: 'noindex' }]),
+    ];
+    return playPaths(item.slug).map((source) => ({ source, headers }));
+  });
+}

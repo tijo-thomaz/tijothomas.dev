@@ -3,7 +3,17 @@
 // Rule order matters: Next applies the LATER rule when two rules set the same key on one path. The
 // baseline comes first for every path; the strict site CSP comes after it for the site routes only.
 
+// Projects platform (U-14): the registry is src/content/work.ts. Node (>= 22.18, package.json engines)
+// strips the TypeScript types on require; both modules have type-only imports.
+const { work } = require('./src/content/work.ts');
+const { formerRedirects, playHeaderRules, playRewrites, registryProblems } = require('./src/lib/projects.ts');
+
+const problems = registryProblems(work);
+if (problems.length > 0) throw new Error(`work registry: ${problems.join('; ')}`);
+
 const isDev = process.env.NODE_ENV === 'development';
+// The env as the config was loaded (once per build): demo origins such as SLUICE_ORIGIN.
+const buildEnv = { ...process.env };
 
 // §6.1 Baseline: every response, including /terminal, /api/* and 404s. Its CSP restricts no scripts,
 // styles or connections, so the terminal behaves exactly as before (RQ-11 a). No HSTS preload (SQ-03 a).
@@ -58,8 +68,14 @@ const nextConfig = {
     removeConsole: process.env.NODE_ENV === 'production',
   },
   // TERM-AC-04 (SEC-12): the old /v2 entry is a permanent (308) redirect to the terminal.
+  // PROJ-AC-06: a project's former slug redirects permanently to its current page.
   async redirects() {
-    return [{ source: '/v2', destination: '/terminal', permanent: true }];
+    return [{ source: '/v2', destination: '/terminal', permanent: true }, ...formerRedirects(work)];
+  },
+  // PROJ-AC-03, PROJ-AC-04: /play/<slug> is served from the project's own deployment when its origin
+  // env var (e.g. SLUICE_ORIGIN) is set; otherwise the in-site "Demo coming soon" page answers.
+  async rewrites() {
+    return { beforeFiles: playRewrites(work, buildEnv), afterFiles: [], fallback: [] };
   },
   async headers() {
     return [
@@ -68,6 +84,8 @@ const nextConfig = {
         source,
         headers: [{ key: 'Content-Security-Policy', value: siteCsp }],
       })),
+      // PROJ-AC-11, PROJ-AC-12: after the baseline, so the /play CSP and noindex win on /play/*.
+      ...playHeaderRules(work, buildEnv, siteCsp),
     ];
   },
 };

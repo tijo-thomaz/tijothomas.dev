@@ -78,6 +78,7 @@ export interface Profile {
     privacy: string;
     caseStudy: string;
     formerly: string;
+    demoComingSoon: string;
     now: string;
     present: string;
     notMeasured: string;
@@ -135,6 +136,8 @@ export interface WorkItem {
   caseStudyUrl?: HttpsUrl;
   /** Earlier public name, shown as "formerly <name>" (PROJ-AC-13). */
   formerName?: string;
+  /** Earlier slug; `/work/<formerSlug>` redirects (308) to `/work/<slug>` (PROJ-AC-06). */
+  formerSlug?: string;
   /** Public source repository. Unset while the repo is private. */
   repoUrl?: HttpsUrl;
   /**

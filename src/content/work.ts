@@ -12,6 +12,7 @@ export const work: readonly WorkItem[] = [
     slug: 'sluice', // P-01
     name: 'Sluice', // P-01
     formerName: 'PromptShield', // P-02, F-15
+    formerSlug: 'promptshield', // P-02 (redirects to /work/sluice)
     subtitle: 'Guardrail gateway for AI agents', // P-03
     status: 'in-progress', // P-04 (no target month)
     summary:

@@ -2,6 +2,7 @@
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 
+import { PlayFallback } from '@/components/PlayFallback';
 import { profile } from '@/content/profile';
 import { work } from '@/content/work';
 import { siteUrl } from '@/lib/site';
@@ -36,6 +37,13 @@ describe('/play/[slug]', () => {
   it('PROJ-AC-05 no repo link while repoUrl is unset (P-07: the repo is private)', async () => {
     const html = renderToStaticMarkup(await playPage.default(params('sluice')));
     expect(html).not.toContain('github.com');
-    expect(html).not.toContain(profile.labels.sourceCode);
+    expect(html).not.toContain(`>${profile.labels.github}</a>`);
+  });
+
+  it('PROJ-AC-05 with repoUrl set, the page links to the repo in a new context with noopener noreferrer', async () => {
+    // A neutral fixture host: the RCA-01 guard allows only the F-68 account on github.com.
+    const html = renderToStaticMarkup(<PlayFallback item={{ ...work[0], repoUrl: 'https://code.example.com/example/repo' }} profile={profile} />);
+    expect(html).toContain('href="https://code.example.com/example/repo"');
+    expect(html).toMatch(/rel="noopener noreferrer"/);
   });
 });

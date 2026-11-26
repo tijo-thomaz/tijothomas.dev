@@ -105,6 +105,7 @@ export const profile: Profile = {
     privacy: 'Privacy', // HOME-AC-27
     caseStudy: 'Read the case study', // HOME-AC-13 (shown only when caseStudyUrl is set)
     formerly: 'formerly', // PROJ-AC-13 ("formerly PromptShield")
+    demoComingSoon: 'Demo coming soon', // PROJ-AC-05
     now: 'Now', // F-32
     present: 'present', // F-32
     notMeasured: 'Not yet measured', // F-23 (PH rendering), RQ-05

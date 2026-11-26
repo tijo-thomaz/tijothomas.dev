@@ -1,23 +1,55 @@
-// Projects platform registry rules (U-13). The registry is `work` in src/content/work.ts.
-// Type-only imports: next.config.ts loads this module too, and the config loader does not resolve `@/`.
+// Projects platform registry rules (U-13, U-14). The registry is `work` in src/content/work.ts.
+// Type-only imports: next.config.js requires this module (Node strips the types), and that loader
+// does not resolve `@/`.
 import type { WorkItem } from '../content/types';
 
 const KEBAB = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const ORIGIN_ENV = /^[A-Z][A-Z0-9_]*_ORIGIN$/;
+// Demos are free-tier Vercel projects (PLATFORM_PROMPT): their production domain is <name>.vercel.app.
+const ZONE_HOST = /^[a-z0-9]+(-[a-z0-9]+)*\.vercel\.app$/;
 
-/** PROJ-AC-01, PROJ-AC-02: problems in the registry, one line each. Empty = valid. */
-export function registryProblems(items: readonly WorkItem[]): string[] {
+function slugProblems(items: readonly WorkItem[]): string[] {
   const seen = new Set<string>();
   return items.flatMap((item) => {
     const problems: string[] = [];
     if (!KEBAB.test(item.slug)) problems.push(`slug is not kebab-case: ${item.slug}`);
     if (seen.has(item.slug)) problems.push(`duplicate slug: ${item.slug}`);
     seen.add(item.slug);
-    if (item.playOriginEnv !== undefined && !ORIGIN_ENV.test(item.playOriginEnv)) {
-      problems.push(`${item.slug}: playOriginEnv is not an *_ORIGIN env name: ${item.playOriginEnv}`);
-    }
     return problems;
   });
+}
+
+function formerSlugProblems(items: readonly WorkItem[]): string[] {
+  const live = new Set(items.map((i) => i.slug));
+  const seen = new Set<string>();
+  return items.flatMap((item) => {
+    const former = item.formerSlug;
+    if (former === undefined) return [];
+    const problems: string[] = [];
+    if (!KEBAB.test(former)) problems.push(`${item.slug}: formerSlug is not kebab-case: ${former}`);
+    if (live.has(former)) problems.push(`${item.slug}: formerSlug is a live slug: ${former}`);
+    if (seen.has(former)) problems.push(`duplicate formerSlug: ${former}`);
+    seen.add(former);
+    return problems;
+  });
+}
+
+/** PROJ-AC-01, PROJ-AC-02, PROJ-AC-06: problems in the registry, one line each. Empty = valid. */
+export function registryProblems(items: readonly WorkItem[]): string[] {
+  const envProblems = items.flatMap((item) =>
+    item.playOriginEnv !== undefined && !ORIGIN_ENV.test(item.playOriginEnv)
+      ? [`${item.slug}: playOriginEnv is not an *_ORIGIN env name: ${item.playOriginEnv}`]
+      : [],
+  );
+  return [...slugProblems(items), ...formerSlugProblems(items), ...envProblems];
+}
+
+/**
+ * PROJ-AC-05: items that get /play/<slug> (a page, a rewrite and header rules). A planned item never
+ * does, whatever SHOW_PLANNED says: a demo is public only once its project is in progress or live.
+ */
+export function playableItems(items: readonly WorkItem[]): WorkItem[] {
+  return items.filter((item) => item.playOriginEnv !== undefined && item.status !== 'planned');
 }
 
 /**
@@ -36,7 +68,8 @@ export function playOrigin(item: WorkItem, env: Readonly<Record<string, string |
   } catch {
     url = null;
   }
-  if (!url || url.protocol !== 'https:' || url.origin !== value) {
+  // A bare origin (no path, query, hash, userinfo or port) on a <name>.vercel.app production domain.
+  if (!url || url.protocol !== 'https:' || url.origin !== value || url.port !== '' || !ZONE_HOST.test(url.hostname)) {
     throw new Error(`${item.playOriginEnv} must be a bare https origin such as https://name.vercel.app (got "${raw}")`);
   }
   return url.origin;
@@ -52,7 +85,7 @@ const playPaths = (slug: string) => [`/play/${slug}`, `/play/${slug}/:path*`] as
  * `beforeFiles`, because the in-site /play/[slug] page would otherwise win over an afterFiles rewrite.
  */
 export function playRewrites(items: readonly WorkItem[], env: Env): { source: string; destination: string }[] {
-  return items.flatMap((item) => {
+  return playableItems(items).flatMap((item) => {
     const origin = playOrigin(item, env);
     if (!origin) return [];
     const [root, deep] = playPaths(item.slug);
@@ -78,6 +111,7 @@ export function zoneCsp(item: Pick<WorkItem, 'wasm'>): string {
   return [
     "default-src 'self'",
     `script-src 'self'${item.wasm ? " 'wasm-unsafe-eval'" : ''}`,
+    // Inline styles only (style attributes set by UI libraries); they cannot run script.
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data:",
     "font-src 'self'",
@@ -86,6 +120,7 @@ export function zoneCsp(item: Pick<WorkItem, 'wasm'>): string {
     "manifest-src 'self'",
     "object-src 'none'",
     "base-uri 'none'",
+    // A playground may use a <form> for its input; submissions stay on the site.
     "form-action 'self'",
     "frame-src 'none'",
     "frame-ancestors 'none'",
@@ -99,8 +134,7 @@ export function zoneCsp(item: Pick<WorkItem, 'wasm'>): string {
  * in-site Next page is served and needs the site CSP (`siteCsp`). noindex unless `indexPlay`.
  */
 export function playHeaderRules(items: readonly WorkItem[], env: Env, siteCsp: string): { source: string; headers: Header[] }[] {
-  return items.flatMap((item) => {
-    if (!item.playOriginEnv) return [];
+  return playableItems(items).flatMap((item) => {
     const csp = playOrigin(item, env) ? zoneCsp(item) : siteCsp;
     const headers: Header[] = [
       { key: 'Content-Security-Policy', value: csp },

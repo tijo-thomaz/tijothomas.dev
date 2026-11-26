@@ -11,6 +11,20 @@ Branch `projects-platform`, stacked on `u11-security-headers` (needs U-11's CSP)
 | U-15 | `/projects`, `/work/sluice` case study (typed content in `src/content/case-studies/sluice.ts`, server-rendered SVG diagrams), home card links, metadata, sitemap | PROJ-AC-07, 08, 09, 10, 16 | U-14 |
 | U-16 | Gates: static and no-third-party-script check, Lighthouse on the new pages; e2e; owner checklist (Vercel env, Sluice Vercel project) | PROJ-AC-14, 15 | U-15 |
 
+## Deviations
+- **U-14 keeps `next.config.js`** (plan said `next.config.ts`). It `require()`s the TypeScript registry
+  modules and Node 24 strips the types, so the U-11 header tests keep loading the config with
+  `require`. `engines.node` is pinned to `24.x`, so Vercel builds on the same major (U-14 review #6).
+- **Demo origins are `*.vercel.app` only** (U-14 review #9): the brief puts every demo on its own
+  free-tier Vercel project.
+
+## Hold items
+- **P-05, P-06:** the owner chose "New text" for the Sluice summary and stack but has not supplied it.
+  The card keeps F-17 and F-19 (true, describes the 2025 version) until then (U-14 review #7).
+- **Terminal link:** `src/terminal/features/world-viewer/model/worldData.ts` links
+  `https://promptshield.vercel.app/`, which still answers 200 (U-14 review #8). Owner to say whether
+  that deployment stays; the terminal is unchanged until then.
+
 ## Risks
 - **Headers on proxied responses:** Vercel applies `next.config` headers to a `/play/*` rewrite, and the zone may send its own CSP (both are then enforced). Verify on the first preview with a real zone; the hosting contract says the zone sends no CSP of its own.
 - **Case study claims:** ARCHITECTURE.md §3 is a target design. The page labels it "Planned" and claims only what §2 says exists.

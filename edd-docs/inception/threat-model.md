@@ -288,6 +288,26 @@ Residual risk of `'unsafe-inline'`: if an HTML injection sink existed on `/`, th
 ### 6.4 Implementation shape (for the platform unit)
 `next.config.(js|ts)`: `poweredByHeader: false` and an async `headers()` that returns **the baseline rule for `/:path*` first, then the site-CSP rule** for the site sources listed in §6.2. Next applies the later rule's value when two rules set the same key on one path, so site routes get the strict CSP and everything else keeps the baseline CSP. Assert both route classes in e2e (proposed PLAT-AC-21/22), because ordering mistakes fail silently.
 
+### 6.5 Third tier: `/play/<slug>/*` (projects platform, U-14, added 2026-11-26)
+- **New trust boundary TB5, Internet → separately deployed demo code on the main origin.** When a
+  project's `<NAME>_ORIGIN` is set, `/play/<slug>/*` is rewritten (`beforeFiles`) to that project's
+  own Vercel deployment. Its HTML and scripts run **as tijothomas.dev**: same origin as `/` and
+  `/terminal`, so they could read `/terminal`'s localStorage (`portfolio-analytics`) and call
+  `/api/analytics`. The demo repos are owner-controlled; the risk is a compromised demo repo or
+  dependency (T-new: supply chain of a demo).
+- **Controls:**
+  - origin is a bare `https://<name>.vercel.app` fixed at build time (no open proxy);
+  - rules come after the baseline, so `/play/*` gets the zone CSP: `'self'` only, no inline or eval
+    script, `'wasm-unsafe-eval'` only for `wasm: true`, `frame-ancestors 'none'`;
+  - `X-Robots-Tag: noindex` unless `indexPlay`;
+  - planned items get no rewrite;
+  - contract `docs/ai/PROJECT_HOSTING.md`: static only, no secrets, no analytics or cookies.
+- **Not yet verified:** whether Vercel's response for a rewritten external path carries the portfolio
+  headers and the zone's own headers together. Checked with `curl -I` on the first preview with a
+  real zone (U-16 owner checklist).
+- **Residual:** same-origin demo code can read `/terminal` storage. Accepted: owner-written demos, no
+  secrets on the origin, terminal storage holds only anonymous counters.
+
 ---
 
 ## 7. Proposed spec AC additions (not applied; for owner approval at PG2)

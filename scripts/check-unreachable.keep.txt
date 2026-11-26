@@ -1,4 +1,3 @@
 # Modules kept although no route imports them yet. One path per line, then "# reason". Remove an entry
 # as soon as a route imports the module (check-unreachable then fails the stale entry).
 # Empty since U-07: the U-05 content modules and flags.ts are imported by the home page.
-src/lib/projects.ts # registry rules; imported by next.config.js, which is not a route entry (U-14)

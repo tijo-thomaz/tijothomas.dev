@@ -13,7 +13,9 @@ const params = (slug: string) => ({ params: Promise.resolve({ slug }) });
 
 describe('/play/[slug]', () => {
   it('PROJ-AC-05 pre-renders one page per registry item with a demo env name; other slugs 404', async () => {
-    expect(await playPage.generateStaticParams()).toEqual(work.filter((w) => w.playOriginEnv).map((w) => ({ slug: w.slug })));
+    expect(await playPage.generateStaticParams()).toEqual(
+      work.filter((w) => w.playOriginEnv && w.status !== 'planned').map((w) => ({ slug: w.slug })),
+    );
     expect(playPage.dynamicParams).toBe(false);
     expect(await playPage.generateMetadata(params('does-not-exist'))).toEqual({});
     await expect(playPage.default(params('does-not-exist'))).rejects.toThrow(/NEXT_HTTP_ERROR_FALLBACK;404|NEXT_NOT_FOUND|not.?found/i);

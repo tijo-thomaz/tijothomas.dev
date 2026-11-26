@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { PlayFallback } from '@/components/PlayFallback';
 import { profile } from '@/content/profile';
 import { work } from '@/content/work';
+import { playableItems } from '@/lib/projects';
 import { siteUrl } from '@/lib/site';
 
 import type { Metadata } from 'next';
@@ -14,10 +15,10 @@ type Params = { params: Promise<{ slug: string }> };
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return work.filter((w) => w.playOriginEnv).map((w) => ({ slug: w.slug }));
+  return playableItems(work).map((w) => ({ slug: w.slug }));
 }
 
-const itemFor = (slug: string) => work.find((w) => w.slug === slug && w.playOriginEnv);
+const itemFor = (slug: string) => playableItems(work).find((w) => w.slug === slug);
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;

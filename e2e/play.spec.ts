@@ -17,6 +17,12 @@ test('PROJ-AC-06 /work/promptshield is a 308 to /work/sluice', async ({ request 
   expect(res.headers().location).toBe('/work/sluice');
 });
 
+test('PROJ-AC-05 /play/sluice/ (trailing slash) is a 308 to /play/sluice before any rewrite (U-14 review #1)', async ({ request }) => {
+  const res = await request.get('/play/sluice/', { maxRedirects: 0 });
+  expect(res.status()).toBe(308);
+  expect(res.headers().location).toBe('/play/sluice');
+});
+
 test('PROJ-AC-05 an unknown /play slug is a 404', async ({ request }) => {
   expect((await request.get('/play/does-not-exist')).status()).toBe(404);
 });

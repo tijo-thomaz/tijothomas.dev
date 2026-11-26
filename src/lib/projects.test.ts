@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 import type { WorkItem } from '@/content/types';
 import { work } from '@/content/work';
 
-import { formerRedirects, playHeaderRules, playOrigin, playRewrites, registryProblems } from './projects';
+import { formerRedirects, playableItems, playHeaderRules, playOrigin, playRewrites, registryProblems } from './projects';
 
 const item = (over: Partial<WorkItem> = {}): WorkItem => ({
   slug: 'demo',
@@ -39,6 +39,27 @@ describe('registry', () => {
   });
 });
 
+describe('registry: former slugs and playable items (U-14 review #5, #12)', () => {
+  it('PROJ-AC-01 PROJ-AC-06 a formerSlug must be kebab-case, unique and not a live slug', () => {
+    expect(registryProblems([item({ formerSlug: 'Old_Name' })])).toEqual(['demo: formerSlug is not kebab-case: Old_Name']);
+    expect(registryProblems([item({ formerSlug: 'other' }), item({ slug: 'other' })])).toEqual([
+      'demo: formerSlug is a live slug: other',
+    ]);
+    expect(registryProblems([item({ formerSlug: 'old' }), item({ slug: 'b', formerSlug: 'old' })])).toEqual([
+      'duplicate formerSlug: old',
+    ]);
+  });
+
+  it('PROJ-AC-05 a planned item gets no /play page, rewrite or header rule, even with its origin set', () => {
+    const planned = item({ status: 'planned', playOriginEnv: 'DEMO_ORIGIN' });
+    const env = { DEMO_ORIGIN: 'https://demo.vercel.app' };
+    expect(playableItems([planned])).toEqual([]);
+    expect(playRewrites([planned], env)).toEqual([]);
+    expect(playHeaderRules([planned], env, "default-src 'self'")).toEqual([]);
+    expect(playableItems(work).map((w) => w.slug)).toEqual(['sluice']);
+  });
+});
+
 describe('playOrigin', () => {
   const sluice = item({ slug: 'sluice', playOriginEnv: 'SLUICE_ORIGIN' });
 
@@ -63,7 +84,12 @@ describe('playOrigin', () => {
     '//sluice-example.vercel.app',
     'javascript:alert(1)',
     'not a url',
-  ])('PROJ-AC-02 throws, naming the env var, for a value that is not a bare https origin: %s', (value) => {
+    'https://sluice.example.com',
+    'https://sluice-example.vercel.app:8443',
+    'https://203.0.113.7',
+    'https://sluice-example.vercel.app.',
+    'https://vercel.app',
+  ])('PROJ-AC-02 throws, naming the env var, for a value that is not a bare https *.vercel.app origin: %s', (value) => {
     expect(() => playOrigin(sluice, { SLUICE_ORIGIN: value })).toThrow(/SLUICE_ORIGIN/);
   });
 });

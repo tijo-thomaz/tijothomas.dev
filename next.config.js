@@ -3,8 +3,9 @@
 // Rule order matters: Next applies the LATER rule when two rules set the same key on one path. The
 // baseline comes first for every path; the strict site CSP comes after it for the site routes only.
 
-// Projects platform (U-14): the registry is src/content/work.ts. Node (>= 22.18, package.json engines)
-// strips the TypeScript types on require; both modules have type-only imports.
+// Projects platform (U-14): the registry is src/content/work.ts. Node 24 (package.json engines, so
+// Vercel builds on 24.x too) strips the TypeScript types on require; both modules have type-only
+// imports. Kept as next.config.js, not .ts: the U-11 header tests load it with require (plan deviation).
 const { work } = require('./src/content/work.ts');
 const { formerRedirects, playHeaderRules, playRewrites, registryProblems } = require('./src/lib/projects.ts');
 

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FDE Harness Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+/* VOICE everyday learning lab, calm and exact like a good textbook
+   IDEA a bench of working simulators: each lesson is a machine you run, predict first, then watch
+   PICTURE the live mechanism of each lesson drawn large (agent loop, guard pipeline, fix timeline, eval runs, retry counter)
+   COLOUR pale pink ground, ink, teal for the system working, claret for incidents
+   TYPE Libre Franklin 800 + Libre Franklin
+   LAYOUT tabs across the top; picture left with controls and explanation right; stacks to title, picture, controls on phones */
+:root{color-scheme:light dark;--bg:light-dark(#ffe3dc,#1c1512);--ink:light-dark(#1a1817,#f3e9e4);--teal:light-dark(#0d7680,#45b8c2);--cl:light-dark(#990f3d,#ec5e86);--panel:light-dark(#fff3ef,#271d19);--line:light-dark(#e3bfb4,#423129);--mut:light-dark(#5a4d49,#bcaaa3)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 "Libre Franklin",system-ui,sans-serif;overflow-x:clip}
+.band{padding:clamp(20px,3vw,40px) max(5vw,16px)}
+header.band{padding-bottom:12px}
+h1{font-size:clamp(32px,4.4vw,48px);line-height:1.05;letter-spacing:-.02em;margin:0 0 6px;font-weight:800;text-wrap:balance}
+h2{font-size:clamp(24px,2.6vw,30px);line-height:1.1;letter-spacing:-.02em;margin:0 0 8px;font-weight:800}
+h3{font-size:17px;margin:18px 0 6px}
+p{margin:0 0 10px;max-width:68ch}
+.sub{color:var(--mut);max-width:70ch}
+nav{display:flex;gap:8px;overflow-x:auto;padding:4px 0 2px}
+nav a{flex:none;text-decoration:none;color:var(--ink);border:1px solid var(--line);background:var(--panel);padding:10px 14px;border-radius:999px;font-weight:600;min-height:44px;display:flex;align-items:center;gap:8px}
+nav a b{color:var(--teal)}
+nav a[aria-current=page]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+nav a[aria-current=page] b{color:var(--bg)}
+.view{display:none}.view.on{display:block}
+.grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:24px;align-items:start;max-width:1240px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.fig{position:relative;min-height:380px}.fig>svg{position:absolute;inset:0;width:100%;height:100%}
+svg text{font:13px "Libre Franklin",sans-serif;fill:var(--ink);paint-order:stroke;stroke:var(--panel);stroke-width:4px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0}
+button{font:600 15px "Libre Franklin",sans-serif;min-height:44px;padding:0 16px;border-radius:8px;border:1px solid var(--ink);background:var(--ink);color:var(--bg);cursor:pointer}
+button.ghost{background:transparent;color:var(--ink)}
+button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible,nav a:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+label{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;margin:8px 0}
+input[type=range]{accent-color:var(--teal);width:min(240px,100%);height:28px}
+input[type=checkbox]{accent-color:var(--teal);width:20px;height:20px}
+select{font:16px "Libre Franklin",sans-serif;min-height:44px;padding:0 10px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--ink)}
+.val{font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums}
+.predict{border-left:4px solid var(--cl);padding:10px 14px;background:color-mix(in srgb,var(--cl) 8%,var(--panel));border-radius:0 10px 10px 0;margin:12px 0}
+.predict strong{color:var(--cl)}
+.log{font-size:15px;max-height:220px;overflow:auto;border-top:1px solid var(--line);margin-top:8px;padding-top:6px}
+.log div{padding:4px 0;border-bottom:1px dashed var(--line)}
+.log div:last-child{font-weight:600}
+.meter{height:14px;border-radius:7px;background:color-mix(in srgb,var(--ink) 10%,transparent);overflow:hidden}
+.meter i{display:block;height:100%;background:var(--teal);transition:width .3s}
+.big{font-size:clamp(28px,4vw,44px);font-weight:800;line-height:1.05;font-variant-numeric:tabular-nums}
+.bad{color:var(--cl)}.good{color:var(--teal)}
+.pipe{display:grid;gap:6px}
+.pipe .r{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+.chip{font-size:13px;font-weight:600;padding:4px 10px;border-radius:999px;white-space:nowrap;border:1px solid currentColor}
+.chip.ok{color:var(--teal)}.chip.x{color:var(--cl)}.chip.b{color:var(--ink)}
+.why{display:block;font-size:13px;color:var(--mut)}
+.bars .r{display:grid;grid-template-columns:7.5em minmax(0,1fr) auto;gap:10px;align-items:center;margin:10px 0}
+.bars .t{height:28px;border-radius:6px}
+details{border-top:1px solid var(--line);padding:10px 0}
+summary{cursor:pointer;font-weight:600;min-height:32px}
+details p{margin-top:8px}
+.note{font-size:13px;color:var(--mut)}
+footer{font-size:14px;color:var(--mut)}
+@media(max-width:860px){.grid{grid-template-columns:minmax(0,1fr)}.fig{min-height:320px}}
+@media(prefers-reduced-motion:reduce){.meter i{transition:none}}
+</style>
+</head>
+<body>
+<header class="band">
+<h1>FDE Harness Lab</h1>
+<p class="sub">Five working simulators for AI-assisted delivery: how an agent loop runs, how a harness keeps it safe, why self-fixing loops cheat, why evals are noisy, and why agent retries double-charge customers. Predict first, then run.</p>
+<nav aria-label="Lessons">
+<a href="#loop"><b>1</b> Agent loop</a>
+<a href="#harness"><b>2</b> Guides, gates, sensors</a>
+<a href="#selffix"><b>3</b> Self-fixing loop</a>
+<a href="#evals"><b>4</b> Evals and noise</a>
+<a href="#retries"><b>5</b> Safe retries</a>
+</nav>
+</header>
+
+<main class="band" style="padding-top:8px">
+
+<section class="view" data-v="loop">
+<div class="grid">
+<div class="card fig" id="loopFig"><svg id="loopSvg" role="img" aria-label="Agent loop diagram"></svg></div>
+<div>
+<h2>An agent is a loop, not a single call</h2>
+<p>Every turn: the <b>context</b> (instructions, tools, history) goes to the model, it <b>thinks</b>, <b>acts</b> through a tool, <b>observes</b> the result, and the harness <b>checks</b> whether to stop. The result is appended to the context and the loop runs again.</p>
+<div class="predict"><strong>Predict:</strong> how many model calls does this refund take, and which turn costs more tokens?</div>
+<div class="row"><button id="lPrev" class="ghost">Prev</button><button id="lNext">Next</button><button id="lPlay" class="ghost">Play</button><button id="lReset" class="ghost">Reset</button></div>
+<div class="row" style="justify-content:space-between"><span>Context window</span><span class="val" id="lTok">0 / 2,000 tokens</span></div>
+<div class="meter"><i id="lMeter" style="width:0"></i></div>
+<div class="row" style="justify-content:space-between"><span>Tokens billed so far</span><span class="val" id="lBill">0</span></div>
+<div class="log" id="lLog" aria-live="polite"></div>
+</div>
+</div>
+<h3>Recall from memory</h3>
+<details><summary>Why does the second turn cost more than the first?</summary><p>The whole context is re-sent on every model call, and it grew by the first tool result. Cost per turn rises as the conversation grows, so long agent runs need compaction and output limits.</p></details>
+<details><summary>Where in the loop should a write action like a refund be stopped for approval?</summary><p>Between Act and the real side effect: a gate in the harness holds the tool call, a human approves, then it executes. The model never decides alone on irreversible actions.</p></details>
+</section>
+
+<section class="view" data-v="harness">
+<div class="grid">
+<div><div class="pipe" id="hPipe"></div></div>
+<div>
+<h2>The harness: guides, gates, sensors</h2>
+<p><b>Guides</b> steer before the agent acts: the spec, system prompt and tool descriptions. <b>Gates</b> allow or deny an action: permissions, read-only files, approvals. <b>Sensors</b> watch what happened and react: tests, PII scanners, cost and attempt limits.</p>
+<div class="predict"><strong>Predict:</strong> with every guard off, how many of these eight agent actions become incidents?</div>
+<div class="card" id="hGuards"></div>
+<div class="row" style="justify-content:space-between;margin-top:14px"><span>Incidents in this run</span><span class="big" id="hScore">0</span></div>
+</div>
+</div>
+<h3>Recall from memory</h3>
+<details><summary>Why is "make the tests pass" a dangerous instruction without a gate?</summary><p>The shortest path to green is editing the test: changing an expected value or deleting an assertion. Making spec-owned test files read-only to the agent removes that path.</p></details>
+<details><summary>Which guard here is a distributed-systems idea, not an AI idea?</summary><p>The idempotency key on write tools. Agents retry after timeouts exactly like queue consumers redeliver, so every write tool needs deduplication. That is Lab 1 in a new setting.</p></details>
+</section>
+
+<section class="view" data-v="selffix">
+<div class="grid">
+<div class="card"><div class="pipe" id="fRows"></div></div>
+<div>
+<h2>Self-fixing loops: green is not the same as correct</h2>
+<p>Spec-driven development: a markdown spec, an agent that generates code, tests that judge it, and a loop that feeds failures back until green or until the attempt limit escalates to a human.</p>
+<div class="predict"><strong>Predict:</strong> with a vague spec and the agent allowed to edit tests, what does "all tests pass" actually prove?</div>
+<label for="fSpec">Spec quality <select id="fSpec"><option value="p">Precise: states, edge cases, tests</option><option value="v">Vague: happy path only</option></select></label>
+<label for="fEdit"><input type="checkbox" id="fEdit"> Agent may edit test files</label>
+<label for="fMax">Max attempts <input type="range" id="fMax" min="1" max="8" value="5"> <span class="val" id="fMaxV">5</span></label>
+<div class="card" style="margin-top:10px"><div class="big" id="fVerdict"></div><p class="note" id="fWhy" style="margin:6px 0 0"></p></div>
+</div>
+</div>
+<h3>Recall from memory</h3>
+<details><summary>What two things in the spec stop most fake greens?</summary><p>Acceptance criteria written as tests for every state and edge case, and a rule that those tests are owned by the spec and cannot be changed by the agent.</p></details>
+<details><summary>Why have a maximum number of attempts at all?</summary><p>Each attempt re-sends a growing context, so cost climbs per attempt, and an agent stuck on the same failure rarely recovers. Escalating to a human early is cheaper and safer.</p></details>
+</section>
+
+<section class="view" data-v="evals">
+<div class="grid">
+<div class="card fig" id="eFig"><svg id="eSvg" role="img" aria-label="Eval pass rate per run"></svg></div>
+<div>
+<h2>Evals are measurements, and measurements are noisy</h2>
+<p>A golden set of 25 cases, graded by an LLM judge that sometimes flips a verdict. Each dot is one full eval run. The teal line is the model's true quality; the claret line is your release gate.</p>
+<div class="predict"><strong>Predict:</strong> with 10% judge noise, can a single run reliably tell an 82% model from a 74% one?</div>
+<label for="eQ">True quality <input type="range" id="eQ" min="50" max="95" value="82"> <span class="val" id="eQv"></span></label>
+<label for="eN">Judge noise <input type="range" id="eN" min="0" max="25" value="10"> <span class="val" id="eNv"></span></label>
+<label for="eT">Release gate <input type="range" id="eT" min="55" max="95" value="76"> <span class="val" id="eTv"></span></label>
+<div class="row"><button id="eRe">Run 10 evals again</button><button id="eReg" class="ghost">Ship a regression (−8)</button></div>
+<p id="eOut" style="margin-top:10px"></p>
+</div>
+</div>
+<h3>Recall from memory</h3>
+<details><summary>Why does judge noise pull every model toward 50%?</summary><p>A flipped verdict turns passes into fails and fails into passes. A strong model loses more than it gains, a weak one gains more than it loses, so observed scores shrink toward the middle and the gap between models narrows.</p></details>
+<details><summary>Name two ways to make a release gate trustworthy.</summary><p>Average several runs and gate on the mean with its spread, and reduce judge noise with exact-match or rule checks where possible, keeping the LLM judge for what truly needs judgment.</p></details>
+</section>
+
+<section class="view" data-v="retries">
+<div class="grid">
+<div class="card">
+<div class="bars" id="rBars"></div>
+<div class="big" id="rOver" style="margin-top:6px"></div>
+<p class="note" id="rNote" style="margin:6px 0 0"></p>
+</div>
+<div>
+<h2>Agents retry, and retries double-charge</h2>
+<p>200 support sessions each owe one £42 refund. The refund runs, but sometimes the response times out, so the agent cannot tell it worked and calls the tool again. This is Lab 1's duplicate delivery, caused by an agent.</p>
+<div class="predict"><strong>Predict:</strong> at a 15% timeout rate with 2 retries and no idempotency key, how many extra refunds go out?</div>
+<label for="rP">Response timeout rate <input type="range" id="rP" min="0" max="40" value="15"> <span class="val" id="rPv"></span></label>
+<label for="rR">Retries allowed <input type="range" id="rR" min="0" max="3" value="2"> <span class="val" id="rRv"></span></label>
+<label for="rK"><input type="checkbox" id="rK"> Refund tool requires an idempotency key</label>
+<div class="row"><button id="rRe" class="ghost">Simulate again</button></div>
+</div>
+</div>
+<h3>Recall from memory</h3>
+<details><summary>Why not just set retries to zero?</summary><p>Then every real timeout leaves the customer unsure whether they were refunded, and real failures are never recovered. Retries are needed; they must be made safe with an idempotency key.</p></details>
+<details><summary>Where should the key come from: the model or the harness?</summary><p>The harness, derived from the business action (for example the order ID). A model can invent a new key on every retry, which defeats the deduplication.</p></details>
+</section>
+
+</main>
+<footer class="band">Scenarios and numbers are simulated examples for learning. Pairs with Lab 1 (idempotent consumer) in fde-labs.</footer>
+
+<script>
+{
+const $=id=>document.getElementById(id);
+const rng=seed=>()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
+const fmt=n=>n.toLocaleString('en-GB');
+
+// ---------- 1. agent loop ----------
+const ST=['Context','Think','Act','Observe','Check'];
+const STEPS=[
+{s:0,t:420,m:'User: "Refund order #4471, it arrived broken." System prompt and tools loaded.'},
+{s:1,t:520,m:'Plan: look up the order before deciding.'},
+{s:2,t:560,m:'Tool call: get_order(4471)'},
+{s:3,t:760,m:'Result: £42.00, delivered 3 days ago, damage reported.'},
+{s:4,t:780,m:'Sensor: result under size limit, no PII, goal not met, so loop.'},
+{s:0,t:800,m:'Result appended to context. Turn 2 begins.'},
+{s:1,t:900,m:'Eligible under the 14-day policy. Next: issue the refund.'},
+{s:2,t:940,m:'Tool call: refund(4471, £42.00, key "rf-4471")'},
+{s:3,t:1080,m:'Gate held the write. Human approved. Refund R-9921 issued.'},
+{s:4,t:1100,m:'Goal met: 2 model calls, 2 tool calls, 1 approval. Stop.'}];
+let li=-1,timer=null;
+const ls=$('loopSvg');
+const drawLoop=()=>{const W=ls.clientWidth,H=ls.clientHeight,cx=W/2,cy=H/2,nr=W<420?27:34,R=Math.min(W,H)/2-nr-14;
+const cur=li<0?-1:STEPS[li].s,turn=li<0?0:STEPS.slice(0,li+1).filter(x=>x.s===0).length;
+const pos=i=>{const a=(-90+i*72)*Math.PI/180;return[cx+R*Math.cos(a),cy+R*Math.sin(a),a]};
+const d=(nr+8)/R;let h='<defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker></defs>';
+for(let i=0;i<5;i++){const a1=(-90+i*72)*Math.PI/180+d,a2=(-90+(i+1)*72)*Math.PI/180-d;
+const x1=cx+R*Math.cos(a1),y1=cy+R*Math.sin(a1),x2=cx+R*Math.cos(a2),y2=cy+R*Math.sin(a2);
+const on=cur===i;h+=`<path d="M${x1} ${y1}A${R} ${R} 0 0 1 ${x2} ${y2}" fill="none" stroke="currentColor" stroke-width="${on?3:1.5}" style="color:var(${on?'--teal':'--line'})" marker-end="url(#ar)"/>`}
+ST.forEach((n,i)=>{const[x,y]=pos(i),on=cur===i;
+h+=`<circle cx="${x}" cy="${y}" r="${nr}" fill="var(${on?'--teal':'--panel'})" stroke="var(--teal)" stroke-width="2"/>`;
+h+=`<text x="${x}" y="${y+4}" text-anchor="middle" style="${on?'fill:var(--bg);stroke:none;font-weight:700':'stroke:none'}">${W<420?n.slice(0,5):n}</text>`});
+h+=`<text x="${cx}" y="${cy-6}" text-anchor="middle" style="font-size:36px;font-weight:800">${turn?'Turn '+turn:'Ready'}</text>`;
+h+=`<text x="${cx}" y="${cy+18}" text-anchor="middle" style="fill:var(--mut)">${li<0?'press Next':'step '+(li+1)+' of '+STEPS.length}</text>`;
+ls.innerHTML=h};
+const roL=new ResizeObserver(drawLoop);roL.observe(ls);
+const showLoop=()=>{const tok=li<0?0:STEPS[li].t;let bill=0;for(let k=0;k<=li;k++)if(STEPS[k].s===1)bill+=STEPS[k].t;
+$('lTok').textContent=fmt(tok)+' / 2,000 tokens';$('lMeter').style.width=(tok/20)+'%';$('lBill').textContent=fmt(bill);
+$('lLog').innerHTML=STEPS.slice(0,li+1).map(x=>`<div><b>${ST[x.s]}:</b> ${x.m}</div>`).join('');$('lLog').scrollTop=1e5;
+if(li===STEPS.length-1)$('lLog').innerHTML+='<div class="good">Answer: 2 model calls. Turn 2 costs more because the whole, larger context is re-sent.</div>';drawLoop()};
+const stop=()=>{clearInterval(timer);timer=null;$('lPlay').textContent='Play'};
+$('lNext').onclick=()=>{if(li<STEPS.length-1){li++;showLoop()}};
+$('lPrev').onclick=()=>{if(li>-1){li--;showLoop()}};
+$('lReset').onclick=()=>{stop();li=-1;showLoop()};
+$('lPlay').onclick=()=>{if(timer){stop();return}if(li>=STEPS.length-1)li=-1;$('lPlay').textContent='Pause';timer=setInterval(()=>{if(li>=STEPS.length-1){stop();return}li++;showLoop()},1100)};
+showLoop();
+
+// ---------- 2. harness ----------
+const GUARDS=[
+{k:'tests',kind:'Gate',name:'Test files are read-only to the agent'},
+{k:'main',kind:'Gate',name:'No direct push to main; pull request only'},
+{k:'pii',kind:'Sensor',name:'Redact PII before logs and prompts'},
+{k:'idem',kind:'Guide + gate',name:'Write tools require an idempotency key'},
+{k:'max',kind:'Sensor',name:'Stop after 5 fix attempts'}];
+const ACTS=[
+{a:'Read src/refunds.go'},
+{a:'Edit refunds_test.go: expected 0 changed to 412',g:'tests',why:'weakens the test to fake a pass'},
+{a:'Run go test ./...'},
+{a:'git push origin main',g:'main',why:'ships unreviewed code'},
+{a:'Log "refund sent to priya.k@example.com"',g:'pii',why:'customer email lands in logs'},
+{a:'refund(4471) retried after timeout, no key',g:'idem',why:'customer refunded twice'},
+{a:'9th fix attempt on the same failing test',g:'max',why:'runaway token cost'},
+{a:'Open pull request with summary'}];
+const on={};GUARDS.forEach(g=>on[g.k]=false);
+$('hGuards').innerHTML=GUARDS.map(g=>`<label for="g_${g.k}"><input type="checkbox" id="g_${g.k}"> <span><b>${g.kind}:</b> ${g.name}</span></label>`).join('');
+const runH=()=>{let inc=0;$('hPipe').innerHTML=ACTS.map(x=>{let chip='<span class="chip ok">allowed</span>';
+if(x.g){if(on[x.g])chip='<span class="chip b">blocked</span>';else{inc++;chip='<span class="chip x">incident</span>'}}
+return`<div class="r"><span>${x.a}${x.g?`<span class="why">${on[x.g]?'caught: ':'risk: '}${x.why}</span>`:''}</span>${chip}</div>`}).join('');
+$('hScore').textContent=inc;$('hScore').className='big '+(inc?'bad':'good')};
+GUARDS.forEach(g=>$('g_'+g.k).onchange=e=>{on[g.k]=e.target.checked;runH()});
+runH();
+
+// ---------- 3. self-fixing loop ----------
+const runF=()=>{const spec=$('fSpec').value,edit=$('fEdit').checked,max=+$('fMax').value;$('fMaxV').textContent=max;
+let plan=spec==='p'?['compile error','1 test failing','all tests pass']:['compile error','3 tests failing','2 tests failing','2 tests failing','1 test failing','all tests pass'];
+let fake=false;if(edit&&plan.length>2){plan=plan.slice(0,1).concat(['all tests pass (agent changed an expected value)']);fake=true}
+const rows=[];let res='';
+for(let i=0;i<plan.length;i++){if(i>=max){res='esc';break}const last=i===plan.length-1;
+rows.push(`<div class="r"><span>Attempt ${i+1}: ${plan[i]}<span class="why">${fmt((i+1)*14)}k tokens in context</span></span><span class="chip ${last?(fake?'x':'ok'):'b'}">${last?(fake?'fake green':'green'):'retry'}</span></div>`);if(last)res=fake?'fake':spec==='p'?'real':'gap'}
+if(res==='esc')rows.push(`<div class="r"><span>Limit reached after ${max} attempt${max>1?'s':''}<span class="why">harness stops the loop</span></span><span class="chip b">to human</span></div>`);
+$('fRows').innerHTML=rows.join('');
+const V={real:['Real fix','good','Precise spec, protected tests: green means the behaviour in the spec works.'],
+fake:['Fake green','bad','The agent took the shortest path: it edited the test. Make spec-owned tests read-only.'],
+gap:['Green, but a gap shipped','bad','Every test passes, yet the spec never described the offline and error states, so nothing tested them.'],
+esc:['Escalated to a human','','The attempt limit stopped the loop before cost ran away. A person reviews the failure.']}[res];
+$('fVerdict').textContent=V[0];$('fVerdict').className='big '+V[1];$('fWhy').textContent=V[2]};
+['fSpec','fEdit','fMax'].forEach(id=>$(id).oninput=runF);runF();
+
+// ---------- 4. evals ----------
+let eSeed=7,eDrop=0,eData=[];
+const es=$('eSvg');
+const simE=()=>{const r=rng(eSeed),q=(+$('eQ').value-eDrop)/100,n=+$('eN').value/100;eData=[];
+for(let k=0;k<10;k++){let p=0;for(let c=0;c<25;c++){let ok=r()<q;if(r()<n)ok=!ok;if(ok)p++}eData.push(p/25*100)}};
+const drawE=()=>{const W=es.clientWidth,H=es.clientHeight,L=44,Rm=16,T=20,B=34,q=+$('eQ').value-eDrop,th=+$('eT').value;
+const y=v=>T+(100-v)/70*(H-T-B),x=i=>L+(i+.5)*(W-L-Rm)/10;let h='';
+for(let v=30;v<=100;v+=10){if(W<520&&v%20)continue;h+=`<line x1="${L}" x2="${W-Rm}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${L-8}" y="${y(v)+4}" text-anchor="end">${v}%</text>`}
+h+=`<line x1="${L}" x2="${W-Rm}" y1="${y(th)}" y2="${y(th)}" stroke="var(--cl)" stroke-width="2" stroke-dasharray="6 5"/>`;
+h+=`<line x1="${L}" x2="${W-Rm}" y1="${y(q)}" y2="${y(q)}" stroke="var(--teal)" stroke-width="2.5"/>`;
+eData.forEach((v,i)=>{h+=`<circle cx="${x(i)}" cy="${y(Math.max(30,v))}" r="7" fill="var(${v>=th?'--teal':'--cl'})" stroke="var(--panel)" stroke-width="2"/>`;if(W>=520||i%2===0)h+=`<text x="${x(i)}" y="${H-12}" text-anchor="middle">run ${i+1}</text>`});
+h+=`<text x="${W-Rm}" y="${y(q)-8}" text-anchor="end" style="fill:var(--teal);font-weight:700">true ${q}%</text>`;
+h+=`<text x="${L+6}" y="${y(th)+18}" style="fill:var(--cl);font-weight:700">gate ${th}%</text>`;es.innerHTML=h};
+const roE=new ResizeObserver(drawE);roE.observe(es);
+const showE=()=>{simE();const q=+$('eQ').value-eDrop,th=+$('eT').value;$('eQv').textContent=q+'%'+(eDrop?' (after regression)':'');$('eNv').textContent=$('eN').value+'%';$('eTv').textContent=th+'%';
+const truth=q>=th,wrong=eData.filter(v=>(v>=th)!==truth).length,mean=eData.reduce((a,b)=>a+b,0)/10,lo=Math.min(...eData),hi=Math.max(...eData);
+$('eOut').innerHTML=`Correct verdict: <b>${truth?'ship':'block'}</b>. <b class="${wrong?'bad':'good'}">${wrong} of 10</b> single runs give the wrong answer. Runs range ${lo.toFixed(0)} to ${hi.toFixed(0)}%; the mean of 10 is <b>${mean.toFixed(1)}%</b>, ${(mean>=th)===truth?'which gets it right':'which still gets it wrong, so reduce noise or add cases'}.`;drawE()};
+['eQ','eN','eT'].forEach(id=>$(id).oninput=showE);
+$('eRe').onclick=()=>{eSeed++;showE()};
+$('eReg').onclick=()=>{eDrop=eDrop?0:8;$('eReg').textContent=eDrop?'Undo regression':'Ship a regression (−8)';showE()};
+showE();
+
+// ---------- 5. retries ----------
+let rSeed=3;
+const runR=()=>{const p=+$('rP').value/100,ret=+$('rR').value,key=$('rK').checked,r=rng(rSeed);$('rPv').textContent=$('rP').value+'%';$('rRv').textContent=ret;
+let issued=0,twice=0,unsure=0;
+for(let s=0;s<200;s++){let n=0,done=false;for(let a=0;a<=ret;a++){if(!(key&&done)){n++;done=true}if(r()>=p){done='known';break}}issued+=n;if(n>1)twice++;if(done!=='known')unsure++}
+const extra=issued-200,mx=Math.max(issued,200);
+$('rBars').innerHTML=[['Refunds owed',200,'--teal'],['Refunds issued',issued,extra?'--cl':'--teal']].map(b=>`<div class="r"><span>${b[0]}</span><div class="t" style="width:${b[1]/mx*100}%;background:var(${b[2]})"></div><span class="val">${b[1]}</span></div>`).join('');
+$('rOver').textContent=extra?`£${fmt(extra*42)} overpaid`:'£0 overpaid';$('rOver').className='big '+(extra?'bad':'good');
+$('rNote').textContent=`${twice} customers refunded more than once. ${unsure} sessions ended still unsure whether the refund worked${unsure?', so the agent should report it for a check rather than guess':''}.`};
+['rP','rR','rK'].forEach(id=>$(id).oninput=runR);
+$('rRe').onclick=()=>{rSeed++;runR()};runR();
+
+// ---------- routing ----------
+const views=['loop','harness','selffix','evals','retries'];
+const route=()=>{const v=views.includes(location.hash.slice(1))?location.hash.slice(1):'loop';
+document.querySelectorAll('.view').forEach(s=>s.classList.toggle('on',s.dataset.v===v));
+document.querySelectorAll('nav a').forEach(a=>{if(a.getAttribute('href')==='#'+v)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
+drawLoop();drawE()};
+window.addEventListener('hashchange',route);route();
+}
+</script>
+</body>
+</html>

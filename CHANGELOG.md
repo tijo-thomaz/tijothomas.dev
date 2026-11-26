@@ -5,6 +5,12 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 ## [Unreleased]
 
 ### Added
+- Projects platform (U-13, U-14, `specs/projects.md`): `src/content/work.ts` is the project registry.
+  - `/play/<slug>` is served from the project's own Vercel deployment through a `beforeFiles` rewrite
+    when its origin env var is set (`SLUICE_ORIGIN` for Sluice); otherwise an in-site "Demo coming
+    soon" page links to the case study. A value that is not a bare `https://` origin fails the build.
+  - `/play/*` is `noindex` and gets a same-origin CSP; `'wasm-unsafe-eval'` only for WebAssembly demos.
+  - `docs/ai/PROJECT_HOSTING.md`: the contract every mini project follows.
 - Security headers on every response (U-11, ADR-P1): HSTS (two years, `includeSubDomains`, no preload),
   `nosniff`, `Referrer-Policy`, `Permissions-Policy`, `X-Frame-Options: DENY`, `Cross-Origin-Opener-Policy`
   and a baseline CSP that blocks framing, plugins and `<base>`. The site routes get a stricter CSP (scripts,
@@ -92,6 +98,9 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 - `/`: the footer focus ring meets 3:1 contrast, and the contact links open in the same tab (U-06 review).
 
 ### Changed
+- PromptShield is now **Sluice** ("Guardrail gateway for AI agents", formerly PromptShield), status
+  "In progress": its old deployments are gone (P-01..P-04). `/work/promptshield` redirects (308) to
+  `/work/sluice` (U-13, U-14).
 - `siteUrl` in `src/lib/site.ts` now comes from `profile.siteUrl` (U-05).
 - `check-unreachable` no longer treats tests of keep-listed modules as tests of dead code (U-05).
 - The terminal no longer shows an email address, phone number or WhatsApp link: `contact`, the resume

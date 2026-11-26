@@ -41,7 +41,7 @@ test('PLAT-AC-20 PLAT-AC-24 / loads with 0 CSP violations, 0 failed same-origin 
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
 });
 
-for (const path of ['/privacy', '/work/sluice', '/writing/queues-double-charge', '/terminal']) {
+for (const path of ['/privacy', '/work/sluice', '/play/sluice', '/writing/queues-double-charge', '/terminal']) {
   test(`PLAT-AC-22 PLAT-AC-21 ${path} loads with 0 CSP violations, 0 failed same-origin requests and 0 page errors`, async ({ page, baseURL }) => {
     const violations = await collectViolations(page);
     const failed = collectFailedRequests(page, baseURL);

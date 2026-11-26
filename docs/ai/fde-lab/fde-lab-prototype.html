@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FDE Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;800&family=Inter:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* VOICE everyday learning, calm and exact; one concept per step
+   IDEA a course workbench: lesson list on the left, a large isometric model of the system in the middle, the step's explanation on the right
+   PICTURE an isometric slab of stations (context, model, tool, payments, ledger) whose stacks rise as tokens and refunds accumulate
+   COLOUR warm paper ground with a faint grid, near-black ink and slab, coral for the active part, claret for mistakes
+   TYPE Manrope 800 for titles, Inter for text, JetBrains Mono for pseudocode
+   LAYOUT laptop: sidebar | picture with stepper | concept, pseudocode, state. Under 1000px the sidebar folds; under 760px picture, concept, code, state stack */
+:root{color-scheme:light dark;--bg:light-dark(#f6f4ef,#151413);--paper:light-dark(#fbfaf7,#1d1c1a);--ink:light-dark(#1c1b1a,#efece6);--mut:light-dark(#6b6660,#a9a29a);--line:light-dark(#e4dfd6,#33302c);--acc:light-dark(#e2644c,#f07a62);--accs:light-dark(#fbe1d9,#4a2a22);--bad:light-dark(#9e1a3c,#ef6a8c);--slab:light-dark(#232221,#0c0b0b);--code:light-dark(#1f1e1d,#0e0d0c)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 Inter,system-ui,sans-serif;overflow-x:clip}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.top{display:flex;align-items:center;gap:12px;padding:10px max(2vw,16px);border-bottom:1px solid var(--line);background:var(--paper);position:sticky;top:0;z-index:5}
+.brand{display:flex;align-items:center;gap:10px;font:800 20px Manrope,sans-serif;white-space:nowrap}
+.mark{width:32px;height:32px;border-radius:8px;background:var(--ink);display:grid;place-items:center}
+.brand em{font-style:normal;background:var(--accs);color:var(--acc);padding:0 6px;border-radius:6px}
+.tabs{display:flex;gap:6px;margin-left:16px;flex-wrap:wrap}
+.tab{display:flex;align-items:center;gap:6px;padding:0 14px;min-height:40px;border-radius:8px;border:0;background:none;text-decoration:none;color:var(--ink);font-weight:600}
+.tab.on{background:var(--acc);color:#fff}
+.burger{display:none;border:1px solid var(--line);background:var(--paper);border-radius:8px;min-height:40px;padding:0 12px;font-weight:600}
+.shell{display:grid;grid-template-columns:270px minmax(0,1fr) 400px;gap:16px;padding:16px max(2vw,16px);align-items:start}
+aside.course{position:sticky;top:76px;max-height:calc(100vh - 92px);overflow:auto;display:flex;flex-direction:column;gap:2px}
+.ch{display:flex;justify-content:space-between;align-items:center;font-weight:600;padding:8px 6px;margin-top:6px}
+.ch span{color:var(--mut);font-size:13px;font-weight:400}
+.ls{display:flex;justify-content:space-between;gap:8px;align-items:center;width:100%;text-align:left;border:0;background:none;padding:8px 10px 8px 26px;border-radius:8px;min-height:40px}
+.ls:hover{background:var(--accs)}
+.ls.on{background:var(--accs);color:var(--acc);font-weight:600}
+.ls.soon{color:var(--mut)}
+.ls i{font-style:normal;font-size:12px;color:var(--mut);white-space:nowrap}
+.ls.done i{color:var(--acc)}
+.prog{margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--paper);font-weight:600;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center}
+.bar{height:6px;border-radius:3px;background:var(--line);overflow:hidden}.bar i{display:block;height:100%;background:var(--acc)}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:14px}
+.head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding:18px 20px 6px}
+h1{font:800 clamp(28px,3.4vw,40px)/1.05 Manrope,sans-serif;letter-spacing:-.02em;margin:0;text-wrap:balance}
+.meta{text-align:right;font-size:13px;color:var(--mut);white-space:nowrap}
+.meta b{display:block;color:var(--ink);font-size:14px}
+.fig{position:relative;min-height:500px;margin:8px 16px;border:1px solid var(--line);border-radius:12px;background-color:var(--bg);background-image:linear-gradient(color-mix(in srgb,var(--line) 55%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--line) 55%,transparent) 1px,transparent 1px);background-size:28px 28px;background-position:center}
+.fig>svg{position:absolute;inset:0;width:100%;height:100%}
+svg text{font:600 14px Inter,sans-serif}
+.steps{margin:12px 16px 16px;padding:14px 16px;border:1px solid var(--line);border-radius:12px}
+.steps .lab{display:flex;justify-content:space-between;font-size:13px;color:var(--mut);font-weight:600;margin-bottom:10px;gap:10px;flex-wrap:wrap}
+.dots{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
+.dot{flex:1 0 82px;border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:13px;color:var(--mut);padding:4px;border-radius:8px;min-height:44px;text-align:center}
+.dot b{width:28px;height:28px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;background:var(--paper);color:var(--ink);font-weight:600}
+.dot.seen b{border-color:var(--acc);color:var(--acc)}
+.dot.on{color:var(--ink);font-weight:600}.dot.on b{background:var(--acc);border-color:var(--acc);color:#fff}
+.side{display:flex;flex-direction:column;gap:14px;position:sticky;top:76px}
+.concept{padding:18px 20px}
+.sl{display:flex;justify-content:space-between;font-size:13px;font-weight:600;color:var(--mut)}
+.tag{background:var(--accs);color:var(--acc);padding:2px 8px;border-radius:6px}
+h2{font:800 24px/1.15 Manrope,sans-serif;letter-spacing:-.01em;margin:8px 0}
+.concept p{margin:0 0 10px}
+.pic{border:1px solid color-mix(in srgb,var(--acc) 35%,var(--line));background:color-mix(in srgb,var(--accs) 55%,var(--paper));border-radius:10px;padding:12px 14px;margin:12px 0}
+.pic strong{display:block;color:var(--acc);font-size:13px}
+.nav{display:flex;gap:10px;margin-top:14px}
+.nav button{min-height:46px;border-radius:10px;border:1px solid var(--line);background:var(--paper);padding:0 16px;font-weight:600}
+.nav .next{flex:1;background:var(--acc);border-color:var(--acc);color:#fff;text-align:left;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.nav button:disabled{opacity:.45;cursor:default}
+.codeh{display:flex;align-items:center;gap:8px;padding:14px 18px;font:800 17px Manrope,sans-serif}
+pre{margin:0;background:var(--code);color:#e9e6e0;border-radius:0 0 14px 14px;padding:12px 0;overflow-x:auto;font:13.5px/1.75 "JetBrains Mono",monospace}
+pre div{padding:0 16px;white-space:pre;display:flex;gap:14px}
+pre div span:first-child{color:#77716a;width:1.2em;text-align:right;flex:none}
+pre div.hl{background:rgba(226,100,76,.28);box-shadow:inset 3px 0 #e2644c}
+pre .c{color:#9a938a}
+.state{padding:16px 20px}
+.state h3{font:800 17px Manrope,sans-serif;margin:0 0 8px}
+.kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 14px;font-size:14px}
+.kv dt{color:var(--mut)}.kv dd{margin:0;font-weight:600;overflow-wrap:anywhere}
+.kv dd.bad{color:var(--bad)}.kv dd.good{color:var(--acc)}
+.note{font-size:13px;color:var(--mut);padding:0 max(2vw,16px) 20px}
+@media(max-width:1180px){.shell{grid-template-columns:240px minmax(0,1fr) 340px}}
+@media(max-width:1000px){.shell{grid-template-columns:minmax(0,1fr) 340px}aside.course{display:none;position:fixed;inset:60px 0 0 0;max-height:none;background:var(--bg);z-index:6;padding:16px}body.menu aside.course{display:flex}.burger{display:block}}
+@media(max-width:760px){.shell{grid-template-columns:minmax(0,1fr)}.side{position:static}.tabs{display:none}.fig{min-height:320px}.head{flex-direction:column}.meta{text-align:left}}
+</style>
+</head>
+<body>
+<header class="top">
+<button class="burger" id="burger" aria-expanded="false">Course</button>
+<div class="brand"><span class="mark"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 6l7-4 7 4-7 4z" fill="#e2644c"/><path d="M2 9.5l7 4 7-4M2 13l7 4 7-4" fill="none" stroke="#fff" stroke-width="1.6"/></svg></span>FDE <em>Lab</em></div>
+<nav class="tabs" aria-label="Sections"><span class="tab on">Learn</span><a class="tab" href="https://claude.ai/artifact/CcCAgvFcxoJ96V6SzhdfrY">Simulators</a></nav>
+</header>
+
+<div class="shell">
+<aside class="course" id="course" aria-label="Course"></aside>
+
+<main class="panel">
+<div class="head"><h1 id="title"></h1><div class="meta" id="meta"></div></div>
+<div class="fig" id="fig"><svg id="scene" role="img" aria-label="Isometric model of the system"></svg></div>
+<div class="steps"><div class="lab"><span>In this lesson</span><span id="stepOf"></span></div><div class="dots" id="dots"></div></div>
+</main>
+
+<div class="side">
+<section class="panel concept" aria-live="polite">
+<div class="sl"><span id="sNum"></span><span class="tag">Concept</span></div>
+<h2 id="sTitle"></h2>
+<div id="sText"></div>
+<div class="pic"><strong>Picture it</strong><span id="sPic"></span></div>
+<div class="nav"><button id="back">Back</button><button class="next" id="next"><span id="nextL"></span><span aria-hidden="true">→</span></button></div>
+</section>
+<section class="panel"><div class="codeh"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 3h12M2 8h9M2 13h12" stroke="#e2644c" stroke-width="2"/></svg>Pseudocode</div><pre id="code"></pre></section>
+<section class="panel state"><h3>Who holds what</h3><dl class="kv" id="kv"></dl></section>
+</div>
+</div>
+<p class="note">Scenarios are illustrative examples. Use ← → to move between steps. Two lessons are built; the rest are planned, and some have a matching simulator.</p>
+
+<script>
+{
+const $=id=>document.getElementById(id);
+const COURSE=[
+{n:'01. Foundations',ls:[{id:'loop',t:'The agent loop'},{t:'Context windows'},{t:'Tool calling'}]},
+{n:'02. Reliability',ls:[{id:'retry',t:'Safe retries'},{t:'Dead-letter queues'},{t:'Backpressure'}]},
+{n:'03. Harness engineering',ls:[{t:'Guides, gates, sensors',sim:'harness'},{t:'Self-fixing loops',sim:'selffix'},{t:'Context compaction'}]},
+{n:'04. Evals',ls:[{t:'Golden sets'},{t:'Noisy judges',sim:'evals'},{t:'Release gates'}]},
+{n:'05. FDE practice',ls:[{t:'Discovery'},{t:'Writing specs'},{t:'Demos and handoff'}]}];
+
+const LESSONS={
+loop:{mod:'01 Foundations',pos:'Lesson 1 of 3',title:'The agent loop',tiles:['Context','Model','Tool','Result','Harness'],
+code:['context ← system + tools + goal','loop:','  reply ← model(context)','  if reply is a tool call:','    result ← run_tool(reply) <c>// gated</c>','    context ← context + result','  if harness says stop: break'],
+steps:[
+{t:'A loop, not a call',x:'<p>A chatbot answers once. An <b>agent</b> works in a loop: it decides, acts through a tool, looks at what happened, and decides again until the goal is met.</p><p>Here the goal is a customer refund. Five stations take part.</p>',p:'A chef tasting and adjusting a sauce, not a vending machine dropping a can.',h:[1,0,0,0,0],a:-1,hl:[0],kv:[['Goal','Refund order #4471'],['Context','420 tokens'],['Tools','get_order, refund']]},
+{t:'Context goes in',x:'<p>Every turn starts by sending the whole <b>context</b> to the model: instructions, tool descriptions, the user\'s goal and everything that has happened so far.</p><p>The model remembers nothing between calls. The context is its only memory.</p>',p:'Briefing a contractor who forgets everything overnight: each morning you hand over the full file.',h:[2,0,0,0,0],a:0,cap:{0:'420 tok'},hl:[0,2],kv:[['Goal','Refund order #4471'],['Context','420 tokens'],['Model call','1 (about to run)']]},
+{t:'The model decides',x:'<p>The model reads the context and chooses the next move. It can answer in text, or ask to call a tool with specific arguments.</p><p>It has not touched any system yet. It has only <b>proposed</b> an action.</p>',p:'A pilot calling out a manoeuvre before touching the controls.',h:[2,1,0,0,0],a:1,cap:{1:'plan'},hl:[2,3],kv:[['Decision','call get_order(4471)'],['Context','420 tokens'],['Tokens billed','520']]},
+{t:'Act through a tool',x:'<p>The <b>harness</b>, not the model, runs the tool. That is where permissions live: read tools can run freely, write tools such as refunds go through a gate.</p>',p:'The model writes the order slip; the harness is the cashier who decides whether to ring it up.',h:[2,1,1,0,0],a:2,cap:{2:'get_order'},hl:[4],kv:[['Tool','get_order(4471)'],['Type','read: allowed'],['Side effects','none']]},
+{t:'Observe the result',x:'<p>The tool\'s answer is appended to the context. The context grows on every turn, which is why long agent runs get slow and expensive.</p>',p:'Adding a new page to the contractor\'s file. The file only gets thicker.',h:[3,1,1,1,0],a:3,cap:{3:'£42 · damaged',0:'760 tok'},hl:[5],kv:[['Result','£42.00, damage reported'],['Context','760 tokens'],['Tokens billed','520']]},
+{t:'The harness checks',x:'<p>After each turn the harness checks: is the goal met, is the result safe, are we within the step and cost limits? If not done, loop again.</p><p>These checks are <b>sensors</b>. They decide when to stop, not the model alone.</p>',p:'A referee checking the play before the game continues.',h:[3,1,1,1,1],a:4,cap:{4:'goal met? no'},hl:[6],kv:[['Goal met','no: refund not issued'],['Steps used','1 of 8'],['Decision','loop again']]},
+{t:'Turn two costs more',x:'<p>Turn two sends the bigger context: <b>900 tokens instead of 520</b>. The model chooses refund, a write, so the gate asks a human. Once approved, the goal is met and the loop stops.</p><p>Cost per turn grows with context. Compaction and output limits keep it under control.</p>',p:'Every new page in the file is reread at every meeting.',h:[4,2,2,2,2],a:1,cap:{0:'900 tok',4:'stop'},hl:[2,3,4,5,6],kv:[['Model calls','2'],['Tokens billed','520 + 900 = 1,420'],['Approvals','1 (refund)'],['Outcome','refund R-9921 issued']]}]},
+retry:{mod:'02 Reliability',pos:'Lesson 1 of 3',title:'Safe retries',tiles:['Agent','Refund tool','Payments','Ledger'],
+code:['key ← "rf-" + order_id <c>// harness</c>','for attempt in 1..3:','  resp ← refund(order, £42, key)','  if resp arrived: return resp','<c>// payments service</c>','if seen(key): return stored_result','issue refund; store(key, result)'],
+steps:[
+{t:'A write that must happen once',x:'<p>Some actions must happen <b>exactly once</b>: a refund, a payment, an email to a customer. Reads can be repeated safely; these cannot.</p>',p:'Pressing a lift button twice is harmless. Paying a bill twice is not.',h:[1,0,0,0],a:0,cap:{0:'refund #4471'},hl:[],kv:[['Refunds owed','1'],['Refunds issued','0'],['Customer balance','£0']]},
+{t:'The call succeeds',x:'<p>The agent calls the refund tool. The payments service <b>issues the refund</b> and records it in the ledger. So far, so good.</p>',p:'The cashier hands over the cash and writes it in the book.',h:[1,1,1,1],a:2,cap:{3:'+£42'},hl:[2],kv:[['Refunds issued','1'],['Customer balance','+£42'],['Reply to agent','on its way']]},
+{t:'The reply is lost',x:'<p>The response times out on the way back. The refund <b>did</b> happen, but the agent cannot know that. From its side, a lost reply looks the same as a failure.</p>',p:'You post a cheque and hear nothing back. Did it arrive?',h:[1,1,1,1],a:1,cap:{1:'timeout'},hl:[3],kv:[['Refunds issued','1'],['Agent believes','refund failed?'],['Customer balance','+£42']]},
+{t:'The agent retries',x:'<p>A sensible agent retries. Without protection, the payments service sees a <b>new request</b> and refunds again. The customer is paid twice.</p><p>This is the same bug as a queue delivering a message twice.</p>',p:'You post a second cheque, and both get cashed.',h:[1,2,2,2],bad:[0,0,0,1],a:3,cap:{3:'+£84'},hl:[1,2],kv:[['Refunds owed','1'],['Refunds issued','2'],['Overpaid','£42'],['Customer balance','+£84']],bk:{3:1}},
+{t:'Add an idempotency key',x:'<p>Every write gets an <b>idempotency key</b>: a name for the business action, here <b>rf-4471</b>. Every retry of the same action sends the same key.</p>',p:'Writing the invoice number on the cheque so the bank can spot a duplicate.',h:[1,1,1,1],a:1,cap:{1:'key rf-4471'},hl:[0,2],kv:[['Key','rf-4471'],['Refunds issued','1'],['Customer balance','+£42']]},
+{t:'The retry is recognised',x:'<p>The retry arrives with the same key. The payments service has seen it, so it <b>returns the stored result</b> instead of refunding again. The agent finally gets its answer.</p>',p:'The bank says: already paid, here is the receipt.',h:[1,2,2,1],a:2,cap:{2:'seen: return result'},hl:[5],kv:[['Refunds owed','1'],['Refunds issued','1'],['Overpaid','£0'],['Agent believes','refund done ✓']]},
+{t:'Where the key comes from',x:'<p>The <b>harness</b> derives the key from the business action, such as the order ID. If the model invented a key, it could make up a new one on every retry and defeat the protection.</p><p>Rule: every write tool an agent can call needs a key the model cannot change.</p>',p:'The invoice number comes from the accounts system, not from whoever writes the cheque.',h:[1,1,1,1],a:0,cap:{0:'order_id → key'},hl:[0,5,6],kv:[['Key source','order ID, set by harness'],['Retries safe','yes'],['Same bug as','Lab 1: duplicate delivery']]}]}};
+
+let store={};try{store=JSON.parse(localStorage.getItem('fdelab')||'{}')}catch(e){}
+const save=()=>{try{localStorage.setItem('fdelab',JSON.stringify(store))}catch(e){}};
+let L='loop',S=0;
+const lesson=()=>LESSONS[L];
+
+const renderCourse=()=>{const built=Object.keys(LESSONS),done=built.filter(k=>store[k]?.done).length;
+$('course').innerHTML=COURSE.map(c=>{const b=c.ls.filter(x=>x.id),d=b.filter(x=>store[x.id]?.done).length;
+return`<div class="ch">${c.n}<span>${d}/${c.ls.length}</span></div>`+c.ls.map(x=>x.id?`<button class="ls${x.id===L?' on':''}${store[x.id]?.done?' done':''}" data-l="${x.id}">${x.t}<i>${store[x.id]?.done?'done':(LESSONS[x.id].steps.length+' steps')}</i></button>`:(x.sim?`<a class="ls soon" style="text-decoration:none" href="https://claude.ai/artifact/CcCAgvFcxoJ96V6SzhdfrY#${x.sim}">${x.t}<i>simulator</i></a>`:`<div class="ls soon">${x.t}<i>soon</i></div>`)).join('')}).join('')+
+`<div class="prog">Progress<div class="bar"><i style="width:${done/built.length*100}%"></i></div><span>${done} / ${built.length}</span></div>`;
+$('course').querySelectorAll('button[data-l]').forEach(b=>b.onclick=()=>{L=b.dataset.l;S=store[L]?.at||0;document.body.classList.remove('menu');render()})};
+
+const sv=$('scene');
+const drawScene=()=>{const W=sv.clientWidth,H=sv.clientHeight;if(!W)return;const ls=lesson(),st=ls.steps[S],n=ls.tiles.length,c=.866,s=.4,th=.3,cz=.34;
+const maxH=Math.max(...ls.steps.flatMap(x=>x.h));const zTop=th+maxH*cz+.7;
+const u=Math.min((W-40)/((n+1)*c),(H-30)/((n+1)*s+zTop));const ox=W/2-((n-1)*c*u)/2,oy=(H-((n+1)*s+zTop)*u)/2+zTop*u;
+const P=(x,y,z)=>[ox+(x-y)*c*u,oy+(x+y)*s*u-z*u];const pt=a=>a.map(p=>p.join(',')).join(' ');
+const poly=(pts,f,st2='')=>`<polygon points="${pt(pts)}" fill="${f}" ${st2}/>`;
+let h=`<defs><pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="#fff"/><rect width="4" height="8" fill="#e2644c"/></pattern></defs>`;
+h+=poly([P(0,0,0),P(n,0,0),P(n,1,0),P(0,1,0)],'rgba(0,0,0,.08)','transform="translate(10,14)"');
+h+=poly([P(0,1,th),P(n,1,th),P(n,1,0),P(0,1,0)],'var(--slab)');
+h+=poly([P(n,0,th),P(n,1,th),P(n,1,0),P(n,0,0)],'url(#hatch)','stroke="var(--slab)" stroke-width="1.5"');
+h+=poly([P(0,0,th),P(n,0,th),P(n,1,th),P(0,1,th)],'var(--paper)','stroke="var(--slab)" stroke-width="2"');
+const ang=Math.atan2(s,c)*180/Math.PI;
+for(let i=0;i<n;i++){const on=st.a===i;
+h+=poly([P(i+.1,.12,th),P(i+.9,.12,th),P(i+.9,.88,th),P(i+.1,.88,th)],on?'var(--acc)':'var(--accs)',`stroke="var(--acc)" stroke-width="${on?2.5:1.2}"`);
+const[lx,ly]=P(i+.5,1,th/2);h+=`<text x="${lx}" y="${ly}" transform="rotate(${ang} ${lx} ${ly})" text-anchor="middle" dominant-baseline="middle" fill="#fff" style="font-size:${Math.max(11,Math.min(15,u*.17))}px">${ls.tiles[i]}</text>`;
+const k=st.h[i]||0,bad=st.bad?.[i]||0;
+for(let j=0;j<k;j++){const z0=th+j*cz,z1=z0+cz*.86,a=.28,b=.72,isBad=j>=k-bad;const col=isBad?'var(--bad)':(on?'var(--acc)':'#c9c2b8');
+const xs=i+a,xe=i+b;
+h+=poly([P(xs,b,z1),P(xe,b,z1),P(xe,b,z0),P(xs,b,z0)],col,'stroke="var(--slab)" stroke-width="1" style="filter:brightness(.82)"');
+h+=poly([P(xe,a,z1),P(xe,b,z1),P(xe,b,z0),P(xe,a,z0)],col,'stroke="var(--slab)" stroke-width="1" style="filter:brightness(.68)"');
+h+=poly([P(xs,a,z1),P(xe,a,z1),P(xe,b,z1),P(xs,b,z1)],col,'stroke="var(--slab)" stroke-width="1"')}}
+for(let i=0;i<n;i++){const cap=st.cap?.[i];if(!cap)continue;const k=st.h[i]||0;const[x,y]=P(i+.5,.5,th+k*cz+.25);const w=cap.length*8+20;
+h+=`<g><rect x="${x-w/2}" y="${y-34}" width="${w}" height="26" rx="13" fill="var(--ink)"/><path d="M${x-6} ${y-9}l6 7 6-7z" fill="var(--ink)"/><text x="${x}" y="${y-16}" text-anchor="middle" fill="var(--bg)">${cap}</text></g>`}
+sv.innerHTML=h};
+const roS=new ResizeObserver(drawScene);roS.observe(sv);
+
+const render=()=>{const ls=lesson(),st=ls.steps[S],N=ls.steps.length;
+store[L]=store[L]||{};store[L].at=S;store[L].seen=Math.max(store[L].seen||0,S);if(S===N-1)store[L].done=true;save();
+$('title').textContent=ls.title;$('meta').innerHTML=`<b>${ls.mod}</b>${ls.pos}`;
+$('stepOf').textContent=`Step ${S+1} of ${N}`;
+$('dots').innerHTML=ls.steps.map((x,i)=>`<button class="dot${i===S?' on':''}${i<=store[L].seen?' seen':''}" data-i="${i}" aria-label="Step ${i+1}: ${x.t}"><b>${i+1}</b>${x.t}</button>`).join('');
+$('dots').querySelectorAll('.dot').forEach(b=>b.onclick=()=>{S=+b.dataset.i;render()});const ad=$('dots').querySelector('.dot.on');if(ad)$('dots').scrollLeft=ad.offsetLeft-$('dots').clientWidth/2+ad.clientWidth/2;
+$('sNum').textContent=`Step ${S+1} / ${N}`;$('sTitle').textContent=st.t;$('sText').innerHTML=st.x;$('sPic').textContent=st.p;
+$('back').disabled=S===0;const nx=ls.steps[S+1];$('nextL').textContent=nx?'Next: '+nx.t:'Lesson complete';$('next').disabled=!nx;
+$('code').innerHTML=ls.code.map((l,i)=>`<div class="${st.hl.includes(i)?'hl':''}"><span>${i+1}</span><span>${l.replace(/</g,'&lt;').replace(/&lt;c>(.*?)&lt;\/c>/,'<span class="c">$1</span>')}</span></div>`).join('');
+$('kv').innerHTML=st.kv.map(([k,v])=>`<dt>${k}</dt><dd class="${/Overpaid|issued/.test(k)&&st.bk?'bad':/✓|£0$/.test(v)?'good':''}">${v}</dd>`).join('');
+renderCourse();drawScene()};
+$('back').onclick=()=>{if(S>0){S--;render()}};
+$('next').onclick=()=>{if(S<lesson().steps.length-1){S++;render()}};
+document.addEventListener('keydown',e=>{if(e.target.closest('input,select,textarea'))return;if(e.key==='ArrowRight')$('next').click();if(e.key==='ArrowLeft')$('back').click()});
+$('burger').onclick=()=>{const o=document.body.classList.toggle('menu');$('burger').setAttribute('aria-expanded',o)};
+S=store[L]?.at||0;render();
+}
+</script>
+</body>
+</html>

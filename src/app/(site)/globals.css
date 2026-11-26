@@ -456,6 +456,92 @@ main:focus {
   color: var(--ink);
 }
 
+.work-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 0;
+}
+
+/* Case study (U-15) */
+.case-study p,
+.case-study li,
+.case-study dd {
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.case-section {
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+}
+
+.case-subtitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  color: var(--ink);
+}
+
+.case-minor {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--ink);
+}
+
+.case-bullets,
+.case-steps {
+  margin: 0;
+  padding-left: 1.25rem;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.case-list {
+  margin: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.case-row dt {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.case-row dd {
+  margin: 0.25rem 0 0;
+}
+
+.case-study a:not(.nav-brand, .work-link) {
+  color: var(--focus);
+  text-underline-offset: 0.15em;
+}
+
+.flow {
+  display: block;
+  width: 100%;
+  max-width: 22.5rem;
+  height: auto;
+}
+
+.flow-box {
+  fill: var(--white);
+  stroke: var(--line-strong);
+  stroke-width: 1.5;
+}
+
+.flow-text {
+  fill: var(--ink);
+  font-family: var(--font-body);
+  font-size: 13px;
+}
+
+.flow-arrow {
+  fill: none;
+  stroke: var(--muted);
+  stroke-width: 1.5;
+}
+
 /* Experience */
 .timeline {
   position: relative;

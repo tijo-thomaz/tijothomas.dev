@@ -1,46 +1,50 @@
 import { notFound } from 'next/navigation';
 
-import { Placeholder } from '@/components/Placeholder';
+import { CaseStudy } from '@/components/CaseStudy';
 import { profile } from '@/content/profile';
-import { placeholderWorkSlug, work } from '@/content/work';
-import { workBadge } from '@/lib/format';
+import { work } from '@/content/work';
+import { caseStudyFor, caseStudyItems } from '@/lib/case-studies';
+import { isShowPlanned } from '@/lib/flags';
+import { playLinks } from '@/lib/projects';
 import { siteUrl } from '@/lib/site';
 
 import type { Metadata } from 'next';
 
 type Params = { params: Promise<{ slug: string }> };
 
-// SEO-AC-07: one prerendered placeholder; any other slug is a 404 (closed param set).
+// SEO-AC-07, PROJ-AC-08: one prerendered page per visible item with a case study; any other slug is a
+// 404 (closed param set). SHOW_PLANNED and the demo origins are read at build time.
 export const dynamicParams = false;
 
+const pageFor = (slug: string) => {
+  const item = caseStudyItems(work, isShowPlanned(process.env.SHOW_PLANNED)).find((w) => w.slug === slug);
+  const study = item ? caseStudyFor(slug) : undefined;
+  return item && study ? { item, study } : undefined;
+};
+
 export function generateStaticParams() {
-  return [{ slug: placeholderWorkSlug }];
+  return caseStudyItems(work, isShowPlanned(process.env.SHOW_PLANNED)).map((w) => ({ slug: w.slug }));
 }
 
-const itemFor = (slug: string) => (slug === placeholderWorkSlug ? work.find((w) => w.slug === slug) : undefined);
-
+// PROJ-AC-16: indexable, with its own title, description and canonical.
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
-  const item = itemFor(slug);
-  if (!item) return {};
+  const page = pageFor(slug);
+  if (!page) return {};
+  const url = `${siteUrl}/work/${slug}`;
   return {
-    title: item.name,
-    description: item.subtitle,
-    robots: { index: false, follow: true },
-    alternates: { canonical: `${siteUrl}/work/${slug}` },
+    title: page.item.name,
+    description: page.study.description,
+    alternates: { canonical: url },
+    openGraph: { type: 'article', url, title: page.item.name, description: page.study.description },
   };
 }
 
-export default async function WorkPlaceholderPage({ params }: Params) {
+export default async function CaseStudyPage({ params }: Params) {
   const { slug } = await params;
-  const item = itemFor(slug);
-  if (!item) notFound();
+  const page = pageFor(slug);
+  if (!page) notFound();
   return (
-    <Placeholder
-      title={item.name}
-      subtitle={item.subtitle}
-      badge={{ text: workBadge(item, profile.labels.workStatus), tone: item.status }}
-      profile={profile}
-    />
+    <CaseStudy item={page.item} study={page.study} profile={profile} playHref={playLinks(work, process.env)[slug]} />
   );
 }

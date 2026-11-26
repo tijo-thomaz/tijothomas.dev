@@ -35,17 +35,15 @@ describe('case-study sources', () => {
 
   it('PROJ-AC-09 every source is an absolute https URL with a label', () => {
     expect(sources.length).toBeGreaterThan(0);
-    for (const s of sources) {
-      expect(new URL(s.href).protocol, s.href).toBe('https:');
-      expect(s.label.trim()).not.toBe('');
-    }
+    expect(sources.filter((s) => new URL(s.href).protocol !== 'https:' || !s.label.trim())).toEqual([]);
   });
 
   it('PROJ-AC-09 every source line in the content file cites a P-xx row', () => {
-    for (const { slug, href } of sources) {
+    const uncited = sources.filter(({ slug, href }) => {
       const file = fs.readFileSync(path.join(here, `../content/case-studies/${slug}.ts`), 'utf8');
       const line = file.split(/\r?\n/).find((l) => l.includes(`'${href}'`)) ?? '';
-      expect(line, href).toMatch(/\/\/ .*\bP-\d{2}\b/);
-    }
+      return !/\/\/ .*\bP-\d{2}\b/.test(line);
+    });
+    expect(uncited.map((s) => s.href)).toEqual([]);
   });
 });

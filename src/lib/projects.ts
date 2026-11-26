@@ -101,6 +101,16 @@ export function playRewrites(items: readonly WorkItem[], env: Env): { source: st
   });
 }
 
+/**
+ * PROJ-AC-07, PROJ-AC-10: slug -> `/play/<slug>` for each playable item whose demo origin is set. A
+ * "Play" link renders only then: while the demo is not deployed the card links to the case study only.
+ */
+export function playLinks(items: readonly WorkItem[], env: Env): Record<string, string> {
+  return Object.fromEntries(
+    playableItems(items).flatMap((item) => (playOrigin(item, env) ? [[item.slug, `/play/${item.slug}`]] : [])),
+  );
+}
+
 /** PROJ-AC-06: a permanent (308) redirect from each item's former slug to its current page. */
 export function formerRedirects(items: readonly WorkItem[]): { source: string; destination: string; permanent: true }[] {
   return items.flatMap((item) =>

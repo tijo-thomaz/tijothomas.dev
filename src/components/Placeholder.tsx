@@ -13,7 +13,7 @@ type Props = {
   children?: ReactNode;
 };
 
-// SEO-AC-07: the noindex page behind /work/[slug] and /writing/[slug] until real content exists, and
+// SEO-AC-07: the noindex page behind /writing/[slug] until real content exists, and
 // /play/[slug] while a demo is not deployed (PROJ-AC-05). Every string comes from src/content.
 export function Placeholder({ title, subtitle, badge, profile, children }: Props) {
   return (

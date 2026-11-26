@@ -53,6 +53,7 @@ const siteCsp = [
 const SITE_SOURCES = [
   '/',
   '/privacy',
+  '/projects',
   '/work/:path*',
   '/writing/:path*',
   // Next serves the OG image at /opengraph-image-<hash> for a route group; `:suffix*` without a prefix

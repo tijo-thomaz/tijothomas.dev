@@ -17,11 +17,11 @@ const when = (cond, ...values) => (cond ? values : []);
 async function loadAll(root) {
   const load = (layer, file) => import(pathToFileURL(path.join(root, layer, file)).href);
   const { content, lib } = paths.layers;
-  const [{ profile }, { work }, { experience }, { posts }, { visible }, { isShowPlanned }, format] = await Promise.all([
+  const [{ profile }, { work }, { experience }, { posts }, { visible }, { isShowPlanned }, format, { playLinks }] = await Promise.all([
     load(content, 'profile.ts'), load(content, 'work.ts'), load(content, 'experience.ts'), load(content, 'posts.ts'),
-    load(lib, 'visible.ts'), load(lib, 'flags.ts'), load(lib, 'format.ts'),
+    load(lib, 'visible.ts'), load(lib, 'flags.ts'), load(lib, 'format.ts'), load(lib, 'projects.ts'),
   ]);
-  return { profile, work, experience, posts, visible, isShowPlanned, format };
+  return { profile, work, experience, posts, visible, isShowPlanned, format, play: playLinks(work, process.env) };
 }
 
 function profileStrings(profile) {
@@ -41,12 +41,13 @@ function profileStrings(profile) {
   ];
 }
 
-function workStrings(items, { labels, sections }, { workBadge }) {
+function workStrings(items, { labels, sections }, { workBadge }, play) {
   if (items.length === 0) return [sections.work.empty];
   return items.flatMap((w) => [
     w.name, w.subtitle, ...when(w.formerName, `${labels.formerly} ${w.formerName}`), w.summary, w.stack.join(' · '), workBadge(w, labels.workStatus),
     ...when(w.metric, w.metric?.label, w.metric?.value ?? labels.notMeasured),
-    ...when(w.caseStudyUrl, labels.caseStudy),
+    ...when(w.caseStudy || w.caseStudyUrl, labels.caseStudy), // PROJ-AC-10
+    ...when(play[w.slug], labels.play),
   ]);
 }
 
@@ -71,7 +72,7 @@ export async function expectedStrings({ root = repoRoot, showPlanned } = {}) {
   const show = showPlanned ?? m.isShowPlanned(process.env.SHOW_PLANNED);
   return [...new Set([
     ...profileStrings(m.profile),
-    ...workStrings(m.visible(m.work, show), m.profile, m.format),
+    ...workStrings(m.visible(m.work, show), m.profile, m.format, m.play),
     ...experienceStrings(m.experience, m.profile, m.format),
     ...postStrings(m.visible(m.posts, show), m.profile),
   ])];

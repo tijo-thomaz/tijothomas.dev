@@ -2,10 +2,8 @@
 // 1.1-facts-resolved.md. `planned` items stay hidden unless SHOW_PLANNED is exactly "true".
 // No item has a public external link yet (F-71, RQ-04), so caseStudyUrl is left out. Projects
 // platform rows (P-xx) are in edd-docs/questions/2.0-projects-facts.md: this list is the registry.
+// An item with `caseStudy: true` has its case study in ./case-studies/<slug>.ts (U-15).
 import type { WorkItem } from './types';
-
-/** The one /work/[slug] placeholder page (noindex) until the Sluice case study ships (U-15). */
-export const placeholderWorkSlug = 'sluice'; // RQ-04 (a), P-01
 
 export const work: readonly WorkItem[] = [
   {

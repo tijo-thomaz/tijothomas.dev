@@ -7,10 +7,13 @@ export function WorkSection({
   items,
   section,
   labels,
+  playLinks = {},
 }: {
   items: readonly WorkItem[];
   section: Profile['sections']['work'];
   labels: Profile['labels'];
+  /** slug -> /play/<slug>, only for demos whose origin is set (PROJ-AC-10). */
+  playLinks?: Readonly<Record<string, string>>;
 }) {
   return (
     <section id="work" aria-labelledby="work-title" className="band band--surface section">
@@ -24,7 +27,7 @@ export function WorkSection({
         {items.length > 0 ? (
           <div className="card-grid">
             {items.map((item) => (
-              <WorkCard key={item.slug} item={item} labels={labels} />
+              <WorkCard key={item.slug} item={item} labels={labels} playHref={playLinks[item.slug]} />
             ))}
           </div>
         ) : (

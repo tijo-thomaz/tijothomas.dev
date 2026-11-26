@@ -14,6 +14,7 @@ import { profile } from '@/content/profile';
 import { work } from '@/content/work';
 import { isShowPlanned } from '@/lib/flags';
 import { JsonLd, personJsonLd } from '@/lib/json-ld';
+import { playLinks } from '@/lib/projects';
 import { siteUrl } from '@/lib/site';
 import { visible } from '@/lib/visible';
 
@@ -55,7 +56,12 @@ export default function HomePage() {
       <main id="main" tabIndex={-1}>
         <Hero profile={profile} />
         <Highlights items={profile.highlights} label={labels.highlights} />
-        <WorkSection items={visible(work, showPlanned)} section={sections.work} labels={labels} />
+        <WorkSection
+          items={visible(work, showPlanned)}
+          section={sections.work}
+          labels={labels}
+          playLinks={playLinks(work, process.env)}
+        />
         <ExperienceTimeline entries={experience} section={sections.experience} labels={labels} />
         <HowIWork steps={profile.howIWork} title={sections.howIWork.title} />
         <Writing posts={visible(posts, showPlanned)} section={sections.writing} labels={labels} />

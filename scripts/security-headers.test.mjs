@@ -25,7 +25,7 @@ const directives = (csp) => Object.fromEntries(csp.split(';').map((d) => d.trim(
   .map((d) => { const [name, ...vals] = d.split(/\s+/); return [name, vals]; }));
 // Real request paths per route class (U-11 review #2): the rules are compiled with Next's own
 // path-to-regexp and matched, instead of comparing source strings.
-const SITE_PATHS = ['/', '/privacy', '/work/promptshield', '/writing/queues-double-charge', '/opengraph-image',
+const SITE_PATHS = ['/', '/privacy', '/work/sluice', '/writing/queues-double-charge', '/opengraph-image',
   '/opengraph-image-12o0cb', '/sitemap.xml', '/robots.txt'];
 const BASELINE_PATHS = ['/terminal', '/api/analytics', '/does-not-exist', '/v2', '/privacy-old', '/opengraph-imagex'];
 const BASELINE_CSP = "frame-ancestors 'none'; object-src 'none'; base-uri 'none'";

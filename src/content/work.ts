@@ -1,22 +1,26 @@
 // Selected work (U-05). Every value cites its row in edd-docs/questions/1.1-facts.md as resolved in
 // 1.1-facts-resolved.md. `planned` items stay hidden unless SHOW_PLANNED is exactly "true".
-// No item has a public link yet (F-71, RQ-04), so caseStudyUrl is left out.
+// No item has a public external link yet (F-71, RQ-04), so caseStudyUrl is left out. Projects
+// platform rows (P-xx) are in edd-docs/questions/2.0-projects-facts.md: this list is the registry.
 import type { WorkItem } from './types';
 
-/** The one /work/[slug] placeholder page (noindex, not linked from `/` until it has content). */
-export const placeholderWorkSlug = 'promptshield'; // RQ-04 (a)
+/** The one /work/[slug] placeholder page (noindex) until the Sluice case study ships (U-15). */
+export const placeholderWorkSlug = 'sluice'; // RQ-04 (a), P-01
 
 export const work: readonly WorkItem[] = [
   {
-    slug: 'promptshield', // F-15
-    name: 'PromptShield', // F-15
-    subtitle: 'AI security proof of concept', // F-15
-    status: 'live', // F-16
-    badgeLabel: 'Proof of concept', // F-16 (resolved: not "Live PoC")
+    slug: 'sluice', // P-01
+    name: 'Sluice', // P-01
+    formerName: 'PromptShield', // P-02, F-15
+    subtitle: 'Guardrail gateway for AI agents', // P-03
+    status: 'in-progress', // P-04 (no target month)
     summary:
-      'Problem: LLM apps can be tricked by prompt injection and leak data. Built a Go policy engine with a React dashboard that flags and blocks risky prompts.', // F-17
-    metric: null, // F-16 (resolved: metric row removed)
-    stack: ['Go', 'React', 'TypeScript', 'Zustand'], // F-19
+      'Problem: LLM apps can be tricked by prompt injection and leak data. Built a Go policy engine with a React dashboard that flags and blocks risky prompts.', // F-17 (P-05: owner to supply new text)
+    metric: null, // F-16, P-11 (no eval report yet)
+    stack: ['Go', 'React', 'TypeScript', 'Zustand'], // F-19 (P-06: owner to supply new text)
+    playOriginEnv: 'SLUICE_ORIGIN', // P-08
+    wasm: true, // P-08
+    caseStudy: true, // P-09
   },
   {
     slug: 'fde-cloud-spine', // F-20

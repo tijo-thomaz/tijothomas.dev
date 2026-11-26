@@ -67,7 +67,7 @@ test('PLAT-AC-22 the placeholders, the OG image, sitemap and robots get the same
   // The OG image is served at a hashed path; read it from the page's og:image tag.
   const og = new URL((await home.text()).match(/property="og:image" content="([^"]+)"/)?.[1] ?? '').pathname;
   expect(og).toMatch(/^\/opengraph-image/);
-  for (const path of ['/work/promptshield', '/writing/queues-double-charge', og, '/sitemap.xml', '/robots.txt']) {
+  for (const path of ['/work/sluice', '/writing/queues-double-charge', og, '/sitemap.xml', '/robots.txt']) {
     const res = await request.get(path);
     expect(res.status(), path).toBe(200);
     expect(res.headers()['content-security-policy'], path).toBe(site);

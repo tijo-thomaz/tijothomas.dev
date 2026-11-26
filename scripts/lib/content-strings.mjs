@@ -44,7 +44,7 @@ function profileStrings(profile) {
 function workStrings(items, { labels, sections }, { workBadge }) {
   if (items.length === 0) return [sections.work.empty];
   return items.flatMap((w) => [
-    w.name, w.subtitle, w.summary, w.stack.join(' · '), workBadge(w, labels.workStatus),
+    w.name, w.subtitle, ...when(w.formerName, `${labels.formerly} ${w.formerName}`), w.summary, w.stack.join(' · '), workBadge(w, labels.workStatus),
     ...when(w.metric, w.metric?.label, w.metric?.value ?? labels.notMeasured),
     ...when(w.caseStudyUrl, labels.caseStudy),
   ]);

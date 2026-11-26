@@ -12,6 +12,7 @@ export function WorkCard({ item, labels }: { item: WorkItem; labels: Profile['la
         <div>
           <h3 className="card-title">{item.name}</h3>
           <p className="card-subtitle">{item.subtitle}</p>
+          {item.formerName ? <p className="card-former">{`${labels.formerly} ${item.formerName}`}</p> : null}
         </div>
         <StatusBadge text={workBadge(item, labels.workStatus)} tone={item.status} />
       </div>

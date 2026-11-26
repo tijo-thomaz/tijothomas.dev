@@ -77,6 +77,7 @@ export interface Profile {
     terminalMode: string;
     privacy: string;
     caseStudy: string;
+    formerly: string;
     now: string;
     present: string;
     notMeasured: string;
@@ -132,6 +133,21 @@ export interface WorkItem {
   metric: { label: string; value: string | null } | null;
   stack: readonly string[];
   caseStudyUrl?: HttpsUrl;
+  /** Earlier public name, shown as "formerly <name>" (PROJ-AC-13). */
+  formerName?: string;
+  /** Public source repository. Unset while the repo is private. */
+  repoUrl?: HttpsUrl;
+  /**
+   * Name of the env var that holds the demo's origin, e.g. `SLUICE_ORIGIN` (PROJ-AC-02). The origin
+   * itself never lives in the repo. Unset or empty env = the in-site "Demo coming soon" page.
+   */
+  playOriginEnv?: `${string}_ORIGIN`;
+  /** The demo runs WebAssembly, so its CSP gets `'wasm-unsafe-eval'` (PROJ-AC-12). */
+  wasm?: boolean;
+  /** The demo ships its own metadata and may be indexed; otherwise `/play/<slug>` is noindex (PROJ-AC-11). */
+  indexPlay?: boolean;
+  /** A case study exists at `/work/<slug>` (PROJ-AC-07, PROJ-AC-10). */
+  caseStudy?: boolean;
 }
 
 /** The privacy notice at /privacy (U-10, ADR-P3). One source for the page and the terminal link. */

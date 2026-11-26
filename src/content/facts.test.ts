@@ -105,7 +105,7 @@ describe('facts sheet fixtures', () => {
   });
 
   it('CONT-AC-10 the projects facts sheet has rows P-01..P-12, and an "Open" row is never publishable', () => {
-    expect([...projectAnswers.keys()]).toEqual(Array.from({ length: 12 }, (_, i) => `P-${String(i + 1).padStart(2, '0')}`));
+    expect(Array.from(projectAnswers.keys())).toEqual(Array.from({ length: 12 }, (_, i) => `P-${String(i + 1).padStart(2, '0')}`));
     expect(publishable('P-99')).toBe(false);
   });
 });

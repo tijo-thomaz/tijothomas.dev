@@ -26,7 +26,7 @@ test('SEO-AC-01 / has a canonical, a description and an og:image tag in the head
   await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute('content', 'summary_large_image');
 });
 
-for (const path of ['/work/promptshield', '/writing/queues-double-charge']) {
+for (const path of ['/work/sluice', '/writing/queues-double-charge']) {
   test(`SEO-AC-07 ${path} answers 200 with robots noindex`, async ({ page }) => {
     const res = await page.goto(path);
     expect(res?.status()).toBe(200);

@@ -41,9 +41,22 @@ describe('WorkSection', () => {
     expect(card.textContent).toContain('Go · PostgreSQL');
   });
 
-  it('HOME-AC-13 a live item shows its confirmed badge label (PromptShield: "Proof of concept")', () => {
-    renderWork(work.filter((w) => w.slug === 'promptshield'));
+  it('HOME-AC-13 a live item shows its confirmed badge label', () => {
+    renderWork([{ ...base, status: 'live', badgeLabel: 'Proof of concept' }]);
     expect(screen.getByText('Proof of concept')).toBeTruthy();
+  });
+
+  it('PROJ-AC-13 the Sluice card reads "Sluice", shows "formerly PromptShield", and has no metric row while metric is null', () => {
+    const { container } = renderWork(work.filter((w) => w.slug === 'sluice'));
+    expect(screen.getByRole('heading', { level: 3 }).textContent).toBe('Sluice');
+    expect(screen.getByRole('article').textContent).toContain('formerly PromptShield');
+    expect(within(screen.getByRole('article')).getByText('In progress')).toBeTruthy();
+    expect(container.querySelector('.metric-label, .metric-value')).toBeNull();
+  });
+
+  it('PROJ-AC-13 an item without formerName shows no "formerly" line', () => {
+    renderWork([base]);
+    expect(screen.getByRole('article').textContent).not.toMatch(/formerly/i);
   });
 
   it('CONT-AC-01 a null metric value reads exactly "Not yet measured" and holds no digit; the label may', () => {

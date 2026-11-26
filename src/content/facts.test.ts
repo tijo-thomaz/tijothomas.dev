@@ -23,7 +23,19 @@ const COMPLIANCE = read('edd-docs/inception/compliance.md');
 // CMP-xx requirements, which must exist in compliance.md.
 const DATA_FILES = ['profile.ts', 'experience.ts', 'work.ts', 'posts.ts', 'privacy.ts'];
 
-const ROW_ID = /\b[FC]-\d{2}\b/g;
+const PROJECT_FACTS = read('edd-docs/questions/2.0-projects-facts.md');
+
+const ROW_ID = /\b[FCP]-\d{2}\b/g;
+
+// Projects platform rows (P-xx, 2.0-projects-facts.md): publishable once the answer column is not "Open".
+const projectAnswers = new Map<string, string>(
+  PROJECT_FACTS.split(/\r?\n/)
+    .filter((l) => /^\|\s*P-\d{2}\s*\|/.test(l))
+    .map((l) => {
+      const cells = l.split('|').map((c) => c.trim());
+      return [cells[1], cells[cells.length - 2]] as [string, string];
+    }),
+);
 
 // Owner answers from 1.1-facts.md: the last cell of each `| F-xx |` / `| C-xx |` table row.
 const answers = new Map<string, string>(
@@ -62,7 +74,9 @@ const WITHHELD: Record<string, string> = {
 
 const confirmed = (answer: string) => /^(confirm|correct|edit\b)/i.test(answer);
 const publishable = (id: string) =>
-  answers.has(id) && !(id in WITHHELD) && !/^remove\b/i.test(answers.get(id) ?? '') &&
+  id.startsWith('P-')
+    ? projectAnswers.has(id) && !/\bOpen\b/.test(projectAnswers.get(id) ?? 'Open')
+    : answers.has(id) && !(id in WITHHELD) && !/^remove\b/i.test(answers.get(id) ?? '') &&
   (resolved.has(id) || confirmed(answers.get(id) ?? ''));
 
 type SourceLine = { file: string; n: number; code: string; comment: string };
@@ -89,6 +103,11 @@ describe('facts sheet fixtures', () => {
     expect(RESOLVED).toMatch(/All 90 rows resolved/);
     expect(Object.keys(WITHHELD).filter((id) => !resolved.has(id))).toEqual([]);
   });
+
+  it('CONT-AC-10 the projects facts sheet has rows P-01..P-12, and an "Open" row is never publishable', () => {
+    expect([...projectAnswers.keys()]).toEqual(Array.from({ length: 12 }, (_, i) => `P-${String(i + 1).padStart(2, '0')}`));
+    expect(publishable('P-99')).toBe(false);
+  });
 });
 
 describe('row references in src/content/*.ts', () => {
@@ -97,7 +116,7 @@ describe('row references in src/content/*.ts', () => {
     expect(data.length).toBeGreaterThan(80);
     // CMP-xx (compliance requirement) is a valid source only in privacy.ts (U-10 review #7).
     const ref = (file: string) =>
-      file === 'privacy.ts' ? /\b([FC]-\d{2}|RQ-\d{2}|CMP-\d{2}|[A-Z]+-AC-\d{2})\b/ : /\b([FC]-\d{2}|RQ-\d{2}|[A-Z]+-AC-\d{2})\b/;
+      file === 'privacy.ts' ? /\b([FC]-\d{2}|RQ-\d{2}|CMP-\d{2}|[A-Z]+-AC-\d{2})\b/ : /\b([FCP]-\d{2}|RQ-\d{2}|[A-Z]+-AC-\d{2})\b/;
     const missing = data.filter((l) => !ref(l.file).test(l.comment));
     expect(missing.map((l) => `${l.file}:${l.n} ${l.code.trim()}`)).toEqual([]);
   });
@@ -135,7 +154,7 @@ describe('row references in src/content/*.ts', () => {
   it('CONT-AC-10 a value backed only by a spec AC appears verbatim in that AC (U-06 review #4)', () => {
     const specs = fs.readdirSync(path.join(repo, 'specs')).filter((f) => f.endsWith('.md')).map((f) => read(`specs/${f}`)).join('\n');
     const acText = (ac: string) => specs.split('\n').find((l) => l.includes(`**${ac}**`)) ?? '';
-    const acOnly = sourceLines.filter((l) => /\b[A-Z]+-AC-\d{2}\b/.test(l.comment) && !/\b([FC]-\d{2}|RQ-\d{2}|CMP-\d{2})\b/.test(l.comment));
+    const acOnly = sourceLines.filter((l) => /\b[A-Z]+-AC-\d{2}\b/.test(l.comment) && !/\b([FCP]-\d{2}|RQ-\d{2}|CMP-\d{2})\b/.test(l.comment));
     expect(acOnly.length).toBeGreaterThan(0);
     const bad = acOnly.flatMap((l) => {
       const value = l.code.match(/['"`]([^'"`]+)['"`]/)?.[1] ?? '';
@@ -170,9 +189,22 @@ describe('owner resolutions (1.1-facts-resolved.md)', () => {
     expect(profile.highlights.map((h) => h.value)).toContain('10 languages');
   });
 
-  it('CONT-AC-10 F-16/F-18: PromptShield is live with the badge "Proof of concept" and no metric row', () => {
-    const ps = work.find((w) => w.slug === 'promptshield');
-    expect(ps).toMatchObject({ status: 'live', badgeLabel: 'Proof of concept', metric: null });
+  it('CONT-AC-10 PROJ-AC-13 P-01..P-09: PromptShield is now Sluice, in progress with no target, metric null, case study and demo env', () => {
+    const sluice = work.find((w) => w.slug === 'sluice');
+    expect(sluice).toMatchObject({
+      name: 'Sluice',
+      formerName: 'PromptShield',
+      subtitle: 'Guardrail gateway for AI agents',
+      status: 'in-progress',
+      metric: null,
+      playOriginEnv: 'SLUICE_ORIGIN',
+      wasm: true,
+      caseStudy: true,
+    });
+    expect(sluice).not.toHaveProperty('target');
+    expect(sluice).not.toHaveProperty('badgeLabel');
+    expect(sluice).not.toHaveProperty('repoUrl'); // P-07: the repo is private
+    expect(work.find((w) => w.slug === 'promptshield')).toBeUndefined();
   });
 
   it('CONT-AC-10 F-20..F-29: fde-cloud-spine and fde-mcp-gateway are planned with target 2026-12', () => {

@@ -1,5 +1,5 @@
 # Projects platform
-Status: Draft
+Status: Approved (owner, 2026-11-26: "Approve, start")
 Prefix: PROJ
 Traces: `docs/ai/PLATFORM_PROMPT.md` (owner brief, 2026-11-26); facts P-01..P-12 in `edd-docs/questions/2.0-projects-facts.md`
 

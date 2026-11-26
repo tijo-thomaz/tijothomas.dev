@@ -11,7 +11,7 @@ test('SEO-AC-09 expected strings cover every section of / and come from src/cont
   assert.ok(list.length >= 60, `only ${list.length} strings`);
   for (const s of [
     'Lead Software Engineer building reliable AI systems', // hero h1
-    'Selected work', 'PromptShield', 'Proof of concept', // work
+    'Selected work', 'Sluice', 'Guardrail gateway for AI agents', 'In progress', 'formerly PromptShield', // work (P-01..P-04)
     'bet365 Group Ltd', 'Relocation: UK to India with family', // experience
     'How I work with customers', 'Break and measure', // how I work
     'Lessons from breaking things', 'Why queues double-charge customers, and the fix', // writing

@@ -66,7 +66,7 @@ describe('(site) home page shell', () => {
       profile.sections.writing.title,
       profile.sections.contact.title,
     ]);
-    expect(Array.from(container.querySelectorAll('#work article h3')).map((h) => h.textContent)).toEqual(['PromptShield']);
+    expect(Array.from(container.querySelectorAll('#work article h3')).map((h) => h.textContent)).toEqual(['Sluice']);
   });
 
   it('HOME-AC-09 every in-page link targets an element id that exists', () => {

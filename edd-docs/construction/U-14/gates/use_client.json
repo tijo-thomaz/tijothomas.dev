@@ -1,0 +1,17 @@
+{
+  "id": "use_client",
+  "enforce": true,
+  "status": "pass",
+  "exitCode": 0,
+  "cmd": "node scripts/check-use-client.mjs",
+  "evidence": "HOME-AC-03 no \"use client\" module in the site layers or their imports; / is static in the build (runs after CG1_build)",
+  "base": "71fcd1d",
+  "startedAt": "2026-11-26T07:00:45.909Z",
+  "durationMs": 133,
+  "outputTail": [
+    "PASS HOME-AC-03 site modules and their local imports have no \"use client\" directive (40 modules)",
+    "PASS HOME-AC-03 site modules import only allowed packages and resolve every local import",
+    "PASS HOME-AC-03 the build marks / and /privacy as static (prerender-manifest.json)"
+  ],
+  "log": "edd-docs/construction/U-14/gates/use_client.log"
+}

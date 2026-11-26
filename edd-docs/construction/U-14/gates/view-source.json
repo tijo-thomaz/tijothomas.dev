@@ -1,0 +1,18 @@
+{
+  "id": "view-source",
+  "enforce": true,
+  "status": "pass",
+  "exitCode": 0,
+  "cmd": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/view-source.mjs --out edd-docs/construction/U-14/gates",
+  "evidence": "SEO-AC-09 server HTML of / holds every string rendered from src/content (SHOW_PLANNED respected); enforced from U-07",
+  "base": "71fcd1d",
+  "startedAt": "2026-11-26T07:03:56.839Z",
+  "durationMs": 1096,
+  "outputTail": [
+    "PASS view-source GET / returns 200 (got 200)",
+    "PASS view-source expected strings configured (105)",
+    "PASS view-source SEO-AC-09 every expected string is a whole text node in the server HTML (105/105)",
+    "PASS view-source CONT-AC-03 no planned item in the HTML or RSC payload (4 checked)"
+  ],
+  "log": "edd-docs/construction/U-14/gates/view-source.log"
+}

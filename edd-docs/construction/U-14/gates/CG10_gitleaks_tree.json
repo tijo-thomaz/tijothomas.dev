@@ -1,0 +1,17 @@
+{
+  "id": "CG10_gitleaks_tree",
+  "enforce": true,
+  "status": "pass",
+  "exitCode": 0,
+  "cmd": "node scripts/require-tool.mjs gitleaks dir . --config .gitleaks.toml --redact --no-banner --report-format json --report-path edd-docs/construction/U-14/gates/gitleaks-tree.json",
+  "evidence": "PLAT-AC-25 0 secrets in the working tree",
+  "base": "71fcd1d",
+  "startedAt": "2026-11-26T07:02:53.679Z",
+  "durationMs": 2531,
+  "outputTail": [
+    "using gitleaks: ~\\AppData\\Local\\Microsoft\\WinGet\\Packages\\Gitleaks.Gitleaks_Microsoft.Winget.Source_8wekyb3d8bbwe\\gitleaks.exe",
+    "12:32PM INF scanned ~20760800 bytes (20.76 MB) in 1.83s",
+    "12:32PM INF no leaks found"
+  ],
+  "log": "edd-docs/construction/U-14/gates/CG10_gitleaks_tree.log"
+}

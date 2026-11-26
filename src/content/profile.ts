@@ -103,9 +103,11 @@ export const profile: Profile = {
     github: 'GitHub', // F-68
     terminalMode: 'Terminal mode', // HOME-AC-18
     privacy: 'Privacy', // HOME-AC-27
-    caseStudy: 'Read the case study', // HOME-AC-13 (shown only when caseStudyUrl is set)
+    caseStudy: 'Read the case study', // HOME-AC-13 (shown when caseStudyUrl is set or caseStudy is true, PROJ-AC-10)
     formerly: 'formerly', // PROJ-AC-13 ("formerly PromptShield")
     demoComingSoon: 'Demo coming soon', // PROJ-AC-05
+    play: 'Play', // PROJ-AC-07
+    projects: 'Projects', // PROJ-AC-16
     now: 'Now', // F-32
     present: 'present', // F-32
     notMeasured: 'Not yet measured', // F-23 (PH rendering), RQ-05

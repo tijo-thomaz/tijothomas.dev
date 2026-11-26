@@ -21,7 +21,7 @@ const REQUIREMENTS = read('edd-docs/questions/1.1-requirements.md');
 const COMPLIANCE = read('edd-docs/inception/compliance.md');
 // privacy.ts (U-10) states processing facts from the approved compliance assessment; its lines cite
 // CMP-xx requirements, which must exist in compliance.md.
-const DATA_FILES = ['profile.ts', 'experience.ts', 'work.ts', 'posts.ts', 'privacy.ts'];
+const DATA_FILES = ['profile.ts', 'experience.ts', 'work.ts', 'posts.ts', 'privacy.ts', 'case-studies/sluice.ts'];
 
 const PROJECT_FACTS = read('edd-docs/questions/2.0-projects-facts.md');
 

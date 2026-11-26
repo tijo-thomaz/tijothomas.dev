@@ -79,6 +79,8 @@ export interface Profile {
     caseStudy: string;
     formerly: string;
     demoComingSoon: string;
+    play: string;
+    projects: string;
     now: string;
     present: string;
     notMeasured: string;
@@ -151,6 +153,59 @@ export interface WorkItem {
   indexPlay?: boolean;
   /** A case study exists at `/work/<slug>` (PROJ-AC-07, PROJ-AC-10). */
   caseStudy?: boolean;
+}
+
+/** A linear flow drawn as a server-rendered SVG: one box per node, top to bottom (PROJ-AC-08). */
+export interface FlowDiagram {
+  /** Accessible name of the figure. */
+  title: string;
+  nodes: readonly string[];
+}
+
+/** An external source cited by a case study. Every href cites a P-xx row (PROJ-AC-09). */
+export interface CaseStudySource {
+  label: string;
+  href: HttpsUrl;
+}
+
+/**
+ * The case study at /work/<slug> (U-15). Sections and their headings follow PROJ-AC-08. While there is
+ * no eval report, `evaluation` holds only its status line: no numbers, no table.
+ */
+export interface CaseStudy {
+  slug: string;
+  /** Lede under the title and the meta description. */
+  description: string;
+  problem: { heading: string; paragraphs: readonly string[] };
+  whyItMatters: {
+    heading: string;
+    items: readonly string[];
+    sourcesHeading: string;
+    sources: readonly CaseStudySource[];
+  };
+  architecture: {
+    heading: string;
+    today: {
+      heading: string;
+      diagram: FlowDiagram;
+      parts: readonly { name: string; does: string; problem: string }[];
+      labels: { does: string; problem: string };
+    };
+    target: {
+      heading: string;
+      diagram: FlowDiagram;
+      parts: readonly Step[];
+      toolGateway: { heading: string; items: readonly string[] };
+    };
+  };
+  evaluation: { heading: string; status: string };
+  tradeOffs: {
+    heading: string;
+    decisions: readonly { decision: string; why: string; tradeOff: string }[];
+    labels: { why: string; tradeOff: string };
+    limitsHeading: string;
+    limits: readonly string[];
+  };
 }
 
 /** The privacy notice at /privacy (U-10, ADR-P3). One source for the page and the terminal link. */

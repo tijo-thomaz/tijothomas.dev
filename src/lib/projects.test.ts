@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 import type { WorkItem } from '@/content/types';
 import { work } from '@/content/work';
 
-import { formerRedirects, playableItems, playHeaderRules, playOrigin, playRewrites, registryProblems } from './projects';
+import { formerRedirects, playableItems, playHeaderRules, playLinks, playOrigin, playRewrites, registryProblems } from './projects';
 
 const item = (over: Partial<WorkItem> = {}): WorkItem => ({
   slug: 'demo',
@@ -158,5 +158,24 @@ describe('playHeaderRules', () => {
   it('PROJ-AC-05 PROJ-AC-12 while not deployed, /play/<slug> serves the in-site page with the site CSP', () => {
     const rules = playHeaderRules(work, {}, SITE);
     expect(header(rules, '/play/sluice', 'Content-Security-Policy')).toBe(SITE);
+  });
+});
+
+describe('playLinks', () => {
+  const env = { DEMO_ORIGIN: 'https://demo.vercel.app' };
+
+  it('PROJ-AC-07 PROJ-AC-10 maps a slug to /play/<slug> only when its demo origin is set', () => {
+    expect(playLinks([item({ playOriginEnv: 'DEMO_ORIGIN' })], env)).toEqual({ demo: '/play/demo' });
+    expect(playLinks([item({ playOriginEnv: 'DEMO_ORIGIN' })], {})).toEqual({});
+    expect(playLinks([item({ playOriginEnv: 'DEMO_ORIGIN' })], { DEMO_ORIGIN: ' ' })).toEqual({});
+    expect(playLinks([item()], env)).toEqual({});
+  });
+
+  it('PROJ-AC-07 a planned item never gets a Play link, even with its origin set', () => {
+    expect(playLinks([item({ playOriginEnv: 'DEMO_ORIGIN', status: 'planned' })], env)).toEqual({});
+  });
+
+  it('PROJ-AC-03 the registry has no Play link while SLUICE_ORIGIN is unset', () => {
+    expect(playLinks(work, {})).toEqual({});
   });
 });

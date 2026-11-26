@@ -85,6 +85,26 @@ describe('WorkSection', () => {
     expect(screen.getByRole('link', { name: labels.caseStudy }).getAttribute('href')).toBe('https://example.com/case');
   });
 
+  it('PROJ-AC-10 "Read the case study" links to /work/<slug> when caseStudy is true', () => {
+    renderWork([{ ...base, caseStudy: true }]);
+    expect(screen.getByRole('link', { name: labels.caseStudy }).getAttribute('href')).toBe('/work/demo');
+  });
+
+  it('PROJ-AC-10 "Play" links to /play/<slug> only when the section is given that link (origin set)', () => {
+    const { unmount } = renderWork([base]);
+    expect(screen.queryByRole('link', { name: labels.play })).toBeNull();
+    unmount();
+    render(<WorkSection items={[base]} section={sections.work} labels={labels} playLinks={{ demo: '/play/demo' }} />);
+    expect(screen.getByRole('link', { name: labels.play }).getAttribute('href')).toBe('/play/demo');
+  });
+
+  it('PROJ-AC-10 links are plain <a> elements (the target may be another deployment)', () => {
+    const { container } = render(
+      <WorkSection items={[{ ...base, caseStudy: true }]} section={sections.work} labels={labels} playLinks={{ demo: '/play/demo' }} />,
+    );
+    expect(Array.from(container.querySelectorAll('article a')).map((a) => a.getAttribute('href'))).toEqual(['/work/demo', '/play/demo']);
+  });
+
   it('CONT-AC-06 with every item hidden, section#work keeps its h2 and shows the empty-state line', () => {
     const { container } = renderWork([]);
     expect(container.querySelector('section#work h2')?.textContent).toBe(sections.work.title);

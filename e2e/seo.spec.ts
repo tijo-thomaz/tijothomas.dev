@@ -26,11 +26,21 @@ test('SEO-AC-01 / has a canonical, a description and an og:image tag in the head
   await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute('content', 'summary_large_image');
 });
 
-for (const path of ['/work/sluice', '/writing/queues-double-charge']) {
-  test(`SEO-AC-07 ${path} answers 200 with robots noindex`, async ({ page }) => {
+test('SEO-AC-07 /writing/queues-double-charge answers 200 with robots noindex', async ({ page }) => {
+  const res = await page.goto('/writing/queues-double-charge');
+  expect(res?.status()).toBe(200);
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
+});
+
+for (const [path, title] of [['/projects', 'Projects'], ['/work/sluice', 'Sluice']]) {
+  test(`SEO-AC-07 PROJ-AC-16 ${path} answers 200, indexable, with its own title, description and canonical`, async ({ page }) => {
     const res = await page.goto(path);
     expect(res?.status()).toBe(200);
-    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
+    await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
+    expect(res?.headers()['x-robots-tag']).toBeUndefined();
+    await expect(page).toHaveTitle(`${title} · Tijo Thomas`);
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /\S/);
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `https://tijothomas.dev${path}`);
   });
 }
 
@@ -43,7 +53,10 @@ for (const path of ['/work/does-not-exist', '/writing/does-not-exist', '/work/fd
 test('SEO-AC-04 SEO-AC-05 /sitemap.xml lists / and /robots.txt points to it', async ({ request }) => {
   const sitemap = await (await request.get('/sitemap.xml')).text();
   expect(sitemap).toContain('<loc>https://tijothomas.dev/</loc>');
-  expect(sitemap).not.toMatch(/terminal|\/work\/|\/writing\//);
+  expect(sitemap).not.toMatch(/terminal|\/play\/|\/writing\//);
+  // PROJ-AC-16: the projects index and the case study are listed.
+  expect(sitemap).toContain('<loc>https://tijothomas.dev/projects</loc>');
+  expect(sitemap).toContain('<loc>https://tijothomas.dev/work/sluice</loc>');
   const robots = await (await request.get('/robots.txt')).text();
   expect(robots).toMatch(/User-Agent: \*/i);
   expect(robots).toContain('Sitemap: https://tijothomas.dev/sitemap.xml');

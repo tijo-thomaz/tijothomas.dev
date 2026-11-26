@@ -13,8 +13,13 @@ describe('sitemap', () => {
     expect(urls).toContain(`${siteUrl}/`);
   });
 
-  it('SEO-AC-04 excludes /terminal, /v2 and the noindex placeholder pages', () => {
-    expect(urls.filter((u) => /\/terminal|\/v2|\/work\/|\/writing\//.test(u))).toEqual([]);
+  it('SEO-AC-04 excludes /terminal, /v2, /play and the noindex placeholder pages', () => {
+    expect(urls.filter((u) => /\/terminal|\/v2|\/play\/|\/writing\//.test(u))).toEqual([]);
+  });
+
+  it('PROJ-AC-16 lists /projects and the visible case studies, and no /play/ URL', () => {
+    expect(urls).toContain(`${siteUrl}/projects`);
+    expect(urls.filter((u) => u.includes('/work/'))).toEqual([`${siteUrl}/work/sluice`]);
   });
 
   it('SEO-AC-04 lists only absolute https URLs on the site origin, once each', () => {

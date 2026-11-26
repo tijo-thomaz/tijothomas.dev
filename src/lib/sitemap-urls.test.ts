@@ -12,13 +12,22 @@ const item = (over: Partial<WorkItem>): WorkItem => ({
 });
 
 describe('sitemapUrls', () => {
-  it('SEO-AC-04 always lists <siteUrl>/ first', () => {
-    expect(sitemapUrls(SITE, [], [])).toEqual([`${SITE}/`]);
+  it('SEO-AC-04 PROJ-AC-16 always lists <siteUrl>/ first, then <siteUrl>/projects', () => {
+    expect(sitemapUrls(SITE, [], [])).toEqual([`${SITE}/`, `${SITE}/projects`]);
   });
 
   it('SEO-AC-04 lists published posts and case studies hosted on the site', () => {
     const urls = sitemapUrls(SITE, [post({ url: `${SITE}/writing/a` })], [item({ caseStudyUrl: `${SITE}/work/b` })]);
-    expect(urls).toEqual([`${SITE}/`, `${SITE}/writing/a`, `${SITE}/work/b`]);
+    expect(urls).toEqual([`${SITE}/`, `${SITE}/projects`, `${SITE}/writing/a`, `${SITE}/work/b`]);
+  });
+
+  it('PROJ-AC-16 lists /work/<slug> for each non-planned item with caseStudy: true, and never a /play/ URL', () => {
+    const urls = sitemapUrls(SITE, [], [
+      item({ slug: 'a', caseStudy: true, playOriginEnv: 'A_ORIGIN' }),
+      item({ slug: 'b' }),
+      item({ slug: 'c', caseStudy: true, status: 'planned' }),
+    ]);
+    expect(urls).toEqual([`${SITE}/`, `${SITE}/projects`, `${SITE}/work/a`]);
   });
 
   it('SEO-AC-04 leaves out unpublished posts, missing URLs and URLs on other origins', () => {
@@ -27,16 +36,18 @@ describe('sitemapUrls', () => {
       [post({ status: 'coming-soon', url: `${SITE}/writing/c` }), post({ url: undefined }), post({ url: 'https://medium.com/x' })],
       [item({ caseStudyUrl: 'https://external.example/case' }), item({})],
     );
-    expect(urls).toEqual([`${SITE}/`]);
+    expect(urls).toEqual([`${SITE}/`, `${SITE}/projects`]);
   });
 
   it('SEO-AC-04 CONT-AC-03 never lists a planned work item, even with an on-site case study', () => {
     const urls = sitemapUrls(SITE, [], [item({ status: 'planned', caseStudyUrl: `${SITE}/work/p` })]);
-    expect(urls).toEqual([`${SITE}/`]);
+    expect(urls).toEqual([`${SITE}/`, `${SITE}/projects`]);
   });
 
   it('SEO-AC-04 lists each URL once', () => {
-    const urls = sitemapUrls(SITE, [post({ url: `${SITE}/a` }), post({ url: `${SITE}/a` })], []);
-    expect(urls).toEqual([`${SITE}/`, `${SITE}/a`]);
+    const urls = sitemapUrls(SITE, [post({ url: `${SITE}/a` }), post({ url: `${SITE}/a` })], [
+      item({ slug: 'b', caseStudy: true, caseStudyUrl: `${SITE}/work/b` }),
+    ]);
+    expect(urls).toEqual([`${SITE}/`, `${SITE}/projects`, `${SITE}/a`, `${SITE}/work/b`]);
   });
 });

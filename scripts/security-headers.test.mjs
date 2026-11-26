@@ -102,6 +102,43 @@ test('PLAT-AC-21 U-11 README documents the header set and the SEC-13 remediation
   assert.match(readme, /moderate[^\n]*next release/i);
 });
 
+// U-14: the projects platform in the config (src/lib/projects.ts builds the rules from src/content/work.ts).
+const ZONE = 'https://sluice-example.vercel.app';
+
+test('PROJ-AC-03 PROJ-AC-04 rewrites: none without SLUICE_ORIGIN; two beforeFiles rules with it', async () => {
+  const off = await loadConfig({ SLUICE_ORIGIN: '' }).rewrites();
+  assert.deepEqual(off.beforeFiles, []);
+  const on = await loadConfig({ SLUICE_ORIGIN: ZONE }).rewrites();
+  assert.deepEqual(on.beforeFiles, [
+    { source: '/play/sluice', destination: `${ZONE}/play/sluice` },
+    { source: '/play/sluice/:path*', destination: `${ZONE}/play/sluice/:path*` },
+  ]);
+  for (const r of on.beforeFiles) assert.ok(pathToRegexp(r.source), r.source);
+});
+
+test('PROJ-AC-02 a non-https SLUICE_ORIGIN fails the config (the build), naming the env var', async () => {
+  await assert.rejects(async () => loadConfig({ SLUICE_ORIGIN: 'http://sluice-example.vercel.app' }).rewrites(), /SLUICE_ORIGIN/);
+});
+
+test('PROJ-AC-06 redirects: /work/promptshield is permanent to /work/sluice; /v2 is kept', async () => {
+  const list = await loadConfig().redirects();
+  assert.deepEqual(list.find((r) => r.source === '/work/promptshield'), { source: '/work/promptshield', destination: '/work/sluice', permanent: true });
+  assert.ok(list.some((r) => r.source === '/v2'));
+});
+
+test('PROJ-AC-11 PROJ-AC-12 /play/sluice: noindex; zone CSP with wasm-unsafe-eval when deployed, site CSP when not', async () => {
+  const deployed = await rules({ NODE_ENV: 'production', SLUICE_ORIGIN: ZONE });
+  const local = await rules({ NODE_ENV: 'production', SLUICE_ORIGIN: '' });
+  const robots = (all, url) => all.filter((r) => pathToRegexp(r.source).test(url)).map((r) => valueOf(r, 'X-Robots-Tag')).filter(Boolean).at(-1);
+  for (const url of ['/play/sluice', '/play/sluice/assets/app.js']) {
+    assert.equal(robots(deployed, url), 'noindex', url);
+    assert.deepEqual(directives(effectiveCsp(deployed, url))['script-src'], ["'self'", "'wasm-unsafe-eval'"], url);
+  }
+  assert.equal(effectiveCsp(local, '/play/sluice'), effectiveCsp(local, '/'));
+  for (const url of SITE_PATHS) assert.doesNotMatch(effectiveCsp(deployed, url), /wasm-unsafe-eval/, url);
+  for (const url of BASELINE_PATHS) assert.equal(effectiveCsp(deployed, url), BASELINE_CSP, url);
+});
+
 test('PLAT-AC-26 productionBrowserSourceMaps is not enabled', () => {
   assert.notEqual(loadConfig().productionBrowserSourceMaps, true);
   assert.doesNotMatch(readText('next.config.js'), /productionBrowserSourceMaps:\s*true/);

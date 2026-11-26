@@ -29,6 +29,11 @@ gates:
     enforce: true
     evidence: HOME-AC-03 no "use client" module in the site layers or their imports; / is static in the build (runs after CG1_build)
     timeout: 120
+  - id: CG10_sourcemaps
+    cmd: node scripts/check-sourcemaps.mjs
+    enforce: true
+    evidence: PLAT-AC-26 no *.map file under .next/static (runs after CG1_build)
+    timeout: 60
   - id: literals
     cmd: node scripts/check-literals.mjs
     enforce: true

@@ -79,8 +79,8 @@ Legal review of the privacy notice (U-10 DoD; SQ-08 a: after release, by the own
 - ~~Still hold until U-08 (hero tip names the CityMap).~~ Resolved by U-08: the CityMap ships. Deployment is still the owner's call (no push or PR without approval).
 
 ## Open owner actions (before any release)
-- Vercel: delete `GROQ_API_KEY` (chat is off since U-04; no code reads it).
-- SQ-07: confirm no Supabase service-role key is set in Vercel.
+- ~~Vercel: delete `GROQ_API_KEY`~~ Done 2026-11-25 (owner: "done"). Recorded in `construction/U-11/owner-checklist.md`.
+- Revoke the old key at console.groq.com and SQ-07 (no Supabase service-role key in Vercel): asked together with the deletion; owner to confirm each explicitly.
 - SQ-09: account MFA and DNS checks.
 - Listen to the terminal's sound output (not testable by the gates).
 - Run Google's Rich Results Test on a preview deployment of `/` and a writing placeholder (U-09 DoD; needs a public URL).

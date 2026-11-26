@@ -1,0 +1,236 @@
+
+Running 69 tests using 6 workers
+
+  ✓   3 [chromium] › e2e\headers.spec.ts:29:1 › PLAT-AC-20 GET / has HSTS, nosniff, referrer-policy, permissions-policy, frame-ancestors and no x-powered-by (122ms)
+  ✓   7 [chromium] › e2e\headers.spec.ts:36:3 › PLAT-AC-21 /terminal carries the full baseline header set and no x-powered-by (93ms)
+  ✓   8 [chromium] › e2e\headers.spec.ts:36:3 › PLAT-AC-21 /api/analytics carries the full baseline header set and no x-powered-by (1.0s)
+  ✓   9 [chromium] › e2e\headers.spec.ts:36:3 › PLAT-AC-21 /does-not-exist carries the full baseline header set and no x-powered-by (6.0s)
+  ✓  10 [chromium] › e2e\headers.spec.ts:45:3 › PLAT-AC-21 /terminal keeps exactly the baseline CSP (RQ-11 a: the terminal stays unrestricted) (132ms)
+  ✓   4 [chromium] › e2e\home-motion.spec.ts:7:1 › HOME-AC-19 a hovered or focused building lifts by 4px, highlights its label, over 150ms ease-out (7.5s)
+  ✓   2 [chromium] › e2e\cursor.spec.ts:9:1 › U-07 / shows the arrow over headings, text, badges and tiles, and the hand over links (7.6s)
+  ✓  11 [chromium] › e2e\headers.spec.ts:45:3 › PLAT-AC-21 /api/analytics keeps exactly the baseline CSP (RQ-11 a: the terminal stays unrestricted) (393ms)
+  ✓  14 [chromium] › e2e\headers.spec.ts:45:3 › PLAT-AC-21 /does-not-exist keeps exactly the baseline CSP (RQ-11 a: the terminal stays unrestricted) (215ms)
+  ✓  12 [chromium] › e2e\home-motion.spec.ts:42:1 › HOME-AC-20 the car animation runs once for 5000 ms (WCAG 2.2.2: no pause control needed) (1.4s)
+  ✓  15 [chromium] › e2e\headers.spec.ts:50:1 › PLAT-AC-21 Permissions-Policy is the exact threat-model value (282ms)
+  ✓  13 [chromium] › e2e\cursor.spec.ts:19:1 › U-07 / text cannot be selected (owner request): headings, paragraphs and badges (1.6s)
+  ✓  17 [chromium] › e2e\headers.spec.ts:57:3 › PLAT-AC-22 the CSP of / has no script host, no unsafe-eval, and object-src/base-uri/form-action/frame-ancestors 'none' (191ms)
+  ✓   5 [chromium] › e2e\home-nojs.spec.ts:9:1 › HOME-AC-06 with JS disabled every section is visible and no "Loading" text exists (9.3s)
+  ✓  19 [chromium] › e2e\headers.spec.ts:57:3 › PLAT-AC-22 the CSP of /privacy has no script host, no unsafe-eval, and object-src/base-uri/form-action/frame-ancestors 'none' (264ms)
+  ✓  16 [chromium] › e2e\home-motion.spec.ts:54:1 › HOME-AC-20 hovering a work card changes only its border colour (932ms)
+  ✓   6 [chromium] › e2e\home-a11y.spec.ts:17:1 › HOME-AC-23 Tab reaches every interactive element once, each with a visible >= 2px outline (buildings lift), no trap (9.5s)
+  ✓  18 [chromium] › e2e\home-storage.spec.ts:4:1 › HOME-AC-26 a fresh context loading / has 0 cookies, empty document.cookie and empty local/session storage (1.4s)
+  ✓  21 [chromium] › e2e\headers.spec.ts:64:1 › PLAT-AC-22 the placeholders, the OG image, sitemap and robots get the same site CSP as / (1.3s)
+  ✓  22 [chromium] › e2e\home-motion.spec.ts:73:3 › reduced motion › HOME-AC-21 with prefers-reduced-motion there are 0 animations, transitions are <= 0.01s, and focus still highlights (1.7s)
+  ✓  24 [chromium] › e2e\home-storage.spec.ts:16:1 › HOME-AC-01 HOME-AC-11 / renders the headline h1 and the skip link as the first Tab stop (1.1s)
+  ✓  26 [chromium] › e2e\privacy.spec.ts:5:1 › HOME-AC-27 the footer of / links to /privacy (1.3s)
+  ✓  28 [chromium] › e2e\privacy.spec.ts:10:1 › HOME-AC-28 /privacy without JS: 200, one h1, the required topics, a LinkedIn contact and no email (398ms)
+  ✓  27 [chromium] › e2e\seo.spec.ts:4:1 › SEO-AC-02 the og:image and twitter:image of / resolve to a 1200x630 PNG (1.8s)
+  ✓  23 [chromium] › e2e\home-a11y.spec.ts:53:3 › HOME-AC-24 axe finds 0 violations on / at 360px (4.0s)
+  ✓  25 [chromium] › e2e\home-viewport.spec.ts:8:3 › HOME-AC-07 at 360x740 the location line, h1, intro and "View work" start in the first viewport (2.4s)
+  ✓  20 [chromium] › e2e\home-nojs.spec.ts:16:1 › HOME-AC-06 HOME-AC-09 with JS disabled each nav anchor scrolls its target into view (5.6s)
+  ✓  30 [chromium] › e2e\seo.spec.ts:20:1 › SEO-AC-01 / has a canonical, a description and an og:image tag in the head (1.5s)
+  ✓  29 [chromium] › e2e\privacy.spec.ts:23:1 › TERM-AC-12 the terminal privacy modal links to /privacy and makes no inaccurate claims (2.7s)
+  ✓  34 [chromium] › e2e\seo.spec.ts:30:3 › SEO-AC-07 /work/promptshield answers 200 with robots noindex (2.2s)
+  ✓  36 [chromium] › e2e\seo.spec.ts:30:3 › SEO-AC-07 /writing/queues-double-charge answers 200 with robots noindex (1.4s)
+  ✓  33 [chromium] › e2e\site-home.spec.ts:5:1 › HOME-AC-05 with localStorage tijothomas-theme=cyber, / renders <html> with no theme-* class (4.0s)
+  ✓  32 [chromium] › e2e\home-viewport.spec.ts:8:3 › HOME-AC-07 at 1440x900 the location line, h1, intro and "View work" start in the first viewport (4.3s)
+  ✓  37 [chromium] › e2e\seo.spec.ts:38:3 › SEO-AC-07 /work/does-not-exist answers 404 (426ms)
+  ✓  35 [chromium] › e2e\smoke.spec.ts:6:3 › U-03 smoke: / responds 200 with no uncaught page errors (3.4s)
+  ✓  40 [chromium] › e2e\seo.spec.ts:38:3 › SEO-AC-07 /writing/does-not-exist answers 404 (191ms)
+  ✓  31 [chromium] › e2e\home-a11y.spec.ts:53:3 › HOME-AC-24 axe finds 0 violations on / at 1440px (5.3s)
+  ✓  42 [chromium] › e2e\seo.spec.ts:38:3 › SEO-AC-07 /work/fde-mcp-gateway answers 404 (247ms)
+  ✓  38 [chromium] › e2e\site-home.spec.ts:14:1 › U-03 U-06 / is the site page: 200, lang en, exactly one main, 0 uncaught errors (1.4s)
+  ✓  44 [chromium] › e2e\seo.spec.ts:43:1 › SEO-AC-04 SEO-AC-05 /sitemap.xml lists / and /robots.txt points to it (731ms)
+  ✓  43 [chromium] › e2e\home-a11y.spec.ts:61:1 › HOME-AC-25 at 360px every link and button is >= 24x24 or has 24px clearance (WCAG 2.5.8) (1.1s)
+  ✓  39 [chromium] › e2e\home-viewport.spec.ts:18:1 › HOME-AC-11 the brand link (#top) returns to the very top with the header and name visible (2.0s)
+  ✓  41 [chromium] › e2e\smoke.spec.ts:6:3 › U-03 smoke: /terminal responds 200 with no uncaught page errors (1.7s)
+  ✓  46 [chromium] › e2e\terminal-chat-off.spec.ts:9:1 › TERM-AC-07 GET and POST /api/chat answer 404 or 410 (route removed) (318ms)
+  ✓  49 [chromium] › e2e\terminal-no-env.spec.ts:23:1 › TERM-AC-06 guard: the e2e server was started with no Supabase env vars and no .env file (39ms)
+  ✓  45 [chromium] › e2e\site-home.spec.ts:24:1 › U-03 / has no terminal input, toolbar controls, version selector, chat trigger or hidden SEO block (2.5s)
+  ✓  47 [chromium] › e2e\terminal-contact.spec.ts:8:1 › TERM-AC-11 contact lists the LinkedIn and GitHub URLs and the page has no email, phone or wa.me link (2.7s)
+  ✘   1 [chromium] › e2e\csp.spec.ts:27:1 › PLAT-AC-20 PLAT-AC-24 / loads with 0 CSP violations, 0 failed same-origin requests, and requests /_vercel/insights/script.js (8.3s)
+  ✓  48 [chromium] › e2e\home-viewport.spec.ts:27:1 › HOME-AC-22 at 360x740, scrolled to the end, the page is no wider than the viewport (3.4s)
+  ✓  51 [chromium] › e2e\terminal-no-env.spec.ts:28:1 › TERM-AC-06 with no Supabase env /terminal renders, help works, 0 uncaught errors and 0 /api/analytics 5xx (3.1s)
+  ✓  50 [chromium] › e2e\terminal-chat-off.spec.ts:16:1 › TERM-AC-08 opening the chat and sending a message shows the unavailable text, sends no /api/chat request and logs 0 uncaught errors (3.7s)
+  ✓  52 [chromium] › e2e\site-home.spec.ts:33:1 › U-03 / does not set the terminal theme key in localStorage (2.3s)
+  ✓  55 [chromium] › e2e\terminal-no-env.spec.ts:42:1 › TERM-AC-06 with no Supabase env GET and POST /api/analytics answer 200 JSON (no-op), never 500 (641ms)
+  ✓  57 [chromium] › e2e\v2-redirect.spec.ts:4:1 › TERM-AC-04 GET /v2 responds 308 with location /terminal (130ms)
+  ✓  54 [chromium] › e2e\home-viewport.spec.ts:34:1 › HOME-AC-10 U-08 owner choice c: at 360px the map labels and sign boards render at a readable size (1.8s)
+  ✓  58 [chromium] › e2e\v2-redirect.spec.ts:10:1 › TERM-AC-04 following /v2 lands on /terminal with status 200 (1.7s)
+  ✓  56 [chromium] › e2e\terminal.spec.ts:20:1 › TERM-AC-01 /terminal returns 200, help prints the help output, and 0 uncaught errors are thrown (2.5s)
+  ✓  59 [chromium] › e2e\home-viewport.spec.ts:48:1 › HOME-AC-10 U-08 the labels keep the mockup size on wide screens (2.4s)
+  ✓  53 [chromium] › e2e\terminal-react19.spec.ts:38:5 › desktop 1280 › U-02 TERM-AC-01 desktop 1280: help, theme switch, zoom, sound toggle and chat open emit 0 console errors, 0 React warnings, 0 page errors (5.4s)
+  ✓  61 [chromium] › e2e\terminal.spec.ts:29:1 › TERM-AC-02 a theme chosen on /terminal persists across reload via localStorage tijothomas-theme (3.0s)
+  ✓  64 [chromium] › e2e\terminal.spec.ts:42:1 › TERM-AC-03 /terminal HTML has robots noindex, follow and canonical https://tijothomas.dev/terminal (129ms)
+  ✓  60 [chromium] › e2e\v2-redirect.spec.ts:16:1 › TERM-AC-04 TERM-AC-05 the VersionSelector v1 option navigates to /terminal (3.5s)
+  ✓  62 [chromium] › e2e\home-viewport.spec.ts:55:1 › HOME-AC-10 the CityMap reserves its space before paint (no layout shift from the svg) (2.4s)
+  ✓  65 [chromium] › e2e\terminal.spec.ts:50:1 › U-03 /terminal is served by the terminal root layout (font-mono body) (1.0s)
+  ✓  63 [chromium] › e2e\terminal-react19.spec.ts:38:5 › mobile 360 › U-02 TERM-AC-01 mobile 360: help, theme switch, zoom, sound toggle and chat open emit 0 console errors, 0 React warnings, 0 page errors (3.4s)
+  ✘  66 [chromium] › e2e\csp.spec.ts:40:3 › PLAT-AC-22 PLAT-AC-21 /privacy loads with 0 CSP violations, 0 failed same-origin requests and 0 page errors (1.4s)
+  ✘  67 [chromium] › e2e\csp.spec.ts:40:3 › PLAT-AC-22 PLAT-AC-21 /work/promptshield loads with 0 CSP violations, 0 failed same-origin requests and 0 page errors (1.3s)
+  ✘  68 [chromium] › e2e\csp.spec.ts:40:3 › PLAT-AC-22 PLAT-AC-21 /writing/queues-double-charge loads with 0 CSP violations, 0 failed same-origin requests and 0 page errors (1.2s)
+  ✘  69 [chromium] › e2e\csp.spec.ts:40:3 › PLAT-AC-22 PLAT-AC-21 /terminal loads with 0 CSP violations, 0 failed same-origin requests and 0 page errors (1.5s)
+
+
+  1) [chromium] › e2e\csp.spec.ts:27:1 › PLAT-AC-20 PLAT-AC-24 / loads with 0 CSP violations, 0 failed same-origin requests, and requests /_vercel/insights/script.js 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 3
+
+    - Array []
+    + Array [
+    +   "http://127.0.0.1:56146/_vercel/insights/script.js net::ERR_ABORTED",
+    + ]
+
+      33 |   await page.waitForLoadState('networkidle');
+      34 |   expect(await violations()).toEqual([]);
+    > 35 |   expect(failed).toEqual([]);
+         |                  ^
+      36 |   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+      37 | });
+      38 |
+        at C:\Users\tijo1\AppData\Local\Temp\claude\2b44b287ae0998bd\5d3a9db6-f7d4-460f-9bac-a5154ee99f54\scratchpad\wt-u11b\e2e\csp.spec.ts:35:18
+
+    Error Context: test-results\csp-PLAT-AC-20-PLAT-AC-24--1f1de-s-vercel-insights-script-js-chromium\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\csp-PLAT-AC-20-PLAT-AC-24--1f1de-s-vercel-insights-script-js-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\csp-PLAT-AC-20-PLAT-AC-24--1f1de-s-vercel-insights-script-js-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [chromium] › e2e\csp.spec.ts:40:3 › PLAT-AC-22 PLAT-AC-21 /privacy loads with 0 CSP violations, 0 failed same-origin requests and 0 page errors 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 3
+
+    - Array []
+    + Array [
+    +   "http://127.0.0.1:56146/_vercel/insights/script.js net::ERR_ABORTED",
+    + ]
+
+      46 |     await page.waitForLoadState('networkidle');
+      47 |     expect(await violations()).toEqual([]);
+    > 48 |     expect(failed).toEqual([]);
+         |                    ^
+      49 |     expect(errors).toEqual([]);
+      50 |   });
+      51 | }
+        at C:\Users\tijo1\AppData\Local\Temp\claude\2b44b287ae0998bd\5d3a9db6-f7d4-460f-9bac-a5154ee99f54\scratchpad\wt-u11b\e2e\csp.spec.ts:48:20
+
+    Error Context: test-results\csp-PLAT-AC-22-PLAT-AC-21--c81b7--requests-and-0-page-errors-chromium\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\csp-PLAT-AC-22-PLAT-AC-21--c81b7--requests-and-0-page-errors-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\csp-PLAT-AC-22-PLAT-AC-21--c81b7--requests-and-0-page-errors-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [chromium] › e2e\csp.spec.ts:40:3 › PLAT-AC-22 PLAT-AC-21 /work/promptshield loads with 0 CSP violations, 0 failed same-origin requests and 0 page errors 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 3
+
+    - Array []
+    + Array [
+    +   "http://127.0.0.1:56146/_vercel/insights/script.js net::ERR_ABORTED",
+    + ]
+
+      46 |     await page.waitForLoadState('networkidle');
+      47 |     expect(await violations()).toEqual([]);
+    > 48 |     expect(failed).toEqual([]);
+         |                    ^
+      49 |     expect(errors).toEqual([]);
+      50 |   });
+      51 | }
+        at C:\Users\tijo1\AppData\Local\Temp\claude\2b44b287ae0998bd\5d3a9db6-f7d4-460f-9bac-a5154ee99f54\scratchpad\wt-u11b\e2e\csp.spec.ts:48:20
+
+    Error Context: test-results\csp-PLAT-AC-22-PLAT-AC-21--caad8--requests-and-0-page-errors-chromium\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\csp-PLAT-AC-22-PLAT-AC-21--caad8--requests-and-0-page-errors-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\csp-PLAT-AC-22-PLAT-AC-21--caad8--requests-and-0-page-errors-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [chromium] › e2e\csp.spec.ts:40:3 › PLAT-AC-22 PLAT-AC-21 /writing/queues-double-charge loads with 0 CSP violations, 0 failed same-origin requests and 0 page errors 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 3
+
+    - Array []
+    + Array [
+    +   "http://127.0.0.1:56146/_vercel/insights/script.js net::ERR_ABORTED",
+    + ]
+
+      46 |     await page.waitForLoadState('networkidle');
+      47 |     expect(await violations()).toEqual([]);
+    > 48 |     expect(failed).toEqual([]);
+         |                    ^
+      49 |     expect(errors).toEqual([]);
+      50 |   });
+      51 | }
+        at C:\Users\tijo1\AppData\Local\Temp\claude\2b44b287ae0998bd\5d3a9db6-f7d4-460f-9bac-a5154ee99f54\scratchpad\wt-u11b\e2e\csp.spec.ts:48:20
+
+    Error Context: test-results\csp-PLAT-AC-22-PLAT-AC-21--bfcbe--requests-and-0-page-errors-chromium\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\csp-PLAT-AC-22-PLAT-AC-21--bfcbe--requests-and-0-page-errors-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\csp-PLAT-AC-22-PLAT-AC-21--bfcbe--requests-and-0-page-errors-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) [chromium] › e2e\csp.spec.ts:40:3 › PLAT-AC-22 PLAT-AC-21 /terminal loads with 0 CSP violations, 0 failed same-origin requests and 0 page errors 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 3
+
+    - Array []
+    + Array [
+    +   "http://127.0.0.1:56146/_vercel/insights/script.js net::ERR_ABORTED",
+    + ]
+
+      46 |     await page.waitForLoadState('networkidle');
+      47 |     expect(await violations()).toEqual([]);
+    > 48 |     expect(failed).toEqual([]);
+         |                    ^
+      49 |     expect(errors).toEqual([]);
+      50 |   });
+      51 | }
+        at C:\Users\tijo1\AppData\Local\Temp\claude\2b44b287ae0998bd\5d3a9db6-f7d4-460f-9bac-a5154ee99f54\scratchpad\wt-u11b\e2e\csp.spec.ts:48:20
+
+    Error Context: test-results\csp-PLAT-AC-22-PLAT-AC-21--8ca1b--requests-and-0-page-errors-chromium\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\csp-PLAT-AC-22-PLAT-AC-21--8ca1b--requests-and-0-page-errors-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\csp-PLAT-AC-22-PLAT-AC-21--8ca1b--requests-and-0-page-errors-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5 failed
+    [chromium] › e2e\csp.spec.ts:27:1 › PLAT-AC-20 PLAT-AC-24 / loads with 0 CSP violations, 0 failed same-origin requests, and requests /_vercel/insights/script.js 
+    [chromium] › e2e\csp.spec.ts:40:3 › PLAT-AC-22 PLAT-AC-21 /privacy loads with 0 CSP violations, 0 failed same-origin requests and 0 page errors 
+    [chromium] › e2e\csp.spec.ts:40:3 › PLAT-AC-22 PLAT-AC-21 /work/promptshield loads with 0 CSP violations, 0 failed same-origin requests and 0 page errors 
+    [chromium] › e2e\csp.spec.ts:40:3 › PLAT-AC-22 PLAT-AC-21 /writing/queues-double-charge loads with 0 CSP violations, 0 failed same-origin requests and 0 page errors 
+    [chromium] › e2e\csp.spec.ts:40:3 › PLAT-AC-22 PLAT-AC-21 /terminal loads with 0 CSP violations, 0 failed same-origin requests and 0 page errors 
+  64 passed (57.9s)

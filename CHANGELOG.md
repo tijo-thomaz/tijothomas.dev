@@ -5,6 +5,12 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 ## [Unreleased]
 
 ### Added
+- Security headers on every response (U-11, ADR-P1): HSTS (two years, `includeSubDomains`, no preload),
+  `nosniff`, `Referrer-Policy`, `Permissions-Policy`, `X-Frame-Options: DENY`, `Cross-Origin-Opener-Policy`
+  and a baseline CSP that blocks framing, plugins and `<base>`. The site routes get a stricter CSP (scripts,
+  styles, images, fonts and connections from the site only; no forms or frames). `/terminal` keeps the
+  baseline only. `x-powered-by` is gone.
+- Gate `CG10_sourcemaps` (`scripts/check-sourcemaps.mjs`, PLAT-AC-26): no `*.map` file is served (U-11).
 - `/privacy`: a static privacy notice from `src/content/privacy.ts`. It covers the controller (contact
   through LinkedIn, no email), Vercel request logs and Web Analytics, Supabase counters and browser
   storage on `/terminal`, the legal basis, processors, retention, rights and complaints. There is a

@@ -1,0 +1,15 @@
+{
+  "id": "deps",
+  "enforce": true,
+  "status": "pass",
+  "exitCode": 0,
+  "cmd": "node scripts/check-deps.mjs",
+  "evidence": "PLAT-AC-13 0 unused dependencies",
+  "base": "6fedeed",
+  "startedAt": "2026-11-25T10:34:35.864Z",
+  "durationMs": 194,
+  "outputTail": [
+    "PASS PLAT-AC-13 package.json has 0 unused dependencies"
+  ],
+  "log": "edd-docs/construction/U-11/gates/deps.log"
+}

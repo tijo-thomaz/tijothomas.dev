@@ -1,0 +1,71 @@
+{
+  "url": "/ (next start, local production build)",
+  "tool": "lighthouse@13.6.0",
+  "formFactor": "mobile",
+  "runs": [
+    {
+      "run": 1,
+      "scores": {
+        "performance": 99,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 100
+      },
+      "cls": 0,
+      "lcpMs": 943,
+      "tbtMs": 143,
+      "formFactor": "mobile",
+      "lighthouseVersion": "13.6.0",
+      "fetchTime": "2026-11-25T10:39:15.851Z"
+    },
+    {
+      "run": 2,
+      "scores": {
+        "performance": 96,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 100
+      },
+      "cls": 0,
+      "lcpMs": 935,
+      "tbtMs": 222,
+      "formFactor": "mobile",
+      "lighthouseVersion": "13.6.0",
+      "fetchTime": "2026-11-25T10:39:32.843Z"
+    },
+    {
+      "run": 3,
+      "scores": {
+        "performance": 98,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 100
+      },
+      "cls": 0,
+      "lcpMs": 921,
+      "tbtMs": 174,
+      "formFactor": "mobile",
+      "lighthouseVersion": "13.6.0",
+      "fetchTime": "2026-11-25T10:39:50.030Z"
+    }
+  ],
+  "medianRun": 3,
+  "median": {
+    "scores": {
+      "performance": 98,
+      "accessibility": 100,
+      "best-practices": 96,
+      "seo": 100
+    },
+    "cls": 0,
+    "lcpMs": 935,
+    "tbtMs": 174
+  },
+  "thresholds": {
+    "minScore": 95,
+    "cls": 0.05,
+    "lcpMs": 2500,
+    "tbtMs": 150
+  },
+  "pass": false
+}
